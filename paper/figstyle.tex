@@ -1,0 +1,65 @@
+% figstyle.tex -- shared visual identity for all native pgfplots/TikZ figures.
+% One palette, one colormap, one axis style so every figure reads as one system.
+% Locked Paper-2 palette (replaces the drifted matplotlib values).
+
+\definecolor{pIndigo}{HTML}{233047}   % structure / estimator-neutral
+\definecolor{pAmber}{HTML}{D98E32}    % fires (fill / marker face)
+\definecolor{pTeal}{HTML}{1B998B}     % corroborate / agree ONLY
+\definecolor{pOx}{HTML}{8C2F2A}       % fires (line / marker edge)
+\definecolor{pCrimson}{HTML}{C0392B}  % threshold
+\definecolor{pInk}{HTML}{1B1B1B}
+\definecolor{pMuted}{HTML}{7A7A7A}
+\definecolor{pBlind}{HTML}{7A7A7A}    % blind = grey everywhere
+\definecolor{pGrid}{HTML}{ECEAE5}
+\definecolor{pCream}{HTML}{F4E9D8}
+
+% paperhot: perceptual warm sequential, true-black foot so spectral gaps render black.
+% 6 stops ported EXACTLY (equally spaced, raw sRGB) so a rasterized PNG field and the
+% native pgfplots colorbar agree.
+\pgfplotsset{
+  colormap={paperhot}{
+    rgb255=(22,8,5)
+    rgb255=(90,22,11)
+    rgb255=(176,54,12)
+    rgb255=(217,142,50)
+    rgb255=(246,196,83)
+    rgb255=(251,239,199)
+  }
+}
+
+% Base axis style: outside ticks, ink lines, legible fonts (>= ~2mm), light grid on top.
+\pgfplotsset{
+  paperaxis/.style={
+    tick align=outside,
+    tick style={pInk, line width=0.6pt},
+    axis line style={pInk, line width=0.9pt},
+    every axis label/.style={font=\normalsize, color=pInk},
+    tick label style={font=\small},
+    title style={font=\normalsize, color=pInk},
+    label style={font=\normalsize},
+    grid=major,
+    grid style={pGrid, line width=0.5pt},
+    axis on top,
+    enlargelimits=false,
+  },
+}
+
+% Reusable semantic styles -- encode the ONE identity across figures.
+\pgfplotsset{
+  firesline/.style ={pOx, very thick, mark=*, mark options={fill=pAmber, draw=pOx, line width=0.6pt}},
+  firesband/.style ={pAmber, fill opacity=0.30},
+  blindline/.style ={pBlind, thick, dashed, mark=square*, mark options={fill=white, draw=pBlind}},
+  agreeline/.style ={pTeal, very thick},
+  threshold/.style ={pCrimson, dash pattern=on 3.2pt off 2.4pt, line width=0.8pt},
+  guide/.style     ={pInk, densely dashed, line width=0.7pt},
+  halo/.style      ={white, line width=3pt},
+}
+
+% TikZ node styles for schematic figures (hero, insets).
+\tikzset{
+  pbox/.style   ={rounded corners=3pt, draw=pInk, line width=0.8pt, inner sep=6pt, align=center, font=\small},
+  pflow/.style  ={-{Stealth[length=3.2mm]}, pInk, line width=1.0pt},
+  pforbid/.style={-{Stealth[length=3.2mm]}, pMuted, line width=0.9pt, densely dashed},
+  guide/.style  ={pInk, densely dashed, line width=0.7pt},
+  halo/.style   ={white, line width=3pt},
+}

@@ -1,0 +1,55 @@
+% fig_akw.tex -- native pgfplots (figure*, full width). Single-particle A(k,omega) heatmaps + screen.
+% Data field = rasterized PNG (paperhot); axes/labels/guides/colorbar = native. E_F at mid-gap (omega=0).
+\begin{tikzpicture}
+% ---- panel 1: true A(k,omega) ----
+\begin{axis}[
+  name=p1, paperaxis, width=5.7cm, height=6.9cm,
+  grid=none, enlargelimits=false, axis on top,
+  xmin=0, xmax=2, ymin=-8, ymax=8,
+  xlabel={momentum $k/\pi$}, ylabel={frequency $\omega/t$},
+  title={\small true $A(k,\omega)$},
+  colormap name=paperhot, point meta min=0, point meta max=1,
+]
+  \addplot graphics[xmin=0, xmax=2, ymin=-9, ymax=9] {figs/akw_true.png};
+  \addplot[white, opacity=0.5, densely dashed, line width=0.5pt, forget plot] coordinates {(0,0) (2,0)};
+  % Mott gap ANCHORED to the band edges at k_F=pi/2: white dots on mu+/mu- + double arrow between them
+  \draw[{Latex[length=1.5mm]}-{Latex[length=1.5mm]}, white, line width=0.7pt] (axis cs:0.5,-2.404) -- (axis cs:0.5,2.404);
+  \addplot[only marks, mark=*, mark size=1.5pt, forget plot, mark options={fill=pCream, draw=pInk, line width=0.4pt}] coordinates {(0.5,2.484) (0.5,-2.484)};
+  \node[white, font=\scriptsize, anchor=west] at (axis cs:0.045,0.62) {$E_F$};
+  \node[white, font=\scriptsize, anchor=west] at (axis cs:0.58,0.85) {Mott gap $\Delta$};
+  \node[white, font=\scriptsize, anchor=east] at (axis cs:0.43,2.62) {$\mu^+$};
+  \node[white, font=\scriptsize, anchor=east] at (axis cs:0.43,-2.62) {$\mu^-$};
+  \node[white, font=\scriptsize\itshape, anchor=north west] at (axis cs:0.05,7.7) {upper Hubbard band};
+  \node[white, font=\scriptsize\itshape, anchor=south west] at (axis cs:0.05,-7.7) {lower Hubbard band};
+\end{axis}
+% ---- panel 2: wrong reconstruction ----
+\begin{axis}[
+  name=p2, paperaxis, at={(p1.east)}, anchor=west, xshift=1.5cm,
+  width=5.7cm, height=6.9cm, grid=none, enlargelimits=false, axis on top,
+  xmin=0, xmax=2, ymin=-8, ymax=8,
+  xlabel={momentum $k/\pi$}, yticklabels={},
+  title={\small wrong reconstruction},
+  colormap name=paperhot, point meta min=0, point meta max=1,
+  colorbar, colorbar style={width=0.22cm, ytick={0,0.5,1}, title={\scriptsize norm.}, tick label style={font=\scriptsize}},
+]
+  \addplot graphics[xmin=0, xmax=2, ymin=-9, ymax=9] {figs/akw_wrong.png};
+  \addplot[white, opacity=0.5, densely dashed, line width=0.5pt, forget plot] coordinates {(0,0) (2,0)};
+  % same gap, same edges, same total weight: only the band-centroid dispersion is (invisibly) flattened
+  \node[white, font=\scriptsize\itshape, anchor=north west, align=left] at (axis cs:0.05,7.6)
+      {band weight misplaced,\\ gap \& edges intact};
+\end{axis}
+% ---- panel 3: the screen fires per k ----
+\begin{axis}[
+  name=p3, paperaxis, at={(p2.east)}, anchor=west, xshift=2.3cm,
+  width=3.7cm, height=6.9cm,
+  xmin=0, xmax=0.9, ymin=0, ymax=2,
+  xtick={0,0.3,0.6,0.9},
+  xlabel={$\Delta_1=|\widehat m_1-\bar m_1|$ ($t$)}, ylabel={$k/\pi$},
+  y label style={at={(axis description cs:1.18,0.5)}, rotate=180}, ytick={0,0.5,1,1.5,2},
+  yticklabel pos=right, xlabel style={align=center},
+  title={\small screen fires per $k$},
+]
+  % m1 fires: the reconstruction-independent centroid mismatch Delta_1(k), largest at the band extrema
+  \addplot[firesline] table[x=resid, y=k] {figs/akw_screen.dat};
+\end{axis}
+\end{tikzpicture}

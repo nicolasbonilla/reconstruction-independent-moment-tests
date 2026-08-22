@@ -1,0 +1,38 @@
+% fig_hero.tex -- the self-falsification loop, native TikZ (no PNG).
+\begin{tikzpicture}[font=\small]
+  % --- nodes ---
+  \node[pbox, fill=pGrid!40, minimum height=10mm] (S)
+      at (0.8,2.2) {computational-basis\\ samples $\mathcal{S}$};
+  \node[pbox, draw=pInk, fill=white, minimum height=10mm] (REC)
+      at (5.2,3.5) {reconstruction\\ $A(\omega)$};
+  \node[pbox, draw=pIndigo, fill=pIndigo!8, minimum height=10mm] (MOM)
+      at (5.2,0.9) {independent moments\\ $\widehat m_k=\langle O_k\rangle$};
+  \node[pbox, draw=pInk, fill=white, minimum height=10mm] (CMP)
+      at (9.9,2.2) {compare\\ $\Delta_k=\lvert\widehat m_k-\bar m_k\rvert$};
+  \node[pbox, draw=pTeal, fill=pTeal!10, minimum height=9mm] (CORR)
+      at (14.3,3.4) {\textbf{corroborate}\\ $\Delta_k\approx 0$};
+  \node[pbox, draw=pOx, fill=pOx!8, minimum height=9mm] (FALS)
+      at (14.3,1.0) {\textbf{falsify}\\ $\Delta_k>\epsilon$};
+
+  % --- flow arrows ---
+  \draw[pflow] (S) to[out=60,in=180]  (REC.west);
+  \draw[pflow] (S) to[out=-60,in=180] (MOM.west);
+  \draw[pflow] (REC.east) to[out=0,in=120]  (CMP.north west);
+  \draw[pflow] (MOM.east) to[out=0,in=-120] (CMP.south west);
+  \draw[pflow] (CMP.east) to[out=60,in=180]  (CORR.west);
+  \draw[pflow] (CMP.east) to[out=-60,in=180] (FALS.west);
+
+  % --- forbidden path: A(w) is NEVER read back into the moment branch ---
+  \draw[pforbid] (REC.south) -- (MOM.north)
+      node[midway] (X) {};
+  \node[circle, draw=pOx, line width=0.9pt, minimum size=4.2mm, inner sep=0pt] at (X) {};
+  \draw[pOx, line width=0.9pt] ($(X)+(-0.15,-0.15)$) -- ($(X)+(0.15,0.15)$);
+  \node[font=\scriptsize\itshape, pMuted, align=center, anchor=east] at ($(X)+(-0.45,0)$)
+      {never read\\ back off $A(\omega)$};
+
+  % --- strapline + footer ---
+  \node[font=\normalsize\bfseries, pInk, anchor=west] at (0.4,4.55)
+      {The self-falsification loop};
+  \node[font=\scriptsize, pMuted, anchor=west] at (0.4,-0.15)
+      {$O_k=J\,\mathrm{ad}_H^{k}(J)$, \; $m_0=\langle J^2\rangle$, \; $m_1=\tfrac12\langle[J,[H,J]]\rangle$ \;\textemdash\; the estimator never touches the reconstruction, so agreement is not preordained};
+\end{tikzpicture}

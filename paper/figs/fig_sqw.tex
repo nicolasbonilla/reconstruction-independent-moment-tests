@@ -1,0 +1,53 @@
+% fig_sqw.tex -- native pgfplots (figure*, full width). Charge S(q,w) + spin S^zz(q,w) heatmaps.
+% L=12 sector-Lanczos/Haydock (spectral_lanczos.py). Data field = rasterized PNG (paperhot + gamma);
+% axes/colorbar/guides = native. Each panel on its OWN frequency window (charge ~U up to 10t; spin ~J up
+% to 2.4t) so neither channel is crushed -- the different windows ARE the spin-charge-separation signature.
+\begin{tikzpicture}
+% ---- charge S(q,omega): gapped, weight near omega ~ U ; the empty low-omega region IS the charge gap ----
+\begin{axis}[
+  name=charge, paperaxis,
+  width=7.7cm, height=6.6cm,
+  grid=none, enlargelimits=false, axis on top,
+  xmin=0.1667, xmax=1.8333, ymin=0, ymax=10,
+  ytick={0,2,4,6,8,10}, xtick={0.3333,0.6667,1,1.3333,1.6667},
+  xticklabels={$\tfrac13$,$\tfrac23$,$1$,$\tfrac43$,$\tfrac53$},
+  xlabel={momentum transfer $q/\pi$}, ylabel={frequency $\omega/t$},
+  title={\small charge $S(q,\omega)$ \, (gapped, scale $\sim U$)},
+  colormap name=paperhot, colorbar, point meta min=0, point meta max=1,
+  colorbar style={width=0.22cm, ytick={0,0.5,1}, title={\scriptsize norm.}, tick label style={font=\scriptsize}},
+]
+  \addplot graphics[xmin=0.1667, xmax=1.8333, ymin=0, ymax=10] {figs/sqw_charge.png};
+  % the charge gap = the forbidden band from omega=0 up to the onset Delta_c: brace it and name it
+  \addplot[white, opacity=0.9, densely dashed, line width=0.7pt, forget plot] coordinates {(0.1667,5.71) (1.8333,5.71)};
+  \draw[decorate, decoration={brace, amplitude=6pt}, white, line width=0.9pt]
+      (axis cs:0.30,5.63) -- (axis cs:0.30,0.06);
+  \node[white, font=\scriptsize, anchor=west, align=left] at (axis cs:0.37,2.7)
+      {charge gap\\ $\Delta_c\!\approx\!5.7\,t$\\ (no weight)};
+  \node[white, font=\scriptsize\itshape, anchor=west] at (axis cs:0.22,6.05) {onset};
+\end{axis}
+% ---- spin S^zz(q,omega): gapless spinon continuum, scale ~ J, fills the panel ----
+\begin{axis}[
+  name=spin, paperaxis,
+  at={(charge.east)}, anchor=west, xshift=2.35cm,
+  width=7.7cm, height=6.6cm,
+  grid=none, enlargelimits=false, axis on top,
+  xmin=0.1667, xmax=1.8333, ymin=0, ymax=2.4,
+  ytick={0,0.5,1,1.5,2}, xtick={0.3333,0.6667,1,1.3333,1.6667},
+  xticklabels={$\tfrac13$,$\tfrac23$,$1$,$\tfrac43$,$\tfrac53$},
+  xlabel={momentum transfer $q/\pi$}, ylabel={frequency $\omega/t$},
+  title={\small spin $S^{zz}(q,\omega)$ \, (gapless, scale $\sim J$)},
+  colormap name=paperhot, colorbar, point meta min=0, point meta max=1,
+  colorbar style={width=0.22cm, ytick={0,0.5,1}, title={\scriptsize norm.}, tick label style={font=\scriptsize}},
+]
+  \addplot graphics[xmin=0.1667, xmax=1.8333, ymin=0, ymax=2.4] {figs/sqw_spin.png};
+  % des Cloizeaux--Pearson two-spinon edges -- thin DOTTED guide (Paper-2 style), subtle not dominant
+  \addplot[white, opacity=0.8, densely dotted, line width=0.7pt, forget plot] table[x=q,y=om] {figs/dcp_lower.dat};
+  \addplot[white, opacity=0.8, densely dotted, line width=0.7pt, forget plot] table[x=q,y=om] {figs/dcp_upper.dat};
+  % extracted dominant spinon peak per q: data tracking the dCP dispersion
+  \addplot[only marks, mark=*, mark size=1.3pt, forget plot,
+           mark options={fill=pTeal, draw=pCream, line width=0.4pt}] table[x=q,y=om] {figs/sqw_spinpeak.dat};
+  \node[white, font=\scriptsize\itshape, anchor=west, align=left] at (axis cs:0.20,2.18)
+      {gapless spinon continuum};
+  \node[white, font=\scriptsize, anchor=east] at (axis cs:1.82,1.98) {dCP guide (dotted) {\normalfont\&} extracted peaks};
+\end{axis}
+\end{tikzpicture}

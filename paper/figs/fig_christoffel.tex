@@ -1,0 +1,50 @@
+% fig_christoffel.tex -- native pgfplots (figure*, full width). Certified Christoffel miss-distance.
+\definecolor{cn1}{HTML}{F4C453}
+\definecolor{cn2}{HTML}{D98E32}
+\definecolor{cn3}{HTML}{B0360C}
+\definecolor{cn4}{HTML}{5A160B}
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=3 by 1, horizontal sep=1.9cm},
+  paperaxis, width=5.9cm, height=5.6cm,
+]
+% ---- (a) the band W_n(t) contracting ----
+\nextgroupplot[
+  xlabel={rescaled frequency $t\in[-1,1]$},
+  ylabel={certified width $W_n(t)$},
+  xmin=-1, xmax=1, ymin=0, ymax=1.06,
+  title={\small\textbf{(a)} band contracts with order},
+]
+  \addplot[cn1, thick] table[x=t,y=W1]{figs/christoffel_Wn.dat};
+  \addplot[cn2, thick] table[x=t,y=W2]{figs/christoffel_Wn.dat};
+  \addplot[cn3, thick] table[x=t,y=W3]{figs/christoffel_Wn.dat};
+  \addplot[cn4, very thick] table[x=t,y=W4]{figs/christoffel_Wn.dat};
+  \node[cn1, font=\scriptsize, anchor=west] at (axis cs:0.30,0.98) {$n{=}1$};
+  \node[cn2, font=\scriptsize, anchor=west] at (axis cs:0.30,0.85) {$n{=}2$};
+  \node[cn3, font=\scriptsize, anchor=west] at (axis cs:0.30,0.72) {$n{=}3$};
+  \node[cn4, font=\scriptsize, anchor=west] at (axis cs:0.30,0.59) {$n{=}4$};
+% ---- (b) max_t W_n shrinking ----
+\nextgroupplot[
+  xlabel={polynomial order $n$},
+  ylabel={$\max_t W_n(t)$},
+  xmin=0.7, xmax=4.3, ymin=0.82, ymax=1.02,
+  xtick={1,2,3,4},
+  title={\small\textbf{(b)} tighter with more moments},
+]
+  \addplot[pOx, very thick, mark=*, mark size=2.6pt, mark options={fill=pAmber,draw=pOx}]
+      table[x=n,y=maxW]{figs/christoffel_maxW.dat};
+% ---- (c) W_n at the dominant pole saturates at the residue ----
+\nextgroupplot[
+  xlabel={polynomial order $n$},
+  ylabel={$W_n$ at dominant pole},
+  xmin=0.5, xmax=10.5, ymin=0.70, ymax=1.04,
+  xtick={1,3,5,7,9},
+  title={\small\textbf{(c)} saturates, does not vanish},
+]
+  \addplot[guide, forget plot] coordinates {(0.5,0.7781) (10.5,0.7781)};
+  \addplot[pIndigo, very thick, mark=*, mark size=2.4pt, mark options={fill=white,draw=pIndigo}]
+      table[x=n,y=Wn_at_pole]{figs/christoffel_floor.dat};
+  \node[pInk, font=\scriptsize, anchor=south west] at (axis cs:4.2,0.80)
+      {residue floor $0.778$};
+\end{groupplot}
+\end{tikzpicture}

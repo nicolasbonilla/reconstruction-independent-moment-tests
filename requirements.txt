@@ -1,0 +1,19 @@
+# Core — exact diagonalization engine (sector Lanczos + Haydock), all spectral
+# functions A(k,w), S(q,w), S^zz(q,w), the moment falsifiers, the interval-moment
+# forecast, the joint Hankel battery and the Christoffel certificate. Reproduces
+# every non-hardware result locally with numpy/scipy only.
+numpy>=1.24
+scipy>=1.10
+
+# Figure rasters (perceptual "hot" colormaps for the A(k,w) / S(q,w) heatmaps)
+matplotlib>=3.7
+pillow>=9.5
+
+# ---------------------------------------------------------------------------
+# OPTIONAL — only to RE-RUN the IBM Heron hardware notebook from scratch (needs
+# an IBM Quantum account). The classical screen runs on the cached companion
+# data (data/heron_spectral.json), so the hardware section reproduces without it.
+# ---------------------------------------------------------------------------
+# qiskit>=1.0
+# qiskit-ibm-runtime>=0.20
+# qiskit-addon-sqd>=0.6

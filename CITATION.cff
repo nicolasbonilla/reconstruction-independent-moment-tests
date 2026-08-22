@@ -1,0 +1,44 @@
+cff-version: 1.2.0
+message: "If you use this repository or its results, please cite the paper below."
+title: "Self-falsifying quantum spectroscopy: a transportable necessary-condition screen for quantum-computed dynamical spectra"
+authors:
+  - family-names: "Bonilla Vargas"
+    given-names: "Nicolás"
+    orcid: "https://orcid.org/0009-0006-6155-4391"
+    affiliation: "Universidad Nacional de Colombia; SRH University Heidelberg/Munich; Daita AI"
+    email: "ngbonillav@unal.edu.co"
+abstract: >-
+  A quantum-computed dynamical spectrum is treated not as an object to be certified but as a
+  falsifiable hypothesis, equipped with a transportable battery of reconstruction-independent
+  necessary-condition falsifiers. Each falsifier is a static ground-state spectral moment
+  m_k = int w^k A(w) dw (for example m0 = <J^2>, m1 = (1/2)<[J,[H,J]]>), estimated independently of
+  the reconstruction from the same computational-basis samples and never read back off A(w), giving
+  Popperian corroboration rather than proof. The screen is demonstrated across error classes and
+  domains (a spurious Drude peak in the doped-Hubbard current response, sample-based-diagonalization
+  subspace truncation, a cross-domain U(1) lattice-Schwinger Gauss-law check), demonstrated on real
+  IBM Heron hardware data, and equipped with a closed-form Christoffel miss-distance certificate. As
+  the reconstruction is a learned generative model of the device's samples, the screen doubles as a
+  falsifiable-trust layer for machine-learned models of quantum-computed data; no quantum learning
+  advantage is claimed.
+version: "1.0.0"
+date-released: "2026-08-22"
+license: "MIT AND CC-BY-4.0"
+keywords:
+  - quantum computing
+  - quantum verification
+  - sample-based quantum diagonalization
+  - spectral functions
+  - moment problem
+  - Christoffel function
+  - falsifiability
+  - reproducible research
+preferred-citation:
+  type: article
+  title: "Self-falsifying quantum spectroscopy: a transportable necessary-condition screen for quantum-computed dynamical spectra"
+  authors:
+    - family-names: "Bonilla Vargas"
+      given-names: "Nicolás"
+      orcid: "https://orcid.org/0009-0006-6155-4391"
+  year: 2026
+  journal: "arXiv preprint"
+  notes: "arXiv:XXXX.XXXXX (posting in progress; update on assignment)"
