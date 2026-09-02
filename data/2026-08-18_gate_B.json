@@ -1,0 +1,167 @@
+{
+  "_provenance": {
+    "script": "A_payload_echoes/03_src/run_gate_B.py",
+    "date": "2026-08-18",
+    "params": "t*=2.5, t2=0.3, L=8",
+    "spec": "wf_c22bda93-1fb",
+    "method": "EXACT P2_exact vs matchgate-efficient P2_gauss; proven floor Omega(2^{qA/2})",
+    "overclaim_guard": "L<=8 = TREND + target certificate, never achieved exponential advantage"
+  },
+  "main_U8": {
+    "L": 8,
+    "U": 8.0,
+    "rows": [
+      {
+        "n_A": 1,
+        "q_A": 2,
+        "P2_exact": 0.4689591160088922,
+        "P2_gauss": 0.3108878772964909,
+        "gap_nonGaussian": 0.15807123871240125,
+        "V2_twocopy": 0.7800773475121584,
+        "proven_singlecopy_floor": 2.0,
+        "V_linear_control": 0.786582248222043,
+        "S2": 0.7572396870245466
+      },
+      {
+        "n_A": 2,
+        "q_A": 4,
+        "P2_exact": 0.45763456012539705,
+        "P2_gauss": 0.0957687527480378,
+        "gap_nonGaussian": 0.36186580737735924,
+        "V2_twocopy": 0.7905706093788344,
+        "proven_singlecopy_floor": 4.0,
+        "V_linear_control": 0.7022320472055981,
+        "S2": 0.7816843170188428
+      },
+      {
+        "n_A": 3,
+        "q_A": 6,
+        "P2_exact": 0.4225059062634978,
+        "P2_gauss": 0.028651770144691405,
+        "gap_nonGaussian": 0.39385413611880643,
+        "V2_twocopy": 0.8214887591724604,
+        "proven_singlecopy_floor": 8.0,
+        "V_linear_control": 0.7017118569833443,
+        "S2": 0.86155185296073
+      },
+      {
+        "n_A": 4,
+        "q_A": 8,
+        "P2_exact": 0.4315351313226796,
+        "P2_gauss": 0.008783943616630988,
+        "gap_nonGaussian": 0.42275118770604864,
+        "V2_twocopy": 0.8137774304343177,
+        "proven_singlecopy_floor": 16.0,
+        "V_linear_control": 0.6901209001075905,
+        "S2": 0.8404063550342781
+      }
+    ]
+  },
+  "contingency_vs_U": {
+    "0.0": [
+      {
+        "n_A": 2,
+        "q_A": 4,
+        "P2_exact": 0.06677182427221284,
+        "P2_gauss": 0.06677182427221298,
+        "gap_nonGaussian": -1.3877787807814457e-16,
+        "V2_twocopy": 0.9955415234833608,
+        "proven_singlecopy_floor": 4.0,
+        "V_linear_control": 0.9833072643834067,
+        "S2": 2.706474079751087
+      },
+      {
+        "n_A": 3,
+        "q_A": 6,
+        "P2_exact": 0.03143096760090398,
+        "P2_gauss": 0.03143096760090408,
+        "gap_nonGaussian": -9.71445146547012e-17,
+        "V2_twocopy": 0.999012094275671,
+        "proven_singlecopy_floor": 8.0,
+        "V_linear_control": 1.2968506611250188,
+        "S2": 3.459961642744406
+      }
+    ],
+    "2.0": [
+      {
+        "n_A": 2,
+        "q_A": 4,
+        "P2_exact": 0.083864877166679,
+        "P2_gauss": 0.06515392784709576,
+        "gap_nonGaussian": 0.01871094931958324,
+        "V2_twocopy": 0.9929666823778178,
+        "proven_singlecopy_floor": 4.0,
+        "V_linear_control": 0.8762206325204165,
+        "S2": 2.4785483804918425
+      },
+      {
+        "n_A": 3,
+        "q_A": 6,
+        "P2_exact": 0.05003220496696174,
+        "P2_gauss": 0.025993894066758113,
+        "gap_nonGaussian": 0.024038310900203624,
+        "V2_twocopy": 0.9974967784661439,
+        "proven_singlecopy_floor": 8.0,
+        "V_linear_control": 1.2142934997411388,
+        "S2": 2.9950883815577076
+      }
+    ],
+    "4.0": [
+      {
+        "n_A": 2,
+        "q_A": 4,
+        "P2_exact": 0.16558077552646566,
+        "P2_gauss": 0.09186067995273851,
+        "gap_nonGaussian": 0.07372009557372715,
+        "V2_twocopy": 0.9725830067760541,
+        "proven_singlecopy_floor": 4.0,
+        "V_linear_control": 1.0112743670118851,
+        "S2": 1.7982961335859506
+      },
+      {
+        "n_A": 3,
+        "q_A": 6,
+        "P2_exact": 0.14607907781497081,
+        "P2_gauss": 0.03197008380269014,
+        "gap_nonGaussian": 0.11410899401228067,
+        "V2_twocopy": 0.9786609030247277,
+        "proven_singlecopy_floor": 8.0,
+        "V_linear_control": 1.0041244627470718,
+        "S2": 1.9236071750321109
+      }
+    ],
+    "8.0": [
+      {
+        "n_A": 2,
+        "q_A": 4,
+        "P2_exact": 0.45763456012539705,
+        "P2_gauss": 0.0957687527480378,
+        "gap_nonGaussian": 0.36186580737735924,
+        "V2_twocopy": 0.7905706093788344,
+        "proven_singlecopy_floor": 4.0,
+        "V_linear_control": 0.7022320472055981,
+        "S2": 0.7816843170188428
+      },
+      {
+        "n_A": 3,
+        "q_A": 6,
+        "P2_exact": 0.4225059062634978,
+        "P2_gauss": 0.028651770144691405,
+        "gap_nonGaussian": 0.39385413611880643,
+        "V2_twocopy": 0.8214887591724604,
+        "proven_singlecopy_floor": 8.0,
+        "V_linear_control": 0.7017118569833443,
+        "S2": 0.86155185296073
+      }
+    ]
+  },
+  "summary": {
+    "gap_nonneg": true,
+    "gap_grows_with_nA": true,
+    "gap_U0": -1.1796119636642288e-16,
+    "gap_U8": 0.37785997174808283,
+    "contingency_collapses": true,
+    "control_flat": true,
+    "decision": "GO-TREND: non-Gaussian purity gap Delta>0, grows with n_A, COLLAPSES as U->0 (contingent on delta_vN>0), while the A(k,w) linear control stays O(1). Two-copy sees Delta at O(1) cost; single-copy needs Omega(2^{q_A/2}). Report as TREND + target certificate, NOT an achieved advantage."
+  }
+}

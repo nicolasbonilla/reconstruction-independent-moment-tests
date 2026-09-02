@@ -1,0 +1,75 @@
+{
+  "_provenance": {
+    "script": "blind_score.py",
+    "sim_only": true,
+    "prereg_sha256": "0e4c3368bd684d191792200a73514e313a837051b245a8d3a6d4a350e37a2792"
+  },
+  "confusion": {
+    "TP": 101,
+    "FN": 87,
+    "FP": 1,
+    "TN": 111
+  },
+  "TPR": 0.5372340425531915,
+  "TPR_wilson95": [
+    0.4659263540328818,
+    0.607050518553669
+  ],
+  "FPR": 0.008928571428571428,
+  "FPR_wilson95": [
+    0.0015778140883850773,
+    0.04884966619503642
+  ],
+  "per_mode": {
+    "krylov": {
+      "rej": 0,
+      "n": 71
+    },
+    "ac": {
+      "rej": 45,
+      "n": 61
+    },
+    "trunc": {
+      "rej": 56,
+      "n": 56
+    },
+    "clean": {
+      "rej": 1,
+      "n": 112
+    }
+  },
+  "per_subclass": {
+    "krylov nl=4": {
+      "rej": 0,
+      "n": 21
+    },
+    "ac preserve_m0": {
+      "rej": 20,
+      "n": 34
+    },
+    "krylov nl=2": {
+      "rej": 0,
+      "n": 20
+    },
+    "trunc": {
+      "rej": 56,
+      "n": 56
+    },
+    "clean": {
+      "rej": 1,
+      "n": 112
+    },
+    "ac raw": {
+      "rej": 25,
+      "n": 27
+    },
+    "krylov nl=3": {
+      "rej": 0,
+      "n": 15
+    },
+    "krylov nl=1": {
+      "rej": 0,
+      "n": 15
+    }
+  }
+}

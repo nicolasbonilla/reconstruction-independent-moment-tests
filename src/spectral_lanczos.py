@@ -87,9 +87,10 @@ def ground_state(L, U, nup, nd, t=1.0, explicit_max=12):
         diagU = U * (upocc @ dnocc.T).ravel()
         H = (sp.kron(Tu, sp.identity(Dd), format='csr')
              + sp.kron(sp.identity(Du), Td, format='csr') + sp.diags(diagU)).tocsr()
-        E, V = eigsh(H, k=1, which='SA')
+        E, V = eigsh(H, k=1, which='SA', v0=np.random.default_rng(0).standard_normal(H.shape[0]))
     else:
-        E, V = eigsh(Hlin, k=1, which='SA', ncv=10, maxiter=2000)
+        E, V = eigsh(Hlin, k=1, which='SA', ncv=10, maxiter=2000,
+                     v0=np.random.default_rng(0).standard_normal(Hlin.shape[0]))
     return float(E[0]), V[:, 0], Du, Dd
 
 
@@ -155,7 +156,8 @@ def _sub_gs(Hsub):
     if d < 24:
         e, V = np.linalg.eigh(Hsub.toarray())
         return float(e[0]), V[:, 0]
-    e, V = eigsh(Hsub.tocsr(), k=1, which='SA')
+    e, V = eigsh(Hsub.tocsr(), k=1, which='SA',
+                 v0=np.random.default_rng(0).standard_normal(d))   # fixed start -> deterministic
     return float(e[0]), V[:, 0]
 
 

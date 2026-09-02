@@ -1,0 +1,22 @@
+{
+ "L": 6,
+ "U": 8.0,
+ "support": [
+  0.14777137186276157,
+  52.207977536119806
+ ],
+ "m0": 1.0000000000000002,
+ "m1": 11.104695264616772,
+ "m2": 125.41689055901111,
+ "hankel_lower_bound_m2": 123.31425692000214,
+ "support_upper_bound_m2": 573.6797925112461,
+ "certified_interval_m2": [
+  123.31425692000214,
+  573.6797925112461
+ ],
+ "true_m2_inside": true,
+ "corruption_under_m2": 100.79598014043994,
+ "corruption_over_m2": 596.1980692908082,
+ "under_caught_by_necessary": true,
+ "over_caught_by_sufficient": true
+}

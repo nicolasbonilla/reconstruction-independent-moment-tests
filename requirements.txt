@@ -15,5 +15,6 @@ pillow>=9.5
 # data (data/heron_spectral.json), so the hardware section reproduces without it.
 # ---------------------------------------------------------------------------
 # qiskit>=1.0
+# qiskit-aer>=0.14            # noise-model forecasts (off-diagonal bias floor, n_k, MC interval)
 # qiskit-ibm-runtime>=0.20
 # qiskit-addon-sqd>=0.6

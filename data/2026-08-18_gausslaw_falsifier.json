@@ -1,0 +1,78 @@
+{
+  "_provenance": {
+    "script": "A_payload_echoes/03_src/run_gausslaw_falsifier.py",
+    "date": "2026-08-18",
+    "model": "U(1) quantum link model (lattice Schwinger), N=4 sites, 3 spin-1/2 links, OBC",
+    "board": "wf_00831cb3-9d6",
+    "params": "w=1.0, m=0.6",
+    "claim": "Gauss law = native, EXACT, same-sample falsifier for LGT; catches gauge-breaking error; SECOND domain confirmed"
+  },
+  "sanity": {
+    "gauge_invariance_[H,G]_max": 0.0,
+    "physical_state_<sumG2>": 5.280483547806857e-31
+  },
+  "error_sweep": [
+    {
+      "p": 0.0,
+      "gauss_violation": 5.280483547806858e-31,
+      "charge_drift": 0.0
+    },
+    {
+      "p": 0.05,
+      "gauss_violation": 0.2500000000000001,
+      "charge_drift": 1.0824674490095276e-16
+    },
+    {
+      "p": 0.1,
+      "gauss_violation": 0.9706963708090065,
+      "charge_drift": 0.03761882018704948
+    },
+    {
+      "p": 0.15000000000000002,
+      "gauss_violation": 1.3787782101222552,
+      "charge_drift": 0.0006693084160581064
+    },
+    {
+      "p": 0.2,
+      "gauss_violation": 1.4698831730456274,
+      "charge_drift": 0.0006693084160588489
+    },
+    {
+      "p": 0.25,
+      "gauss_violation": 2.0491868022366218,
+      "charge_drift": 0.00941616745407502
+    },
+    {
+      "p": 0.30000000000000004,
+      "gauss_violation": 2.074186802236621,
+      "charge_drift": 0.049712221305359454
+    },
+    {
+      "p": 0.35000000000000003,
+      "gauss_violation": 3.053244213670932,
+      "charge_drift": 0.06921386462956801
+    },
+    {
+      "p": 0.4,
+      "gauss_violation": 2.51854455621351,
+      "charge_drift": 0.0033465420802951925
+    },
+    {
+      "p": 0.45,
+      "gauss_violation": 2.7011009764580196,
+      "charge_drift": 0.038288128603108415
+    },
+    {
+      "p": 0.5,
+      "gauss_violation": 2.3733320435352865,
+      "charge_drift": 0.07055248146168615
+    }
+  ],
+  "summary": {
+    "gauge_invariant_hamiltonian": true,
+    "physical_state_satisfies_gauss": true,
+    "falsifier_fires_on_gauge_breaking": true,
+    "cross_domain_confirmed": true,
+    "verdict": "SECOND DOMAIN CONFIRMED: Gauss law is a native, EXACT, same-sample falsifier \u2014 [H,G]=0 (gauge-invariant), physical state has <sumG2>=0, and it FIRES on gauge-breaking bit-flip error (a DIFFERENT error class than the Hubbard moment falsifier). The paper is genuinely cross-domain: one transport principle, two distinct falsifiers."
+  }
+}

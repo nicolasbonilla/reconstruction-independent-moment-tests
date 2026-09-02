@@ -1,0 +1,488 @@
+{
+  "_provenance": {
+    "script": "A_payload_echoes/03_src/run_collective_sumrule_falsifier.py",
+    "date": "2026-08-26",
+    "params": "Hubbard ring L=6, U=8.0, t=1.0, PBC, half filling (N=6), mu=U/2",
+    "closes": "referee finding: assert->demonstrate that the moment screen transports across observables, now RUN on collective S(q,w) [charge] and S^zz(q,w) [spin]",
+    "scope": "EXACT-SIMULATION demonstration (same footing as the current-probe screen); certifies transport of the screen to the collective channels, not a hardware result"
+  },
+  "ground_state": {
+    "E0": -2.048130886091451,
+    "N": 5.999999999999994,
+    "H_variance": 5.329070518200751e-15
+  },
+  "channels": {
+    "charge": {
+      "probe": "S(q,\\omega) via rho_q",
+      "om_split": 4.0,
+      "om_spur": 2.0,
+      "per_q": {
+        "m=1": {
+          "q_over_pi": 0.3333333333333333,
+          "m0_operator": 0.2651634859446097,
+          "m1_operator_onesided": 1.962820411275347,
+          "m1_double_commutator": 1.962820411275347,
+          "mean_frequency_m1_over_m0": 7.402302787968939,
+          "m0_lehmann": 0.26516348594460964,
+          "m1_lehmann": 1.9628204112753476,
+          "xcheck_m0_residual": 2.093468904042603e-16,
+          "xcheck_m1_residual": 3.393758343598394e-16,
+          "xcheck_dc_vs_m1_residual": 0.0,
+          "expA_abs": 9.077028908913939e-16,
+          "corruption_at_f0.4": {
+            "m0_residual": 2.093468904042603e-16,
+            "m1_residual": 0.2919255233249508
+          },
+          "fires": true,
+          "sweep": [
+            {
+              "f": 0.0,
+              "m0_residual": 2.093468904042603e-16,
+              "m1_residual": 3.393758343598394e-16
+            },
+            {
+              "f": 0.05,
+              "m0_residual": 2.093468904042603e-16,
+              "m1_residual": 0.036490690415618615
+            },
+            {
+              "f": 0.1,
+              "m0_residual": 2.093468904042603e-16,
+              "m1_residual": 0.07298138083123734
+            },
+            {
+              "f": 0.15000000000000002,
+              "m0_residual": 2.093468904042603e-16,
+              "m1_residual": 0.1094720712468564
+            },
+            {
+              "f": 0.2,
+              "m0_residual": 2.093468904042603e-16,
+              "m1_residual": 0.14596276166247513
+            },
+            {
+              "f": 0.25,
+              "m0_residual": 0.0,
+              "m1_residual": 0.18245345207809407
+            },
+            {
+              "f": 0.30000000000000004,
+              "m0_residual": 2.093468904042603e-16,
+              "m1_residual": 0.2189441424937129
+            },
+            {
+              "f": 0.35000000000000003,
+              "m0_residual": 2.093468904042603e-16,
+              "m1_residual": 0.2554348329093318
+            },
+            {
+              "f": 0.4,
+              "m0_residual": 2.093468904042603e-16,
+              "m1_residual": 0.2919255233249508
+            },
+            {
+              "f": 0.45,
+              "m0_residual": 0.0,
+              "m1_residual": 0.32841621374056956
+            },
+            {
+              "f": 0.5,
+              "m0_residual": 0.0,
+              "m1_residual": 0.36490690415618854
+            }
+          ]
+        },
+        "m=2": {
+          "q_over_pi": 0.6666666666666666,
+          "m0_operator": 0.6965596183774773,
+          "m1_operator_onesided": 5.888461233826041,
+          "m1_double_commutator": 5.8884612338260425,
+          "mean_frequency_m1_over_m0": 8.45363566659557,
+          "m0_lehmann": 0.6965596183774782,
+          "m1_lehmann": 5.88846123382605,
+          "xcheck_m0_residual": 1.2750931812110971e-15,
+          "xcheck_m1_residual": 1.508337041599286e-15,
+          "xcheck_dc_vs_m1_residual": 3.0166740831985722e-16,
+          "expA_abs": 1.5550110005906263e-15,
+          "corruption_at_f0.4": {
+            "m0_residual": 1.4344798288624843e-15,
+            "m1_residual": 0.3053661606022131
+          },
+          "fires": true,
+          "sweep": [
+            {
+              "f": 0.0,
+              "m0_residual": 1.2750931812110971e-15,
+              "m1_residual": 1.508337041599286e-15
+            },
+            {
+              "f": 0.05,
+              "m0_residual": 1.4344798288624843e-15,
+              "m1_residual": 0.03817077007527532
+            },
+            {
+              "f": 0.1,
+              "m0_residual": 1.4344798288624843e-15,
+              "m1_residual": 0.07634154015055229
+            },
+            {
+              "f": 0.15000000000000002,
+              "m0_residual": 1.5938664765138713e-15,
+              "m1_residual": 0.11451231022582882
+            },
+            {
+              "f": 0.2,
+              "m0_residual": 1.4344798288624843e-15,
+              "m1_residual": 0.1526830803011058
+            },
+            {
+              "f": 0.25,
+              "m0_residual": 1.4344798288624843e-15,
+              "m1_residual": 0.19085385037638264
+            },
+            {
+              "f": 0.30000000000000004,
+              "m0_residual": 1.5938664765138713e-15,
+              "m1_residual": 0.2290246204516593
+            },
+            {
+              "f": 0.35000000000000003,
+              "m0_residual": 1.4344798288624843e-15,
+              "m1_residual": 0.2671953905269363
+            },
+            {
+              "f": 0.4,
+              "m0_residual": 1.4344798288624843e-15,
+              "m1_residual": 0.3053661606022131
+            },
+            {
+              "f": 0.45,
+              "m0_residual": 1.4344798288624843e-15,
+              "m1_residual": 0.34353693067748986
+            },
+            {
+              "f": 0.5,
+              "m0_residual": 1.2750931812110971e-15,
+              "m1_residual": 0.3817077007527668
+            }
+          ]
+        },
+        "m=3": {
+          "q_over_pi": 1.0,
+          "m0_operator": 0.8928186960446914,
+          "m1_operator_onesided": 7.8512816451013885,
+          "m1_double_commutator": 7.8512816451013885,
+          "mean_frequency_m1_over_m0": 8.793814107929904,
+          "m0_lehmann": 0.8928186960446919,
+          "m1_lehmann": 7.8512816451013885,
+          "xcheck_m0_residual": 4.974013333473396e-16,
+          "xcheck_m1_residual": 0.0,
+          "xcheck_dc_vs_m1_residual": 0.0,
+          "expA_abs": 3.6402749516484913e-16,
+          "corruption_at_f0.4": {
+            "m0_residual": 6.217516666841744e-16,
+            "m1_residual": 0.3090269602948971
+          },
+          "fires": true,
+          "sweep": [
+            {
+              "f": 0.0,
+              "m0_residual": 4.974013333473396e-16,
+              "m1_residual": 0.0
+            },
+            {
+              "f": 0.05,
+              "m0_residual": 3.730510000105047e-16,
+              "m1_residual": 0.03862837003686207
+            },
+            {
+              "f": 0.1,
+              "m0_residual": 6.217516666841744e-16,
+              "m1_residual": 0.07725674007372414
+            },
+            {
+              "f": 0.15000000000000002,
+              "m0_residual": 6.217516666841744e-16,
+              "m1_residual": 0.11588511011058633
+            },
+            {
+              "f": 0.2,
+              "m0_residual": 6.217516666841744e-16,
+              "m1_residual": 0.1545134801474484
+            },
+            {
+              "f": 0.25,
+              "m0_residual": 4.974013333473396e-16,
+              "m1_residual": 0.1931418501843107
+            },
+            {
+              "f": 0.30000000000000004,
+              "m0_residual": 4.974013333473396e-16,
+              "m1_residual": 0.23177022022117288
+            },
+            {
+              "f": 0.35000000000000003,
+              "m0_residual": 4.974013333473396e-16,
+              "m1_residual": 0.270398590258035
+            },
+            {
+              "f": 0.4,
+              "m0_residual": 6.217516666841744e-16,
+              "m1_residual": 0.3090269602948971
+            },
+            {
+              "f": 0.45,
+              "m0_residual": 6.217516666841744e-16,
+              "m1_residual": 0.3476553303317593
+            },
+            {
+              "f": 0.5,
+              "m0_residual": 4.974013333473396e-16,
+              "m1_residual": 0.38628370036862153
+            }
+          ]
+        }
+      }
+    },
+    "spin": {
+      "probe": "S^{zz}(q,\\omega) via Sz_q",
+      "om_split": 0.3,
+      "om_spur": 0.1,
+      "per_q": {
+        "m=1": {
+          "q_over_pi": 0.3333333333333333,
+          "m0_operator": 0.6029695821536007,
+          "m1_operator_onesided": 0.4907051028188363,
+          "m1_double_commutator": 0.4907051028188368,
+          "mean_frequency_m1_over_m0": 0.8138140253546552,
+          "m0_lehmann": 0.6029695821536007,
+          "m1_lehmann": 0.4907051028188389,
+          "xcheck_m0_residual": 0.0,
+          "xcheck_m1_residual": 5.316888071637488e-15,
+          "xcheck_dc_vs_m1_residual": 1.018127503079519e-15,
+          "expA_abs": 2.8120354462516784e-15,
+          "corruption_at_f0.4": {
+            "m0_residual": 0.0,
+            "m1_residual": 0.35084872126334904
+          },
+          "fires": true,
+          "sweep": [
+            {
+              "f": 0.0,
+              "m0_residual": 0.0,
+              "m1_residual": 5.316888071637488e-15
+            },
+            {
+              "f": 0.05,
+              "m0_residual": 3.6825175182463443e-16,
+              "m1_residual": 0.043856090157914
+            },
+            {
+              "f": 0.1,
+              "m0_residual": 0.0,
+              "m1_residual": 0.08771218031583321
+            },
+            {
+              "f": 0.15000000000000002,
+              "m0_residual": 0.0,
+              "m1_residual": 0.13156827047375264
+            },
+            {
+              "f": 0.2,
+              "m0_residual": 0.0,
+              "m1_residual": 0.17542436063167174
+            },
+            {
+              "f": 0.25,
+              "m0_residual": 0.0,
+              "m1_residual": 0.21928045078959107
+            },
+            {
+              "f": 0.30000000000000004,
+              "m0_residual": 1.8412587591231722e-16,
+              "m1_residual": 0.2631365409475104
+            },
+            {
+              "f": 0.35000000000000003,
+              "m0_residual": 0.0,
+              "m1_residual": 0.30699263110542974
+            },
+            {
+              "f": 0.4,
+              "m0_residual": 0.0,
+              "m1_residual": 0.35084872126334904
+            },
+            {
+              "f": 0.45,
+              "m0_residual": 0.0,
+              "m1_residual": 0.3947048114212681
+            },
+            {
+              "f": 0.5,
+              "m0_residual": 0.0,
+              "m1_residual": 0.43856090157918753
+            }
+          ]
+        },
+        "m=2": {
+          "q_over_pi": 0.6666666666666666,
+          "m0_operator": 1.4638327097109218,
+          "m1_operator_onesided": 1.4721153084565077,
+          "m1_double_commutator": 1.4721153084565104,
+          "mean_frequency_m1_over_m0": 1.005658159358402,
+          "m0_lehmann": 1.4638327097109238,
+          "m1_lehmann": 1.472115308456517,
+          "xcheck_m0_residual": 1.3651843076521543e-15,
+          "xcheck_m1_residual": 6.335015574717012e-15,
+          "xcheck_dc_vs_m1_residual": 1.8100044499191463e-15,
+          "expA_abs": 1.8513717946501087e-15,
+          "corruption_at_f0.4": {
+            "m0_residual": 1.0618100170627867e-15,
+            "m1_residual": 0.3602250529886583
+          },
+          "fires": true,
+          "sweep": [
+            {
+              "f": 0.0,
+              "m0_residual": 1.3651843076521543e-15,
+              "m1_residual": 6.335015574717012e-15
+            },
+            {
+              "f": 0.05,
+              "m0_residual": 1.2134971623574704e-15,
+              "m1_residual": 0.04502813162357684
+            },
+            {
+              "f": 0.1,
+              "m0_residual": 1.3651843076521543e-15,
+              "m1_residual": 0.09005626324715972
+            },
+            {
+              "f": 0.15000000000000002,
+              "m0_residual": 1.2134971623574704e-15,
+              "m1_residual": 0.1350843948707429
+            },
+            {
+              "f": 0.2,
+              "m0_residual": 1.2134971623574704e-15,
+              "m1_residual": 0.18011252649432577
+            },
+            {
+              "f": 0.25,
+              "m0_residual": 1.2134971623574704e-15,
+              "m1_residual": 0.22514065811790895
+            },
+            {
+              "f": 0.30000000000000004,
+              "m0_residual": 1.0618100170627867e-15,
+              "m1_residual": 0.2701687897414921
+            },
+            {
+              "f": 0.35000000000000003,
+              "m0_residual": 1.0618100170627867e-15,
+              "m1_residual": 0.3151969213650753
+            },
+            {
+              "f": 0.4,
+              "m0_residual": 1.0618100170627867e-15,
+              "m1_residual": 0.3602250529886583
+            },
+            {
+              "f": 0.45,
+              "m0_residual": 1.3651843076521543e-15,
+              "m1_residual": 0.40525318461224136
+            },
+            {
+              "f": 0.5,
+              "m0_residual": 1.3651843076521543e-15,
+              "m1_residual": 0.45028131623582446
+            }
+          ]
+        },
+        "m=3": {
+          "q_over_pi": 1.0,
+          "m0_operator": 4.16232919009873,
+          "m1_operator_onesided": 1.9628204112753398,
+          "m1_double_commutator": 1.9628204112753465,
+          "mean_frequency_m1_over_m0": 0.47156779813198335,
+          "m0_lehmann": 4.162329190098743,
+          "m1_lehmann": 1.9628204112753345,
+          "xcheck_m0_residual": 2.9873893457011285e-15,
+          "xcheck_m1_residual": 2.715006674878725e-15,
+          "xcheck_dc_vs_m1_residual": 3.393758343598406e-15,
+          "expA_abs": 1.325259811746387e-13,
+          "corruption_at_f0.4": {
+            "m0_residual": 3.2007742989654947e-15,
+            "m1_residual": 0.31517656600291416
+          },
+          "fires": true,
+          "sweep": [
+            {
+              "f": 0.0,
+              "m0_residual": 2.9873893457011285e-15,
+              "m1_residual": 2.715006674878725e-15
+            },
+            {
+              "f": 0.05,
+              "m0_residual": 3.2007742989654947e-15,
+              "m1_residual": 0.03939707075036668
+            },
+            {
+              "f": 0.1,
+              "m0_residual": 2.9873893457011285e-15,
+              "m1_residual": 0.07879414150073064
+            },
+            {
+              "f": 0.15000000000000002,
+              "m0_residual": 2.9873893457011285e-15,
+              "m1_residual": 0.1181912122510946
+            },
+            {
+              "f": 0.2,
+              "m0_residual": 3.2007742989654947e-15,
+              "m1_residual": 0.15758828300145844
+            },
+            {
+              "f": 0.25,
+              "m0_residual": 3.2007742989654947e-15,
+              "m1_residual": 0.19698535375182252
+            },
+            {
+              "f": 0.30000000000000004,
+              "m0_residual": 3.2007742989654947e-15,
+              "m1_residual": 0.2363824245021865
+            },
+            {
+              "f": 0.35000000000000003,
+              "m0_residual": 2.9873893457011285e-15,
+              "m1_residual": 0.27577949525255047
+            },
+            {
+              "f": 0.4,
+              "m0_residual": 3.2007742989654947e-15,
+              "m1_residual": 0.31517656600291416
+            },
+            {
+              "f": 0.45,
+              "m0_residual": 3.2007742989654947e-15,
+              "m1_residual": 0.35457363675327813
+            },
+            {
+              "f": 0.5,
+              "m0_residual": 2.9873893457011285e-15,
+              "m1_residual": 0.3939707075036421
+            }
+          ]
+        }
+      }
+    }
+  },
+  "summary": {
+    "worst_lehmann_m0_match_residual": 2.9873893457011285e-15,
+    "worst_lehmann_m1_match_residual": 6.335015574717012e-15,
+    "xcheck_passes_1e-10": true,
+    "screen_fires_both_channels_all_q": true,
+    "fire_threshold": 0.05,
+    "verdict": "DEMONSTRATED: the reconstruction-independent moment screen RUNS on both collective channels -- operator m0,m1 match the exact Lehmann spectrum to ~1e-12, and an m0-preserving corruption passes the weight check yet fails the first moment, firing the screen for BOTH S(q,w) and S^zz(q,w)."
+  }
+}

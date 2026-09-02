@@ -1,0 +1,58 @@
+{
+  "eps": 0.0025,
+  "seed": 20260830,
+  "m1_exact": 10.608543675365755,
+  "TrM1_dim": 34.26621344327635,
+  "Bmax": 23.657669767910594,
+  "note": "exact static-carrier local-depol floor is a LOWER bound (no operator scrambling, no leakage, no readout); folklore global-depol is the upper edge; real Krylov-Trotter circuit scrambles M1 to high weight -> true floor between exact and folklore",
+  "gsurface": [
+    {
+      "G": 40,
+      "B_exact": 0.5831512669541503,
+      "pct_exact": 5.496996428532352,
+      "B_folklore": 2.254005031715388,
+      "pct_folklore": 21.24707312040807,
+      "ratio_folk_exact": 3.865215012715743
+    },
+    {
+      "G": 60,
+      "B_exact": 0.8683830346939168,
+      "pct_exact": 8.1856950517195,
+      "B_folklore": 3.2991486508231964,
+      "pct_folklore": 31.09897787840752,
+      "ratio_folk_exact": 3.7991859801660723
+    },
+    {
+      "G": 100,
+      "B_exact": 1.4316209591637534,
+      "pct_exact": 13.494981054639384,
+      "B_folklore": 5.238824429814838,
+      "pct_folklore": 49.38306887475973,
+      "ratio_folk_exact": 3.6593655578184396
+    },
+    {
+      "G": 150,
+      "B_exact": 2.1174064223657396,
+      "pct_exact": 19.95944483202344,
+      "B_folklore": 7.405639626879366,
+      "pct_folklore": 69.80825882892958,
+      "ratio_folk_exact": 3.497505036659509
+    },
+    {
+      "G": 200,
+      "B_exact": 2.7819290006845208,
+      "pct_exact": 26.223476905171033,
+      "B_folklore": 9.317548068821795,
+      "pct_folklore": 87.83060478374804,
+      "ratio_folk_exact": 3.34931195818769
+    },
+    {
+      "G": 292,
+      "B_exact": 3.953742883271797,
+      "pct_exact": 37.269421744031064,
+      "B_folklore": 12.267241902539807,
+      "pct_folklore": 115.63549416331044,
+      "ratio_folk_exact": 3.1026908589433697
+    }
+  ]
+}

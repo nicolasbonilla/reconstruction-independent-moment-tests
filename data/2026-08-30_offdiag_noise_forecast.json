@@ -1,0 +1,392 @@
+{
+  "_manifest": {
+    "script": "offdiag_noise_forecast.py",
+    "sim_only": true,
+    "qpu_used": false,
+    "master_seed": 20260830,
+    "robustness_seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "model": "Hubbard L=6 chain OBC, 12 qubits, U/t=4, density probe rho_q q=pi",
+    "estimand": "m1 = <drho (H-E0) drho>  (PSD, biased toward Tr(M1)/dim under depolarizing)",
+    "eps_grid": [
+      0.0,
+      1e-05,
+      3e-05,
+      0.0001,
+      0.0003,
+      0.001,
+      0.002,
+      0.0025,
+      0.003,
+      0.005,
+      0.01,
+      0.03,
+      0.1
+    ],
+    "ibm_fez_2q_anchor": 0.0025,
+    "ibm_fez_readout": [
+      0.008,
+      0.018
+    ],
+    "ibm_fez_1q": 0.00025,
+    "G_headline": 292,
+    "G_surface": [
+      20,
+      60,
+      100,
+      200,
+      292
+    ],
+    "corruption_coverages": [
+      1.0,
+      0.9,
+      0.75,
+      0.5,
+      0.25,
+      0.1
+    ],
+    "ns_shots": 50000,
+    "shot_reps": 32,
+    "z": 1.96,
+    "fair_test_margin": 5.0,
+    "crossing_def": "largest eps with Delta - |B(eps)| > z*sigma_eff (upward bias-aligned sign)",
+    "pins": {
+      "qiskit": "1.4.6",
+      "qiskit_aer": "0.17.2"
+    },
+    "honest_expectation": "NEGATIVE-WITH-A-NUMBER: eps* well below ibm_fez 2.5e-3"
+  },
+  "_manifest_hash": "3055a53a322ad2c4",
+  "anchors": {
+    "E0": -4.422071147758781,
+    "m0_exact": 2.7371170750265676,
+    "m1_exact": 10.608543675365738,
+    "m2_exact": 47.638842809446814,
+    "TrM0_dim": 3.0,
+    "TrM1_dim": 34.26621344327635,
+    "ratio_m1": 3.2300581957207237,
+    "Bmax": 23.657669767910612,
+    "sigma_shot": 0.13482772396510884,
+    "n_groups_m0m1": 35
+  },
+  "ladder": [
+    {
+      "coverage": 1.0,
+      "m1_trunc": 10.608543675365672,
+      "Delta": 6.572520305780927e-14,
+      "signed": -6.572520305780927e-14,
+      "fair": false
+    },
+    {
+      "coverage": 0.9,
+      "m1_trunc": 10.588290086777766,
+      "Delta": 0.02025358858797155,
+      "signed": -0.02025358858797155,
+      "fair": false
+    },
+    {
+      "coverage": 0.75,
+      "m1_trunc": 10.443574372015672,
+      "Delta": 0.1649693033500661,
+      "signed": -0.1649693033500661,
+      "fair": false
+    },
+    {
+      "coverage": 0.5,
+      "m1_trunc": 9.559485398527801,
+      "Delta": 1.0490582768379362,
+      "signed": -1.0490582768379362,
+      "fair": false
+    },
+    {
+      "coverage": 0.25,
+      "m1_trunc": 8.123154706677008,
+      "Delta": 2.4853889686887296,
+      "signed": -2.4853889686887296,
+      "fair": true
+    },
+    {
+      "coverage": 0.1,
+      "m1_trunc": 5.656854249492377,
+      "Delta": 4.951689425873361,
+      "signed": -4.951689425873361,
+      "fair": true
+    }
+  ],
+  "sweep_G292": [
+    {
+      "eps": 0.0,
+      "B_depol": -1.7763568394002505e-15,
+      "B_coherent": 0.0,
+      "B_folklore": 0.0,
+      "m0_bias": 0.0,
+      "peff": 0.0,
+      "m1_depol": 10.608543675365736,
+      "m1_coherent": 10.608543675365738,
+      "m0_depol": 2.7371170750265676
+    },
+    {
+      "eps": 1e-05,
+      "B_depol": 0.01720183969507616,
+      "B_coherent": 0.033513615575742506,
+      "B_folklore": 0.0689799808376267,
+      "m0_bias": 0.0005320955212635425,
+      "peff": 0.0029157555040011385,
+      "m1_depol": 10.625745515060814,
+      "m1_coherent": 10.64205729094148,
+      "m0_depol": 2.737649170547831
+    },
+    {
+      "eps": 3e-05,
+      "B_depol": 0.05157104539465962,
+      "B_coherent": 0.10012855879366356,
+      "B_folklore": 0.2063391970709792,
+      "m0_bias": 0.001594086413880813,
+      "peff": 0.008721873248516587,
+      "m1_depol": 10.660114720760397,
+      "m1_coherent": 10.708672234159401,
+      "m0_depol": 2.7387111614404485
+    },
+    {
+      "eps": 0.0001,
+      "B_depol": 0.17150169479960908,
+      "B_coherent": 0.3289908433443163,
+      "B_folklore": 0.6808492232537285,
+      "m0_bias": 0.0052880459024642334,
+      "peff": 0.028779217477168273,
+      "m1_depol": 10.780045370165347,
+      "m1_coherent": 10.937534518710054,
+      "m0_depol": 2.742405120929032
+    },
+    {
+      "eps": 0.0003,
+      "B_depol": 0.5110717025848466,
+      "B_coherent": 0.9470666875639306,
+      "B_folklore": 1.9845185632904065,
+      "m0_bias": 0.015647289346372606,
+      "peff": 0.08388478589646298,
+      "m1_depol": 11.119615377950584,
+      "m1_coherent": 11.555610362929668,
+      "m0_depol": 2.7527643643729403
+    },
+    {
+      "eps": 0.001,
+      "B_depol": 1.6639456959923056,
+      "B_coherent": 2.7279485247347512,
+      "B_folklore": 5.993447236410394,
+      "m0_bias": 0.04971741836535504,
+      "peff": 0.25334055700362923,
+      "m1_depol": 12.272489371358043,
+      "m1_coherent": 13.336492200100489,
+      "m0_depol": 2.7868344933919227
+    },
+    {
+      "eps": 0.002,
+      "B_depol": 3.2171729109794125,
+      "B_coherent": 4.409960774745237,
+      "B_folklore": 10.472369597365756,
+      "m0_bias": 0.09292165852778211,
+      "peff": 0.44266276856947817,
+      "m1_depol": 13.82571658634515,
+      "m1_coherent": 15.018504450110974,
+      "m0_depol": 2.8300387335543498
+    },
+    {
+      "eps": 0.0025,
+      "B_depol": 3.95374288327179,
+      "B_coherent": 4.94710472379483,
+      "B_folklore": 12.267241902539816,
+      "m0_bias": 0.11231913465272525,
+      "peff": 0.5185312849019124,
+      "m1_depol": 14.562286558637528,
+      "m1_coherent": 15.555648399160567,
+      "m0_depol": 2.849436209679293
+    },
+    {
+      "eps": 0.003,
+      "B_depol": 4.664460094829881,
+      "B_coherent": 5.3216843194474635,
+      "B_folklore": 13.818505931108705,
+      "m0_bias": 0.13036321589217925,
+      "peff": 0.5841025792765185,
+      "m1_depol": 15.273003770195619,
+      "m1_coherent": 15.930227994813201,
+      "m0_depol": 2.867480290918747
+    },
+    {
+      "eps": 0.005,
+      "B_depol": 7.262115448355669,
+      "B_coherent": 5.673998917911369,
+      "B_folklore": 18.18358468841161,
+      "m0_bias": 0.1905635281919924,
+      "peff": 0.768612668398809,
+      "m1_depol": 17.870659123721406,
+      "m1_coherent": 16.282542593277107,
+      "m0_depol": 2.92768060321856
+    },
+    {
+      "eps": 0.01,
+      "B_depol": 12.277048390584088,
+      "B_coherent": 3.8092815407560234,
+      "B_folklore": 22.400341187136863,
+      "m0_bias": 0.2790746926948482,
+      "peff": 0.9468532364722076,
+      "m1_depol": 22.885592065949826,
+      "m1_coherent": 14.417825216121761,
+      "m0_depol": 3.016191767721416
+    },
+    {
+      "eps": 0.03,
+      "B_depol": 20.63590532151499,
+      "B_coherent": 5.496499658732308,
+      "B_folklore": 23.6544239932083,
+      "m0_bias": 0.31124344935425485,
+      "peff": 0.9998628024342991,
+      "m1_depol": 31.244448996880728,
+      "m1_coherent": 16.105043334098045,
+      "m0_depol": 3.0483605243808225
+    },
+    {
+      "eps": 0.1,
+      "B_depol": 23.519472166292722,
+      "B_coherent": 5.573261305697262,
+      "B_folklore": 23.65766976790958,
+      "m0_bias": 0.2637244737086979,
+      "peff": 0.9999999999999565,
+      "m1_depol": 34.12801584165846,
+      "m1_coherent": 16.181804981063,
+      "m0_depol": 3.0008415487352655
+    }
+  ],
+  "folklore_deviation": [
+    {
+      "eps": 1e-05,
+      "B_depol": 0.01720183969507616,
+      "B_folklore": 0.0689799808376267,
+      "rel_dev": -0.7506256237506371
+    },
+    {
+      "eps": 3e-05,
+      "B_depol": 0.05157104539465962,
+      "B_folklore": 0.2063391970709792,
+      "rel_dev": -0.7500666566182307
+    },
+    {
+      "eps": 0.0001,
+      "B_depol": 0.17150169479960908,
+      "B_folklore": 0.6808492232537285,
+      "rel_dev": -0.7481062048069688
+    },
+    {
+      "eps": 0.0003,
+      "B_depol": 0.5110717025848466,
+      "B_folklore": 1.9845185632904065,
+      "rel_dev": -0.742470686826194
+    },
+    {
+      "eps": 0.001,
+      "B_depol": 1.6639456959923056,
+      "B_folklore": 5.993447236410394,
+      "rel_dev": -0.7223725127863345
+    },
+    {
+      "eps": 0.002,
+      "B_depol": 3.2171729109794125,
+      "B_folklore": 10.472369597365756,
+      "rel_dev": -0.6927941779491179
+    },
+    {
+      "eps": 0.0025,
+      "B_depol": 3.95374288327179,
+      "B_folklore": 12.267241902539816,
+      "rel_dev": -0.6776991181323974
+    },
+    {
+      "eps": 0.003,
+      "B_depol": 4.664460094829881,
+      "B_folklore": 13.818505931108705,
+      "rel_dev": -0.6624483053316867
+    },
+    {
+      "eps": 0.005,
+      "B_depol": 7.262115448355669,
+      "B_folklore": 18.18358468841161,
+      "rel_dev": -0.6006224530092896
+    },
+    {
+      "eps": 0.01,
+      "B_depol": 12.277048390584088,
+      "B_folklore": 22.400341187136863,
+      "rel_dev": -0.451925830592525
+    },
+    {
+      "eps": 0.03,
+      "B_depol": 20.63590532151499,
+      "B_folklore": 23.6544239932083,
+      "rel_dev": -0.12760905412704165
+    },
+    {
+      "eps": 0.1,
+      "B_depol": 23.519472166292722,
+      "B_folklore": 23.65766976790958,
+      "rel_dev": -0.005841555950887324
+    }
+  ],
+  "runtime_s": 469.0492968559265,
+  "crossing_CORRECTED": [
+    {
+      "coverage": 1.0,
+      "Delta": 6.572520305780927e-14,
+      "fair_5x": false,
+      "eps_star_depol_firstcross": null,
+      "eps_star_coherent_firstcross": null,
+      "note": "only fair (Delta>5x shot-CI=1.321) rungs get a crossing; support-truncation class, DEFERRED from paper"
+    },
+    {
+      "coverage": 0.9,
+      "Delta": 0.02025358858797155,
+      "fair_5x": false,
+      "eps_star_depol_firstcross": null,
+      "eps_star_coherent_firstcross": null,
+      "note": "only fair (Delta>5x shot-CI=1.321) rungs get a crossing; support-truncation class, DEFERRED from paper"
+    },
+    {
+      "coverage": 0.75,
+      "Delta": 0.1649693033500661,
+      "fair_5x": false,
+      "eps_star_depol_firstcross": null,
+      "eps_star_coherent_firstcross": null,
+      "note": "only fair (Delta>5x shot-CI=1.321) rungs get a crossing; support-truncation class, DEFERRED from paper"
+    },
+    {
+      "coverage": 0.5,
+      "Delta": 1.0490582768379362,
+      "fair_5x": false,
+      "eps_star_depol_firstcross": null,
+      "eps_star_coherent_firstcross": null,
+      "note": "only fair (Delta>5x shot-CI=1.321) rungs get a crossing; support-truncation class, DEFERRED from paper"
+    },
+    {
+      "coverage": 0.25,
+      "Delta": 2.4853889686887296,
+      "fair_5x": true,
+      "eps_star_depol_firstcross": 0.0012822918692065935,
+      "eps_star_coherent_firstcross": 0.000709894354912769,
+      "note": "only fair (Delta>5x shot-CI=1.321) rungs get a crossing; support-truncation class, DEFERRED from paper"
+    },
+    {
+      "coverage": 0.1,
+      "Delta": 4.951689425873361,
+      "fair_5x": true,
+      "eps_star_depol_firstcross": 0.003013579932725365,
+      "eps_star_coherent_firstcross": 0.002244345394967702,
+      "note": "only fair (Delta>5x shot-CI=1.321) rungs get a crossing; support-truncation class, DEFERRED from paper"
+    }
+  ],
+  "_DEFERRED_NOTE": "The eps*(Delta) crossing is EXPLORATORY and DEFERRED from the paper (verification-panel verdict): it tests determinant-SUPPORT-TRUNCATION corruptions -- the class the DIAGONAL m0 channel already catches -- not within-sector moment-preserving redistribution (the off-diagonal moment unique job). The PAPER uses only the exact bias FLOOR B(eps) (verified): ~37% of signal at ibm_fez/G=292 (density-matrix exact, a LOWER bound), folklore overestimates ~3.1x. Original crossing_depol/coherent fields had two reporting bugs (fair-gate not enforced; coherent used non-monotone grid-max); crossing_CORRECTED supersedes them."
+}

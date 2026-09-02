@@ -1,0 +1,51 @@
+{
+  "_provenance": {
+    "script": "estimator_scaling.py",
+    "sim_only": true,
+    "method": "structure-only Pauli label-set counts; <rho>=0 exact by half-filling symmetry (q=pi, even L), so drho=rho; verified vs eigsh build_operators at L<=8"
+  },
+  "columns": [
+    "L",
+    "qubits",
+    "M2_paulis",
+    "full_battery_bases",
+    "m0m1_bases"
+  ],
+  "scaling": [
+    [
+      4,
+      8,
+      1291,
+      126,
+      19
+    ],
+    [
+      6,
+      12,
+      12410,
+      357,
+      35
+    ],
+    [
+      8,
+      16,
+      54129,
+      721,
+      51
+    ],
+    [
+      10,
+      20,
+      158868,
+      1191,
+      67
+    ],
+    [
+      12,
+      24,
+      371855,
+      1837,
+      83
+    ]
+  ]
+}

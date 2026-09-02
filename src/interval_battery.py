@@ -49,6 +49,7 @@ def hankel_ok(m0,m1,m2):
 print("=== JOINT INTERVAL BATTERY (m0,m1,m2 + Hankel), honest reframe ===")
 print(f"independent: m0={m0_op:.4f} m1={m1_op:.4f} m2={m2_op:.4f}")
 print(f"local-est var (shot LOWER bound): var0={var0:.3g} var1={var1:.3g} var2={var2:.3g}")
+rows = []
 for bias_frac in (0.0, 0.02, 0.04):
     d0=delta(var0,m0_op,bias_frac); d1=delta(var1,m1_op,bias_frac); d2=delta(var2,m2_op,bias_frac)
     print(f"\n--- bias={100*bias_frac:.0f}% : delta0={d0:.3f} delta1={d1:.3f} delta2={d2:.3f} ---")
@@ -63,5 +64,12 @@ for bias_frac in (0.0, 0.02, 0.04):
         battery = (g0>d0) or (g1>d1) or (g2>d2) or (not hankel_ok(b0,b1,b2))
         bv = 'REJECT' if battery else 'corrob'
         print(f" {d:5d} {100*d/nsup:5.1f}  {g0:6.3f}  {g1:6.3f}  {g2:6.3f}   {m1v:7s}     {bv}")
+        rows.append(dict(bias_frac=bias_frac, d=d, cov=d/nsup, g0=g0, g1=g1, g2=g2,
+                         delta0=d0, delta1=d1, delta2=d2, m1_verdict=m1v, battery_verdict=bv))
 print("\nKEY: at bias<=2%, d=98 -- MISSED by m1 alone -- is REJECTED by the joint (m1,m2) battery (g2 >> delta2).")
 print("The second moment probes weight at higher freq that the accidental m1-match hides -> the battery has no blind spot at d=98.")
+_out = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '06_results', 'interval_battery_showcase.json')
+json.dump({'L': L, 'U': U, 'Ns': Ns, 'z': z, 'seeded_eigsh': True,
+           'independent_moments': {'m0': m0_op, 'm1': m1_op, 'm2': m2_op},
+           'focus_ds': focus_ds, 'nsup': nsup, 'rows': rows}, open(_out, 'w'), indent=1)
+print(f"wrote {_out}")

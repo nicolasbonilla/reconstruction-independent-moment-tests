@@ -8,7 +8,7 @@ LATEX  ?= pdflatex
 .PHONY: all verify figures reproduce paper clean help
 
 help:
-	@echo "make verify    - fast smoke test: the sum-rule identities + the interval battery closing d=98 (seconds)"
+	@echo "make verify    - fast smoke test: the sum-rule identities + the interval battery catching a truncation the lone first moment misses (seconds)"
 	@echo "make figures   - regenerate every native pgfplots data fragment (.dat) from the exact engine"
 	@echo "make reproduce - run the master notebook end to end (every figure and number)"
 	@echo "make paper     - compile paper/main.tex -> paper/main.pdf"
@@ -17,7 +17,7 @@ help:
 
 # ---- fast reproducibility check (numpy/scipy only, seconds) ----
 # Recomputes the current-probe moments m0,m1,m2, the shot-budget interval, and shows the joint
-# (m0,m1,m2)+Hankel battery REJECTING the truncation the lone first moment misses.
+# (m0,m1,m2)+Hankel battery catching (via m2) a truncation the lone first moment misses.
 verify:
 	$(PYTHON) src/verify.py
 

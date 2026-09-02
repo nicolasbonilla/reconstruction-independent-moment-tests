@@ -1,0 +1,86 @@
+{
+  "_provenance": {
+    "script": "A_payload_echoes/03_src/run_sumrule_falsifier.py",
+    "date": "2026-08-18",
+    "params": "Hubbard ring L=6, U=8.0, PBC, half-filling",
+    "synthesis": "wf_f9d5da8c-515 rank-1",
+    "claim": "transportable sum-rule falsifier: f-sum blind to Drude/mid-IR split; first-moment falsifies it"
+  },
+  "sum_rules": {
+    "m0_operator_<J^2>": 1.1135245334965216,
+    "m1_operator_half<[J,[H,J]]>": 12.365350614153435,
+    "m0_spectrum": 1.1135245334965223,
+    "m1_spectrum": 12.365350614153442,
+    "m0_match_residual": 5.982210492331059e-16,
+    "m1_match_residual": 5.746240102135154e-16
+  },
+  "split": {
+    "omega_split": 4.0,
+    "W_Drude": 0.02664873166439622,
+    "W_midIR": 1.0868758018321258,
+    "obar_Drude": 2.491702904693682,
+    "obar_midIR": 11.315874243705453
+  },
+  "distortion_sweep": [
+    {
+      "f": 0.0,
+      "m0_residual": 5.982210492331059e-16,
+      "m1_residual": 5.746240102135154e-16
+    },
+    {
+      "f": 0.05,
+      "m0_residual": 3.988140328220706e-16,
+      "m1_residual": 0.03878085870292534
+    },
+    {
+      "f": 0.1,
+      "m0_residual": 3.988140328220706e-16,
+      "m1_residual": 0.0775617174058514
+    },
+    {
+      "f": 0.15000000000000002,
+      "m0_residual": 5.982210492331059e-16,
+      "m1_residual": 0.1163425761087776
+    },
+    {
+      "f": 0.2,
+      "m0_residual": 5.982210492331059e-16,
+      "m1_residual": 0.15512343481170351
+    },
+    {
+      "f": 0.25,
+      "m0_residual": 5.982210492331059e-16,
+      "m1_residual": 0.1939042935146297
+    },
+    {
+      "f": 0.30000000000000004,
+      "m0_residual": 3.988140328220706e-16,
+      "m1_residual": 0.23268515221755562
+    },
+    {
+      "f": 0.35000000000000003,
+      "m0_residual": 3.988140328220706e-16,
+      "m1_residual": 0.27146601092048184
+    },
+    {
+      "f": 0.4,
+      "m0_residual": 3.988140328220706e-16,
+      "m1_residual": 0.3102468696234076
+    },
+    {
+      "f": 0.45,
+      "m0_residual": 3.988140328220706e-16,
+      "m1_residual": 0.34902772832633366
+    },
+    {
+      "f": 0.5,
+      "m0_residual": 5.982210492331059e-16,
+      "m1_residual": 0.3878085870292598
+    }
+  ],
+  "summary": {
+    "true_spectrum_satisfies_both_sumrules": true,
+    "falsifier_works": true,
+    "verdict": "FALSIFIER CONFIRMED: a wrong Drude/mid-IR split passes the f-sum (m0 residual ~0) but the first-moment sum rule (m1) flags it -> transportable self-certification works."
+  }
+}

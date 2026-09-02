@@ -1,0 +1,58 @@
+{
+  "_provenance": {
+    "script": "regenerated 2026-08-31 from sealed blind_{instances,labels,verdicts}.json",
+    "prereg_sha256": "0e4c3368bd684d191792200a73514e313a837051b245a8d3a6d4a350e37a2792",
+    "normalization": "r_k = |m_hat-m_bar|_k / delta_k ; delta_k the pre-registered decision threshold from blind_verdicts.json (z=1.96, incl 2% mitigation-bias term). r_k>1 == moment k fires (reproduces moment_fire 300/300).",
+    "separating_definition": "mode==ac (spurious-feature, preserves total weight & support by construction) AND pre-registered reject AND r0<=1 (total-weight sum rule blind) AND (r1>1 or r2>1) (an off-diagonal moment fires)."
+  },
+  "n_separating": 24,
+  "n_m1_fires": 15,
+  "n_m2_only": 9,
+  "separating_ids": [
+    18,
+    36,
+    42,
+    51,
+    75,
+    79,
+    121,
+    138,
+    167,
+    168,
+    182,
+    200,
+    208,
+    214,
+    222,
+    226,
+    235,
+    243,
+    254,
+    258,
+    261,
+    266,
+    297,
+    298
+  ],
+  "exemplar": {
+    "id": 222,
+    "r_over_threshold": {
+      "m0": 0.15878924664731348,
+      "m1": 3.316485813362927,
+      "m2": 9.057532839322775
+    },
+    "params": {
+      "U": 5.0,
+      "preserve_m0": true,
+      "w_s": 0.16643907588976578,
+      "om_s": 16.46922136538163
+    }
+  },
+  "clean_false_positive_rate": "1/112",
+  "per_mode_rejected": {
+    "clean": "1/112",
+    "trunc": "56/56",
+    "ac": "45/61",
+    "krylov": "0/71"
+  }
+}

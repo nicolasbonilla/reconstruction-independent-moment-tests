@@ -1,0 +1,54 @@
+{
+  "prereg_sha256": "8bf87b5a505c31e389e52693245f802c6417b22c01769b99a66c552a2152b1cd",
+  "utc": "2026-09-01T15:54:16Z",
+  "config": {
+    "alpha": 0.05,
+    "z": 1.9599639845,
+    "M_null": 2000,
+    "M_alt": 2000,
+    "B_boot": 120,
+    "L": 6,
+    "U": 4.0,
+    "seed_master": 20260901,
+    "coverage_ladder_Ns": {
+      "84": 2000,
+      "90": 3200,
+      "95": 5000,
+      "99": 12000,
+      "100": 40000
+    },
+    "statistic": "Delta_k = mhat_k - mbar_k, k in {1,2}; studentized (Delta-bhat_c)/sigma",
+    "indep_recipe": "Var_indep_k = Var(mhat_k)+Var(mbar_k) (Mortimer/Wang-Acin, no cross term); diag Sigma",
+    "corr_recipe": "Var_corr_k = Var_indep_k - 2Cov(mhat_k,mbar_k); full Sigma incl Cov(Delta_1,Delta_2)",
+    "corruption": "C1 within-support null([omega^0]) reweighting on per-replica reconstruction; dir P=tilt ~ (omega_n-<omega>), dir S=satellite move weight g from dominant peak to omega_spur; both signs; SAMPLE-LEVEL (co-varying), NEVER deterministic scalar offset",
+    "delta1_ladder_fraction_of_m1": [
+      0.02,
+      0.05,
+      0.08,
+      0.1,
+      0.12,
+      0.16,
+      0.24
+    ],
+    "primary_endpoints": [
+      "Stage2 realized-FPR at fixed nominal z (Wilson CI)",
+      "Stage4 multivariate delta-P_detect at MATCHED empirical FPR (bootstrap CI)"
+    ],
+    "negative_rules": [
+      "plug-in Var_corr_hat does not recover oracle truth out-of-sample",
+      "gain needs oracle covariance (vanishes with plug-in)",
+      "indep realized-FPR CI covers alpha (not actually over-conservative)",
+      "multivariate matched-FPR delta-P_detect CI includes zero on whole grid",
+      "scalar single-point matched-FPR powers differ (BUG)",
+      "effect only outside partial-coverage operational regime"
+    ],
+    "sim_only": true,
+    "hardware_moments": [
+      "m0 only (ibm_fez)"
+    ],
+    "sim_moments": [
+      "m1",
+      "m2"
+    ]
+  }
+}

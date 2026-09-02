@@ -1,0 +1,73 @@
+{
+  "_provenance": {
+    "script": "within_sector_control.py",
+    "sim_only": true,
+    "scale": "L=6 U/t=4 current Lehmann",
+    "N_poles": 5
+  },
+  "true_moments": [
+    0.5541988421957377,
+    4.227087633536018,
+    33.388691601083615,
+    267.5675449753848,
+    2159.382575937771,
+    17507.08168432224
+  ],
+  "vandermonde_conditioning": {
+    "sigma_min_V": 0.011805717328315082,
+    "cond_V": 1248380.672393826,
+    "delta_min_pole_sep": 0.8723547310436999,
+    "superresolution_fitted_exponents": {
+      "2": 0.995222803208127,
+      "3": 1.9815319216855225,
+      "4": 2.959394158125433
+    }
+  },
+  "cases": [
+    {
+      "preserve_through_mK": 1,
+      "weight_moved_frac": 0.49406140105576174,
+      "deltas_m0_to_m5": [
+        0.0,
+        0.0,
+        0.08204392620605461,
+        2.2042663424621765,
+        82.52070835055883,
+        1599.2171678816885
+      ],
+      "hankel_psd": true,
+      "stieltjes_shifted_psd": true,
+      "second_probe_delta": 0.08204392620606171
+    },
+    {
+      "preserve_through_mK": 2,
+      "weight_moved_frac": 0.012111225990587627,
+      "deltas_m0_to_m5": [
+        0.0,
+        8.881784197001252e-16,
+        0.0,
+        0.07770387182239347,
+        2.1718664517625257,
+        39.37631437809978
+      ],
+      "hankel_psd": true,
+      "stieltjes_shifted_psd": true,
+      "second_probe_delta": 0.0
+    },
+    {
+      "preserve_through_mK": 3,
+      "weight_moved_frac": 0.035955483093266676,
+      "deltas_m0_to_m5": [
+        0.0,
+        8.881784197001252e-16,
+        0.0,
+        0.0,
+        0.24267248318392376,
+        8.612877403546008
+      ],
+      "hankel_psd": true,
+      "stieltjes_shifted_psd": true,
+      "second_probe_delta": 0.0
+    }
+  ]
+}

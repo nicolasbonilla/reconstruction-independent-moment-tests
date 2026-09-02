@@ -1,0 +1,148 @@
+{
+  "_provenance": {
+    "script": "A_payload_echoes/03_src/run_falsifier_teeth.py",
+    "date": "2026-08-18",
+    "params": "doped Hubbard ring L=6, U=8.0",
+    "board": "wf_00831cb3-9d6",
+    "claim": "independent ground-state estimator has TEETH on subspace-truncation error; back-computed is circular/blind",
+    "honest_blind_spot": "coherent/symmetry-preserving device noise corrupts direct estimator and spectrum identically -> screens ONE error class (subspace truncation / Lehmann-weight misassignment), NOT device noise generally"
+  },
+  "m1_direct_operator": 12.365350614153428,
+  "n_poles": 426,
+  "sweep": [
+    {
+      "coverage": 1.0,
+      "d": 426,
+      "n_support": 426,
+      "m1_trunc": 12.365350614153432,
+      "residual_independent": 2.8731200510675784e-16,
+      "residual_circular": 0.0
+    },
+    {
+      "coverage": 0.9433333333333334,
+      "d": 402,
+      "n_support": 426,
+      "m1_trunc": 12.95224502142777,
+      "residual_independent": 0.04746281974427638,
+      "residual_circular": 0.0
+    },
+    {
+      "coverage": 0.8866666666666667,
+      "d": 378,
+      "n_support": 426,
+      "m1_trunc": 12.944447143243858,
+      "residual_independent": 0.046832196446382514,
+      "residual_circular": 0.0
+    },
+    {
+      "coverage": 0.8300000000000001,
+      "d": 354,
+      "n_support": 426,
+      "m1_trunc": 12.944447143243936,
+      "residual_independent": 0.046832196446388835,
+      "residual_circular": 0.0
+    },
+    {
+      "coverage": 0.7733333333333333,
+      "d": 329,
+      "n_support": 426,
+      "m1_trunc": 9.983605983432362,
+      "residual_independent": 0.19261440334695498,
+      "residual_circular": 0.0
+    },
+    {
+      "coverage": 0.7166666666666667,
+      "d": 305,
+      "n_support": 426,
+      "m1_trunc": 9.91686031816209,
+      "residual_independent": 0.19801220138382378,
+      "residual_circular": 0.0
+    },
+    {
+      "coverage": 0.66,
+      "d": 281,
+      "n_support": 426,
+      "m1_trunc": 9.916860318162085,
+      "residual_independent": 0.19801220138382422,
+      "residual_circular": 0.0
+    },
+    {
+      "coverage": 0.6033333333333333,
+      "d": 257,
+      "n_support": 426,
+      "m1_trunc": 9.916860318162106,
+      "residual_independent": 0.1980122013838225,
+      "residual_circular": 0.0
+    },
+    {
+      "coverage": 0.5466666666666666,
+      "d": 233,
+      "n_support": 426,
+      "m1_trunc": 11.064856546107043,
+      "residual_independent": 0.10517243777607362,
+      "residual_circular": 0.0
+    },
+    {
+      "coverage": 0.49,
+      "d": 209,
+      "n_support": 426,
+      "m1_trunc": 11.064856546107023,
+      "residual_independent": 0.1051724377760752,
+      "residual_circular": 0.0
+    },
+    {
+      "coverage": 0.43333333333333335,
+      "d": 185,
+      "n_support": 426,
+      "m1_trunc": 1.6228880999503992,
+      "residual_independent": 0.8687551893520241,
+      "residual_circular": 0.0
+    },
+    {
+      "coverage": 0.3766666666666667,
+      "d": 160,
+      "n_support": 426,
+      "m1_trunc": 1.6228880999503978,
+      "residual_independent": 0.8687551893520242,
+      "residual_circular": 0.0
+    },
+    {
+      "coverage": 0.32000000000000006,
+      "d": 136,
+      "n_support": 426,
+      "m1_trunc": 0.1461194143620284,
+      "residual_independent": 0.9881831563922838,
+      "residual_circular": 0.0
+    },
+    {
+      "coverage": 0.2633333333333334,
+      "d": 112,
+      "n_support": 426,
+      "m1_trunc": 0.21250225736591674,
+      "residual_independent": 0.9828147002056954,
+      "residual_circular": 0.0
+    },
+    {
+      "coverage": 0.20666666666666667,
+      "d": 88,
+      "n_support": 426,
+      "m1_trunc": 4.515331836137093e-30,
+      "residual_independent": 1.0,
+      "residual_circular": 0.0
+    },
+    {
+      "coverage": 0.15,
+      "d": 64,
+      "n_support": 426,
+      "m1_trunc": 5.798923722914343e-30,
+      "residual_independent": 1.0,
+      "residual_circular": 0.0
+    }
+  ],
+  "summary": {
+    "residual_independent_worst": 1.0,
+    "residual_circular_worst": 0.0,
+    "teeth_confirmed": true,
+    "verdict": "TEETH CONFIRMED: the INDEPENDENT ground-state estimator fires on subspace truncation (residual grows to 100.0% at 20% coverage) while the back-computed check is blind (0). The reconstruction-independent kernel is NOT circular on this error class. Honest blind spot stated."
+  }
+}

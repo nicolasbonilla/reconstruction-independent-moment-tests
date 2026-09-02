@@ -1,0 +1,102 @@
+{
+  "_provenance": {
+    "script": "markov_krein_window.py",
+    "sim_only": true,
+    "measure": "L=6 U/t=8.0 doped-current Lehmann (mid-IR-peak-dominated, one-sided tail)",
+    "n_atoms": 795,
+    "bound": "two-sided Chebyshev-Markov-Stieltjes / Krein-Nudelman envelope bracket",
+    "refs": [
+      "KreinNudelman1977",
+      "KarlinStudden1966",
+      "DetteStudden1997"
+    ]
+  },
+  "orders": {
+    "n=1": {
+      "moments_used": "m0..m2",
+      "max_t_Wn": 0.9998426695009834,
+      "peak_edge_window": {
+        "edges": [
+          -0.5783684210526315,
+          0.95
+        ],
+        "interval": [
+          0.0,
+          0.9998426695009834
+        ],
+        "width": 0.9998426695009834
+      },
+      "windows": {
+        "across_peak": {
+          "edges": [
+            -0.75,
+            -0.35
+          ],
+          "interval": [
+            0.8481500347443794,
+            1.0
+          ],
+          "width": 0.15184996525562056,
+          "true_mass": 0.9743933313599962,
+          "brackets": true
+        },
+        "out_of_band": {
+          "edges": [
+            0.3,
+            0.9
+          ],
+          "interval": [
+            0.0,
+            0.003999697441683159
+          ],
+          "width": 0.003999697441683159,
+          "true_mass": 6.73418479260412e-31,
+          "brackets": true
+        }
+      }
+    },
+    "n=4": {
+      "moments_used": "m0..m8",
+      "max_t_Wn": 0.8751250689101701,
+      "peak_edge_window": {
+        "edges": [
+          -0.5733609022556391,
+          0.95
+        ],
+        "interval": [
+          0.07018912687717938,
+          0.9453141958390177
+        ],
+        "width": 0.8751250689618383
+      },
+      "windows": {
+        "across_peak": {
+          "edges": [
+            -0.75,
+            -0.35
+          ],
+          "interval": [
+            0.9731780019498041,
+            0.9758115821928789
+          ],
+          "width": 0.0026335802430748068,
+          "true_mass": 0.9743933313599962,
+          "brackets": true
+        },
+        "out_of_band": {
+          "edges": [
+            0.3,
+            0.9
+          ],
+          "interval": [
+            0.0,
+            3.204755127939052e-09
+          ],
+          "width": 3.204755127939052e-09,
+          "true_mass": 6.73418479260412e-31,
+          "brackets": true
+        }
+      }
+    }
+  }
+}

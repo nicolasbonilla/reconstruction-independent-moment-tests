@@ -1,0 +1,93 @@
+{
+  "_provenance": {
+    "script": "A_payload_echoes/03_src/run_gate0_scaling.py",
+    "date": "2026-08-17",
+    "system": "Fermi-Hubbard L=8, t=1.0, U=8.0, t2=0.3 (integrability-broken), CDW quench",
+    "time": 2.5,
+    "window": "post-growth high-entanglement (escapes low-rank trap)",
+    "legs": "delta_vN [Module1 certified], log chi_eps [Module2], DPP dev [Module4]",
+    "verified": "EN 6/6, ES 6/6, DPP 6/6 self-tests PASS"
+  },
+  "delta_vN_vs_LA": [
+    {
+      "L_A": 1,
+      "delta_vN": 0.31986138772734074,
+      "S_gauss": 1.2688296254509064,
+      "S_exact": 0.9489682377235656
+    },
+    {
+      "L_A": 2,
+      "delta_vN": 1.2759704723732626,
+      "S_gauss": 2.524566087101028,
+      "S_exact": 1.2485956147277653
+    },
+    {
+      "L_A": 3,
+      "delta_vN": 2.37776696114201,
+      "S_gauss": 3.816690181994157,
+      "S_exact": 1.4389232208521472
+    },
+    {
+      "L_A": 4,
+      "delta_vN": 3.6581307692272302,
+      "S_gauss": 5.090662025548534,
+      "S_exact": 1.4325312563213035
+    }
+  ],
+  "logchi_vs_LA": [
+    {
+      "L_A": 1,
+      "S1": 0.9489682377235658,
+      "S_half": 1.132161289782502,
+      "chi_eps": 4,
+      "log_chi_eps": 1.3862943611198906
+    },
+    {
+      "L_A": 2,
+      "S1": 1.2485956147277655,
+      "S_half": 1.8730206491325783,
+      "chi_eps": 11,
+      "log_chi_eps": 2.3978952727983707
+    },
+    {
+      "L_A": 3,
+      "S1": 1.4389232208521452,
+      "S_half": 2.389232882014908,
+      "chi_eps": 19,
+      "log_chi_eps": 2.9444389791664403
+    },
+    {
+      "L_A": 4,
+      "S1": 1.4325312563213042,
+      "S_half": 2.566950212039431,
+      "chi_eps": 21,
+      "log_chi_eps": 3.044522437723423
+    }
+  ],
+  "dpp_dev_vs_k": [
+    {
+      "k": 2,
+      "n_subsets": 120,
+      "max_dev": 0.21305878802856967,
+      "mean_dev": 0.04109062753379903
+    },
+    {
+      "k": 3,
+      "n_subsets": 560,
+      "max_dev": 0.1653643830766784,
+      "mean_dev": 0.04925255682208052
+    },
+    {
+      "k": 4,
+      "n_subsets": 1820,
+      "max_dev": 0.18212043005958234,
+      "mean_dev": 0.03380867208820372
+    }
+  ],
+  "summary": {
+    "delta_vN_extensive_ratio": 2.866939986803322,
+    "delta_vN_LA4": 3.6581307692272302,
+    "log_chi_LA4": 3.044522437723423,
+    "dpp_max_dev_k4": 0.18212043005958234
+  }
+}

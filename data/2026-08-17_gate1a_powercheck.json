@@ -1,0 +1,69 @@
+{
+  "_provenance": {
+    "script": "A_payload_echoes/03_src/run_gate1a_powercheck.py",
+    "date": "2026-08-17",
+    "params": "t*=2.5, U=8.0, t2=0.3, eps=0.01",
+    "purpose": "GATE-1a free make-or-break: S_half(n) & chi_req(n) grow or saturate; single-time delta_vN re-certification (KILL-2)",
+    "board": "wf_1d2fd1d2-be1"
+  },
+  "rows": [
+    {
+      "name": "2xW ladder n4",
+      "kind": "quasi1D",
+      "n": 4,
+      "cut_boundary": 2,
+      "L_A": 2,
+      "S_half": 1.432663289854788,
+      "chi_req": 8,
+      "log_chi_req": 2.0794415416798357,
+      "delta_vN_singletime": 1.2400357808876152
+    },
+    {
+      "name": "2xW ladder n6",
+      "kind": "quasi1D",
+      "n": 6,
+      "cut_boundary": 2,
+      "L_A": 3,
+      "S_half": 2.0797066223864347,
+      "chi_req": 28,
+      "log_chi_req": 3.332204510175204,
+      "delta_vN_singletime": 1.821813410670405
+    },
+    {
+      "name": "2xW ladder n8",
+      "kind": "quasi1D",
+      "n": 8,
+      "cut_boundary": 2,
+      "L_A": 4,
+      "S_half": 2.2822910294608247,
+      "chi_req": 72,
+      "log_chi_req": 4.276666119016055,
+      "delta_vN_singletime": 2.912480616008726
+    },
+    {
+      "name": "3x3 patch n9",
+      "kind": "twoD",
+      "n": 9,
+      "cut_boundary": 3,
+      "L_A": 4,
+      "S_half": 3.062852670964121,
+      "chi_req": 114,
+      "log_chi_req": 4.736198448394496,
+      "delta_vN_singletime": 2.2333699809088525
+    }
+  ],
+  "ladder_verdict": {
+    "S_half_vs_n": {
+      "4": 1.433,
+      "6": 2.08,
+      "8": 2.282
+    },
+    "late_slope": 0.20258440707439007,
+    "assessment": "still growing -> lever candidate, needs continuous-chi power fit next"
+  },
+  "kill2_check": {
+    "min_delta_vN_singletime": 1.2400357808876152,
+    "all_positive": true,
+    "note": "delta_vN>0 at single time => non-Gaussianity is NOT a time-averaging artifact (KILL-2 clear)"
+  }
+}

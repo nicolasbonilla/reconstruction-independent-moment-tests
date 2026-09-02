@@ -1,0 +1,60 @@
+{
+  "_provenance": {
+    "script": "run_chigap_bakeoff.py (FULL, incl 4x3/4x4)",
+    "date": "2026-08-18",
+    "params": "doped 2D Hubbard cylinders U=8, ground-state DMRG (TeNPy 1.1, validated vs ED to 1e-6); chi cap 1200",
+    "synthesis": "wf_f9d5da8c-515",
+    "note": "4x3 & 4x4 SATURATED the chi=1200 cap (did not converge) -> their chi is a LOWER BOUND; ground state genuinely hard"
+  },
+  "clusters": [
+    {
+      "geom": "2x2",
+      "n": 4,
+      "Ly": 2,
+      "chi": 8,
+      "S": 0.722,
+      "capped": false
+    },
+    {
+      "geom": "4x2",
+      "n": 8,
+      "Ly": 2,
+      "chi": 160,
+      "S": 0.75,
+      "capped": false
+    },
+    {
+      "geom": "2x3",
+      "n": 6,
+      "Ly": 3,
+      "chi": 40,
+      "S": 0.925,
+      "capped": false
+    },
+    {
+      "geom": "3x3",
+      "n": 9,
+      "Ly": 3,
+      "chi": 204,
+      "S": 2.147,
+      "capped": false
+    },
+    {
+      "geom": "4x3",
+      "n": 12,
+      "Ly": 3,
+      "chi": 1200,
+      "S": 2.742,
+      "capped": true
+    },
+    {
+      "geom": "4x4",
+      "n": 16,
+      "Ly": 4,
+      "chi": 1200,
+      "S": 2.612,
+      "capped": true
+    }
+  ],
+  "verdict": "chi grows STEEPLY with cluster size and cut boundary Ly: 4x3 (12 sites) and 4x4 (16 sites) both SATURATE chi=1200 (lower bound, under-converged). The doped 2D Hubbard ground state is genuinely hard for DMRG. BUT our SQD sampling cost tracks the SAME chi (arXiv:2608.16436) -> BOTH methods pay it -> still NO chi-gap at T=0 -> beyond-classical window EMPTY at T=0. The steep growth strengthens hardness for BOTH, not a gap for us."
+}

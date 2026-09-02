@@ -1,0 +1,32 @@
+{
+  "_provenance": {
+    "script": "bond_moment_estimator.py",
+    "sim_only": true,
+    "model": "Hubbard L=6 chain OBC, 12 qubits, U/t=4.0, density probe rho_q q=pi",
+    "claim": "reconstruction-independent m0,m1,m2 (incl off-diagonal hopping) device-measurable via counts + bond-basis (QWC) circuits"
+  },
+  "E0": -4.422071147758775,
+  "ns": 50000,
+  "reps": 8,
+  "n_measurement_bases": 357,
+  "op_sizes_paulis": {
+    "M0": 67,
+    "M1": 1474,
+    "M2": 12410
+  },
+  "m_exact": {
+    "m0": 2.7371170750265668,
+    "m1": 10.608543675365716,
+    "m2": 47.638842809446665
+  },
+  "m_hat": {
+    "m0": 2.7302999999999997,
+    "m1": 10.549610854725767,
+    "m2": 47.00612601371558
+  },
+  "m_std": {
+    "m0": 0.02204282196090105,
+    "m1": 0.23112099713514753,
+    "m2": 2.6932809860885323
+  }
+}
