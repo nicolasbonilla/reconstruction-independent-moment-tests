@@ -25,7 +25,7 @@ committed interval-moment forecast output.
 
 ## `paper/` — the manuscript
 `main.tex` (master), `figstyle.tex` (shared figure identity), `main.bbl` (frozen bibliography),
-`refs.bib`, `main.pdf` (compiled, 18 pp), `arxiv-submission.tar.gz` (upload-ready bundle), and
+`refs.bib`, `main.pdf` (compiled, 30 pp), `arxiv-submission.tar.gz` (upload-ready bundle), and
 `figs/` (native `.tex` fragments + `.dat` + raster `.png`).
 
 ## `notebooks/`

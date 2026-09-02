@@ -5,17 +5,17 @@ It is the **only** file you upload.
 
 ## Verified (clean-room)
 Extracted to a fresh directory and compiled with `pdflatex` alone (arXiv's workflow):
-- **18 pages, 0 undefined references, 0 missing files, 0 fatal errors.**
+- **30 pages, 0 undefined references, 0 missing files, 0 fatal errors.**
 - Source is **100 % ASCII**; `\pdfoutput=1` forces pdfLaTeX (pgfplots + PNG raster fields).
 - `main.bbl` is **included**, so arXiv uses it and does **not** run BibTeX (`refs.bib` is omitted).
 - Bundle root contains `main.tex`, `figstyle.tex`, `main.bbl`, `figs/` — no `main.pdf`, no aux.
 
 ## Metadata (copy-paste)
-- **Title:** Self-falsifying quantum spectroscopy: a transportable necessary-condition screen for quantum-computed dynamical spectra
+- **Title:** Reconstruction-independent moment tests for quantum-computed dynamical spectra
 - **Authors:** Nicolás Bonilla Vargas
 - **Primary category:** `quant-ph`  ·  **Cross-list:** `cond-mat.str-el`
 - **License:** CC BY 4.0
-- **Comments:** `18 pages, 10 figures. Companion to arXiv:2608.16436.`
+- **Comments:** `30 pages, 15 figures. Companion to arXiv:2608.16436.`
 - **Abstract:** the condensed, ASCII, `<1920`-char version is in the repo's release notes; the full
   abstract lives in the PDF.
 

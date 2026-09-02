@@ -1,7 +1,7 @@
 <div align="center">
 
-# Self-falsifying quantum spectroscopy
-### *a transportable necessary-condition screen for quantum-computed dynamical spectra*
+# Reconstruction-independent moment tests
+### *for quantum-computed dynamical spectra — a transportable necessary-condition screen*
 
 **Nicolás Bonilla Vargas** &nbsp;[![ORCID](https://img.shields.io/badge/ORCID-0009--0006--6155--4391-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0006-6155-4391)
 
@@ -34,7 +34,7 @@ with `numpy`/`scipy` alone, or run the whole pipeline end to end in one narrated
 
 ## Figure gallery
 
-| The self-falsification loop | Single-particle `A(k,ω)` — the screen fires per momentum |
+| The reconstruction-independent moment loop | Single-particle `A(k,ω)` — the screen fires per momentum |
 |:---:|:---:|
 | ![hero](docs/img/fig_hero.png) | ![akw](docs/img/fig_akw.png) |
 | **Spin–charge separation: `S(q,ω)` gapped, `S^zz` gapless** | **A wrong distribution of correct total weight** |
@@ -55,7 +55,7 @@ property that gives the screen teeth: agreement was never preordained.</em></div
    hypothesis with a battery of **necessary-condition** falsifiers: static ground-state spectral moments
    `mₖ = ∫ωᵏA(ω)dω = ⟨Oₖ⟩` with `Oₖ = J·adₕᵏ(J)` (so `m₀ = ⟨J²⟩`, `m₁ = ½⟨[J,[H,J]]⟩`), estimated
    **independently** of the reconstruction from the *same* computational-basis samples and **never read back
-   off `A(ω)`**. A pass is Popperian corroboration, never proof.
+   off `A(ω)`**. A pass is corroboration, never proof.
 
 2. **Independence is what gives the screen teeth.** On sample-based-diagonalization subspace truncation the
    independent estimator fires while a back-computed (circular) control stays identically blind — the
@@ -98,7 +98,7 @@ classically-reproducible scale the device is load-bearing for the *demonstration
 ├── paper/                              # arXiv-ready LaTeX source + compiled PDF
 │   ├── main.tex, figstyle.tex, main.bbl#   master file + shared figure identity + frozen bibliography
 │   ├── figs/                           #   native pgfplots fragments (.tex) + plotted data (.dat) + rasters
-│   ├── main.pdf                        #   the compiled preprint (18 pp, 10 figures)
+│   ├── main.pdf                        #   the compiled preprint (30 pp, 15 figures)
 │   └── arxiv-submission.tar.gz         #   ready-to-upload source bundle (clean-room pdfLaTeX, 0 undefined)
 ├── docs/
 │   ├── REPRODUCE.md                    #   figure/number → script → exact command
@@ -133,7 +133,7 @@ make paper                              # -> paper/main.pdf   (uses the committe
 ```
 
 **Posting to arXiv?** The upload-ready bundle `paper/arxiv-submission.tar.gz` compiles clean-room with
-`pdflatex` alone (18 pp, 0 undefined refs, 100% ASCII source, `\pdfoutput=1`, `.bbl` included) — see
+`pdflatex` alone (30 pp, 0 undefined refs, `.bbl` included) — see
 **[`docs/ARXIV_SUBMISSION.md`](docs/ARXIV_SUBMISSION.md)** for the verification, metadata and step-by-step.
 
 ---
@@ -165,9 +165,9 @@ This repository contains **no secrets**. Any IBM Quantum hardware re-run uses **
 If you use this work, please cite it (see [`CITATION.cff`](CITATION.cff)):
 
 ```bibtex
-@article{BonillaVargas2026SelfFalsifying,
-  title   = {Self-falsifying quantum spectroscopy: a transportable necessary-condition
-             screen for quantum-computed dynamical spectra},
+@article{BonillaVargas2026MomentTests,
+  title   = {Reconstruction-independent moment tests for quantum-computed
+             dynamical spectra},
   author  = {Bonilla Vargas, Nicol\'as},
   journal = {arXiv preprint},
   year    = {2026}

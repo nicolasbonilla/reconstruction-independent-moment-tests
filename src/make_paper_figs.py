@@ -47,7 +47,7 @@ def fig_hero():
     ax.text(8.65, 1.75, 'falsify  $\\Delta_k\\!>\\!\\epsilon$', ha='center', fontsize=9.5, color=PS.CRIMSON, style='italic')
     ax.text(8.65, 4.35, 'corroborate\n$\\Delta_k\\!\\approx\\!0$', ha='center', fontsize=9.5, color=PS.TEAL, style='italic')
     arrow(8.6, 3.55, 8.6, 4.0, PS.TEAL); arrow(8.6, 2.4, 8.6, 2.05, PS.CRIMSON)
-    ax.text(5.0, 5.75, 'the self-falsification loop', ha='center', fontsize=13, color=PS.INK)
+    ax.text(5.0, 5.75, 'the reconstruction-independent moment loop', ha='center', fontsize=13, color=PS.INK)
     ax.text(5.0, -0.45, r'with $\ m_0=\langle J^2\rangle,\ \ m_1=\frac{1}{2}\langle[J,[H,J]]\rangle,\ \ O_k=k$-fold commutator', ha='center',
             fontsize=9, color=PS.MUTE, style='italic')
     save(fig, 'fig_hero')

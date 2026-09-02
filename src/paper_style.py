@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-paper_style.py — a cohesive, publication-grade, ART-FIRST aesthetic for the "Self-falsifying quantum spectroscopy"
+paper_style.py — a cohesive, publication-grade, ART-FIRST aesthetic for the "Reconstruction-independent moment tests"
 figures. Serif Computer-Modern-style typography (mathtext, no fragile usetex), a warm+cool palette matched to the
 prior SQD paper, refined spines/grids, and hand-picked colormaps. Import and call apply().
 """

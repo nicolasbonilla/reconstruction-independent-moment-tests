@@ -1,0 +1,61 @@
+% fig_circuit.tex -- native TikZ circuit for the reconstruction-independent moment protocol.
+% Requires (loaded in the preamble): tikz libraries fit, backgrounds, positioning,
+% decorations.pathreplacing, arrows.meta; and the c* colors below.
+\definecolor{cInit}{HTML}{25408F}
+\definecolor{cHop}{HTML}{7A1F3D}
+\definecolor{cInt}{HTML}{1E7A6E}
+\definecolor{cRot}{HTML}{B5651D}
+\definecolor{cMeas}{HTML}{2E2A6B}
+\definecolor{cWire}{HTML}{3A3A46}
+\begin{tikzpicture}[
+  x=1cm, y=1cm, line cap=round,
+  wire/.style={draw=cWire, line width=0.7pt},
+  gate/.style={rounded corners=1.6pt, line width=0.6pt, minimum size=6.2mm, inner sep=1pt, font=\small},
+  ini/.style={gate, fill=cInit, draw=cInit!60!black, text=white, minimum size=5.6mm, font=\small\bfseries},
+  hop/.style={gate, fill=cHop!12, draw=cHop, text=cHop},
+  rot/.style={gate, fill=cRot!16, draw=cRot, text=cRot, minimum size=5.8mm},
+  meas/.style={gate, fill=cMeas!7, draw=cMeas, minimum size=6mm},
+  lbl/.style={font=\sffamily\footnotesize, text=black!72},
+  panel/.style={rounded corners=3pt, line width=0.5pt, draw=black!12},
+]
+\def\xL{0.55}\def\xR{9.55}
+\def\yTop{0.35}\def\yBot{-6.45}
+\begin{scope}[on background layer]
+  \fill[cInit!7,panel] (1.02,\yTop) rectangle (1.78,\yBot);
+  \fill[cHop!6,panel]  (2.05,\yTop) rectangle (3.75,\yBot);
+  \fill[cInt!7,panel]  (4.05,\yTop) rectangle (6.25,\yBot);
+  \fill[cRot!7,panel]  (6.65,\yTop) rectangle (7.55,\yBot);
+  \fill[cMeas!6,panel] (7.95,\yTop) rectangle (9.35,\yBot);
+\end{scope}
+\node[lbl,text=cInit] at (1.40,\yTop+0.28) {initialize};
+\node[lbl,text=cHop]  at (2.90,\yTop+0.28) {hopping};
+\node[lbl,text=cInt]  at (5.15,\yTop+0.28) {interaction};
+\node[lbl,text=cRot,align=center] at (7.10,\yTop+0.42) {bond-basis\\[-1pt]rotate};
+\node[lbl,text=cMeas] at (8.65,\yTop+0.28) {sample};
+\draw[decorate,decoration={brace,amplitude=3pt,mirror},black!45,line width=0.5pt]
+   (2.05,\yBot-0.06) -- (6.25,\yBot-0.06);
+\node[lbl] at (4.15,\yBot-0.42) {one Trotter layer $e^{-i\Delta t H}$ \ (state preparation)\ \ $\times\,N$};
+\foreach \i/\lab in {0/{q_{0\uparrow}},1/{q_{1\uparrow}},2/{q_{2\uparrow}},3/{q_{3\uparrow}}}{
+  \draw[wire] (\xL,{-0.8*\i}) -- (\xR,{-0.8*\i});
+  \node[font=\small,left=1pt] at (\xL,{-0.8*\i}) {$\lab$};}
+\foreach \i/\lab in {0/{q_{0\downarrow}},1/{q_{1\downarrow}},2/{q_{2\downarrow}},3/{q_{3\downarrow}}}{
+  \draw[wire] (\xL,{-3.7-0.8*\i}) -- (\xR,{-3.7-0.8*\i});
+  \node[font=\small,left=1pt] at (\xL,{-3.7-0.8*\i}) {$\lab$};}
+\foreach \y in {0,-1.6,-4.5,-6.1}{\node[ini] at (1.40,\y) {X};}
+\foreach \yt/\yb in {0/-0.8, -1.6/-2.4, -3.7/-4.5, -5.3/-6.1}{
+  \node[hop, fit={(2.15,\yt) (2.75,\yb)}, inner sep=0pt]{};
+  \node[font=\small,text=cHop] at (2.45,{(\yt+\yb)/2}) {$U_h$};}
+\foreach \yt/\yb in {-0.8/-1.6, -4.5/-5.3}{
+  \node[hop, fit={(3.00,\yt) (3.60,\yb)}, inner sep=0pt]{};
+  \node[font=\small,text=cHop] at (3.30,{(\yt+\yb)/2}) {$U_h$};}
+\foreach \i/\x in {0/4.45, 1/4.95, 2/5.45, 3/5.95}{
+  \draw[cInt,line width=0.8pt] (\x,{-0.8*\i}) -- (\x,{-3.7-0.8*\i});
+  \fill[cInt] (\x,{-0.8*\i}) circle (1.5pt);
+  \fill[cInt] (\x,{-3.7-0.8*\i}) circle (1.5pt);}
+\foreach \y in {0,-0.8,-1.6,-2.4,-3.7,-4.5,-5.3,-6.1}{
+  \node[rot] at (7.10,\y) {$R_b$};}
+\foreach \y in {0,-0.8,-1.6,-2.4,-3.7,-4.5,-5.3,-6.1}{
+  \node[meas] (m) at (8.65,\y) {};
+  \draw[cMeas,line width=0.5pt] (8.50,\y-0.09) arc (200:-20:1.6mm);
+  \draw[cMeas,line width=0.5pt,-{Stealth[length=1.1mm]}] (8.65,\y-0.06) -- (8.735,\y+0.085);}
+\end{tikzpicture}

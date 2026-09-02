@@ -1,39 +1,36 @@
 % fig_teeth.tex -- native pgfplots. Independence gives the screen teeth (L=12, sector Lanczos).
-% x = determinants kept d (log, reversed: full support left, aggressive truncation right).
+% x = determinants kept d (log, REVERSED: full support left where curves ~0, truncation right where the
+% independent estimator saturates ~100% while the circular control stays flat at 0).
+% Clean layout matching fig_teeth_shared: legend upper-left (curves ~0 there); one crossing dot on the threshold
+% (value in the legend, not floating on the data); single headline in the lower-right pocket, anchor=east (no spill).
 \begin{tikzpicture}
 \begin{axis}[
-  paperaxis,
-  width=\columnwidth, height=6.6cm,
+  paperaxis, width=\columnwidth, height=6.8cm,
   xmode=log, x dir=reverse,
   xlabel={determinants kept $d$ \; (subspace size; truncation $\rightarrow$)},
   ylabel={first-moment discrepancy $\Delta_k$ (\%)},
-  xmin=180, xmax=260000, ymin=-6, ymax=108,
+  xmin=180, xmax=260000, ymin=-6, ymax=112,
   xtick={100000,10000,1000}, xticklabels={$10^5$,$10^4$,$10^3$},
   ytick={0,20,40,60,80,100},
-  clip=false,
+  legend style={at={(0.03,0.98)}, anchor=north west, font=\scriptsize,
+                draw=pMuted, fill=white, fill opacity=0.92, text opacity=1,
+                row sep=1pt, inner sep=3pt},
+  legend cell align=left, clip=false,
 ]
-  % shaded region under the independent discrepancy (draw=none avoids the closedcycle edge stroke)
+  % shaded region under the independent discrepancy
   \addplot[firesband, draw=none, forget plot] table[x=d,y=rind]{figs/teeth.dat} \closedcycle;
   % falsification threshold
-  \addplot[threshold, forget plot] coordinates {(260000,5) (180,5)};
+  \addplot[threshold] coordinates {(260000,5) (180,5)};
+  \addlegendentry{$5\%$ threshold}
   % independent estimator: fires
   \addplot[firesline] table[x=d,y=rind]{figs/teeth.dat};
+  \addlegendentry{independent $\widehat m_1$ (flags)}
   % back-computed circular control: blind (identically zero)
   \addplot[blindline] table[x=d,y=rcirc]{figs/teeth.dat};
+  \addlegendentry{circular control (blind)}
 
-  % independent estimator fires (label in the empty upper band, clear of the rising curve)
-  \node[pOx, font=\small, anchor=center, align=center] at (axis cs:20000,88)
-      {independent estimator\\ $\Delta_k$ \textbf{fires}};
-  % first threshold crossing
-  \draw[guide] (axis cs:16000,30) -- (axis cs:16000,8);
-  \node[pInk, font=\scriptsize, anchor=south, align=center] at (axis cs:16000,31)
-      {crosses $5\%$ at\\ $d\!\approx\!1.6{\times}10^{4}$};
-  % back-computed control is blind (label below the high curve, leader to the flat line)
-  \node[pBlind, font=\small, anchor=center, align=center] at (axis cs:2100,30)
-      {back-computed\\ control (blind)};
-  \draw[pBlind, line width=0.4pt] (axis cs:2100,20) -- (axis cs:2900,1.5);
-  % threshold label (2 lines, far upper-left where the curve is flat near zero -- clear of the rise)
-  \node[pCrimson, font=\scriptsize, anchor=west, align=left] at (axis cs:205000,15)
-      {falsification\\ threshold $5\%$};
+  % crossing dot on the threshold line (the crossing value and message are stated in the caption)
+  \addplot[only marks, mark=*, mark size=2.1pt, pOx, mark options={fill=pAmber, draw=pOx}, forget plot]
+      coordinates {(16000,5)};
 \end{axis}
 \end{tikzpicture}

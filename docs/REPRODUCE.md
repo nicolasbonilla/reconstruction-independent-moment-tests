@@ -17,7 +17,7 @@ interval at the real `ibm_fez` 50k-shot budget, and shows the joint `(m₀,m₁,
 
 | Figure (paper) | What it shows | Engine / script | Data fragment(s) |
 |---|---|---|---|
-| Fig. 1 `fig_hero` | the self-falsification loop (schematic) | native TikZ | — |
+| Fig. 1 `fig_hero` | the reconstruction-independent moment loop (schematic) | native TikZ | — |
 | Fig. 2 `fig_momentcone` | a moment sequence refutable by geometry | `export_momentcone_dat.py` | `momentcone_point.dat` |
 | Fig. 3 `fig_akw` | `A(k,ω)` Mott map + per-`k` screen | `spectral_lanczos.run_akw` → `export_akw_dat.py` | `akw_*.dat`, `akw_true/wrong.png` |
 | Fig. 4 `fig_sqw` | `S(q,ω)` gapped / `S^zz` gapless | `spectral_lanczos.struct_factors` → `export_sqw_dat.py` | `sqw_*.dat`, `dcp_*.dat` |

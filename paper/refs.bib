@@ -1,14 +1,19 @@
 % ==========================================================================
-% VERIFIED BibTeX for "Self-falsifying quantum spectroscopy"
-% Entries web-confirmed by the architecture board wf_25654ba6-2fe.
-% Entries with a `note` need a final edition/DOI/author check before submission.
 % ==========================================================================
 
 @article{SQDspec2608,
   author  = {Bonilla Vargas, Nicol\'as},
   title   = {Dynamical spectral functions from bitstring-sampled quantum subspaces: entanglement, not one-body magic, tracks the sampling cost},
-  journal = {arXiv preprint},
   eprint  = {2608.16436},
+  archivePrefix = {arXiv},
+  primaryClass = {quant-ph},
+  year    = {2026}
+}
+
+@article{BonillaReviewSQD2026,
+  author  = {Bonilla Vargas, Nicol\'as},
+  title   = {Machine learning for sample-based quantum diagonalization: generative configuration recovery and the classical-simulability frontier},
+  eprint  = {2608.05314},
   archivePrefix = {arXiv},
   primaryClass = {quant-ph},
   year    = {2026}
@@ -17,7 +22,6 @@
 @article{OEACV2026,
   author  = {Barron, Samantha V. and Mitchell, Bradley and Tripathi, Vinay and Grieco, Francesco and Rosen, Ilan and others},
   title   = {Observable Estimation in the Absence of Classical Verification},
-  journal = {arXiv preprint},
   eprint  = {2607.25998},
   archivePrefix = {arXiv},
   year    = {2026}
@@ -60,6 +64,28 @@
   archivePrefix = {arXiv}
 }
 
+@misc{VaqueroSabater2026,
+  author        = {Vaquero-Sabater, Nadia and Carreras, Abel and Broers, Bruno and Shirakawa, Tomonori and Yunoki, Seiji and Casanova, Jorge},
+  title         = {Noise and Configuration Recovery Impact on Quantum Selected Configuration Interaction},
+  year          = {2026},
+  eprint        = {2605.23697},
+  archivePrefix = {arXiv},
+  primaryClass  = {quant-ph},
+  note          = {noiseless LUCJ sampling yields compact, biased configurational spaces}
+}
+
+@article{LRSCI2025,
+  author        = {Reinholdt, Peter and Kjellgren, Erik Rosendahl and Kongsted, Jacob},
+  title         = {Linear Response Selected Configuration Interaction},
+  journal       = {J. Chem. Theory Comput.},
+  volume        = {22},
+  pages         = {358},
+  year          = {2026},
+  eprint        = {2510.02949},
+  archivePrefix = {arXiv},
+  primaryClass  = {physics.chem-ph}
+}
+
 @article{QSCI2023,
   author  = {Kanno, Keita and Kohda, Masaya and Imai, Ryosuke and Koh, Sho and Mitarai, Kosuke and Mizukami, Wataru and Nakagawa, Yuya O.},
   title   = {Quantum-Selected Configuration Interaction: Classical Diagonalization of Hamiltonians in Subspaces Selected by Quantum Computers},
@@ -67,7 +93,7 @@
   volume  = {8},
   pages   = {023268},
   year    = {2026},
-  doi     = {10.1103/PhysRevResearch.8.023268},
+  doi     = {10.1103/dmn4-snfx},
   eprint  = {2302.11320},
   archivePrefix = {arXiv}
 }
@@ -75,7 +101,6 @@
 @article{SKQD2501,
   author  = {Yu, Jeffery and Robledo Moreno, Javier and Iosue, Joseph T. and Bertels, Luke and Claudino, Daniel and Fuller, Bryce and Groszkowski, Peter and Humble, Travis S. and Jurcevic, Petar and Kirby, William and Maier, Thomas A. and Motta, Mario and Pokharel, Bibek and Seif, Alireza and Shehata, Amir and Sung, Kevin J. and Tran, Minh C. and Tripathi, Vinay and Mezzacapo, Antonio and Sharma, Kunal},
   title   = {Quantum-Centric Algorithm for Sample-Based Krylov Diagonalization},
-  journal = {arXiv preprint},
   eprint  = {2501.09702},
   archivePrefix = {arXiv},
   year    = {2025}
@@ -84,7 +109,6 @@
 @article{QKDHub2607,
   author  = {Mirzakhani, Mohammad and Kwon, Hyukgun and Moon, Kyungsun},
   title   = {Performance and Stability of Quantum Krylov Diagonalization for the Hubbard Model},
-  journal = {arXiv preprint},
   eprint  = {2607.23604},
   archivePrefix = {arXiv},
   year    = {2026}
@@ -223,8 +247,6 @@
 }
 
 % ==========================================================================
-% EXPANDED vanguard bibliography (board wf_0c6f2c4d-cd3, synthesis master_bibtex)
-% 7 subfields, web-verified; attached per enrichment map. 5 entries flagged for final author check.
 % ==========================================================================
 
 @article{McClean2017,
@@ -256,7 +278,6 @@
 @article{ParrishMcMahon2019,
   title = {Quantum Filter Diagonalization: Quantum Eigendecomposition without Full Quantum Phase Estimation},
   author = {Parrish, Robert M. and McMahon, Peter L.},
-  journal = {arXiv preprint},
   year = {2019},
   archivePrefix = {arXiv},
   eprint = {1909.08925},
@@ -1228,7 +1249,6 @@
 }
 
 % ==========================================================================
-% Generative-modelling / ML-on-quantum-data bridge (verified this session)
 % ==========================================================================
 
 @article{CarleoTroyer2017,
@@ -1238,42 +1258,19 @@
   year = {2017}, doi = {10.1126/science.aag2302},
   archivePrefix = {arXiv}, eprint = {1606.02318}
 }
-@article{TorlaiNQST2018,
-  title   = {Neural-network quantum state tomography},
-  author  = {Torlai, Giacomo and Mazzola, Guglielmo and Carrasquilla, Juan and Troyer, Matthias and Melko, Roger and Carleo, Giuseppe},
-  journal = {Nat. Phys.}, volume = {14}, number = {5}, pages = {447--450},
-  year = {2018}, doi = {10.1038/s41567-018-0048-5},
-  archivePrefix = {arXiv}, eprint = {1703.05334}
-}
-@inproceedings{GFlowNet2021,
-  title     = {Flow Network based Generative Models for Non-Iterative Diverse Candidate Generation},
-  author    = {Bengio, Emmanuel and Jain, Moksh and Korablyov, Maksym and Precup, Doina and Bengio, Yoshua},
-  booktitle = {Advances in Neural Information Processing Systems (NeurIPS 2021)},
-  volume    = {34}, pages = {27381--27394}, year = {2021},
-  archivePrefix = {arXiv}, eprint = {2106.04399}
-}
-@article{AlbergoKanwar2019,
-  title   = {Flow-based generative models for Markov chain Monte Carlo in lattice field theory},
-  author  = {Albergo, M. S. and Kanwar, G. and Shanahan, P. E.},
-  journal = {Phys. Rev. D}, volume = {100}, number = {3}, pages = {034515},
-  year = {2019}, doi = {10.1103/PhysRevD.100.034515},
-  archivePrefix = {arXiv}, eprint = {1904.12072}
-}
-
 % ==========================================================================
-% Vanguard SOTA additions (board wf_43c57509-c82, all web-verified 2026)
 % ==========================================================================
 
 @article{GranetARPES2026,
   author = {Granet, Etienne and Nigmatullin, Ramil and Stephen, David T. and Dreyer, Henrik},
   title = {Spectral functions on a quantum computer through system--environment interaction},
-  journal = {arXiv preprint}, eprint = {2605.01440},
+  eprint = {2605.01440},
   archivePrefix = {arXiv}, primaryClass = {quant-ph}, year = {2026}}
 
 @article{GranetDSF2026,
   author = {Granet, Etienne and Murota, Keisuke and Dreyer, Henrik and Yamamoto, Kentaro and Pedersen, Juan and Suwa, Hidemaro},
   title = {Dynamical structure factor with a pumping approach on a trapped-ion quantum computer},
-  journal = {arXiv preprint}, eprint = {2607.07138},
+  eprint = {2607.07138},
   archivePrefix = {arXiv}, primaryClass = {quant-ph}, year = {2026}}
 
 @article{Selisko2025,
@@ -1285,13 +1282,13 @@
 @article{SqDRIFT2508,
   author = {Piccinelli, Samuele and Baiardi, Alberto and Barison, Stefano and Rossmannek, Max and Carrera Vazquez, Almudena and Tacchino, Francesco and Mensa, Stefano and Altamura, Edoardo and Alavi, Ali and Motta, Mario and Robledo-Moreno, Javier and Kirby, William and Sharma, Kunal and Mezzacapo, Antonio and Tavernelli, Ivano},
   title = {Quantum chemistry with provable convergence via randomized sample-based Krylov quantum diagonalization},
-  journal = {arXiv preprint}, eprint = {2508.02578},
+  eprint = {2508.02578},
   archivePrefix = {arXiv}, primaryClass = {quant-ph}, year = {2025}}
 
 @article{GaberleJattana2026,
   author = {Gaberle, Cedric and Jattana, Manpreet Singh},
   title = {A Critical Assessment of the Sample-Based Quantum Diagonalization for Heisenberg and Hubbard Models},
-  journal = {arXiv preprint}, eprint = {2605.02494},
+  eprint = {2605.02494},
   archivePrefix = {arXiv}, primaryClass = {quant-ph}, year = {2026}}
 
 @book{LasserrePauwelsPutinar2022,
@@ -1308,22 +1305,16 @@
 
 @article{WangAcin2024,
   author = {Wang, Jie and Surace, Jacopo and Frerot, Ir\'en\'ee and Legat, Beno\^it and Renou, Marc-Olivier and Magron, Victor and Ac\'in, Antonio},
-  title = {Certifying Ground-State Properties of Many-Body Systems},
+  title = {Certifying ground-state properties of quantum many-body systems},
   journal = {Phys. Rev. X}, volume = {14}, number = {3}, pages = {031006}, year = {2024},
   doi = {10.1103/PhysRevX.14.031006}, archivePrefix = {arXiv}, eprint = {2310.05844}}
 
 @article{HuangPreskillSoleimanifar2024,
   author = {Huang, Hsin-Yuan and Preskill, John and Soleimanifar, Mehdi},
   title = {Certifying almost all quantum states with few single-qubit measurements},
-  journal = {arXiv preprint}, eprint = {2404.07281},
+  eprint = {2404.07281},
   archivePrefix = {arXiv}, primaryClass = {quant-ph}, year = {2024},
   note = {Published in Nature Physics (2025)}}
-
-@article{LiuPhotonicAdv2025,
-  author = {Liu, Zheng-Hao and Brunel, Romain and {\O}stergaard, Emil E. B. and Cordero, Oscar and Chen, Senrui and Wong, Yat and Nielsen, Jens A. H. and Bregnsbo, Axel B. and Zhou, Sisi and Huang, Hsin-Yuan and Oh, Changhun and Jiang, Liang and Preskill, John and Neergaard-Nielsen, Jonas S. and Andersen, Ulrik L.},
-  title = {Quantum learning advantage on a scalable photonic platform},
-  journal = {Science}, volume = {389}, number = {6767}, pages = {1332--1335}, year = {2025},
-  doi = {10.1126/science.adv2560}, archivePrefix = {arXiv}, eprint = {2502.07770}}
 
 @article{Lubinski2023,
   author = {Lubinski, Thomas and Johri, Sonika and Varosy, Paul and Coleman, Jeremiah and Zhao, Luning and Necaise, Jason and Baldwin, Charles H. and Mayer, Karl and Proctor, Timothy},
@@ -1331,65 +1322,235 @@
   journal = {IEEE Transactions on Quantum Engineering}, volume = {4}, pages = {1--32}, year = {2023},
   doi = {10.1109/TQE.2023.3253761}, archivePrefix = {arXiv}, eprint = {2110.03137}}
 
-@article{Bravyi2024,
-  author = {Bravyi, Sergey and Cross, Andrew W. and Gambetta, Jay M. and Maslov, Dmitri and Rall, Patrick and Yoder, Theodore J.},
-  title = {High-threshold and low-overhead fault-tolerant quantum memory},
-  journal = {Nature}, volume = {627}, pages = {778--782}, year = {2024},
-  doi = {10.1038/s41586-024-07107-7}, archivePrefix = {arXiv}, eprint = {2308.07915}}
-
-@article{MicrosoftMajorana2025,
-  author = {{Microsoft Quantum}},
-  title = {Interferometric single-shot parity measurement in {InAs--Al} hybrid devices},
-  journal = {Nature}, volume = {638}, pages = {651--655}, year = {2025},
-  doi = {10.1038/s41586-024-08445-2}}
-
 @article{Govia2025,
   title = {Bounding the systematic error in quantum error mitigation due to model violation},
   author = {Govia, L. C. G. and Majumder, S. and Barron, S. V. and Mitchell, B. and Seif, A. and Kim, Y. and Wood, C. J. and Pritchett, E. J. and Merkel, S. T. and McKay, D. C.},
   journal = {PRX Quantum}, volume = {6}, pages = {010354}, year = {2025},
   doi = {10.1103/PRXQuantum.6.010354}, archivePrefix = {arXiv}, eprint = {2408.10985}}
 
+@article{desCloizeauxPearson1962,
+  author  = {des Cloizeaux, Jacques and Pearson, J. J.},
+  title   = {Spin-Wave Spectrum of the Antiferromagnetic Linear Chain},
+  journal = {Phys. Rev.},
+  volume  = {128},
+  pages   = {2131},
+  year    = {1962},
+  doi     = {10.1103/PhysRev.128.2131}
+}
+@article{Muller1981,
+  author  = {M{\"u}ller, G. and Thomas, H. and Beck, H. and Bonner, J. C.},
+  title   = {Quantum spin dynamics of the antiferromagnetic linear chain in zero and nonzero magnetic field},
+  journal = {Phys. Rev. B},
+  volume  = {24},
+  pages   = {1429},
+  year    = {1981},
+  doi     = {10.1103/PhysRevB.24.1429}
+}
+@article{Voit1995,
+  author  = {Voit, Johannes},
+  title   = {One-dimensional Fermi liquids},
+  journal = {Rep. Prog. Phys.},
+  volume  = {58},
+  pages   = {977},
+  year    = {1995},
+  doi     = {10.1088/0034-4885/58/9/002}
+}
+@article{Damascelli2003,
+  author  = {Damascelli, Andrea and Hussain, Zahid and Shen, Zhi-Xun},
+  title   = {Angle-resolved photoemission studies of the cuprate superconductors},
+  journal = {Rev. Mod. Phys.},
+  volume  = {75},
+  pages   = {473},
+  year    = {2003},
+  doi     = {10.1103/RevModPhys.75.473}
+}
+
 @article{ShadowSpec2025,
   title = {Algorithmic Shadow Spectroscopy},
-  author = {Chan, Hong-Ye and Meister, Richard and Goh, Matthew L. and Koczor, B\'alint},
+  author = {Chan, Hans Hon Sang and Meister, Richard and Goh, Matthew L. and Koczor, B\'alint},
   journal = {PRX Quantum}, volume = {6}, pages = {010352}, year = {2025},
   doi = {10.1103/PRXQuantum.6.010352}, archivePrefix = {arXiv}, eprint = {2212.11036}}
 
 @article{Mortimer2026,
   title = {Bounding many-body properties under partial information and finite measurement statistics},
   author = {Mortimer, Luke and Zambrano, Leonardo and Ac\'in, Antonio and Farina, Donato},
-  journal = {arXiv preprint}, year = {2026},
+  year = {2026},
   archivePrefix = {arXiv}, eprint = {2601.10408}}
 
-@inproceedings{ChenCotlerHuangLi2021,
-  author = {Chen, Sitan and Cotler, Jordan and Huang, Hsin-Yuan and Li, Jerry},
-  title = {Exponential separations between learning with and without quantum memory},
-  booktitle = {2021 IEEE 62nd Annual Symposium on Foundations of Computer Science (FOCS)},
-  pages = {574--585}, year = {2021},
-  doi = {10.1109/FOCS52979.2021.00063}, archivePrefix = {arXiv}, eprint = {2111.05881}}
+@article{AbbottJayOare2025,
+  title = {Moment problems and bounds for matrix-valued smeared spectral functions},
+  author = {Abbott, Ryan and Jay, William I. and Oare, Patrick R.},
+  year = {2025},
+  archivePrefix = {arXiv}, eprint = {2508.01377}}
 
-@article{YeLiuDeng2025,
-  author = {Ye, Qi and Liu, Zhenhuan and Deng, Dong-Ling},
-  title = {Exponential Advantage from One More Replica in Estimating Nonlinear Properties of Quantum States},
-  journal = {arXiv preprint}, year = {2025},
-  archivePrefix = {arXiv}, primaryClass = {quant-ph}, eprint = {2509.24000}}
+@article{FAST2025,
+  title = {Fermionic-Adapted Shadow Tomography for dynamical correlation functions},
+  author = {Ko, Taehee and Han, Mancheon and Park, Hyowon and Choi, Sangkook},
+  year = {2025},
+  archivePrefix = {arXiv}, eprint = {2508.03192}, primaryClass = {quant-ph}}
 
-@article{Rao1948,
-  author = {Rao, C. R.},
-  title = {Large sample tests of statistical hypotheses concerning several parameters with applications to problems of estimation},
-  journal = {Proc. Cambridge Philos. Soc.}, volume = {44}, number = {1}, pages = {50--57}, year = {1948},
-  doi = {10.1017/S0305004100023987}}
+@article{CertifyED2026,
+  title = {{CERTIFY-ED}: A Multi-Layer Verification Framework for Exact Diagonalization of Quantum Many-Body Systems},
+  author = {Vehale, Sarang and Goel, Ritu},
+  year = {2026},
+  archivePrefix = {arXiv}, eprint = {2605.11787}, primaryClass = {quant-ph}}
 
-@book{LehmannRomano2005,
-  author = {Lehmann, E. L. and Romano, J. P.},
-  title = {Testing Statistical Hypotheses}, edition = {3}, publisher = {Springer}, address = {New York}, year = {2005}}
+@article{Hausman1978,
+  author = {Hausman, Jerry A.},
+  title = {Specification Tests in Econometrics},
+  journal = {Econometrica}, volume = {46}, number = {6}, pages = {1251--1271}, year = {1978},
+  doi = {10.2307/1913827}}
 
-@article{reviewMLSQD,
-  author  = {Bonilla Vargas, Nicol\'as},
-  title   = {Machine learning for sample-based quantum diagonalization: generative configuration recovery and the classical-simulability frontier},
-  journal = {arXiv preprint},
-  eprint  = {2608.05314},
+@article{CausalBootstrap2026,
+  title = {The Causal Bootstrap: Bounding Smeared Spectral Functions from Non-Perturbative Euclidean Data},
+  author = {Abbott, Ryan and Fields, Sarah and Jay, William I. and Oare, Patrick and Saccardi, Matteo},
+  year = {2026},
+  archivePrefix = {arXiv}, eprint = {2605.20509}}
+
+@article{CertifiedSpectral2026,
+  title = {Certified spectral functions from lattice Monte Carlo data},
+  author = {Mutzel, Sophie and Tilloy, Antoine},
+  year = {2026},
+  archivePrefix = {arXiv}, eprint = {2606.09791}}
+
+@article{TurkowskiFreericks2006,
+  author  = {Turkowski, V. M. and Freericks, J. K.},
+  title   = {Spectral moment sum rules for strongly correlated electrons in time-dependent electric fields},
+  journal = {Phys. Rev. B},
+  volume  = {73},
+  number  = {7},
+  pages   = {075108},
+  year    = {2006},
+  doi     = {10.1103/PhysRevB.73.075108},
+  note    = {Erratum: Phys. Rev. B 73, 209902 (2006)}
+}
+
+@article{HuangLiang2023,
+  author        = {Huang, Li and Liang, Shuang},
+  title         = {Stochastic pole expansion method for analytic continuation of the {Green's} function},
+  journal       = {Phys. Rev. B},
+  volume        = {108},
+  number        = {23},
+  pages         = {235143},
+  year          = {2023},
+  doi           = {10.1103/PhysRevB.108.235143},
   archivePrefix = {arXiv},
-  primaryClass = {quant-ph},
-  year    = {2026}
+  eprint        = {2307.11324}
+}
+
+@article{ZhangGull2024,
+  author        = {Zhang, Lei and Gull, Emanuel},
+  title         = {Minimal pole representation and controlled analytic continuation of {Matsubara} response functions},
+  journal       = {Phys. Rev. B},
+  volume        = {110},
+  number        = {3},
+  pages         = {035154},
+  year          = {2024},
+  doi           = {10.1103/PhysRevB.110.035154},
+  archivePrefix = {arXiv},
+  eprint        = {2312.10576}
+}
+
+@article{IrmejsSantos2025,
+  author  = {Irmejs, Reinis and Santos, Raul A.},
+  title   = {Approximating dynamical correlation functions with constant depth quantum circuits},
+  journal = {Quantum},
+  volume  = {9},
+  pages   = {1639},
+  year    = {2025},
+  doi     = {10.22331/q-2025-02-19-1639},
+  archivePrefix = {arXiv},
+  eprint  = {2406.03204},
+  primaryClass = {quant-ph}
+}
+
+@article{Piccinelli2026,
+  author  = {Piccinelli, Samuele and Tacchino, Francesco and Tavernelli, Ivano and Carleo, Giuseppe},
+  title   = {A circuit-differentiation framework for {Green's} functions on quantum computers},
+  journal = {Quantum},
+  volume  = {10},
+  pages   = {2060},
+  year    = {2026},
+  doi     = {10.22331/q-2026-04-13-2060},
+  archivePrefix = {arXiv},
+  eprint  = {2505.05563},
+  primaryClass = {quant-ph}
+}
+
+@article{KunisNagel2021,
+  author  = {Kunis, Stefan and Nagel, Dominik},
+  title   = {On the smallest singular value of multivariate {Vandermonde} matrices with clustered nodes},
+  journal = {Linear Algebra Appl.},
+  volume  = {604},
+  pages   = {1--20},
+  year    = {2020},
+  doi     = {10.1016/j.laa.2020.06.003},
+  archivePrefix = {arXiv},
+  eprint  = {1907.07119}
+}
+
+@inproceedings{Moitra2015,
+  author        = {Moitra, Ankur},
+  title         = {Super-resolution, Extremal Functions and the Condition Number of {Vandermonde} Matrices},
+  booktitle     = {Proceedings of the Forty-Seventh Annual ACM Symposium on Theory of Computing (STOC 2015)},
+  pages         = {821--830},
+  year          = {2015},
+  doi           = {10.1145/2746539.2746561},
+  archivePrefix = {arXiv},
+  eprint        = {1408.1681}
+}
+
+@article{Donoho1992,
+  author  = {Donoho, David L.},
+  title   = {Superresolution via Sparsity Constraints},
+  journal = {SIAM J. Math. Anal.},
+  volume  = {23},
+  number  = {5},
+  pages   = {1309--1331},
+  year    = {1992},
+  doi     = {10.1137/0523074}
+}
+
+@article{BatenkovClustered2020,
+  author        = {Batenkov, Dmitry and Demanet, Laurent and Goldman, Gil and Yomdin, Yosef},
+  title         = {Conditioning of Partial Nonuniform {Fourier} Matrices with Clustered Nodes},
+  journal       = {SIAM J. Matrix Anal. Appl.},
+  volume        = {41},
+  number        = {1},
+  pages         = {199--220},
+  year          = {2020},
+  doi           = {10.1137/18M1212197},
+  archivePrefix = {arXiv},
+  eprint        = {1809.00658}
+}
+
+@book{DetteStudden1997,
+  author    = {Dette, Holger and Studden, William J.},
+  title     = {The Theory of Canonical Moments with Applications in Statistics, Probability, and Analysis},
+  series    = {Wiley Series in Probability and Statistics},
+  publisher = {Wiley},
+  address   = {New York},
+  year      = {1997},
+  isbn      = {9780471109914}
+}
+
+@article{PottsTasche2013,
+  author  = {Potts, Daniel and Tasche, Manfred},
+  title   = {Parameter Estimation for Nonincreasing Exponential Sums by {Prony}-like Methods},
+  journal = {Linear Algebra Appl.},
+  volume  = {439},
+  number  = {4},
+  pages   = {1024--1039},
+  year    = {2013},
+  doi     = {10.1016/j.laa.2012.10.036}
+}
+
+@book{KarlinStudden1966,
+  author    = {Karlin, Samuel and Studden, William J.},
+  title     = {Tchebycheff Systems: With Applications in Analysis and Statistics},
+  series    = {Pure and Applied Mathematics},
+  volume    = {15},
+  publisher = {Interscience (Wiley)},
+  address   = {New York},
+  year      = {1966}
 }

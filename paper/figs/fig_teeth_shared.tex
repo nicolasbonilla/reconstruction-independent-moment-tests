@@ -1,0 +1,41 @@
+% fig_teeth_shared.tex -- native pgfplots. The DEVICE-REALIZABLE teeth: both branches on the SAME
+% subspace ground state |0_S> (Eq. app-leak, k=1), beside the idealized full-sector-GS curve.
+% L=12 doped Hubbard ring (nup=nd=4), U/t=8, sector Lanczos (run_teeth_shared.py).
+% x = determinants kept d (log, REVERSED: full support left where curves ~0, truncation right where they saturate ~100%).
+% Clean layout: legend upper-left (curves ~0 there); two crossing dots on the threshold (values given in the caption,
+% not on the plot); single headline in the lower-right pocket below the saturated curves, anchor=east so it cannot spill.
+\begin{tikzpicture}
+\begin{axis}[
+  paperaxis, width=\columnwidth, height=6.8cm,
+  xmode=log, x dir=reverse,
+  xlabel={determinants kept $d$ \; (subspace size; truncation $\rightarrow$)},
+  ylabel={first-moment discrepancy $\Delta_1$ (\%)},
+  xmin=180, xmax=260000, ymin=-6, ymax=112,
+  xtick={100000,10000,1000}, xticklabels={$10^5$,$10^4$,$10^3$},
+  ytick={0,20,40,60,80,100},
+  legend style={at={(0.03,0.98)}, anchor=north west, font=\scriptsize,
+                draw=pMuted, fill=white, fill opacity=0.92, text opacity=1,
+                row sep=1pt, inner sep=3pt},
+  legend cell align=left, clip=false,
+]
+  % shaded region under the device-realizable (shared-state) discrepancy
+  \addplot[firesband, draw=none, forget plot] table[x=d,y=rshared]{figs/teeth_shared.dat} \closedcycle;
+  % falsification threshold
+  \addplot[threshold] coordinates {(260000,5) (180,5)};
+  \addlegendentry{$5\%$ threshold}
+  % idealized: independent estimator on the FULL-sector ground state
+  \addplot[pIndigo, thick, densely dashed, mark=o, mark size=1.5pt,
+           mark options={draw=pIndigo, line width=0.6pt}]
+      table[x=d,y=rideal]{figs/teeth_shared.dat};
+  \addlegendentry{idealized (full GS)}
+  % device-realizable: both branches on the SAME subspace GS |0_S>
+  \addplot[firesline] table[x=d,y=rshared]{figs/teeth_shared.dat};
+  \addlegendentry{shared state (device)}
+
+  % crossing dots on the threshold line (quantitative values and message are in the caption, not floating on the data)
+  \addplot[only marks, mark=*, mark size=2.1pt, pOx, mark options={fill=pAmber, draw=pOx}, forget plot]
+      coordinates {(43555,5)};
+  \addplot[only marks, mark=*, mark size=2.1pt, pIndigo, mark options={fill=white, draw=pIndigo}, forget plot]
+      coordinates {(15977,5)};
+\end{axis}
+\end{tikzpicture}

@@ -1,45 +1,22 @@
-% fig_heron.tex -- native pgfplots (figure*, full width). Real IBM Heron demonstration.
-% clip=true on both panels: the hardware A(omega) data runs out to omega~21, so without clipping it spills
-% past xmax=12 across the panel gap into panel (b). No label needs to sit outside, so clipping is safe.
+% fig_heron.tex -- native pgfplots (single column). Executability precursor: real IBM Heron L=6 full-sector recovery.
+% Single panel: the exact target A(omega) vs the Heron SQD reconstruction, which coincides by full-sector coverage.
+% (The graded coverage test that actually exercises the falsifier from retained counts is the L=8 curve, Fig. device.)
 \begin{tikzpicture}
-\begin{groupplot}[
-  group style={group size=2 by 1, horizontal sep=2.7cm},
-  paperaxis, width=8.3cm, height=6.2cm,
-]
-% ---- panel (a): exact vs hardware A(omega) ----
-\nextgroupplot[
+\begin{axis}[
+  paperaxis, width=8.4cm, height=6.0cm,
   xlabel={$\omega-E_0$ \; (energy above ground state)},
   ylabel={spectral weight $A(\omega)$},
-  xmin=2, xmax=12, ymin=0, ymax=0.64,
-  title={\small\textbf{(a)} real-hardware reconstruction (full-sector coverage)},
+  xmin=2, xmax=12, ymin=0, ymax=0.66,
   clip=true,
 ]
   \addplot[draw=pIndigo, thick, fill=pIndigo, fill opacity=0.14]
       table[x=w,y=A]{figs/heron_exact.dat} \closedcycle;
-  % Heron SQD reconstruction is the FULL DENSE A(omega) (600 pts) -- plotted as a continuous curve, not sparse
-  % markers (which would falsely imply point-wise reconstruction); coincides with exact by full-sector coverage.
   \addplot[pOx, densely dashed, line width=0.9pt] table[x=w,y=Ahw]{figs/heron_hw.dat};
   \node[pIndigo, font=\small, anchor=east] at (axis cs:11.7,0.33) {exact target $A(\omega)$};
   \node[pOx, font=\small, anchor=east] at (axis cs:11.7,0.22) {Heron SQD reconstruction};
-  % concrete real-run provenance (upper-right empty region) -- makes the coverage proof tangible
   \node[draw=pIndigo, rounded corners=2pt, fill=pIndigo!7, inner sep=3pt, anchor=north east,
-        align=left, font=\scriptsize] at (axis cs:11.85,0.625)
+        align=left, font=\scriptsize] at (axis cs:11.85,0.645)
       {\textbf{IBM Heron} \texttt{ibm\_fez}, 12 qubits\\ $50{,}000$ shots; TREX $+$ twirling $+$ DD\\
        recovered full sector $|\mathcal S|{=}300/300$\\ $\Rightarrow$ reconstruction exact \emph{by coverage}};
-% ---- panel (b): flat total weight vs rising first moment ----
-\nextgroupplot[
-  xlabel={induced weight misplacement (\%)},
-  ylabel={moment residual (\%)},
-  xmin=0, xmax=50, ymin=-4, ymax=19,
-  ytick={0,5,10,15},
-  title={\small\textbf{(b)} flat total weight vs.\ rising first moment},
-  clip=true,
-]
-  \addplot[firesline] table[x=f,y=r1]{figs/heron_sweep.dat};
-  \addplot[blindline] table[x=f,y=r0]{figs/heron_sweep.dat};
-  \node[pOx, font=\small, anchor=east] at (axis cs:30,15)
-      {first moment $m_1$ \textbf{fires}};
-  \node[pBlind, font=\small] at (axis cs:25,-2.3)
-      {total weight $m_0=\langle J^2\rangle$ (blind, flat)};
-\end{groupplot}
+\end{axis}
 \end{tikzpicture}

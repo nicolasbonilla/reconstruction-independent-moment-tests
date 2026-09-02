@@ -1,0 +1,48 @@
+% fig_momentmc.tex -- native pgfplots. Direct Monte-Carlo demonstration of the
+% interval-moment test (validates the analytic interval + power vs coverage).
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=2 by 1, horizontal sep=1.7cm},
+  paperaxis, width=0.5\textwidth, height=5.4cm]
+
+% ---------- (a) realized estimator is Gaussian; FP matches nominal ----------
+\nextgroupplot[
+  xlabel={realized estimator $\widehat m_1$ over $N_s{=}5{\times}10^4$ shots},
+  ylabel={Monte-Carlo count ($M{=}4000$)},
+  title={(a) the analytic interval is faithful},
+  xmin=3.95, xmax=4.51, ymin=0, ymax=460,
+  ytick={0,100,200,300,400},
+  legend style={at={(0.985,0.97)},anchor=north east,font=\scriptsize,draw=none,fill=none},
+  clip=false]
+\addplot[ybar, bar width=1.7pt, fill=pTeal!30, draw=pTeal!70, forget plot]
+  table[x=x,y=count]{figs/momentmc_hist.dat};
+\addplot[pInk, line width=1pt, smooth] table[x=x,y=gauss]{figs/momentmc_hist.dat};
+\addlegendentry{$\mathcal{N}(\widehat m_1^{\rm op},\sigma^2)$}
+% +/- z*sigma band: dashes stopped just above the peak so the upper corners stay clear for labels
+\addplot[pCrimson, line width=0.9pt, dashed, forget plot] coordinates {(4.06998,0)(4.06998,300)};
+\addplot[pCrimson, line width=0.9pt, dashed, forget plot] coordinates {(4.38420,0)(4.38420,300)};
+\node[pCrimson, font=\scriptsize, anchor=south, align=center] at (axis cs:4.227,306)
+  {$\pm z\sigma$ threshold band};
+\node[pOx, font=\scriptsize, anchor=north west, align=left] at (axis cs:3.965,440)
+  {realized FP\\ $4.5\%$ vs $5\%$};
+
+% ---------- (b) detection power vs determinant coverage ----------
+\nextgroupplot[
+  xlabel={determinant coverage $d/|\mathcal{S}|$ (\%)},
+  ylabel={detection power $P(\mathrm{reject})$},
+  title={(b) power vs coverage},
+  xmin=0, xmax=102, ymin=-0.03, ymax=1.12,
+  ytick={0,0.25,0.5,0.75,1}]
+\addplot[threshold, forget plot] coordinates {(0,0.05)(102,0.05)};
+\node[pCrimson, font=\scriptsize, anchor=west] at (axis cs:2,0.13) {$\alpha=5\%$};
+\addplot[pTeal, line width=1.1pt, mark=*, mark size=1.3pt,
+         error bars/.cd, y dir=both, y explicit]
+  table[x=cov,y=power,y error plus expr=\thisrow{hi}-\thisrow{power},
+        y error minus expr=\thisrow{power}-\thisrow{lo}]{figs/momentmc_power.dat};
+\node[pOx, font=\scriptsize, anchor=south west, align=left] at (axis cs:20,0.36)
+  {dip at $53\%$:\\ accidental\\ $m_1$ match};
+\draw[guide] (axis cs:46,0.60) -- (axis cs:53,0.82);
+\node[pInk, font=\scriptsize, anchor=south east, align=right] at (axis cs:98,0.14)
+  {FP anchor\\ at full recon};
+\end{groupplot}
+\end{tikzpicture}

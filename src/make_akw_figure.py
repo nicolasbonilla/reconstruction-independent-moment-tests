@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """make_akw_figure.py — the RICH showpiece figure: the single-particle spectral function A(k,omega) of the
-Hubbard ring (Mott gap, upper/lower Hubbard bands, spinon-holon dispersion), and the self-falsifying screen
+Hubbard ring (Mott gap, upper/lower Hubbard bands, spinon-holon dispersion), and the moment screen
 operating on it. Beautiful warm heatmaps in the paper style, echoing the companion paper's A(k,omega)."""
 import os, sys
 import numpy as np
@@ -102,7 +102,7 @@ def main():
     ax[2].yaxis.set_label_position('right'); ax[2].yaxis.tick_right(); ax[2].set_ylabel(r'$k/\pi$')
     ax[2].grid(alpha=0.2); PS.finish(ax[2])
     ax[2].spines['right'].set_visible(True); ax[2].spines['left'].set_visible(False)
-    fig.suptitle(r'The self-falsifying screen on the single-particle spectral function  $A(k,\omega)$  of the Hubbard model',
+    fig.suptitle(r'The moment screen on the single-particle spectral function  $A(k,\omega)$  of the Hubbard model',
                  y=1.00, fontsize=11.5)
     fig.tight_layout()
     fig.savefig(os.path.join(PAP, 'fig_akw.pdf')); fig.savefig(os.path.join(PAP, 'fig_akw.png'), dpi=200)

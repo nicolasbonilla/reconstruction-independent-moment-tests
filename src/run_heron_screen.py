@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-PRESENT-DAY DEMO — the self-falsifying screen applied to REAL IBM Heron SQD spectral data (board wf_00831cb3-9d6, step 5).
+PRESENT-DAY DEMO — the moment screen applied to REAL IBM Heron SQD spectral data (board wf_00831cb3-9d6, step 5).
 
 Honest, no-advantage-claim demonstration: run the transportable sum-rule screen on the actual hardware-reconstructed
 single-particle spectral function A(omega) from the ibm_fez SQD job of arXiv:2608.16436, in the window where classical
@@ -101,12 +101,12 @@ def main():
     ax[1].legend(fontsize=8)
     for a in ax:
         a.grid(alpha=0.25)
-    fig.suptitle('SELF-FALSIFYING SCREEN on real IBM Heron SQD data (arXiv:2608.16436) — future-facing insurance, no advantage claim',
+    fig.suptitle('MOMENT SCREEN on real IBM Heron SQD data (arXiv:2608.16436) — future-facing insurance, no advantage claim',
                  y=1.02, fontsize=10.5)
     fig.tight_layout()
     fig.savefig(os.path.join(FIG, f'{DATE}_heron_screen.png'), dpi=140, bbox_inches='tight')
 
-    print('=== SELF-FALSIFYING SCREEN on REAL IBM Heron SQD data ===')
+    print('=== MOMENT SCREEN on REAL IBM Heron SQD data ===')
     print(f'exact target moments:   m0={m0e:.4f}  m1={m1e:.4f}  centroid={cen_e:.4f}')
     print(f'hardware moments:       m0={m0h:.4f}  m1={m1h:.4f}  centroid={cen_h:.4f}')
     print(f'screen residuals (hw vs target): weight {100*r0:.1f}%  first-moment {100*r1:.1f}%  centroid {100*r_cen:.1f}%')

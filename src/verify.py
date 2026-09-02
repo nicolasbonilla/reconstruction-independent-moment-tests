@@ -27,7 +27,7 @@ def approx(name, got, want, tol=TOL):
 
 def main():
     L, U, Ns, z = 6, 4.0, 50_000, 1.96
-    print(f"Self-falsifying quantum spectroscopy -- reproducibility check (L={L}, U/t={U:.0f})\n")
+    print(f"Reconstruction-independent moment tests -- reproducibility check (L={L}, U/t={U:.0f})\n")
 
     # --- exact ground state of the doped 2/3-filled sector + current probe ---
     nup = nd = L // 3

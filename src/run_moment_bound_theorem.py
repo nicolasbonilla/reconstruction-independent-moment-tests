@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-STRENGTHENING (same-tier, honest) — the self-falsifying screen with a CLOSED-FORM certified miss-distance.
+STRENGTHENING (same-tier, honest) — the moment screen with a CLOSED-FORM certified miss-distance.
 
 CORRECTED per adversarial board wf_e90ca160-4cf. The guarantee is the CLASSICAL Chebyshev-Markov-Stieltjes /
 truncated Hausdorff moment problem (Golub-Meurant "Matrices, Moments and Quadrature", Princeton 2010; KPM Weisse et

@@ -1,0 +1,36 @@
+% fig_device.tex -- native pgfplots. Device-side coverage-leak curve on IBM Heron (L=8, ibm_fez).
+% Single panel: reconstruction-independent Delta_0 vs shot budget, device (retained counts) vs noiseless Aer.
+% Support coverage is put on a SECONDARY TOP AXIS (4k->35%, 16k->71%, 30k->85%, 50k->94%), so NO text sits on the data.
+\begin{tikzpicture}
+% ---- main axis: Delta_0 vs shot budget ----
+\begin{axis}[
+  paperaxis, width=8.6cm, height=6.4cm,
+  xlabel={shots per Krylov circuit \; ($\times 10^{3}$)},
+  ylabel={coverage residual $\Delta_0=|m_0-\bar m_0|$},
+  xmin=0, xmax=55, ymin=0, ymax=0.40,
+  xtick={4,16,30,50}, xticklabels={$4$,$16$,$30$,$50$},
+  ytick={0,0.1,0.2,0.3,0.4},
+  legend style={at={(0.97,0.80)}, anchor=north east, font=\small, draw=none, fill=none},
+  clip=false,
+]
+  % device: retained ibm_fez per-time counts (support set S is the only device-derived quantity)
+  \addplot[pOx, thick, mark=*, mark size=2.6pt]
+      coordinates {(4,0.372638) (16,0.123224) (30,0.032302) (50,0.004417)};
+  \addlegendentry{device (\texttt{ibm\_fez})}
+  % noiseless Aer of the IDENTICAL Krylov--Trotter circuits, matched shots
+  \addplot[pIndigo, densely dashed, thick, mark=square, mark size=2.3pt]
+      coordinates {(4,0.319100) (16,0.160700) (30,0.045100) (50,0.023800)};
+  \addlegendentry{noiseless (same circuits)}
+\end{axis}
+% ---- secondary TOP axis: support coverage at the same shot positions (clean, no data overlap) ----
+\begin{axis}[
+  paperaxis, width=8.6cm, height=6.4cm,
+  xmin=0, xmax=55, ymin=0, ymax=0.40,
+  axis x line=top, axis y line=none,
+  xtick={4,16,30,50}, xticklabels={$35$,$71$,$85$,$94$},
+  xlabel={support coverage $|\mathcal S|/|\mathcal S_{\mathrm{sector}}|$ \; (\%)},
+  x tick label style={font=\scriptsize}, xlabel style={font=\small},
+]
+  \addplot[draw=none, forget plot] coordinates {(4,0) (50,0)};
+\end{axis}
+\end{tikzpicture}

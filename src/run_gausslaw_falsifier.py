@@ -2,7 +2,7 @@
 """
 SECOND DOMAIN — the lattice-gauge Gauss-law falsifier (maximize-board wf_00831cb3-9d6; decides cross-domain vs single-system).
 
-Instantiates the transportable self-falsifying kernel in lattice gauge theory: the U(1) quantum link model (lattice
+Instantiates the transportable moment-test kernel in lattice gauge theory: the U(1) quantum link model (lattice
 Schwinger model), the standard quantum-simulation gauge testbed. The falsifier is GAUSS'S LAW — a set of LOCAL
 operator constraints G_n = E_n - E_{n-1} - q_n that EVERY physical (gauge-invariant) state satisfies EXACTLY
 (<G_n> = 0, <sum_n G_n^2> = 0). It is:

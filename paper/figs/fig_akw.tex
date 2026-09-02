@@ -13,7 +13,7 @@
   \addplot graphics[xmin=0, xmax=2, ymin=-9, ymax=9] {figs/akw_true.png};
   \addplot[white, opacity=0.5, densely dashed, line width=0.5pt, forget plot] coordinates {(0,0) (2,0)};
   % Mott gap ANCHORED to the band edges at k_F=pi/2: white dots on mu+/mu- + double arrow between them
-  \draw[{Latex[length=1.5mm]}-{Latex[length=1.5mm]}, white, line width=0.7pt] (axis cs:0.5,-2.404) -- (axis cs:0.5,2.404);
+  \draw[{Latex[length=1.5mm]}-{Latex[length=1.5mm]}, white, line width=0.7pt] (axis cs:0.5,-2.484) -- (axis cs:0.5,2.484);
   \addplot[only marks, mark=*, mark size=1.5pt, forget plot, mark options={fill=pCream, draw=pInk, line width=0.4pt}] coordinates {(0.5,2.484) (0.5,-2.484)};
   \node[white, font=\scriptsize, anchor=west] at (axis cs:0.045,0.62) {$E_F$};
   \node[white, font=\scriptsize, anchor=west] at (axis cs:0.58,0.85) {Mott gap $\Delta$};
@@ -47,7 +47,7 @@
   xlabel={$\Delta_1=|\widehat m_1-\bar m_1|$ ($t$)}, ylabel={$k/\pi$},
   y label style={at={(axis description cs:1.18,0.5)}, rotate=180}, ytick={0,0.5,1,1.5,2},
   yticklabel pos=right, xlabel style={align=center},
-  title={\small screen fires per $k$},
+  title={\small moment discrepancy per $k$},
 ]
   % m1 fires: the reconstruction-independent centroid mismatch Delta_1(k), largest at the band extrema
   \addplot[firesline] table[x=resid, y=k] {figs/akw_screen.dat};

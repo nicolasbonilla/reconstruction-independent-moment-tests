@@ -1,39 +1,28 @@
-% fig_gausslaw.tex -- native pgfplots. U(1) lattice-Schwinger Gauss-law falsifier.
+% fig_gausslaw.tex -- native pgfplots. HONEST state-level Gauss-law diagnostic: the exact,
+% same-sample constraint <sum_x G_x^2> = 0 fires on gauge-symmetry-breaking contamination of the
+% PREPARED STATE (a different error class and a different mechanism from the reconstruction moment
+% screen). NOT a moment screen on a spectrum.
 \begin{tikzpicture}
 \begin{axis}[
   paperaxis,
-  width=\columnwidth, height=6.6cm,
-  xlabel={gauge-breaking error rate $p$ (\%)},
-  ylabel={$\langle\textstyle\sum_x G_x^2\rangle$},
-  xmin=0, xmax=50, ymin=-0.18, ymax=3.95,
-  xtick={0,10,20,30,40,50},
-  ytick={0,1,2,3},
+  width=\columnwidth, height=6.4cm,
+  xlabel={admixed gauge-violating fraction $\epsilon$},
+  ylabel={$\langle\textstyle\sum_x G_x^2\rangle$ (exact, same-sample)},
+  xmin=0, xmax=0.31, ymin=-0.02, ymax=0.34,
+  xtick={0,0.1,0.2,0.3},
+  ytick={0,0.1,0.2,0.3},
   clip=false,
 ]
-  \addplot[pMuted, line width=0.5pt, forget plot] coordinates {(0,0) (50,0)};
-  % shaded region under the Gauss-law violation (harmonizes with fig_teeth; no threshold -- any >0 fires)
-  \addplot[firesband, draw=none, forget plot] table[x=p, y=gauss] {figs/gauss.dat} \closedcycle;
-  % Gauss-law violation: the native falsifier fires
-  \addplot[firesline] table[x=p, y=gauss] {figs/gauss.dat};
-  % global charge check: comparatively blind
-  \addplot[blindline] table[x=p, y=charge] {figs/gauss.dat};
+  \addplot[pMuted, line width=0.5pt, forget plot] coordinates {(0,0) (0.31,0)};
+  \addplot[firesband, draw=none, forget plot] table[x=eps, y=g2] {figs/gauss_state.dat} \closedcycle;
+  \addplot[firesline] table[x=eps, y=g2] {figs/gauss_state.dat};
 
-  % direct labels (off the data)
-  \node[pOx, font=\small, anchor=east] at (axis cs:49.5,3.35)
-      {the falsifier \textbf{fires}};
-  % blind label: 2 lines, right-aligned inside the frame, in the clear band below the high firesline and above the flat blindline
-  \node[pBlind, font=\small, anchor=east, align=right] at (axis cs:49,1.02)
-      {charge check\\ (comparatively blind)};
-  % physical-state note: below the banner, clear of the rising curve; arrow to the p=0 origin
-  \node[pInk, font=\scriptsize, anchor=west, align=left] at (axis cs:2.2,2.02)
-      {physical state:\\ $\langle\sum_x G_x^2\rangle=0$};
-  \draw[pInk, -{Stealth[length=1.4mm]}, line width=0.4pt] (axis cs:1.9,1.62) -- (axis cs:0.5,0.13);
-
-  % cross-domain banner in the clear upper-left region (curve is low for small p)
-  \node[align=left, font=\small, draw=pIndigo, rounded corners=2.5pt,
-        fill=pIndigo!6, inner sep=4pt, anchor=north west] at (axis cs:1.4,3.85)
-      {\textbf{cross-domain falsifier}\\[1pt]
-       \scriptsize U(1) lattice Schwinger\\
-       \scriptsize different error class,\\ same construction};
+  \node[pOx, font=\small, anchor=west, align=left] at (axis cs:0.015,0.30)
+      {Gauss-law violation \textbf{flags}};
+  \node[pOx, font=\scriptsize, anchor=west] at (axis cs:0.015,0.265)
+      {(exact operator identity on the prepared state)};
+  \node[pInk, font=\scriptsize, anchor=west, align=left] at (axis cs:0.035,0.155)
+      {physical state ($\epsilon{=}0$):\\ $\langle\sum_x G_x^2\rangle=0$};
+  \draw[pInk, -{Stealth[length=1.4mm]}, line width=0.4pt] (axis cs:0.03,0.13) -- (axis cs:0.004,0.006);
 \end{axis}
 \end{tikzpicture}

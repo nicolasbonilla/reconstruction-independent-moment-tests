@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-THE TEETH EXPERIMENT — the make-or-break gate for the whole self-falsifying kernel (maximize-board wf_00831cb3-9d6).
+THE TEETH EXPERIMENT — the make-or-break gate for the whole moment-test kernel (maximize-board wf_00831cb3-9d6).
 
 The board's decisive requirement: the sum-rule falsifier only has TEETH if it is an INDEPENDENT estimator, not
 circular. The error class SQD actually suffers is SUBSPACE TRUNCATION: the dynamical spectrum A_J(omega) is
@@ -102,7 +102,7 @@ def main():
                        'teeth_confirmed': bool(teeth),
                        'verdict': ('TEETH CONFIRMED: the INDEPENDENT ground-state estimator fires on subspace truncation '
                                    '(residual grows to %.1f%% at 20%% coverage) while the back-computed check is blind (0). '
-                                   'The self-falsifying kernel is NOT circular on this error class. Honest blind spot stated.' % (100 * r_indep_worst)
+                                   'The moment-test kernel is NOT circular on this error class. Honest blind spot stated.' % (100 * r_indep_worst)
                                    if teeth else 'NO TEETH / inspect')}}
     os.makedirs(RES, exist_ok=True); os.makedirs(FIG, exist_ok=True)
     with open(os.path.join(RES, f'{DATE}_falsifier_teeth.json'), 'w') as fjs:
