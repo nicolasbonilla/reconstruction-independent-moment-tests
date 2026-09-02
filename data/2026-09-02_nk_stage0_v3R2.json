@@ -1,0 +1,45 @@
+{
+ "_provenance": {
+  "script": "nk_stage0_v3R2.py",
+  "sim_only": true,
+  "qpu_spent": 0,
+  "sealed_by": "chair ruling wf_e79137d4-be0 (rule fixed before any replica ran)",
+  "rule": "mean+1.645*SE<thr PASS | mean-1.645*SE>thr FAIL | else STOP stands",
+  "threshold": 0.026666666666666665,
+  "seeds": [
+   "seed0(v3)",
+   "seed1(v3)",
+   "seed2",
+   "seed3",
+   "seed4",
+   "seed5",
+   "seed6",
+   "seed7",
+   "seed8",
+   "seed9"
+  ]
+ },
+ "B_FT_replicas": {
+  "seed0": 0.026275620436977676,
+  "seed1": 0.026673859673547295,
+  "seed2": 0.024130998830994177,
+  "seed3": 0.02931735251896439,
+  "seed4": 0.022052122413378117,
+  "seed5": 0.02337645942107458,
+  "seed6": 0.025533866239221326,
+  "seed7": 0.014105878906136293,
+  "seed8": 0.025857909494909515,
+  "seed9": 0.021177486547973745
+ },
+ "mean": 0.02385015544831771,
+ "sd": 0.004166568748436367,
+ "se": 0.0013175847272736047,
+ "lcb": 0.02168272857195263,
+ "ucb": 0.026017582324682792,
+ "verdict": [
+  "QUOTABLE-PASS",
+  "STOP lifted: v3 = 10/10 PASS; gate PROCEED at lambda*=0.50"
+ ],
+ "mandatory_report_line": "MANDATORY: at manifest floors the iv-D canary runs at 74-100% of its threshold (headroom <=26%, within ~1 sigma); on hardware it will trip stochastically unless gate v4 aligns the canary threshold to the claim level ex ante.",
+ "runtime_s": 5036.9
+}
