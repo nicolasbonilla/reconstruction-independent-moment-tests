@@ -1,29 +1,28 @@
 cff-version: 1.2.0
-message: "If you use this repository or its results, please cite the paper below."
+message: "If you use this repository or its results, please cite the work below."
+type: software
 title: "Reconstruction-independent moment tests for quantum-computed dynamical spectra"
 authors:
   - family-names: "Bonilla Vargas"
     given-names: "Nicolás"
     orcid: "https://orcid.org/0009-0006-6155-4391"
-    affiliation: "Universidad Nacional de Colombia; SRH University Heidelberg/Munich; Daita AI"
+    affiliation: "Universidad Nacional de Colombia"
     email: "ngbonillav@unal.edu.co"
+repository-code: "https://github.com/nicolasbonilla/reconstruction-independent-moment-tests"
 abstract: >-
-  Quantum processors compute dynamical response functions by sampling subspaces that classical
-  resources diagonalize and reconstruct into a spectral function A(w) with no independent cross-check.
-  This work develops and calibrates a transportable, reconstruction-independent consistency test for
-  such functions: it compares A(w) against its own spectral moments m_k = int w^k A(w) dw, which for a
-  zero-temperature Lehmann spectrum are static ground-state expectations (m0 = <J^2>,
-  m1 = (1/2)<[J,[H,J]]>), each estimated from the same computational-basis samples that produced the
-  spectrum and never read back off A(w), so it can disagree with the reconstruction and refute it. One
-  moment is evaluated on real IBM Heron hardware (the diagonal coverage channel); the discriminating
-  off-diagonal moments are evaluated in simulation and shown presently infeasible on hardware. A
-  blinded, pre-registered test calibrates the false-positive and detection rates, the necessary
-  condition composes with the sufficient-condition moment certificates of Wang et al. and Mortimer et
-  al., and a closed-form Christoffel miss-distance bound quantifies the residual. No quantum learning
-  advantage is claimed.
-version: "1.0.0"
-date-released: "2026-08-22"
-license: "MIT AND CC-BY-4.0"
+  Code and data for a reconstruction-independent, necessary-condition screen for sample-based
+  quantum spectral functions. Low-order spectral moments (m0, m1, m2, and m-1 on open chains) are
+  evaluated as ground-state operator expectations, never read back off the reconstructed A(w), and
+  compared with the moments of A(w). In a blinded, hash-sealed simulation (300 instances) the sealed
+  primary endpoint was a detection rate of 53.7% (101/188; Wilson 95% [46.6, 60.7]%) at a
+  false-positive rate of 0.9% (1/112): all determinant truncations (56/56), 45/61 spurious features
+  and no under-converged Krylov reconstruction (0/71) were caught. On IBM Heron (ibm_fez) the device
+  supplies only the sampled support; no moment is estimated on hardware. The discriminating
+  off-diagonal moments are simulation-only, and a sealed on-device n_k experiment was gate-negative
+  at current two-qubit error and was not run. No quantum advantage is claimed.
+license:
+  - "MIT"
+  - "CC-BY-4.0"
 keywords:
   - quantum computing
   - quantum verification
@@ -31,15 +30,14 @@ keywords:
   - spectral functions
   - moment problem
   - Christoffel function
-  - falsifiability
   - reproducible research
 preferred-citation:
-  type: article
+  type: unpublished
   title: "Reconstruction-independent moment tests for quantum-computed dynamical spectra"
   authors:
     - family-names: "Bonilla Vargas"
       given-names: "Nicolás"
       orcid: "https://orcid.org/0009-0006-6155-4391"
+      affiliation: "Universidad Nacional de Colombia"
   year: 2026
-  journal: "arXiv preprint"
-  notes: "arXiv:XXXX.XXXXX (posting in progress; update on assignment)"
+  notes: "Manuscript in revision; not yet on arXiv."
