@@ -58,7 +58,8 @@ ENVIRONMENT (blocking for the QPU path):
 
 USAGE:
     py hardware_matched_job.py         # RUN unset -> LOCAL Aer dry-run, 0 QPU (this is what we ran)
-    RUN=1 py hardware_matched_job.py   # QPU: SamplerV2 + TREX + gate twirl + DD, 50000 shots, Batch
+    RUN=1 py hardware_matched_job.py   # QPU: SamplerV2 + measurement twirl + gate twirl + DD, 50000 shots, Batch
+                                       # (never run on the QPU; no readout-error mitigation, see qpu_run)
 
 The LOCAL dry-run and the QPU path share the SAME circuits, the SAME post-selection, and the SAME
 falsifier arithmetic; only the sampler (Aer vs ibm_fez) differs.
@@ -329,7 +330,7 @@ def local_dry_run():
 
 
 # =====================================================================================
-# 5. QPU run (RUN=1): new-platform auth, SamplerV2 + TREX + gate twirl + DD, Batch, retain counts
+# 5. QPU run (RUN=1): new-platform auth, SamplerV2 + measurement twirl + gate twirl + DD, Batch, retain counts
 # =====================================================================================
 def qpu_run():
     from qiskit_ibm_runtime import QiskitRuntimeService, Batch, SamplerV2 as Sampler
@@ -345,11 +346,13 @@ def qpu_run():
         o.dynamical_decoupling.enable = True
         o.dynamical_decoupling.sequence_type = "XpXm"
         o.twirling.enable_gates = True                     # Pauli gate twirling
-        o.twirling.enable_measure = True                   # TREX (measurement twirling)
+        o.twirling.enable_measure = True                   # measurement twirling (twirled raw counts; not TREX)
         o.twirling.num_randomizations = int(os.environ.get("NRAND", 32))  # 32=companion default;
         # set NRAND=8-16 for MORE QPU-budget margin (fewer twirled circuit loads -> less setup overhead;
         # shot count is unchanged, so thresholds/statistics are unaffected -- only the twirl averaging depth).
-        o.resilience.measure_mitigation = True
+        o.resilience.measure_mitigation = True             # kept as written; never executed: SamplerV2 has
+        # no resilience options, so this line fails on current qiskit-ibm-runtime. The L=8 job, the one
+        # that ran, omits it; no readout-error mitigation was applied to any ibm_fez run in this repository.
         job = sampler.run(isa)
         jid = job.job_id()
         log(f"submitted job {jid} on {BACKEND} ({len(isa)} circuits x {NS} shots, Batch); retaining counts")

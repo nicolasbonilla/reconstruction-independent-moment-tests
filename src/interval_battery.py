@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
-"""JOINT INTERVAL-MOMENT BATTERY (m0,m1,m2 + Hankel/Stieltjes), $0 -- closes the single-moment d=98 miss.
+"""JOINT INTERVAL-MOMENT BATTERY (m0,m1,m2 + Hankel/Stieltjes), $0 -- the remedy for a lone-moment miss.
 Honest reframe baked in: this is a SHOT-BUDGET-INFORMED FORECAST computed on the exact state (device counts
 unsaved), NOT a load-bearing hardware test; shot term = ground-state local-estimator variance (a LOWER BOUND
 on true per-shot uncertainty); bias term = an ASSUMED residual (swept). REJECT = any |m_hat_k - m_bar_k| > delta_k
-OR interval-Hankel/Stieltjes infeasibility. Shows m2 rejects the truncation that m1 alone missed."""
+OR interval-Hankel/Stieltjes infeasibility. Prints, per focus d, the lone-m1 verdict and the battery verdict.
+The d=98 truncation keeps the 98 most probable determinants and ties are broken by argsort, so whether m1 alone
+misses it depends on the platform (the committed run: |g1| = 0.2250, a miss at 2% bias; fresh clones: 0.254, a
+reject). The summary line below is computed from this run, not asserted. verify.py auto-scans for a lone-m1 miss."""
 import numpy as np, json, os, scipy.sparse as sp
 import spectral_lanczos as sl
 
@@ -66,8 +69,12 @@ for bias_frac in (0.0, 0.02, 0.04):
         print(f" {d:5d} {100*d/nsup:5.1f}  {g0:6.3f}  {g1:6.3f}  {g2:6.3f}   {m1v:7s}     {bv}")
         rows.append(dict(bias_frac=bias_frac, d=d, cov=d/nsup, g0=g0, g1=g1, g2=g2,
                          delta0=d0, delta1=d1, delta2=d2, m1_verdict=m1v, battery_verdict=bv))
-print("\nKEY: at bias<=2%, d=98 -- MISSED by m1 alone -- is REJECTED by the joint (m1,m2) battery (g2 >> delta2).")
-print("The second moment probes weight at higher freq that the accidental m1-match hides -> the battery has no blind spot at d=98.")
+_r98 = next(r for r in rows if r['d'] == 98 and r['bias_frac'] == 0.02)
+print(f"\nKEY (computed in this run), d=98 at 2% bias: m1 alone -> {_r98['m1_verdict']} "
+      f"(|g1| = {_r98['g1']:.4f} vs delta1 = {_r98['delta1']:.4f}); joint battery -> {_r98['battery_verdict']} "
+      f"(|g2| = {_r98['g2']:.3f} vs delta2 = {_r98['delta2']:.3f}).")
+print("d=98 is tie-dependent (see the docstring); a lone moment can miss a truncation that the battery catches,")
+print("which is a catch, not a guarantee (within_sector_control.py has redistributions the whole battery passes).")
 _out = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'interval_battery_showcase.json')
 json.dump({'L': L, 'U': U, 'Ns': Ns, 'z': z, 'seeded_eigsh': True,
            'independent_moments': {'m0': m0_op, 'm1': m1_op, 'm2': m2_op},

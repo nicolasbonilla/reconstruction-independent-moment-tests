@@ -2,15 +2,18 @@
 """RECONSTRUCTION-INDEPENDENT MOMENT ESTIMATOR FROM DEVICE-STYLE MEASUREMENTS (B1 core).
 
 The paper's independent estimator computes spectral moments m_j of a probe's spectral function
-as ground-state operator expectations -- from the SAME samples that produced the spectrum. For a
-DIAGONAL probe (density rho_q) m_0=<drho^2> is a pure counts estimator; but m_1=<drho(H-E0)drho>
-contains the HOPPING (off-diagonal) part of H, which is NOT counts-only. The rigorous, device-
+as ground-state operator expectations of the prepared state, never read back off the spectrum. For a
+DIAGONAL probe (density rho_q) m_0=<drho^2> is a pure counts estimator on the computational-basis
+samples; but m_1=<drho(H-E0)drho> contains the HOPPING (off-diagonal) part of H, which is NOT
+counts-only: it needs extra rotated-basis circuits on the same prepared state. The rigorous, device-
 ready way to estimate it -- exactly what a real experiment does -- is Pauli grouping: expand the
 Hermitian operator into Pauli strings, group them into qubit-wise-commuting (QWC) sets, and
 measure each set in one rotated basis (a few 'bond-basis' circuits). This module builds those
 operators and estimators and VERIFIES, by finite-shot sampling, that the counts-based m_0, m_1
 recover the exact operator moments within shot noise. On real hardware only the state prep and
-the sampler backend change; the estimator is identical.
+the sampler backend would change; the estimator is identical. It has not been run on hardware, and
+at ibm_fez depth the off-diagonal moments carry a depolarizing bias of ~37-115% of the signal
+(offdiag_noise_forecast.py).
 
 Model (device demonstration): L=6 Hubbard chain (OBC, clean Jordan-Wigner, no wrap-around sign),
 2L=12 qubits, blocked ordering (qubits 0..L-1 spin-up sites, L..2L-1 spin-down). Probe: staggered
@@ -242,6 +245,8 @@ def main():
     print("=> the reconstruction-independent m0 (counts-only) and m1,m2 (bond-basis, off-diagonal")
     print("   hopping via QWC rotated measurements) are DEVICE-MEASURABLE. On hardware only the")
     print("   state prep and the sampler backend change; this estimator is identical.")
+    print("   (Noiseless simulation only: not run on hardware; at ibm_fez depth the off-diagonal moments")
+    print("   carry a depolarizing bias of ~37-115% of the signal, see offdiag_noise_forecast.py.)")
     res = {'_provenance': {'script': 'bond_moment_estimator.py', 'sim_only': True,
                            'model': f'Hubbard L={L} chain OBC, {NQ} qubits, U/t={U}, density probe rho_q q=pi',
                            'claim': 'reconstruction-independent m0,m1,m2 (incl off-diagonal hopping) '

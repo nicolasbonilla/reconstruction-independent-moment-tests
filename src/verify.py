@@ -66,7 +66,8 @@ def main():
 
     # --- blind-spot demonstration: prefer a truncation where the lone first moment MISSES
     #     (gap within the shot-budget interval) yet the second moment CATCHES it; the joint
-    #     (m0,m1,m2)+Hankel battery therefore closes a blind spot the lone first moment has.
+    #     (m0,m1,m2)+Hankel battery therefore catches a miss of the lone first moment (a catch,
+    #     not a guarantee: src/within_sector_control.py has redistributions the battery passes).
     #     Auto-calibrated (no hardcoded d): scan truncations for that regime, else confirm the
     #     battery rejects a severe truncation (both moments fire). ---
     order = np.argsort(p)[::-1]
@@ -93,15 +94,15 @@ def main():
         print(f"  second moment gap |m2_trunc - m2| = {g2:.3f}  vs interval {d2:.3f}  -> reject")
         ok = True
         print(f"\n  [PASS] joint (m0,m1,m2)+Hankel battery CATCHES via m2 a truncation the lone first moment misses "
-              f"-> the battery closes the single-moment blind spot")
+              f"(a catch, not a guarantee of power)")
     else:
         d = 98; g1, g2 = trunc_gaps(d)
         print(f"\nTruncation d={d} of n_support={nsup} determinants:")
         print(f"  first moment gap  |m1_trunc - m1| = {g1:.3f}  vs interval {d1:.3f}  -> {'reject' if g1 > d1 else 'miss'}")
         print(f"  second moment gap |m2_trunc - m2| = {g2:.3f}  vs interval {d2:.3f}  -> {'reject' if g2 > d2 else 'miss'}")
         ok = (g1 > d1) or (g2 > d2)
-        print(f"\n  [{'PASS' if ok else 'FAIL'}] joint battery rejects this truncation (both moments fire); the "
-              f"lone-first-moment blind spot is exhibited on within-sector redistributions (src/within_sector_control.py)")
+        print(f"\n  [{'PASS' if ok else 'FAIL'}] joint battery rejects this truncation; no lone-first-moment miss "
+              f"was found in the scan (within-sector redistributions that pass the whole battery: src/within_sector_control.py)")
     if not ok:
         FAIL.append("battery")
 

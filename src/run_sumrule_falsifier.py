@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-THE NOVEL KERNEL — m0-blind / m1-detects, transportable sum-rule FALSIFIER (impact synthesis wf_f9d5da8c-515, rank-1 first step).
+m0-blind / m1-detects sum-rule falsifier for a reconstructed current response (exact classical simulation).
 
-The un-scooped intellectual product of the impact program: an on-hardware, regime-independent FALSIFIER for a
-reconstructed dynamical response, built from sum rules that are GROUND-STATE OPERATOR EXPECTATIONS (hence computable
-from the SAME computational-basis samples, transportable across the classical-intractability boundary).
+A reconstruction-independent, necessary-condition check for a reconstructed dynamical response, built from sum
+rules that are GROUND-STATE OPERATOR EXPECTATIONS, evaluated here by exact diagonalization. No moment is estimated
+on hardware in this work; the current J and the hopping part of H are off-diagonal in the occupation basis, so on a
+device these expectations would need rotated-basis measurements (cf. bond_moment_estimator.py, simulation only),
+not the computational-basis samples alone.
 
 Optical response of a Hubbard ring: current spectral function A_J(omega) = sum_n |<n|J|0>|^2 delta(omega - omega_n),
 omega_n = E_n - E_0 > 0, J the current operator. Its moments are EXACT operator sum rules on the ground state:
@@ -12,11 +14,10 @@ omega_n = E_n - E_0 > 0, J the current operator. Its moments are EXACT operator 
     m1 = integral omega A_J domega = (1/2) <[J,[H,J]]>      (first-moment / kinetic sum rule)
 Both are ground-state expectations, INDEPENDENT of the reconstructed spectrum.
 
-THE FALSIFIER CLAIM (what we prove here): the total-weight (m0) sum rule fixes only the TOTAL weight and is BLIND to
-the Drude/mid-IR SPLIT; a wrong reconstruction that redistributes weight between low-omega (Drude) and mid-omega
-(mid-IR) while preserving m0 PASSES the total-weight (m0) sum rule but VIOLATES the first-moment sum rule m1. Adding m1 turns the armor
-from necessary-only into shape-constraining. This is the transportable, regime-independent internal check that
-answers the verification paradox: it converts an unconfirmable spectrum into one that could have failed a test.
+WHAT THIS DEMONSTRATES: the total-weight (m0) sum rule fixes only the TOTAL weight and is BLIND to the Drude/mid-IR
+SPLIT; a wrong reconstruction that redistributes weight between low-omega (Drude) and mid-omega (mid-IR) while
+preserving m0 PASSES the total-weight (m0) sum rule but VIOLATES the first-moment sum rule m1. Adding m1 constrains
+the shape, but it remains a necessary condition only: a pass is not a certificate.
 """
 import os, sys, json
 import numpy as np

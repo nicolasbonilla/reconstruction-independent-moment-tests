@@ -16,7 +16,8 @@ Two named objects (NEVER merged):
 Honest-negative: if plug-in variance does not recover truth out-of-sample, or the multivariate matched-FPR
 gain CI includes zero, or the effect needs the oracle, or vanishes in the operational regime -> ship as a
 CALIBRATION CAVEAT methods-note, not a power upgrade. Effect provably vanishes at full coverage.
-SIM-ONLY: only m0 ran on ibm_fez; m1,m2 are classically-reproducible simulated shot samples of the exact state.
+SIM-ONLY: no moment was estimated on ibm_fez (the device supplied only sampled supports, and m0_hat there is an
+exact classical value); m1,m2 here are classically-reproducible simulated shot samples of the exact state.
 """
 import os, sys, json, time, hashlib, numpy as np, scipy.sparse as sp
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)

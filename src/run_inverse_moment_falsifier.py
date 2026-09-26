@@ -13,7 +13,9 @@ carries the OPPOSITE (1/omega) kernel: it is maximally sensitive to low-frequenc
 is smallest (all true weight sits at high omega), so a low-omega error is amplified twice over.
 
 THE EXACT OPERATOR IDENTITY (verified here to ~1e-14).  m_{-1} is the classic optical f-sum rule and is a
-GROUND-STATE KINETIC ENERGY -- an expectation value estimable from the SAME computational-basis samples:
+GROUND-STATE KINETIC ENERGY -- a ground-state expectation value, evaluated here by exact diagonalization (the
+hopping operator is off-diagonal in the occupation basis, so on a device it would need rotated-basis
+measurements, not the computational-basis samples alone; no moment is estimated on hardware in this work):
 
   * OPEN chain (polarization P = sum_j j n_j single-valued, current J = i[H,P] exact):
         m_{-1} = int A_J/omega domega = (1/2) <-That>  = (1/2) <[P,[H,P]]>   (EXACT, residual ~1e-15)

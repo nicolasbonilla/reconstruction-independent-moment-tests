@@ -11,7 +11,8 @@ Reuses the exact sector/ground-state/local-estimator block of interval_moment.py
   (iii) measures detection power vs determinant coverage on synthetic truncated reconstructions,
   (iv) gives a ROC at the hard d=98 case (accidental first-moment match).
 Honest scope unchanged: refutation-only, necessary-not-sufficient, one probe (m1); the
-(m0,m1,m2)+Hankel battery closes the d=98 blind spot exhibited here (interval_battery.py).
+(m0,m1,m2)+Hankel battery (interval_battery.py) is the remedy for a lone-moment miss, not a guarantee;
+whether m1 alone misses d=98 depends on argsort tie-breaking in the truncation (README, Known gaps).
 """
 import os, json
 import numpy as np

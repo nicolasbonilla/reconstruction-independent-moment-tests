@@ -5,9 +5,13 @@ The job that matches the sealed manifest v1 is nk_stage2_device_job.py. One edit
 fixed on publication (2026-09-26): a literal "\n" in the manifest-v2 assert, which made the file fail
 to parse, is now a line continuation; nothing else in the logic was changed.
 
-STAGE 2 — the sealed on-device n_k discriminating-falsifier job (ibm_fez).
+STAGE 2 — the on-device n_k discriminating-falsifier job, amendment version (never run).
 
-Runs ONLY against the sealed manifest (data/manifest_nk_device_v1.json, SHA-256 recorded).
+Reads the circuits, thresholds and analysis from the sealed manifest v1 (data/manifest_nk_device_v1.json,
+SHA-256 recorded), but submits shots only if a manifest v2 (data/manifest_nk_device_v2.json) exists; v2 was
+never sealed, so this job can only dry-run. It applies day_of_rule_v2 (pick_chain_v2 below), not the v1
+day-of rule: backends ibm_fez / ibm_marrakesh / ibm_kingston with CZ median <= 3.5e-3; a 12-qubit path with
+T1 >= 100 us, T2 >= 70 us and readout <= the cap on every qubit, and edge CZ <= min(3.5e-3, 2x median).
 Modes:
   default        : DRY RUN — loads credentials, applies the day-of chain-acceptance rule, transpiles
                    onto the accepted chain, prints the plan + estimated QPU time. SUBMITS NOTHING.
@@ -19,8 +23,8 @@ instance=<YOUR CRN>) once, locally — NEVER commit a token; revoke any previous
 
 Sealed job spec (manifest): 5 circuits (rung0, mirrorFT, calibFT, rungB, calibB2), 50k shots each,
 GATE-LEVEL Pauli twirling num_randomizations=32 (hard requirement) + measurement twirling (no readout extinction applied) + DD
-XpXm, one Batch, randomized interleaving. Day-of chain rule: min T1 >= 150us AND min T2 >= 100us AND
-no chain CZ error > 2x device median, else re-select or forfeit.
+XpXm, one Batch, randomized interleaving. (The v1 day-of chain rule, min T1 >= 150us AND min T2 >= 100us
+AND no chain CZ error > 2x device median, is applied by nk_stage2_device_job.py, not by this file.)
 """
 import os, sys, json, time, hashlib, io
 import numpy as np

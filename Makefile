@@ -11,7 +11,7 @@ help:
 	@echo "make verify    - fast smoke test: the sum-rule identities + the interval battery catching a truncation the lone first moment misses (seconds)"
 	@echo "make cache     - rebuild the L=12 Lanczos caches in src/cache/ if missing (they are committed; make -B cache forces)"
 	@echo "make figures   - regenerate the native pgfplots data fragments (.dat) that have a committed generator"
-	@echo "make reproduce - run the master notebook end to end (needs jupyter/nbconvert; see docs/REPRODUCE.md, Known gaps)"
+	@echo "make reproduce - run the master notebook end to end (needs nbconvert + ipykernel, ~30 min; see docs/REPRODUCE.md, Known gaps)"
 	@echo "make paper     - compile the 2026-09-02 draft in paper/ (paper/main.tex -> paper/main.pdf)"
 	@echo "make all       - figures + paper"
 	@echo "make clean     - remove LaTeX aux files (keeps main.pdf)"
@@ -42,9 +42,10 @@ figures: cache
 	          $(PYTHON) export_momentcone_dat.py && $(PYTHON) separating_counts.py
 	@echo "OK: native pgfplots .dat fragments regenerated; 'git status paper/figs' shows any change."
 
-# ---- run every committed generator in one narrated pass ----
+# ---- run the committed generators in one narrated pass (optional cells need qiskit-aer) ----
 reproduce:
-	jupyter nbconvert --to notebook --execute --inplace notebooks/00_Reproduce_Everything.ipynb
+	$(PYTHON) -m nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=-1 \
+	          notebooks/00_Reproduce_Everything.ipynb
 	@echo "OK: full pipeline executed in notebooks/00_Reproduce_Everything.ipynb"
 
 # ---- compile the 2026-09-02 draft (uses the committed main.bbl; no bibtex needed) ----

@@ -33,8 +33,10 @@ verification; the estimator is identical.
    estimator "reconstruction-independent", NEVER "sample-free".
 4. The PREP below is a DOCUMENTED PLACEHOLDER; REPLACE build_prep_circuit with the companion's
    exact seed-prep + Trotter snapshots for a matched, classically-checkable run.
-5. Mitigation matched to the companion: dynamical decoupling (XpXm), Pauli gate twirling
-   (num_randomizations=32), measurement twirling + TREX. Submit as ONE Batch. RETAIN raw per-basis
+5. Options matched to the companion: dynamical decoupling (XpXm), Pauli gate twirling
+   (num_randomizations=32), measurement twirling. No readout-error mitigation: measurement twirling
+   returns twirled raw counts (it is not TREX), and the resilience line in qpu_run fails on SamplerV2,
+   which has no resilience options. Never run on hardware. Submit as ONE Batch. RETAIN raw per-basis
    counts -> data/heron_counts_<jobid>.json.
 ==============================================================================
 """
@@ -134,7 +136,7 @@ def qpu_run():
         o.twirling.enable_gates = True
         o.twirling.enable_measure = True
         o.twirling.num_randomizations = 32
-        o.resilience.measure_mitigation = True
+        o.resilience.measure_mitigation = True   # kept as written; fails on SamplerV2 (no resilience options)
         job = sampler.run(tcircs)
         jid = job.job_id()
         print(f"submitted job {jid} on {BACKEND} ({len(tcircs)} bond-basis circuits, Batch); RETAINING counts")

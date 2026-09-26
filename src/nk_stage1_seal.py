@@ -81,6 +81,8 @@ def main():
                                             'or forfeit the window'},
       'job_spec': {'circuits': ['rung0', 'mirrorFT', 'calibFT', 'rungB', 'calibB2'],
                    'shots_per_circuit': SHOTS,
+                   # sealed wording, kept verbatim so a re-seal reproduces the manifest; "TREX" there is a
+                   # misnomer: SamplerV2 measure twirling returns twirled raw counts, not readout mitigation
                    'twirling': 'GATE-LEVEL Pauli twirling, num_randomizations=32, independently '
                                'compiled (SamplerV2 twirling enable_gates=True) — a hard requirement '
                                '(untwirled coherent ZZ breaks the calibration model: p 0.143 vs 0.060); '

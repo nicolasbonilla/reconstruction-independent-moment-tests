@@ -20,15 +20,47 @@ logs. That does not affect the outcome: the mechanical ladder descends on failur
 observed replica on both rungs exceeded THR_IV, and the rung that carries the formal
 verdict is the last one, which is complete.
 
+HISTORY OF THE SEALED FILE, stated plainly. The first version of this script (2026-09-05) wrote
+a `finding` asserting that tightening the readout cap by a factor 1.7 "did not move the canary"
+and that the ladder "descended the wrong axis". The ladder in the same file refutes that: the
+canary fell 14.2%, against the 18.4% needed to cross the threshold. The same day the `finding`
+was rewritten by hand, the caveats on the axis attribution and a `corrections` record (with the
+superseded digest) were added, and the file was re-sealed. The committed verdict is therefore the
+combiner output plus that hand correction. This version emits the corrected finding, the caveats
+and the correction record, with the sealed date, so a recombination in a scratch copy reproduces
+the sealed file byte for byte. The corrected finding still names the two-qubit error rate as the
+binding constraint; the caveats qualify it (eps is a compound noise knob, not a single physical
+parameter).
+
 SIM-ONLY, $0 QPU. Writes data/2026-09-05_nk_v4_verdict.json (+ .sha256); refuses to overwrite
 the committed, sealed verdict.
 """
-import os, json, glob, hashlib, datetime
+import os, json, glob, hashlib
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RES = os.path.normpath(os.path.join(HERE, '..', 'data'))
 THR_IV = 0.20 * (2.0 / 3.0) / 5.0                      # 0.0266667, sealed, unchanged
+SEALED_DATE = '2026-09-05'                             # date of the sealed verdict (see HISTORY)
+
+# The hand correction of 2026-09-05, recorded in the sealed file (see HISTORY above).
+CAVEATS_ON_THE_AXIS_CLAIM = [
+    'Only R2 is a clean single-variable comparison against the R1 rung; R3 changes four '
+    'parameters at once and cannot carry the attribution on its own.',
+    "eps is a compound knob in this harness: theta_zz = sqrt(eps) moves the depolarizing and the "
+    "coherent-ZZ components together, so 'the two-qubit axis' is not a single physical parameter.",
+    'the readout axis is applied through an oracle-exact inversion, so the two axes are not on '
+    'equal footing as noise models.',
+]
+CORRECTIONS = [{
+    'date': '2026-09-05',
+    'what': 'the `finding` field asserted that tightening readout did not move the canary; the '
+            'ladder in this same file refutes it (-14.19% achieved vs -18.41% needed). Rewritten, '
+            'and the caveats on the axis attribution added.',
+    'and': 'the original .sha256 was computed over an LF stream while the file was written CRLF, '
+           'so it failed verification. Re-sealed over the bytes on disk.',
+    'superseded_digest': 'f1b7aa486fa50f03b3b29a9a6d3ed609355347813ec3c34873f4e0396838be3d',
+}]
 
 # ladder rungs 1 and 2, recovered from their run logs (see PROVENANCE above)
 LADDER_PARTIAL = {
@@ -86,14 +118,21 @@ def main():
     verdict = ('AMENDMENT-VALIDATED' if amendment_pass
                else 'AMENDMENT-DENIED (manifest v1 stands; gate-negative)')
 
-    # what the ladder actually establishes: the binding axis is the two-qubit error, not readout
+    # what the ladder establishes, computed from it (the corrected finding of 2026-09-05; see
+    # HISTORY in the module docstring): readout moved the canary, but not far enough
+    top, bot = ladder[0]['ivD_mean'], r1f['ivD_mean']
+    achieved = (top - bot) / top                       # 0.1419
+    needed = (top - THR_IV) / top                      # 0.1841
     finding = (
-        'The readout ladder is exhausted without passing: at eps = 3.5e-3 the iv-D canary '
-        'exceeds its sealed threshold at ro = 0.030, 0.025 and 0.018 alike, while both rows '
-        'that pass require a LOWER two-qubit error (R2 at eps = 2.85e-3, R3 at eps = 2.0e-3). '
-        'The binding constraint is therefore the two-qubit error rate, not the readout cap: '
-        'tightening readout by a factor 1.7 did not move the canary, and lowering eps by a '
-        'factor 1.2 crossed it. The pre-registered ladder descended the wrong axis.'
+        'The readout ladder is exhausted without passing, but not because readout is inert. '
+        f'Tightening the per-qubit readout cap from 0.030 to 0.018 moved the iv-D canary from '
+        f'{top:.6f} to {bot:.6f}, a reduction of {100*achieved:.1f}% against the {100*needed:.1f}% '
+        f'needed to cross the sealed threshold {THR_IV:.7f}: readout delivered '
+        f'{100*achieved/needed:.0f}% of the required movement and then reached its own floor. '
+        'The residual is available on the two-qubit axis, and both rows that pass sit there '
+        '(R2 at eps = 2.85e-3, R3 at eps = 2.0e-3) rather than at any readout value. So the '
+        'ladder was not wasted; it was simply one axis short, and the binding constraint for a '
+        'future window is the two-qubit error rate.'
     )
 
     frac = [r['ivD_mean'] / THR_IV for r in (r1f, rows['R2'], rows['R3'])]
@@ -105,11 +144,16 @@ def main():
     print('=' * 74)
     print(headroom)
     print('\n' + finding)
+    print('\nCaveats on the axis attribution:')
+    for c in CAVEATS_ON_THE_AXIS_CLAIM:
+        print('  - ' + c)
 
     out = {
         '_provenance': {
             'script': 'nk_stage0_gate_v4_combine.py',
-            'date': datetime.date.today().isoformat(),
+            'date': SEALED_DATE,
+            'caveats_on_the_axis_claim': CAVEATS_ON_THE_AXIS_CLAIM,
+            'corrections': CORRECTIONS,
             'sim_only': True, 'qpu_spent': 0,
             'sealed_rule': 'R1^R2^R3 must pass; ladder 0.030->0.025->0.018 on readout-only '
                            'failure; exhausted ladder => amendment denied in toto',

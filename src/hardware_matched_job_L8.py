@@ -277,7 +277,8 @@ def local_dry_run():
 
 
 # =====================================================================================
-# 5. QPU run (RUN=1): identical to L=6 job (new-platform auth, SamplerV2 + TREX + twirl + DD)
+# 5. QPU run (RUN=1): as the L=6 job (new-platform auth, SamplerV2 + measurement twirling + Pauli gate
+#    twirling + dynamical decoupling; no readout-error mitigation), minus its resilience line (see below)
 # =====================================================================================
 def qpu_run():
     from qiskit_ibm_runtime import QiskitRuntimeService, Batch, SamplerV2 as Sampler
@@ -298,8 +299,9 @@ def qpu_run():
         o.twirling.enable_gates = True
         o.twirling.enable_measure = True
         o.twirling.num_randomizations = int(os.environ.get("NRAND", 32))
-        # measurement-error mitigation = TREX, already enabled above via twirling.enable_measure;
-        # SamplerV2 in qiskit-ibm-runtime 0.44 has no o.resilience attribute (that was the old API).
+        # No readout-error mitigation is applied: twirling.enable_measure is measurement twirling, and
+        # SamplerV2 returns the twirled raw counts (it is not TREX, despite what the draft says). SamplerV2
+        # in qiskit-ibm-runtime 0.44 has no o.resilience attribute (that was the old API).
         job = sampler.run(isa)
         jid = job.job_id()
         log(f"submitted job {jid} on {BACKEND} ({len(isa)} circuits x {NS} shots, Batch); retaining counts")

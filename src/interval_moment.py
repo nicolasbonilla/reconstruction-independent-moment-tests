@@ -11,7 +11,9 @@ import spectral_lanczos as sl
 
 L, U, Ns = 6, 4.0, 50000            # Heron demonstration scale + REAL ibm_fez shot budget
 z = 1.96                            # 95% interval
-b_frac = 0.02                       # mitigation-bias budget as a fraction of m1 (TREX+twirling+DD residual; conservative)
+b_frac = 0.02                       # ASSUMED residual-bias budget as a fraction of m1 (not measured). The ibm_fez
+                                    # runs used measurement twirling, Pauli gate twirling and dynamical decoupling;
+                                    # no readout-error mitigation was applied ("TREX" in the draft is a misnomer).
 
 # --- build the sector, ground state, independent estimator m1_op, and its LOCAL-estimator shot variance ---
 import scipy.sparse as sp
@@ -75,8 +77,11 @@ print(f"uncertainty); bias term = an ASSUMED 2% residual (swept, not measured). 
 print(f"interval independently lands at ~{100*delta1/abs(m1_op):.1f}% of m1 -- validating a ~5% prior. A WIDER real")
 print(f"interval only makes the refutation-only screen MORE conservative (fewer, safer rejects). The gap here is")
 print(f"vs the EXACT oracle m1_op (a calibration at accessible scale), NOT the deployable same-sample falsifier.")
-print(f"Single-moment m1 has a non-monotone MISS at d=98; the joint (m1,m2)+Hankel battery (interval_battery.py)")
-print(f"REJECTS d=98 -> use the battery, not a lone moment. Device NOT load-bearing at this full-sector scale.")
+_r98 = [r for r in rows if r[0] == 98]
+if _r98:   # computed in this run; the d=98 truncation is tie-dependent (argsort ties), so it can differ by platform
+    print(f"d=98 in this run: |gap| = {_r98[0][3]:.4f} vs delta_1 = {delta1:.4f} -> {_r98[0][4]} by m1 alone.")
+print(f"A lone moment can miss a truncation (verify.py auto-scans for one); the joint (m0,m1,m2)+Hankel battery")
+print(f"(interval_battery.py) is the remedy, not a guarantee. Device NOT load-bearing at this full-sector scale.")
 
 out = {'_provenance': {'script': 'interval_moment.py', 'scale': 'L=6 U=4 current-probe, Heron demonstration scale',
        'shot_budget': Ns, 'backend': 'ibm_fez (arXiv:2608.16436)',
