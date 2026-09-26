@@ -5,3 +5,11 @@ data/*.sha256 -text
 *.npz binary
 *.pdf binary
 *.png binary
+# The analysis code and gate records hashed inside data/manifest_nk_device_v1.json are kept
+# byte-for-byte as sealed (original line endings), so its recorded SHA-256 values verify.
+src/nk_stage0_gate.py -text
+src/nk_stage0_gate_v2.py -text
+src/nk_stage0_gate_v3.py -text
+src/nk_stage0_v3R2.py -text
+src/nk_falsifier.py -text
+src/spectral_lanczos.py -text
