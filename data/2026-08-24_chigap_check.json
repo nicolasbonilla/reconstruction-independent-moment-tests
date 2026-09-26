@@ -2,7 +2,7 @@
   "_provenance": {
     "script": "chigap_check.py",
     "sim_only": true,
-    "scale": "L=6 U/t=8.0 current Lehmann (Drude-dominated, one-sided tail)",
+    "scale": "L=6 U/t=8.0 current Lehmann (mid-IR/Mott-peak-dominated, one-sided high-freq tail)",
     "n_atoms": 795,
     "weight_top_t": -0.47074812757304524,
     "scope_note": "out-of-band emptiness of the current measure; NOT the two-sided single-particle Mott gap"

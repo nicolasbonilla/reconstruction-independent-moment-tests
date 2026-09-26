@@ -1,0 +1,61 @@
+{
+  "_provenance": {
+    "script": "retention_matched_control.py",
+    "seed": 1,
+    "note": "noiseless retains 100% (particle-number-conserving Trotter circuits); device ~23.5% after post-selection"
+  },
+  "rows": [
+    {
+      "raw_per_circuit": 50000,
+      "device_kept": 82697,
+      "device_ret": 0.23627714285714285,
+      "device_S": 3682,
+      "device_d0": 0.004416903792368754,
+      "noiseless_raw_matched": 3381,
+      "noiseless_d0_rawmatched": 0.02375711191106905,
+      "ctrl_shots_per_circuit": 11814,
+      "ctrl_kept": 82698,
+      "ctrl_S": 2721,
+      "ctrl_d0": 0.20316028833134814
+    },
+    {
+      "raw_per_circuit": 30000,
+      "device_kept": 49878,
+      "device_ret": 0.2375142857142857,
+      "device_S": 3330,
+      "device_d0": 0.032301859815471345,
+      "noiseless_raw_matched": 3195,
+      "noiseless_d0_rawmatched": 0.04510908719175066,
+      "ctrl_shots_per_circuit": 7125,
+      "ctrl_kept": 49875,
+      "ctrl_S": 2405,
+      "ctrl_d0": 0.2477627970374186
+    },
+    {
+      "raw_per_circuit": 16000,
+      "device_kept": 26932,
+      "device_ret": 0.2404642857142857,
+      "device_S": 2798,
+      "device_d0": 0.12322400577853243,
+      "noiseless_raw_matched": 2888,
+      "noiseless_d0_rawmatched": 0.16068824023419315,
+      "ctrl_shots_per_circuit": 3847,
+      "ctrl_kept": 26929,
+      "ctrl_S": 2003,
+      "ctrl_d0": 0.3290641892094566
+    },
+    {
+      "raw_per_circuit": 4000,
+      "device_kept": 6581,
+      "device_ret": 0.2350357142857143,
+      "device_S": 1379,
+      "device_d0": 0.37263809568003503,
+      "noiseless_raw_matched": 2048,
+      "noiseless_d0_rawmatched": 0.3190545297112811,
+      "ctrl_shots_per_circuit": 940,
+      "ctrl_kept": 6580,
+      "ctrl_S": 1154,
+      "ctrl_d0": 0.41818592600089116
+    }
+  ]
+}

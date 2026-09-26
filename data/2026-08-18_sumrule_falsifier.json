@@ -4,7 +4,8 @@
     "date": "2026-08-18",
     "params": "Hubbard ring L=6, U=8.0, PBC, half-filling",
     "synthesis": "wf_f9d5da8c-515 rank-1",
-    "claim": "transportable sum-rule falsifier: f-sum blind to Drude/mid-IR split; first-moment falsifies it"
+    "claim": "transportable sum-rule falsifier: total-weight (m0) sum rule blind to Drude/mid-IR split; first-moment falsifies it",
+    "relabel_note": "2026-09-26: m0 was mislabelled the f-sum; the optical f-sum is m_-1 (see manuscript)"
   },
   "sum_rules": {
     "m0_operator_<J^2>": 1.1135245334965216,
@@ -81,6 +82,6 @@
   "summary": {
     "true_spectrum_satisfies_both_sumrules": true,
     "falsifier_works": true,
-    "verdict": "FALSIFIER CONFIRMED: a wrong Drude/mid-IR split passes the f-sum (m0 residual ~0) but the first-moment sum rule (m1) flags it -> transportable self-certification works."
+    "verdict": "FALSIFIER CONFIRMED: a wrong Drude/mid-IR split passes the total-weight (m0) sum rule (m0 residual ~0) but the first-moment sum rule (m1) flags it -> m0-blind / m1-detects."
   }
 }

@@ -1,0 +1,101 @@
+{
+ "THR_IV": 0.026666666666666665,
+ "_provenance": {
+  "caveats_on_the_axis_claim": [
+   "Only R2 is a clean single-variable comparison against the R1 rung; R3 changes four parameters at once and cannot carry the attribution on its own.",
+   "eps is a compound knob in this harness: theta_zz = sqrt(eps) moves the depolarizing and the coherent-ZZ components together, so 'the two-qubit axis' is not a single physical parameter.",
+   "the readout axis is applied through an oracle-exact inversion, so the two axes are not on equal footing as noise models."
+  ],
+  "corrections": [
+   {
+    "and": "the original .sha256 was computed over an LF stream while the file was written CRLF, so it failed verification. Re-sealed over the bytes on disk.",
+    "date": "2026-09-05",
+    "superseded_digest": "f1b7aa486fa50f03b3b29a9a6d3ed609355347813ec3c34873f4e0396838be3d",
+    "what": "the `finding` field asserted that tightening readout did not move the canary; the ladder in this same file refutes it (-14.19% achieved vs -18.41% needed). Rewritten, and the caveats on the axis attribution added."
+   }
+  ],
+  "date": "2026-09-05",
+  "one_amendment_discipline": "first and LAST floor amendment on this manifest line; a second is forbidden threshold-shopping",
+  "partial_rungs_note": "rungs 0.030 and 0.025 are recorded from run logs of earlier sessions and are not complete 10-seed rows; every observed replica on both exceeded THR_IV, and the rung carrying the formal verdict (0.018) is complete",
+  "qpu_spent": 0,
+  "script": "nk_stage0_gate_v4_combine.py",
+  "sealed_rule": "R1^R2^R3 must pass; ladder 0.030->0.025->0.018 on readout-only failure; exhausted ladder => amendment denied in toto",
+  "sim_only": true
+ },
+ "amendment_pass": false,
+ "finding": "The readout ladder is exhausted without passing, but not because readout is inert. Tightening the per-qubit readout cap from 0.030 to 0.018 moved the iv-D canary from 0.032683 to 0.028044, a reduction of 14.2% against the 18.4% needed to cross the sealed threshold 0.0266667: readout delivered 77% of the required movement and then reached its own floor. The residual is available on the two-qubit axis, and both rows that pass sit there (R2 at eps = 2.85e-3, R3 at eps = 2.0e-3) rather than at any readout value. So the ladder was not wasted; it was simply one axis short, and the binding constraint for a future window is the two-qubit error rate.",
+ "headroom_line": "Across the completed verdict rows the iv-D canary runs at 59-105% of its sealed threshold.",
+ "ladder": [
+  {
+   "complete": false,
+   "ivD_mean": 0.032683333333333335,
+   "ivD_ucb": 0.034227892075157175,
+   "n_replicas": 6,
+   "provenance": "run log, earlier session (partial)",
+   "row_pass": false,
+   "rung": "R1(ro=0.030)"
+  },
+  {
+   "complete": false,
+   "ivD_mean": 0.031024999999999997,
+   "ivD_ucb": 0.03201285639929344,
+   "n_replicas": 4,
+   "provenance": "run log, earlier session (partial)",
+   "row_pass": false,
+   "rung": "R1ro0.025"
+  },
+  {
+   "complete": true,
+   "ivD_mean": 0.028044089025153058,
+   "ivD_ucb": 0.028671070330200814,
+   "n_replicas": 10,
+   "provenance": "complete row file",
+   "row_pass": false,
+   "rung": "R1ro0.018"
+  }
+ ],
+ "rows": {
+  "R1ro0.018": {
+   "fail_channels": [
+    "iv_readout_or_model"
+   ],
+   "ivD_mean": 0.028044089025153058,
+   "ivD_ucb": 0.028671070330200814,
+   "params": {
+    "T1_us": 100.0,
+    "T2_us": 70.0,
+    "eps": 0.0035,
+    "ro": 0.018,
+    "verdict_row": true
+   },
+   "row_pass": false
+  },
+  "R2": {
+   "fail_channels": [],
+   "ivD_mean": 0.025040593281474382,
+   "ivD_ucb": 0.025758116557897576,
+   "params": {
+    "T1_us": 100.0,
+    "T2_us": 70.0,
+    "eps": 0.00285,
+    "ro": 0.018,
+    "verdict_row": true
+   },
+   "row_pass": true
+  },
+  "R3": {
+   "fail_channels": [],
+   "ivD_mean": 0.015819342919449926,
+   "ivD_ucb": 0.016269052477666007,
+   "params": {
+    "T1_us": 200.0,
+    "T2_us": 130.0,
+    "eps": 0.002,
+    "ro": 0.01,
+    "verdict_row": true
+   },
+   "row_pass": true
+  }
+ },
+ "verdict": "AMENDMENT-DENIED (manifest v1 stands; gate-negative)"
+}
