@@ -20,6 +20,9 @@ def sha(b): return hashlib.sha256(b).hexdigest()
 def fsha(p): return sha(open(p, 'rb').read())
 
 def main():
+    if os.path.exists(os.path.join(RES, 'manifest_nk_device_v1.json')):   # sealed, read-only
+        raise SystemExit('REFUSING to overwrite the sealed manifest_nk_device_v1.json; '
+                         'run in a scratch copy of the repository to re-seal.')
     refs, _ = ed_references()
     W = ft_matrix().conj().T
     circs = build_circuits(W)
@@ -151,9 +154,6 @@ def main():
                           'previously exposed token must be revoked before the run; no token is ever committed',
     }
     mpath = os.path.join(RES, 'manifest_nk_device_v1.json')
-    if os.path.exists(mpath):   # the sealed manifest is a read-only record
-        raise SystemExit('REFUSING to overwrite the sealed manifest_nk_device_v1.json; '
-                         'run in a scratch copy of the repository to re-seal.')
     blob = json.dumps(manifest, indent=1, sort_keys=True).encode()
     open(mpath, 'wb').write(blob)
     h = sha(blob)

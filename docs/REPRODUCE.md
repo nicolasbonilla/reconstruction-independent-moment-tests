@@ -109,7 +109,10 @@ Pending generators and recomputations (being fixed with the revision; do not tre
 - The hardware sampling-noise analysis (a reference Monte Carlo for Δ₀) is being redone; the draft's
   analytic σ understates the spread.
 - The `m₂` bracket (`123.3 ≤ m₂ ≤ 573.7`) is being revised.
-- The `d≈98` single-moment miss: a fresh run of `interval_moment.py` gives gap `0.2542` at `d=98` against
-  `0.2625` committed (the truncation depends on tie-breaking); `verify.py` finds `d=97`;
-  `interval_battery.py` prints a hard-coded "d=98" label.
+- The `d=98` single-moment miss does not reproduce from a fresh clone. The determinant truncation
+  depends on tie-breaking: fresh runs of `interval_moment.py` and `interval_battery.py` both give
+  `|Δm₁| = 0.254` at d=98 (committed: 0.2625 and 0.2250), above the 2%-bias interval 0.229, so `m₁`
+  alone rejects d=98 at 2% bias (it still misses at 4%). Both scripts nevertheless print a hard-coded
+  "d=98 missed by m₁" message. The miss itself exists: `verify.py`'s auto-scan finds one at d=97
+  (`|Δm₁| = 0.155`, caught by `m₂`).
 - Figure fixes (including the `fig_sqw` raster extent) and regenerated README thumbnails.

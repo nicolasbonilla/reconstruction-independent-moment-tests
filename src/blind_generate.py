@@ -75,6 +75,10 @@ def krylov_moments(psi0, Js, Hc, nl):
 
 
 def main():
+    for _p in ('blind_instances_public.json', 'blind_labels_sealed.json'):   # sealed, read-only
+        if os.path.exists(os.path.join(OUT, _p)):
+            raise SystemExit(f"REFUSING to overwrite the sealed record {_p}; "
+                             "run in a scratch copy of the repository to regenerate.")
     pr = load_sealed_prereg()
     L = pr['system']['L']; Ugrid = pr['system']['U_grid']
     G = pr['n_instances']; seed0 = pr['master_seed']; Ns = pr['battery']['Ns']
@@ -137,10 +141,6 @@ def main():
         sealed.append({'id': i, 'mode': mode, 'corrupted': bool(corrupted), 'params': params,
                        'm_exact': m_ex.tolist()})
 
-    for _p in ('blind_instances_public.json', 'blind_labels_sealed.json'):   # sealed, read-only
-        if os.path.exists(os.path.join(OUT, _p)):
-            raise SystemExit(f"REFUSING to overwrite the sealed record {_p}; "
-                             "run in a scratch copy of the repository to regenerate.")
     json.dump({'_prereg_sha256': open(os.path.join(OUT, 'prereg.sha256')).read().strip(),
                'instances': public}, open(os.path.join(OUT, 'blind_instances_public.json'), 'w'), indent=1)
     json.dump({'labels': sealed}, open(os.path.join(OUT, 'blind_labels_sealed.json'), 'w'), indent=1)

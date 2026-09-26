@@ -68,7 +68,8 @@ Scripts write their JSON into `data/` and plotted data into `paper/figs/` (paths
   `blind_{instances_public,labels_sealed,verdicts}.json` (the blinded pre-registration);
   `manifest_nk_device_v1.json` + `.sha256` (the `n_k` device manifest, 2026-09-02);
   `2026-09-05_nk_v4_verdict.json` + `.sha256` (the amendment gate verdict: AMENDMENT-DENIED) with its
-  row files `2026-09-04_nk_v4_row_{R1ro0.018,R2,R3}.json`. `.gitattributes` keeps them byte-exact.
+  row files `2026-09-04_nk_v4_row_{R1ro0.018,R2,R3}.json`. `.gitattributes` keeps every file whose
+  SHA-256 is recorded in a seal byte-exact on every platform (see `docs/REPRODUCE.md`).
 - `2026-08-24_blind_harness_score.json` (the sealed primary endpoint) and `separating_demonstration.json`.
 - `heron_counts_matched_L8_*.json` — the real `ibm_fez` `L=8` retained counts (four shot budgets) and the
   Aer dry run; `m0_hat`/`m1_hat` in them are exact classical values. `heron_counts_*DRYRUN*.json` are dry runs.
@@ -86,7 +87,7 @@ fragments + `.dat` + raster `.png`), `figs/src/fig_circuit_qtk.tex` (source of `
 `figs/_superseded/` (files no figure reads; see its README).
 
 ## `notebooks/`
-`00_Reproduce_Everything.ipynb` — narrated run of every committed generator (optional cells need `qiskit-aer`).
+`00_Reproduce_Everything.ipynb` — narrated run of the committed generators (optional cells need `qiskit-aer`).
 
 ## `docs/`
 `REPRODUCE.md` (figure/number → script → command, sealed-record checks, known gaps), `FILE_INDEX.md`
@@ -97,4 +98,4 @@ The 2026-09-02 arXiv upload bundle and its upload guide; not submitted; kept as 
 
 ## Root
 `README.md`, `CITATION.cff`, `LICENSE` (MIT code + CC-BY-4.0 paper), `requirements.txt`, `Makefile`,
-`.gitattributes` (byte-exact sealed records), `.gitignore`.
+`.gitattributes` (byte-exact files whose SHA-256 is recorded in a seal), `.gitignore`.

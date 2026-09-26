@@ -110,9 +110,12 @@ These are **not** reproducible from this repository yet, or are being recomputed
 - The hardware sampling-noise analysis (a reference Monte Carlo for Δ₀) is being redone; the draft's
   analytic σ understates the spread.
 - The `m₂` bracket `123.3 ≤ m₂ ≤ 573.7` (`necessary_sufficient_composition.py`) is being revised.
-- The `d≈98` single-moment miss: a fresh run of `interval_moment.py` gives gap 0.2542 at d=98 against
-  0.2625 committed (the truncation depends on tie-breaking), `verify.py`'s auto-scan finds d=97, and
-  `interval_battery.py` prints a hard-coded "d=98" label.
+- The `d=98` single-moment miss does not reproduce from a fresh clone. The determinant truncation
+  depends on tie-breaking: fresh runs of `interval_moment.py` and `interval_battery.py` both give
+  `|Δm₁| = 0.254` at d=98 (committed: 0.2625 and 0.2250), above the 2%-bias interval 0.229, so `m₁`
+  alone rejects d=98 at 2% bias (it still misses at 4%). Both scripts nevertheless print a hard-coded
+  "d=98 missed by m₁" message. The miss itself exists: `verify.py`'s auto-scan finds one at d=97
+  (`|Δm₁| = 0.155`, caught by `m₂`).
 - Figure fixes (including the `fig_sqw` raster extent) and regenerated README thumbnails.
 
 ---
@@ -136,7 +139,7 @@ These are **not** reproducible from this repository yet, or are being recomputed
 ├── data/                               # committed results (*.json), sealed records, real ibm_fez retained counts
 │   └── _superseded/                    #   superseded model, precursor-program data, .dat duplicates (see its README)
 ├── notebooks/
-│   └── 00_Reproduce_Everything.ipynb   #   narrated run of every committed generator
+│   └── 00_Reproduce_Everything.ipynb   #   narrated run of the committed generators (optional cells need qiskit-aer)
 ├── paper/                              # 2026-09-02 draft under revision (LaTeX source + PDF, 30 pp) — see paper/README.md
 ├── docs/
 │   ├── REPRODUCE.md                    #   figure/number → script → exact command, and the known gaps
@@ -160,7 +163,7 @@ pip install -r requirements.txt
 #    auto-calibrated truncation that the lone first moment misses.
 python src/verify.py        # or: make verify
 
-# 3. run every committed generator in one narrated pass (optional steps need qiskit-aer / tenpy)
+# 3. run the committed generators in one narrated pass (optional cells need qiskit-aer)
 jupyter notebook notebooks/00_Reproduce_Everything.ipynb    # or headless: make reproduce
 
 # 4. regenerate the native figure data from the exact engine (uses the committed src/cache/*_L12.npz)
@@ -181,7 +184,7 @@ overwrite them.
 
 | Layer | Reproducible here? | How |
 |---|---|---|
-| **Every committed generator, one pass** | ✅ narrated (see [Known gaps](#known-gaps-being-fixed-with-the-revision)) | `notebooks/00_Reproduce_Everything.ipynb` (or `make reproduce`) |
+| **The committed generators, one pass** | ✅ narrated (see [Known gaps](#known-gaps-being-fixed-with-the-revision)) | `notebooks/00_Reproduce_Everything.ipynb` (or `make reproduce`) |
 | **Exact diagonalization** (`A(k,ω)`, `S(q,ω)`, `S^zz`, the current-response falsifier, the teeth, the Christoffel bounds) | ✅ locally | `python src/<script>.py`; see `docs/REPRODUCE.md` |
 | **Interval-moment forecast + joint battery** | ✅ (the `d≈98` case is being re-checked) | `src/interval_moment.py`, `src/interval_battery.py` |
 | **Blinded, pre-registered test** | ✅ re-scores the sealed record | `src/blind_score.py` on `data/blind_*.json` (seal `data/prereg.sha256`) |
