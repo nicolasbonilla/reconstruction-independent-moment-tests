@@ -44,10 +44,11 @@ found by an auto-calibrated scan, currently `d=97`). Expected: **ALL CHECKS PASS
 |---|---|---|
 | current-probe moments `(m₀,m₁,m₂)` (L=6, U/t=4) | `0.5542, 4.2271, 33.3887` | `verify.py`, `interval_moment.py` |
 | shot-budget 95% interval `z·δ₁` (ibm_fez, 2% bias) | `0.229` (5.4% of m₁) | `verify.py`, `interval_moment.py` |
-| joint battery closes the lone-`m₁` blind spot | `|Δm₂| > z·δ₂` while `|Δm₁| ≤ z·δ₁` (auto-scan: `d=97`; the committed `d=98` case is under revision) | `verify.py`, `interval_battery.py`, `within_sector_control.py` |
+| joint battery catches a lone-`m₁` miss (a catch, not a guarantee) | `|Δm₂| > z·δ₂` while `|Δm₁| ≤ z·δ₁` (auto-scan: `d=97`; the committed `d=98` case does not reproduce, see Known gaps) | `verify.py`, `interval_battery.py` |
+| no guaranteed power at the deployed order `m₀`–`m₂` (counterexample) | a `K=1` within-sector redistribution moving 49% of the weight passes (`Δ₂ = 0.082`) | `within_sector_control.py` → `data/2026-08-24_within_sector_control.json` |
 | **sealed primary endpoint** | TPR `101/188 = 53.7%` [46.6, 60.7], FPR `1/112 = 0.9%` [0.2, 4.9] | `blind_score.py` → `data/2026-08-24_blind_harness_score.json` |
 | blinded pre-registered per-class rates | truncation `56/56`; spurious `45/61` (`25/27`+`20/34`); FP `1/112`; Krylov `0/71` (one-node `0/15`) | `blind_score.py`, `data/blind_verdicts.json` (seal `data/prereg.sha256`) |
-| `n_k` amendment gate | **DENIED (gate-negative)**: R1ro0.018 UCB `0.02867` > `0.02667` | `nk_stage0_gate_v4.py`, `nk_stage0_gate_v4_combine.py` → `data/2026-09-05_nk_v4_verdict.json` |
+| `n_k` amendment gate | **DENIED (gate-negative)**: R1ro0.018 UCB `0.02867` > `0.02667` | `nk_stage0_gate_v4.py`, `nk_stage0_gate_v4_combine.py` → `data/2026-09-05_nk_v4_verdict.json` (combiner output plus a hand correction of its `finding`, re-sealed 2026-09-05; see Sealed records) |
 | retention-matched control (noiseless Δ₀ at the device's kept-shot count) | `0.203 / 0.248 / 0.329 / 0.418` vs device `0.0044 / 0.032 / 0.123 / 0.373` | `retention_matched_control.py` → `data/2026-09-05_retention_matched_control.json` |
 | necessary∘sufficient composition (`m₂` bracket, L=6 U/t=8) (under revision) | `123.3 ≤ m₂ ≤ 573.7` | `necessary_sufficient_composition.py`, `markov_krein_window.py` |
 | off-diagonal device bias floor (ibm_fez depth) | `≈ 37–115 %` of the signal | `offdiag_noise_forecast.py`, `offdiag_gsurface.py` |
@@ -75,6 +76,13 @@ sha256sum data/manifest_nk_device_v1.json    # = data/manifest_nk_device_v1.sha2
 cd data && sha256sum -c 2026-09-05_nk_v4_verdict.json.sha256   # 784927f0…325a
 ```
 
+The `n_k` amendment verdict is not the raw output of the first combiner. On 2026-09-05 its `finding`
+said that tightening readout "did not move the canary"; the ladder in the same file refutes that (the
+canary fell 14.2% of the 18.4% needed). The same day the `finding` was rewritten by hand, the caveats on
+the axis attribution and a `corrections` record (with the superseded digest) were added, and the file was
+re-sealed. `nk_stage0_gate_v4_combine.py` now emits the corrected text; run in a scratch copy (with the
+sealed verdict and its `.sha256` removed), it rewrites the sealed file byte for byte (`784927f0…325a`).
+
 The manifest also records the SHA-256 of the analysis code and gate records it was sealed against
 (`analysis_code_sha256`, `gate_record_sha256`). Those eight files (`src/nk_stage0_gate{,_v2,_v3}.py`,
 `src/nk_stage0_v3R2.py`, `src/nk_falsifier.py`, `src/spectral_lanczos.py`,
@@ -90,7 +98,14 @@ and a purpose-built `L=8` retained-count coverage-leak job (`fig_device`). Only 
 set is device-derived: the `m0_hat`/`m1_hat` fields of `data/heron_counts_matched_L8_*.json` are exact
 classical values, so no spectral moment is estimated on hardware. The retention-matched control
 (`retention_matched_control.py`) re-runs the noiseless circuits at the device's kept-shot count
-(≈23.6% of raw shots survive post-selection on the device, 100% in the noiseless simulation). The
+(≈23.6% of raw shots survive post-selection on the device, 100% in the noiseless simulation). The `L=8`
+jobs ran SamplerV2 with measurement twirling, Pauli gate twirling and dynamical decoupling; no
+readout-error mitigation was applied (measurement twirling returns twirled raw counts; the draft's
+"TREX" is a misnomer). They read the bitstrings in the correct qubit order, and the support is defined by
+post-selection alone, without configuration recovery (82,697 of 350,000 shots kept at 50k). The
+companion's `L=6` run behind `fig_heron` was post-selected in reversed qubit order, also without
+configuration recovery, so its 300/300 coverage came from device errors (disclosed by the companion
+repository on 2026-09-26); the coverage identity `A_hw = A_exact` is unchanged. The
 discriminating off-diagonal moments are evaluated in simulation and shown presently infeasible on
 hardware. The on-device `n_k` experiment was pre-registered (manifest v1 sealed 2026-09-02), its single
 permitted amendment was denied by its sealed gate on 2026-09-05, and it was never run
@@ -105,14 +120,19 @@ Pending generators and recomputations (being fixed with the revision; do not tre
 - `paper/figs/gauss_state.dat` (`fig_gausslaw`) has no committed generator.
 - No exporter yet for `paper/figs/heron_{exact,hw}.dat` (`fig_heron`, from `data/heron_spectral.json`) or
   for the inline `fig_device` coordinates (from the retained counts).
-- The `sep_*.dat` export from `separating_counts.py` (`fig_separating`) is pending.
+- The `sep_*.dat` export from `separating_counts.py` (`fig_separating`) is pending. The recount differs
+  from `data/separating_demonstration.json` and from the draft's caption: the shaded region holds 26
+  instances, not 24 — the 24 spurious-feature instances plus one determinant truncation (id 162) and the
+  clean false positive (id 184); `m₁` fires on 16 and `m₂` alone on 10. The exemplar id 222 is
+  weight-preserving (`params.preserve_m0 = true`), not total-weight-changing. A corrected
+  `separating_demonstration.json` is pending.
 - The hardware sampling-noise analysis (a reference Monte Carlo for Δ₀) is being redone; the draft's
   analytic σ understates the spread.
 - The `m₂` bracket (`123.3 ≤ m₂ ≤ 573.7`) is being revised.
 - The `d=98` single-moment miss does not reproduce from a fresh clone. The determinant truncation
   depends on tie-breaking: fresh runs of `interval_moment.py` and `interval_battery.py` both give
   `|Δm₁| = 0.254` at d=98 (committed: 0.2625 and 0.2250), above the 2%-bias interval 0.229, so `m₁`
-  alone rejects d=98 at 2% bias (it still misses at 4%). Both scripts nevertheless print a hard-coded
-  "d=98 missed by m₁" message. The miss itself exists: `verify.py`'s auto-scan finds one at d=97
-  (`|Δm₁| = 0.155`, caught by `m₂`).
+  alone rejects d=98 at 2% bias (it still misses at 4%). Until 2026-09-26 both scripts printed a
+  hard-coded "d=98 missed by m₁" message; they now print the verdict computed in the run. The miss itself
+  exists: `verify.py`'s auto-scan finds one at d=97 (`|Δm₁| = 0.155`, caught by `m₂`).
 - Figure fixes (including the `fig_sqw` raster extent) and regenerated README thumbnails.

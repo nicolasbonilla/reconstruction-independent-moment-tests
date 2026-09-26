@@ -20,7 +20,10 @@ or by a live script.
 
 ## `dat_duplicates_2026-08-22/`
 
-Byte-identical copies of the plotted data in `paper/figs/`, which is the authoritative location.
+Byte-identical copies of `.dat` files in `paper/figs/`. For 21 of them the live file in `paper/figs/` is
+the authoritative copy (read by a figure, written by a committed exporter, or both). The other four
+(`falsifier_spectrum`, `falsifier_sweep`, `gauss`, `heron_sweep`) duplicate orphans that no figure reads,
+now in `paper/figs/_superseded/` (see its README).
 
 - `akw_edges.dat` — duplicate of `paper/figs/akw_edges.dat` (authoritative).
 - `akw_extent.dat` — duplicate of `paper/figs/akw_extent.dat` (authoritative).
@@ -36,12 +39,12 @@ Byte-identical copies of the plotted data in `paper/figs/`, which is the authori
 - `christoffel_poles.dat` — duplicate of `paper/figs/christoffel_poles.dat` (authoritative).
 - `dcp_lower.dat` — duplicate of `paper/figs/dcp_lower.dat` (authoritative).
 - `dcp_upper.dat` — duplicate of `paper/figs/dcp_upper.dat` (authoritative).
-- `falsifier_spectrum.dat` — duplicate of `paper/figs/falsifier_spectrum.dat` (authoritative).
-- `falsifier_sweep.dat` — duplicate of `paper/figs/falsifier_sweep.dat` (authoritative).
-- `gauss.dat` — duplicate of `paper/figs/gauss.dat` (authoritative).
+- `falsifier_spectrum.dat` — duplicate of `paper/figs/_superseded/falsifier_spectrum.dat` (an orphan: no figure reads it).
+- `falsifier_sweep.dat` — duplicate of `paper/figs/_superseded/falsifier_sweep.dat` (an orphan: no figure reads it).
+- `gauss.dat` — duplicate of `paper/figs/_superseded/gauss.dat` (an orphan: no figure reads it).
 - `heron_exact.dat` — duplicate of `paper/figs/heron_exact.dat` (authoritative).
 - `heron_hw.dat` — duplicate of `paper/figs/heron_hw.dat` (authoritative).
-- `heron_sweep.dat` — duplicate of `paper/figs/heron_sweep.dat` (authoritative).
+- `heron_sweep.dat` — duplicate of `paper/figs/_superseded/heron_sweep.dat` (an orphan: no figure reads it).
 - `momentcone_point.dat` — duplicate of `paper/figs/momentcone_point.dat` (authoritative).
 - `sqw_deltac.dat` — duplicate of `paper/figs/sqw_deltac.dat` (authoritative).
 - `sqw_extent.dat` — duplicate of `paper/figs/sqw_extent.dat` (authoritative).

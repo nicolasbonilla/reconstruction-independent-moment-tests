@@ -61,8 +61,8 @@ after the figure revision.
 
 5. **A shot-budget form.** The exact-moment idealization is replaced by a shot-budget interval test; a joint
    `(m₀,m₁,m₂)` + Hankel–Stieltjes **feasibility battery** catches the accidental single-moment miss found
-   near `d≈97–98` (this case is being re-checked for tie-dependence), forecast at the real `ibm_fez`
-   50k-shot budget.
+   near `d≈97–98` (the committed `d=98` case depends on tie-breaking and does not reproduce from a fresh
+   clone; `d=97` does, see Known gaps), forecast at the real `ibm_fez` 50k-shot budget.
 
 **Honest scope (stated throughout).** The screen **falsifies, it does not certify**; its conditions are
 **necessary, not sufficient**; it targets one error class (subspace truncation / weight misassignment), not
@@ -84,16 +84,24 @@ off-diagonal moments are simulation-only.
 - **Hardware supplies only the sampled support.** On retained `ibm_fez` counts (L=8 addition sector) Δ₀
   grows from 0.004 to 0.37 as coverage falls from 94% to 35%. The `m0_hat`/`m1_hat` fields in
   `data/heron_counts_matched_L8_*.json` are exact classical values. At 50k shots the reconstructed A(ω)
-  still has relative L1 error 0.35 (`falsifier.rel_L1`) while Δ₀ = 0.0044.
+  still has relative L1 error 0.35 (`falsifier.rel_L1`) while Δ₀ = 0.0044. The L=8 jobs
+  (`src/hardware_matched_job_L8.py`) ran SamplerV2 with measurement twirling, Pauli gate twirling and
+  dynamical decoupling; no readout-error mitigation was applied (the draft's "TREX" is a misnomer). Bitstrings were read in the correct qubit order, and
+  post-selection alone defines the support (no configuration recovery): 82,697 of 350,000 shots kept at 50k.
 - **Retention-matched control:** the device keeps ≈23.6% of shots after post-selection, the noiseless
   simulation 100%. At equal kept samples the noiseless Δ₀ is 0.203 / 0.248 / 0.329 / 0.418 against the
   device's 0.0044 / 0.032 / 0.123 / 0.373 (50k/30k/16k/4k per circuit; `src/retention_matched_control.py`,
-  `data/2026-09-05_retention_matched_control.json`). The device's small Δ₀ reflects its noise-widened
-  support, not a better reconstruction; the manuscript's statistics for this comparison are being redone.
+  `data/2026-09-05_retention_matched_control.json`). The device's small Δ₀ comes from its noise-widened
+  support (at 50k, |S| = 3682 on the device against 2721 noiseless at equal kept samples and 3381 at equal
+  raw shots). The wider support also gives the device the closer line shape: relative L1 0.35, against 0.60
+  for the noiseless run at equal raw shots (`data/heron_counts_matched_L8_DRYRUN.json`). A small Δ₀ still
+  does not certify A(ω). The manuscript's statistics for this comparison are being redone.
 - **n_k device experiment: gate-negative, not run.** The Stage-0 gate passed and manifest v1 was sealed on
-  2026-09-02 (`data/manifest_nk_device_v1.sha256`). The single permitted floor amendment failed its sealed
-  gate on 2026-09-05 (AMENDMENT-DENIED; row R1ro0.018: canary UCB 0.02867 > sealed threshold 0.02667). A row
-  identical except ε = 2.85×10⁻³ passed (R2); ε is a compound noise knob.
+  2026-09-02 (`data/manifest_nk_device_v1.sha256`). Its day-of rule requires a 12-qubit chain with
+  T1 ≥ 150 µs and T2 ≥ 100 µs on every qubit. The single permitted amendment (floors lowered to 100/70 µs,
+  with readout and CZ caps) failed its sealed noisy-simulation gate on 2026-09-05 (AMENDMENT-DENIED; row
+  R1ro0.018: canary UCB 0.02867 > sealed threshold 0.02667), so manifest v1 stands; it has not been run.
+  A row identical except ε = 2.85×10⁻³ passed (R2); ε is a compound noise knob.
   `data/2026-09-05_nk_v4_verdict.json`.
 
 ---
@@ -106,16 +114,21 @@ These are **not** reproducible from this repository yet, or are being recomputed
 - `fig_heron` and `fig_device`: no exporter yet for `paper/figs/heron_{exact,hw}.dat` (from
   `data/heron_spectral.json`) or for the coordinates typed inline in `fig_device.tex` (from the retained counts).
 - `fig_separating`: `src/separating_counts.py` recounts the figure from the sealed record, but the export of
-  `paper/figs/sep_*.dat` from it is pending.
+  `paper/figs/sep_*.dat` from it is pending. The recount differs from `data/separating_demonstration.json`
+  and from the draft's caption: the shaded region holds 26 instances, not 24 — the 24 spurious-feature
+  instances plus one determinant truncation (id 162, so not every truncation sits at `m₀` residual > 1) and
+  the clean false positive (id 184); `m₁` fires on 16 and `m₂` alone on 10. The exemplar id 222 is
+  weight-preserving (`params.preserve_m0 = true`), not total-weight-changing as the caption says. A
+  corrected `separating_demonstration.json` is pending.
 - The hardware sampling-noise analysis (a reference Monte Carlo for Δ₀) is being redone; the draft's
   analytic σ understates the spread.
 - The `m₂` bracket `123.3 ≤ m₂ ≤ 573.7` (`necessary_sufficient_composition.py`) is being revised.
 - The `d=98` single-moment miss does not reproduce from a fresh clone. The determinant truncation
   depends on tie-breaking: fresh runs of `interval_moment.py` and `interval_battery.py` both give
   `|Δm₁| = 0.254` at d=98 (committed: 0.2625 and 0.2250), above the 2%-bias interval 0.229, so `m₁`
-  alone rejects d=98 at 2% bias (it still misses at 4%). Both scripts nevertheless print a hard-coded
-  "d=98 missed by m₁" message. The miss itself exists: `verify.py`'s auto-scan finds one at d=97
-  (`|Δm₁| = 0.155`, caught by `m₂`).
+  alone rejects d=98 at 2% bias (it still misses at 4%). Until 2026-09-26 both scripts printed a
+  hard-coded "d=98 missed by m₁" message; they now print the verdict computed in the run. The miss itself
+  exists: `verify.py`'s auto-scan finds one at d=97 (`|Δm₁| = 0.155`, caught by `m₂`).
 - Figure fixes (including the `fig_sqw` raster extent) and regenerated README thumbnails.
 
 ---
@@ -186,10 +199,10 @@ overwrite them.
 |---|---|---|
 | **The committed generators, one pass** | ✅ narrated (see [Known gaps](#known-gaps-being-fixed-with-the-revision)) | `notebooks/00_Reproduce_Everything.ipynb` (or `make reproduce`) |
 | **Exact diagonalization** (`A(k,ω)`, `S(q,ω)`, `S^zz`, the current-response falsifier, the teeth, the Christoffel bounds) | ✅ locally | `python src/<script>.py`; see `docs/REPRODUCE.md` |
-| **Interval-moment forecast + joint battery** | ✅ (the `d≈98` case is being re-checked) | `src/interval_moment.py`, `src/interval_battery.py` |
+| **Interval-moment forecast + joint battery** | ✅ (the committed `d=98` case does not reproduce; Known gaps) | `src/interval_moment.py`, `src/interval_battery.py` |
 | **Blinded, pre-registered test** | ✅ re-scores the sealed record | `src/blind_score.py` on `data/blind_*.json` (seal `data/prereg.sha256`) |
-| **Figures** | ✅ most; three figures lack an exporter (Known gaps) | `make figures` (native pgfplots from the exact engine) |
-| **IBM Heron** | ✅ re-analysis of retained counts (needs `qiskit-aer`) | L=8 retained `ibm_fez` counts (`data/heron_counts_matched_L8_*.json`, acquired by `src/hardware_matched_job_L8.py`; re-analysed by `src/bootstrap_device_curve.py` and `src/aer_noiseless_baseline.py`, which import its falsifier) + retention-matched control (`src/retention_matched_control.py`); the companion's L=6 raw counts are not deposited |
+| **Figures** | ✅ most; four figures lack a committed generator or exporter (`fig_gausslaw`, `fig_heron`, `fig_device`, `fig_separating`; Known gaps) | `make figures` (native pgfplots from the exact engine) |
+| **IBM Heron** | ✅ re-analysis of retained counts (needs `qiskit-aer`) | L=8 retained `ibm_fez` counts (`data/heron_counts_matched_L8_*.json`, acquired by `src/hardware_matched_job_L8.py`; re-analysed by `src/bootstrap_device_curve.py` and `src/aer_noiseless_baseline.py`, which import its falsifier) + retention-matched control (`src/retention_matched_control.py`); the companion's L=6 raw counts are not deposited. That L=6 run (`fig_heron`) was post-selected in reversed qubit order, without configuration recovery, so its 300/300 coverage came from device errors (disclosed by the companion repository on 2026-09-26); the L=8 job here reads the bits in the correct order |
 
 Every result but the hardware acquisition is an **exact classical simulation**; re-acquiring device data
 needs an IBM Quantum account.

@@ -18,8 +18,9 @@ abstract: >-
   false-positive rate of 0.9% (1/112): all determinant truncations (56/56), 45/61 spurious features
   and no under-converged Krylov reconstruction (0/71) were caught. On IBM Heron (ibm_fez) the device
   supplies only the sampled support; no moment is estimated on hardware. The discriminating
-  off-diagonal moments are simulation-only, and a sealed on-device n_k experiment was gate-negative
-  at current two-qubit error and was not run. No quantum advantage is claimed.
+  off-diagonal moments are simulation-only, and a pre-registered on-device n_k experiment was
+  gate-negative in its sealed noisy-simulation gate (the single permitted amendment was denied)
+  and was not run. No quantum advantage is claimed.
 license:
   - "MIT"
   - "CC-BY-4.0"

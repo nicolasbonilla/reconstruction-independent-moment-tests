@@ -43,8 +43,8 @@ Scripts write their JSON into `data/` and plotted data into `paper/figs/` (paths
 | `joint_covariance_composition.py` | Same-sample covariance of the falsifier → `data/2026-09-01_joint_covariance.json`. |
 | `lever1_flip_experiment.py` | Pre-registered decision experiment on that covariance → `data/2026-09-01_lever1_{prereg_seal,oracle}.json` (re-verifies the committed seal instead of overwriting it). |
 | `beyond_ed_dmrg_catch.py` | `L=24` DMRG-oracle check of the coverage screen (needs `physics-tenpy`) → `data/2026-08-28_beyond_ed_dmrg_catch.json`. |
-| `hardware_matched_job_L8.py` | The `ibm_fez` `L=8` coverage-leak job: Aer dry run (default) or QPU (`RUN=1`) → `data/heron_counts_matched_L8_*.json`. |
-| `hardware_matched_job.py` | The `L=6` matched job on the companion's circuits → `data/heron_counts_matched_DRYRUN.json`. |
+| `hardware_matched_job_L8.py` | The `ibm_fez` `L=8` coverage-leak job: Aer dry run (default) or QPU (`RUN=1`; measurement twirling, Pauli gate twirling and dynamical decoupling, no readout-error mitigation) → `data/heron_counts_matched_L8_*.json`. |
+| `hardware_matched_job.py` | The `L=6` matched job on the companion's circuits; only its Aer dry run was executed → `data/heron_counts_matched_DRYRUN.json`. |
 | `hardware_blind_job.py` | A blinded hardware job builder; never run on hardware; only its dry-run output is committed (`data/heron_counts_DRYRUN.json`). |
 | `aer_noiseless_baseline.py` | Noiseless Aer run of the same `L=8` circuits → `data/aer_noiseless_baseline.json`. |
 | `bootstrap_device_curve.py` | Bootstrap envelope of the device curve from the retained counts (upward-biased; not a confidence interval) → `data/bootstrap_device_curve.json`. |
@@ -56,7 +56,7 @@ Scripts write their JSON into `data/` and plotted data into `paper/figs/` (paths
 | `nk_stage1_seal.py` | Seals `data/manifest_nk_device_v1.json` (+ `.sha256`); refuses to overwrite it. |
 | `nk_stage2_device_job.py` | The manifest-v1 on-device `n_k` job; never run. |
 | `nk_stage0_gate_v4.py` | The amendment-validation gate rows → `data/2026-09-04_nk_v4_row_*.json` (never overwrites a committed row). |
-| `nk_stage0_gate_v4_combine.py` | Applies the sealed amendment rule → `data/2026-09-05_nk_v4_verdict.json` (+ `.sha256`): AMENDMENT-DENIED, gate-negative. |
+| `nk_stage0_gate_v4_combine.py` | Applies the sealed amendment rule → `data/2026-09-05_nk_v4_verdict.json` (+ `.sha256`): AMENDMENT-DENIED, gate-negative. Emits the `finding` as corrected by hand on 2026-09-05 (see `docs/REPRODUCE.md`, Sealed records), so a recombination in a scratch copy reproduces the sealed file byte for byte. |
 | `nk_stage2_device_job_v2_amendment.py` | The denied amendment's job (`day_of_rule_v2`); manifest v2 never sealed; never run. |
 | `paper_style.py` | Plotting identity used by the superseded raster scripts. |
 | `cache/{akw,sqw,current,teeth,teeth_shared}_L12.npz` | Committed `L=12` Lanczos caches (≈0.22 MB) read by `export_akw/sqw/teeth_dat.py`; `make cache` rebuilds them if missing. |
@@ -73,11 +73,12 @@ Scripts write their JSON into `data/` and plotted data into `paper/figs/` (paths
 - `2026-08-24_blind_harness_score.json` (the sealed primary endpoint) and `separating_demonstration.json`.
 - `heron_counts_matched_L8_*.json` — the real `ibm_fez` `L=8` retained counts (four shot budgets) and the
   Aer dry run; `m0_hat`/`m1_hat` in them are exact classical values. `heron_counts_*DRYRUN*.json` are dry runs.
-- `heron_spectral.json` — the companion study's reconstructed spectra (source of `fig_heron`).
+- `heron_spectral.json` — the companion study's reconstructed spectra (source of `fig_heron`); that `L=6` run
+  was post-selected in reversed qubit order (see `docs/REPRODUCE.md`, Hardware).
 - `2026-09-05_retention_matched_control.json`, `aer_noiseless_baseline.json`, `bootstrap_device_curve.json` — the device-curve controls.
 - Every other `*.json` is the committed output of the `src/` script named in its `_provenance` (see the table above).
 - `_superseded/` — the superseded analytic coverage model, precursor-program data not used by the manuscript,
-  and byte-identical duplicates of `paper/figs/*.dat` (see its README).
+  and byte-identical duplicates of `.dat` files in `paper/figs/` and `paper/figs/_superseded/` (see its README).
 
 ## `paper/` — 2026-09-02 draft under revision
 
