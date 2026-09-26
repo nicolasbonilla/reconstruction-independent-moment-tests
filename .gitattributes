@@ -1,7 +1,10 @@
-# Sealed records must stay byte-identical to their SHA-256 seals on every platform
-# (no CRLF conversion on Windows checkouts).
-data/*.json -text
+# Files whose SHA-256 is recorded in a seal must stay byte-identical on every platform
+# (no CRLF conversion on Windows checkouts). Other data/*.json are ordinary text, so a
+# re-run on Windows shows a diff only if a value changed.
 data/*.sha256 -text
+data/prereg.json -text
+data/manifest_nk_device_v1.json -text
+data/2026-09-05_nk_v4_verdict.json -text
 *.npz binary
 *.pdf binary
 *.png binary
@@ -13,3 +16,5 @@ src/nk_stage0_gate_v3.py -text
 src/nk_stage0_v3R2.py -text
 src/nk_falsifier.py -text
 src/spectral_lanczos.py -text
+data/2026-09-02_nk_stage0_gate_v3.json -text
+data/2026-09-02_nk_stage0_v3R2.json -text
