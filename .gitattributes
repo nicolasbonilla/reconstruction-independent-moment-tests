@@ -1,0 +1,7 @@
+# Sealed records must stay byte-identical to their SHA-256 seals on every platform
+# (no CRLF conversion on Windows checkouts).
+data/*.json -text
+data/*.sha256 -text
+*.npz binary
+*.pdf binary
+*.png binary
