@@ -64,9 +64,9 @@ def main():
                                      'symmetry (q=pi, even L), so drho=rho; verified vs eigsh build_operators at L<=8'},
            'columns': ['L', 'qubits', 'M2_paulis', 'full_battery_bases', 'm0m1_bases'],
            'scaling': [[r['L'], r['qubits'], r['M2_paulis'], r['full_battery_bases'], r['m0m1_bases']] for r in rows]}
-    RES = os.path.normpath(os.path.join(HERE, '..', '06_results'))
+    RES = os.path.normpath(os.path.join(HERE, '..', 'data'))
     json.dump(out, open(os.path.join(RES, '2026-08-25_estimator_circuit_scaling.json'), 'w'), indent=2)
-    print(f"\nwrote 06_results/2026-08-25_estimator_circuit_scaling.json (CORRECTED)")
+    print(f"\nwrote data/2026-08-25_estimator_circuit_scaling.json (CORRECTED)")
 
 
 if __name__ == '__main__':

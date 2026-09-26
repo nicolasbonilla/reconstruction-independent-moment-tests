@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
-"""STAGE 2 — the sealed on-device n_k discriminating-falsifier job (ibm_fez).
+"""AMENDMENT VERSION (day_of_rule_v2, 2026-09-04). The amendment was DENIED on 2026-09-05
+(data/2026-09-05_nk_v4_verdict.json); manifest v2 was never sealed; this job was never run.
+The job that matches the sealed manifest v1 is nk_stage2_device_job.py. One editing artifact was
+fixed on publication (2026-09-26): a literal "\n" in the manifest-v2 assert, which made the file fail
+to parse, is now a line continuation; nothing else in the logic was changed.
+
+STAGE 2 — the sealed on-device n_k discriminating-falsifier job (ibm_fez).
 
 Runs ONLY against the sealed manifest (data/manifest_nk_device_v1.json, SHA-256 recorded).
 Modes:
@@ -41,38 +47,56 @@ def frozen_logical_circuits():
         out[nm] = qc
     return refs, out
 
-def pick_chain(backend):
-    """Day-of chain-acceptance rule (manifest verbatim): best 12-qubit path meeting the floors."""
-    props = backend.properties()
-    T1 = {q: props.t1(q) for q in range(backend.num_qubits)}
-    T2 = {q: props.t2(q) for q in range(backend.num_qubits)}
-    cmap = backend.coupling_map
-    cz_err = {}
-    for (a, b) in cmap:
-        try: cz_err[(a, b)] = props.gate_error('cz', [a, b])
-        except Exception: pass
-    med = float(np.median(list(cz_err.values()))) if cz_err else None
-    # greedy scan for 12-qubit paths satisfying the rule, score by mean CZ error
+def pick_chain_v2(svc, ro_cap=0.030):
+    """day_of_rule_v2 (sealed, wf_c07c723b-b96): backends B={fez,marrakesh,kingston};
+    qualification CZmed<=3.5e-3; chain = 12-path with T1>=100us, T2>=70us, RO<=ro_cap per
+    qubit, edge CZ<=min(3.5e-3, 2*med); deterministic selection: min sum CZ, ties by
+    (1) min sum RO, (2) min sum 1/T2, (3) lexicographic. Returns (backend_name, chain,
+    score, snapshot) or (None,...) = FORFEIT."""
     import collections
-    adj = collections.defaultdict(list)
-    for (a, b) in cmap: adj[a].append(b); adj[b].append(a)
-    def ok_q(q): return T1[q] >= 150e-6 and T2[q] >= 100e-6
-    best = None
-    for start in range(backend.num_qubits):
-        if not ok_q(start): continue
-        path = [start]; used = {start}
-        while len(path) < 12:
-            cands = [n for n in adj[path[-1]] if n not in used and ok_q(n)]
-            if not cands: break
-            nxt = min(cands, key=lambda n: cz_err.get((path[-1], n), cz_err.get((n, path[-1]), 1.0)))
-            path.append(nxt); used.add(nxt)
-        if len(path) == 12:
-            errs = [cz_err.get((path[i], path[i+1]), cz_err.get((path[i+1], path[i]), np.nan))
-                    for i in range(11)]
-            if any(e > 2*med for e in errs if not np.isnan(e)): continue
-            score = float(np.nanmean(errs))
-            if best is None or score < best[1]: best = (path, score, errs)
-    return best, med
+    B = ('ibm_fez', 'ibm_marrakesh', 'ibm_kingston')
+    def safe(fn, *a):
+        try: return fn(*a)
+        except Exception: return None
+    best = None; snapshots = {}
+    for bname in B:
+        bk = svc.backend(bname); props = bk.properties()
+        cz = {}
+        for (x, y) in bk.coupling_map:
+            e = safe(props.gate_error, 'cz', [x, y])
+            if e is not None: cz[(x, y)] = e
+        med = float(np.median(list(cz.values())))
+        snapshots[bname] = {'cal_time': str(props.last_update_date), 'cz_median': med}
+        if med > 3.5e-3: continue                      # backend disqualified
+        cap = min(3.5e-3, 2*med)
+        T1 = {q: safe(props.t1, q) for q in range(bk.num_qubits)}
+        T2 = {q: safe(props.t2, q) for q in range(bk.num_qubits)}
+        RO = {q: safe(props.readout_error, q) for q in range(bk.num_qubits)}
+        ok = {q for q in range(bk.num_qubits)
+              if (T1[q] or 0) >= 100e-6 and (T2[q] or 0) >= 70e-6 and (RO[q] or 1) <= ro_cap}
+        adj = collections.defaultdict(set)
+        def ee(a, b): return cz.get((a, b), cz.get((b, a), np.nan))
+        for (x, y), e in cz.items():
+            if x in ok and y in ok and e <= cap: adj[x].add(y); adj[y].add(x)
+        found = []
+        def dfs(path, vis):
+            if len(path) == 12:
+                found.append(list(path)); return len(found) >= 4000
+            for n in sorted(adj[path[-1]]):
+                if n not in vis:
+                    vis.add(n); path.append(n)
+                    if dfs(path, vis): return True
+                    path.pop(); vis.remove(n)
+            return False
+        for st in sorted(ok):
+            if dfs([st], {st}): break
+        for ch in found:
+            sc = (sum(ee(ch[i], ch[i+1]) for i in range(11)),
+                  sum(RO[q] for q in ch), sum(1.0/T2[q] for q in ch), tuple(ch))
+            if best is None or sc < best[2]:
+                best = (bname, ch, sc)
+    if best is None: return None, None, None, snapshots
+    return best[0], best[1], best[2], snapshots
 
 def analyze(counts_by_circuit, refs, out_path):
     res = {}
@@ -119,13 +143,21 @@ def main():
         return
     from qiskit_ibm_runtime import QiskitRuntimeService, Batch, SamplerV2
     svc = QiskitRuntimeService()
-    backend = svc.backend('ibm_fez')
-    best, med = pick_chain(backend)
-    if best is None:
-        print('DAY-OF CHAIN RULE: NO 12-qubit chain meets the floors -> forfeit the window (sealed).')
-        return
-    chain, score, errs = best
-    print(f'[chain] accepted {chain}  mean_cz_err={score:.4f} (median {med:.4f}); floors OK')
+    v2p = os.path.join(RES, 'manifest_nk_device_v2.json')
+    ro_cap = 0.030
+    if os.path.exists(v2p):
+        ro_cap = json.load(open(v2p)).get('noise_floors', {}).get('readout_cap', 0.030)
+    else:
+        print('WARNING: manifest v2 not sealed yet — shots are FORBIDDEN (dry run only).')
+    bname, chain, score, snaps = pick_chain_v2(svc, ro_cap)
+    if bname is None:
+        print('day_of_rule_v2: NO candidate chain on any qualifying backend -> FORFEIT (sealed).')
+        print('snapshots:', json.dumps(snaps)); return
+    backend = svc.backend(bname)
+    snap_path = os.path.join(RES, time.strftime('%Y-%m-%d_%H%M') + '_chain_snapshot.json')
+    json.dump({'backend': bname, 'chain': chain, 'score': score[:3], 'snapshots': snaps,
+               'ro_cap': ro_cap}, open(snap_path, 'w'), indent=1)
+    print(f'[chain] {bname} {chain} sumCZ={score[0]:.4f}; snapshot -> {snap_path}')
     from qiskit import transpile
     isa_jobs = {}
     for nm, qc in logical.items():
@@ -141,6 +173,18 @@ def main():
         print('\nDRY RUN complete (nothing submitted). Set RUN=1 to submit the sealed Batch '
               f'(~3-4 QPU min): 5 circuits x {SHOTS} shots, gate twirling N=32, measurement twirling, DD.')
         return
+    assert os.path.exists(os.path.join(RES, 'manifest_nk_device_v2.json')), \
+        'ABORT: shots forbidden before manifest v2 is sealed (day_of_rule_v2)'
+    # ---- HARD $0 GUARD (standing user constraint: strictly within the free tier) ----
+    insts = svc.instances()
+    assert any(i.get('pricing_type') == 'free' or i.get('plan') == 'open' for i in insts), \
+        'ABORT: no free/open instance found — this job may only run on the $0 plan'
+    u = svc.usage()
+    rem = u['usage_remaining_seconds']
+    EST_S = 110   # measured anchor: 0.283 s/kshot x 250 kshots ~ 71 s, + batch overhead margin
+    assert rem >= EST_S + 20, \
+        f'ABORT: only {rem}s free-tier QPU remaining < estimate {EST_S}s + margin — never exceed $0'
+    print(f'[cost-guard] free plan OK; remaining {rem}s >= {EST_S+20}s needed — $0 assured')
     # ---- SEALED SUBMISSION ----
     order = list(CIRC_NAMES); np.random.default_rng(20260902).shuffle(order)
     with Batch(backend=backend) as batch:

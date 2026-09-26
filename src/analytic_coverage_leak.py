@@ -1,6 +1,9 @@
 r"""
 Analytic shot-noise model of the coverage-leak falsifier Delta_0(N).
 
+SUPERSEDED MODEL (fp_rate = 1.0); kept as a record, not evidence. Its committed output is
+data/_superseded/analytic_coverage_leak.json, which is where a re-run writes.
+
 Replaces the (upward-biased) nonparametric bootstrap of the support functional with
 the CORRECT decomposition from the exact amplitudes. A determinant x of the addition
 sector carries weight w_x = |phi_x|^2 (sum_x w_x = m0_op) and ideal sampling
@@ -28,7 +31,7 @@ from scipy.stats import norm
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 JOB  = os.path.join(HERE, "hardware_matched_job_L8.py")
-RES  = os.path.normpath(os.path.join(HERE, "..", "06_results"))
+RES  = os.path.normpath(os.path.join(HERE, "..", "data"))
 Z    = float(os.environ.get("ZLEVEL", norm.ppf(0.975)))      # 1.96 -> two-sided 5%
 ALPHA = 2 * (1 - norm.cdf(Z))
 
@@ -118,8 +121,8 @@ def main():
 
     json.dump({"z": Z, "alpha": ALPHA, "rows": rows, "inversion": inv,
                "note": "E=deterministic coverage leak, sd=shot noise, tau0=z*sd pre-registered"},
-              open(os.path.join(RES, "analytic_coverage_leak.json"), "w", encoding="utf-8"), indent=2)
-    print(f"\n[cov] wrote {os.path.join(RES,'analytic_coverage_leak.json')}")
+              open(os.path.join(RES, "_superseded", "analytic_coverage_leak.json"), "w", encoding="utf-8"), indent=2)
+    print(f"\n[cov] wrote {os.path.join(RES,'_superseded','analytic_coverage_leak.json')}")
 
 
 if __name__ == "__main__":

@@ -105,11 +105,11 @@ print(f"\nLOAD-BEARING CANDIDATE (|1-band_ratio|>0.10 somewhere)? {any_lb}")
 print("  (this is necessary but NOT sufficient for a verdict flip; a flip needs a realistic corruption")
 print("   landing between the two bands. If rho~0 everywhere, the covariance is cosmetic -> honest fallback.)")
 
-RES = os.path.normpath(os.path.join(HERE, '..', '06_results'))
+RES = os.path.normpath(os.path.join(HERE, '..', 'data'))
 json.dump({'_provenance': {'script': 'joint_covariance_composition.py', 'sim_only': True, 'seed': SEED,
            'model': f'L={L} U/t={U} doped current Lehmann measure', 'M': M,
            'gap': 'same-sample Cov(m_hat_k,m_bar_k); Var(Delta)=Var(mhat)+Var(mbar)-2Cov'},
            'm0_true': m0_true, 'm1_true': m1_true, 'nsup': nsup, 'results': results, 'verdict': verdict,
            'any_load_bearing_candidate': any_lb},
           open(os.path.join(RES, '2026-09-01_joint_covariance.json'), 'w'), indent=2)
-print("\nwrote 06_results/2026-09-01_joint_covariance.json")
+print("\nwrote data/2026-09-01_joint_covariance.json")

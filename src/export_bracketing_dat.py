@@ -8,8 +8,7 @@ import numpy as np
 import scipy.sparse as sp
 from scipy.sparse.linalg import eigsh
 HERE = os.path.dirname(os.path.abspath(__file__))
-LIB = os.path.normpath(os.path.join(HERE, '..', '..', '00_shared', 'lib'))
-sys.path.insert(0, LIB); sys.path.insert(0, HERE)
+sys.path.insert(0, HERE)   # hubbard_ed.py is vendored in src/
 import hubbard_ed as H
 from run_sumrule_falsifier import current_operator
 OUT = os.path.normpath(os.path.join(HERE, '..', 'paper', 'figs'))

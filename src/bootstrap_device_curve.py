@@ -29,7 +29,7 @@ import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 JOB  = os.path.join(HERE, "hardware_matched_job_L8.py")
-RES  = os.path.normpath(os.path.join(HERE, "..", "06_results"))
+RES  = os.path.normpath(os.path.join(HERE, "..", "data"))
 B    = int(os.environ.get("NBOOT", 1000))
 SEED = int(os.environ.get("SEED", 1))
 

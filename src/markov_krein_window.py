@@ -41,8 +41,7 @@ import scipy.sparse as sp
 from scipy.sparse.linalg import eigsh
 import mpmath as mp
 HERE = os.path.dirname(os.path.abspath(__file__))
-LIB = os.path.normpath(os.path.join(HERE, '..', '..', '00_shared', 'lib'))
-sys.path.insert(0, LIB); sys.path.insert(0, HERE)
+sys.path.insert(0, HERE)   # hubbard_ed.py is vendored in src/
 import hubbard_ed as H
 from run_sumrule_falsifier import current_operator
 
@@ -222,7 +221,7 @@ def main():
         results['orders'][f'n={n}'] = order_rec
         print()
 
-    outdir = os.path.normpath(os.path.join(HERE, '..', '06_results'))
+    outdir = os.path.normpath(os.path.join(HERE, '..', 'data'))
     os.makedirs(outdir, exist_ok=True)
     outpath = os.path.join(outdir, '2026-08-28_markov_krein_window.json')
     json.dump(results, open(outpath, 'w'), indent=2)

@@ -27,8 +27,8 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 HERE = os.path.dirname(os.path.abspath(__file__))
-LIB = os.path.normpath(os.path.join(HERE, '..', '..', '00_shared', 'lib'))
-sys.path.insert(0, LIB); sys.path.insert(0, HERE)
+SRC = os.path.dirname(HERE)   # quarantined in src/_superseded/; hubbard_ed.py etc. live in src/
+sys.path.insert(0, SRC); sys.path.insert(0, HERE)
 import hubbard_ed as H
 from run_sumrule_falsifier import current_operator
 

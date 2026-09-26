@@ -20,7 +20,7 @@ HONEST SCOPE (must travel with any use of this harness):
 import os, json, hashlib
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.normpath(os.path.join(HERE, '..', '06_results'))
+OUT = os.path.normpath(os.path.join(HERE, '..', 'data'))
 os.makedirs(OUT, exist_ok=True)
 
 PREREG = {
@@ -67,6 +67,10 @@ def canonical(obj):
 
 
 def main():
+    for _p in ('prereg.json', 'prereg.sha256'):   # the committed seal is a read-only record
+        if os.path.exists(os.path.join(OUT, _p)):
+            raise SystemExit(f"REFUSING to overwrite the sealed record {_p}; "
+                             "run in a scratch copy of the repository to re-seal.")
     blob = canonical(PREREG)
     h = hashlib.sha256(blob).hexdigest()
     with open(os.path.join(OUT, 'prereg.json'), 'wb') as f:

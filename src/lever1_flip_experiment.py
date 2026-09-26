@@ -21,7 +21,7 @@ SIM-ONLY: only m0 ran on ibm_fez; m1,m2 are classically-reproducible simulated s
 import os, sys, json, time, hashlib, numpy as np, scipy.sparse as sp
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import spectral_lanczos as sl
-RES = os.path.normpath(os.path.join(HERE, '..', '06_results'))
+RES = os.path.normpath(os.path.join(HERE, '..', 'data'))
 
 # ----------------------------- FROZEN PRE-REGISTRATION -----------------------------
 CFG = {
@@ -49,8 +49,15 @@ stamp = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
 prereg_blob = json.dumps(CFG, sort_keys=True)
 prereg_hash = hashlib.sha256(prereg_blob.encode()).hexdigest()
 seal = {'prereg_sha256': prereg_hash, 'utc': stamp, 'config': CFG}
-json.dump(seal, open(os.path.join(RES, '2026-09-01_lever1_prereg_seal.json'), 'w'), indent=2)
-print(f"[PREREG SEALED] sha256={prereg_hash[:16]}  utc={stamp}")
+_seal_path = os.path.join(RES, '2026-09-01_lever1_prereg_seal.json')
+if os.path.exists(_seal_path):   # never overwrite the committed seal: re-verify it instead
+    _old = json.load(open(_seal_path))
+    if _old['prereg_sha256'] != prereg_hash:
+        raise SystemExit('SEAL MISMATCH: the frozen CFG differs from the committed lever1 prereg seal.')
+    print(f"[PREREG] committed seal verified sha256={prereg_hash[:16]}  utc={_old['utc']}")
+else:
+    json.dump(seal, open(_seal_path, 'w'), indent=2)
+    print(f"[PREREG SEALED] sha256={prereg_hash[:16]}  utc={stamp}")
 
 rng = np.random.default_rng(CFG['seed_master'])
 L, U = CFG['L'], CFG['U']; z = CFG['z']; alpha = CFG['alpha']
@@ -200,7 +207,7 @@ for covlbl,Ns in CFG['coverage_ladder_Ns'].items():
 
 json.dump({'_prereg_sha256':prereg_hash,'m1_true':m1_true,'nsup':nsup,'stage':'0-2-3-4oracle',
            'summary':summary},open(os.path.join(RES,'2026-09-01_lever1_oracle.json'),'w'),indent=2)
-print("\nwrote 06_results/2026-09-01_lever1_oracle.json")
+print("\nwrote data/2026-09-01_lever1_oracle.json")
 # oracle decision gate
 maxgain=max(r['gain'] for c in summary.values() for r in c['oracle_multivariate_rungs'].values())
 indep_overconservative=any(c['fpr_indep_nominal']<0.035 for c in summary.values())

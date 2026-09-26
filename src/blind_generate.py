@@ -18,7 +18,7 @@ import scipy.sparse as sp
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import spectral_lanczos as sl
-OUT = os.path.normpath(os.path.join(HERE, '..', '06_results'))
+OUT = os.path.normpath(os.path.join(HERE, '..', 'data'))
 
 
 def load_sealed_prereg():
@@ -137,6 +137,10 @@ def main():
         sealed.append({'id': i, 'mode': mode, 'corrupted': bool(corrupted), 'params': params,
                        'm_exact': m_ex.tolist()})
 
+    for _p in ('blind_instances_public.json', 'blind_labels_sealed.json'):   # sealed, read-only
+        if os.path.exists(os.path.join(OUT, _p)):
+            raise SystemExit(f"REFUSING to overwrite the sealed record {_p}; "
+                             "run in a scratch copy of the repository to regenerate.")
     json.dump({'_prereg_sha256': open(os.path.join(OUT, 'prereg.sha256')).read().strip(),
                'instances': public}, open(os.path.join(OUT, 'blind_instances_public.json'), 'w'), indent=1)
     json.dump({'labels': sealed}, open(os.path.join(OUT, 'blind_labels_sealed.json'), 'w'), indent=1)

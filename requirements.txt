@@ -1,20 +1,23 @@
 # Core — exact diagonalization engine (sector Lanczos + Haydock), all spectral
 # functions A(k,w), S(q,w), S^zz(q,w), the moment falsifiers, the interval-moment
-# forecast, the joint Hankel battery and the Christoffel certificate. Reproduces
-# every non-hardware result locally with numpy/scipy only.
+# forecast, the joint Hankel battery and the Christoffel bounds (mpmath: the
+# high-precision Christoffel/Markov-Krein recurrences).
 numpy>=1.24
 scipy>=1.10
+mpmath>=1.3
 
 # Figure rasters (perceptual "hot" colormaps for the A(k,w) / S(q,w) heatmaps)
 matplotlib>=3.7
 pillow>=9.5
 
 # ---------------------------------------------------------------------------
-# OPTIONAL — only to RE-RUN the IBM Heron hardware notebook from scratch (needs
-# an IBM Quantum account). The classical screen runs on the cached companion
-# data (data/heron_spectral.json), so the hardware section reproduces without it.
+# OPTIONAL — noise-model forecasts and re-analysis of the retained ibm_fez counts
+# (qiskit, qiskit-aer); re-acquiring device data (qiskit-ibm-runtime; needs an IBM
+# Quantum account); the L=24 DMRG check (tenpy); the headless notebook run.
 # ---------------------------------------------------------------------------
 # qiskit>=1.0
 # qiskit-aer>=0.14            # noise-model forecasts (off-diagonal bias floor, n_k, MC interval)
 # qiskit-ibm-runtime>=0.20
 # qiskit-addon-sqd>=0.6
+# physics-tenpy>=1.0         # L=24 DMRG-oracle check (beyond_ed_dmrg_catch.py)
+# jupyter, nbconvert         # make reproduce

@@ -187,7 +187,7 @@ dev = [{'eps': s['eps'], 'B_depol': s['B_depol'], 'B_folklore': s['B_folklore'],
         'rel_dev': (s['B_depol'] - s['B_folklore']) / max(abs(s['B_folklore']), 1e-9)} for s in sweep if s['eps'] > 0]
 
 # ----------------------------- write results + manifest hash -----------------------------
-RES = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '06_results'))
+RES = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'))
 os.makedirs(RES, exist_ok=True)
 out = {'_manifest': MANIFEST,
        '_manifest_hash': hashlib.sha256(json.dumps(MANIFEST, sort_keys=True).encode()).hexdigest()[:16],

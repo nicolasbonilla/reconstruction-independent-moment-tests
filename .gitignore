@@ -3,7 +3,11 @@ __pycache__/
 .venv/
 venv/
 .ipynb_checkpoints/
-src/cache/
+src/cache/*
+!src/cache/*_L12.npz
+out/
+06_results/
+07_figures/
 *.aux
 *.log
 *.out

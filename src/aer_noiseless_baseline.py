@@ -20,7 +20,7 @@ import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 JOB  = os.path.join(HERE, "hardware_matched_job_L8.py")
-RES  = os.path.normpath(os.path.join(HERE, "..", "06_results"))
+RES  = os.path.normpath(os.path.join(HERE, "..", "data"))
 SEED = int(os.environ.get("SEED", 1))
 LEVELS = [50000, 30000, 16000, 4000]
 

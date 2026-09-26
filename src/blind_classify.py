@@ -4,7 +4,7 @@ m_bar, var_loc). NEVER opens blind_labels_sealed.json. Applies the frozen batter
 import os, json, hashlib
 import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.normpath(os.path.join(HERE, '..', '06_results'))
+OUT = os.path.normpath(os.path.join(HERE, '..', 'data'))
 
 
 def main():
@@ -17,6 +17,9 @@ def main():
     pub = json.load(open(os.path.join(OUT, 'blind_instances_public.json')))
     if pub['_prereg_sha256'] != open(os.path.join(OUT, 'prereg.sha256')).read().strip():
         raise SystemExit("instances were generated under a different prereg.")
+    if os.path.exists(os.path.join(OUT, 'blind_verdicts.json')):   # sealed, read-only
+        raise SystemExit("REFUSING to overwrite the sealed record blind_verdicts.json; "
+                         "run in a scratch copy of the repository to re-classify.")
     verdicts = []
     for inst in pub['instances']:
         m_hat = np.array(inst['m_hat']); m_bar = np.array(inst['m_bar']); var = np.array(inst['var_loc'])

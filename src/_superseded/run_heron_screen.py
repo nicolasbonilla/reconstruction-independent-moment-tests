@@ -23,7 +23,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 DATE = '2026-08-18'
-FIGSRC = os.path.normpath('C:/Users/Nicolas/Downloads/Proyecto_SQD_ML/02_Paper_Amortizacion/release/paper/figs')
+FIGSRC = None   # companion figures: github.com/nicolasbonilla/dynamical-spectral-functions-sqd paper/figs
 HERE = os.path.dirname(os.path.abspath(__file__))
 RES = os.path.normpath(os.path.join(HERE, '..', '06_results'))
 FIG = os.path.normpath(os.path.join(HERE, '..', '07_figures'))

@@ -3,7 +3,7 @@ r"""
 MATCHED, RECONSTRUCTION-INDEPENDENT DEVICE-SIDE MOMENT FALSIFIER  (Paper 3)
 ==========================================================================
 Companion (Paper 2) canonical notebook:
-    02_Paper_Amortizacion/release/notebooks/Spectral_Heron.ipynb
+    the companion repository dynamical-spectral-functions-sqd, notebooks/Spectral_Heron.ipynb
 That notebook computes the electron-ADDITION single-particle spectral function A^+(omega) of the
 1D Hubbard ring (L=6, U/t=4, thop=1.0, eta=0.15, 12 qubits, INTERLEAVED spin-orbital order
 p = 2*site + spin, even=up / odd=down) on IBM Heron. The device ONLY samples: it prepares a
@@ -46,7 +46,7 @@ ENVIRONMENT (blocking for the QPU path):
     needs qiskit>=1.2 with a matching qiskit-ibm-runtime>=0.34 in an ISOLATED venv. The pair installed
     for the LOCAL dry-run (qiskit 1.0.2 + qiskit-ibm-runtime 0.24.0) is INCOMPATIBLE with the runtime
     import path used here (SamplerPubResult), so create a separate venv for RUN=1:
-        py -m venv C:\tmp\ibmqpu && C:\tmp\ibmqpu\Scripts\activate
+        py -m venv .venv-ibmqpu && .venv-ibmqpu\Scripts\activate
         pip install -U "qiskit>=1.2" "qiskit-ibm-runtime>=0.34" qiskit-aer numpy scipy
     Save the account ONCE, privately (new-platform form: API key + instance CRN):
         from qiskit_ibm_runtime import QiskitRuntimeService
@@ -68,7 +68,7 @@ import numpy as np
 import scipy.sparse as sp
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-RES = os.path.normpath(os.path.join(HERE, '..', '06_results'))
+RES = os.path.normpath(os.path.join(HERE, '..', 'data'))
 DATE = '2026-08-28'
 
 # numpy 1.26 (dry-run venv) has np.trapz; numpy>=2 has np.trapezoid. Support both.

@@ -41,11 +41,10 @@ t0 = time.time()
 log = lambda *a: print(f"[{time.time()-t0:7.1f}s]", *a, flush=True)
 
 CACHE = os.path.join(HERE, 'cache')
-RES = os.path.normpath(os.path.join(HERE, '..', '06_results'))
-# write the plot data into BOTH figs trees (paper/figs mirror + the real arxiv-submission tree)
+RES = os.path.normpath(os.path.join(HERE, '..', 'data'))
+# write the plot data into the paper's figs dir
 FIGDIRS = [
     os.path.normpath(os.path.join(HERE, '..', 'paper', 'figs')),
-    os.path.normpath(os.path.join(HERE, '..', 'paper', 'arxiv-submission', 'figs')),
 ]
 DATE = '2026-08-26'
 

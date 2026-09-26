@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-THE NOVEL KERNEL — self-certifying, transportable sum-rule FALSIFIER (impact synthesis wf_f9d5da8c-515, rank-1 first step).
+THE NOVEL KERNEL — m0-blind / m1-detects, transportable sum-rule FALSIFIER (impact synthesis wf_f9d5da8c-515, rank-1 first step).
 
 The un-scooped intellectual product of the impact program: an on-hardware, regime-independent FALSIFIER for a
 reconstructed dynamical response, built from sum rules that are GROUND-STATE OPERATOR EXPECTATIONS (hence computable
@@ -8,13 +8,13 @@ from the SAME computational-basis samples, transportable across the classical-in
 
 Optical response of a Hubbard ring: current spectral function A_J(omega) = sum_n |<n|J|0>|^2 delta(omega - omega_n),
 omega_n = E_n - E_0 > 0, J the current operator. Its moments are EXACT operator sum rules on the ground state:
-    m0 = integral A_J domega = <J^2>                       (current-fluctuation / zeroth-moment sum rule; the f-sum)
+    m0 = integral A_J domega = <J^2>                       (current-fluctuation / total-weight (m0) sum rule; NOT the optical f-sum, which is m_-1)
     m1 = integral omega A_J domega = (1/2) <[J,[H,J]]>      (first-moment / kinetic sum rule)
 Both are ground-state expectations, INDEPENDENT of the reconstructed spectrum.
 
-THE FALSIFIER CLAIM (what we prove here): the zeroth-moment f-sum (m0) fixes only the TOTAL weight and is BLIND to
+THE FALSIFIER CLAIM (what we prove here): the total-weight (m0) sum rule fixes only the TOTAL weight and is BLIND to
 the Drude/mid-IR SPLIT; a wrong reconstruction that redistributes weight between low-omega (Drude) and mid-omega
-(mid-IR) while preserving m0 PASSES the f-sum but VIOLATES the first-moment sum rule m1. Adding m1 turns the armor
+(mid-IR) while preserving m0 PASSES the total-weight (m0) sum rule but VIOLATES the first-moment sum rule m1. Adding m1 turns the armor
 from necessary-only into shape-constraining. This is the transportable, regime-independent internal check that
 answers the verification paradox: it converts an unconfirmable spectrum into one that could have failed a test.
 """
@@ -26,14 +26,13 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 HERE = os.path.dirname(os.path.abspath(__file__))
-LIB = os.path.normpath(os.path.join(HERE, '..', '..', '00_shared', 'lib'))
-sys.path.insert(0, LIB); sys.path.insert(0, HERE)
+sys.path.insert(0, HERE)   # hubbard_ed.py is vendored in src/
 import hubbard_ed as H
 
 DATE = '2026-08-18'
 L, U = 6, 8.0
-RES = os.path.normpath(os.path.join(HERE, '..', '06_results'))
-FIG = os.path.normpath(os.path.join(HERE, '..', '07_figures'))
+RES = os.path.normpath(os.path.join(HERE, '..', 'data'))
+FIG = os.path.normpath(os.path.join(HERE, '..', 'out'))   # diagnostic PNGs (gitignored)
 
 
 def current_operator(L, c, t=1.0):
@@ -108,7 +107,7 @@ def main():
         w_wrong[lo] *= (1 + transfer / max(W_lo, 1e-12))              # add to Drude, m0 preserved
         m0_wrong = float(w_wrong.sum()); m1_wrong = float((om * w_wrong).sum())
         res.append({'f': float(f),
-                    'm0_residual': abs(m0_wrong - m0_op) / m0_op,     # f-sum check (should stay ~0)
+                    'm0_residual': abs(m0_wrong - m0_op) / m0_op,     # total-weight (m0) sum-rule check (should stay ~0)
                     'm1_residual': abs(m1_wrong - m1_op) / m1_op})    # first-moment check (should grow -> FALSIFIES)
 
     # sanity: true spectrum matches operator sum rules
@@ -118,7 +117,8 @@ def main():
 
     out = {'_provenance': {'script': 'A_payload_echoes/03_src/run_sumrule_falsifier.py', 'date': DATE,
                            'params': f'Hubbard ring L={L}, U={U}, PBC, half-filling', 'synthesis': 'wf_f9d5da8c-515 rank-1',
-                           'claim': 'transportable sum-rule falsifier: f-sum blind to Drude/mid-IR split; first-moment falsifies it'},
+                           'claim': 'transportable sum-rule falsifier: total-weight (m0) sum rule blind to Drude/mid-IR split; first-moment falsifies it',
+                           'relabel_note': '2026-09-26: m0 was mislabelled the f-sum; the optical f-sum is m_-1 (see manuscript)'},
            'sum_rules': {'m0_operator_<J^2>': m0_op, 'm1_operator_half<[J,[H,J]]>': m1_op,
                          'm0_spectrum': m0_spec, 'm1_spectrum': m1_spec,
                          'm0_match_residual': s_m0, 'm1_match_residual': s_m1},
@@ -127,8 +127,8 @@ def main():
            'distortion_sweep': res,
            'summary': {'true_spectrum_satisfies_both_sumrules': bool(s_m0 < 1e-6 and s_m1 < 1e-6),
                        'falsifier_works': bool(falsifier_works),
-                       'verdict': ('FALSIFIER CONFIRMED: a wrong Drude/mid-IR split passes the f-sum (m0 residual ~0) '
-                                   'but the first-moment sum rule (m1) flags it -> transportable self-certification works.'
+                       'verdict': ('FALSIFIER CONFIRMED: a wrong Drude/mid-IR split passes the total-weight (m0) sum rule (m0 residual ~0) '
+                                   'but the first-moment sum rule (m1) flags it -> m0-blind / m1-detects.'
                                    if falsifier_works else 'INSPECT')}}
     os.makedirs(RES, exist_ok=True); os.makedirs(FIG, exist_ok=True)
     jpath = os.path.join(RES, f'{DATE}_sumrule_falsifier.json')
@@ -145,19 +145,19 @@ def main():
     ax[0].hist(om, bins=bins, weights=w_wrong, alpha=0.55, color='#c0392b',
                label='wrong split (same $m_0$)')
     ax[0].axvline(om_split, color='k', ls=':', lw=1, label='Drude | mid-IR')
-    ax[0].set_title('(a) a wrong Drude/mid-IR split that PASSES the f-sum', fontsize=10.5)
+    ax[0].set_title('(a) a wrong Drude/mid-IR split that PASSES the total-weight (m0) sum rule', fontsize=10.5)
     ax[0].set_xlabel(r'$\omega$ (energy above ground state)'); ax[0].set_ylabel(r'spectral weight $A_J(\omega)$')
     ax[0].legend(fontsize=8.5)
     # (b) sum-rule residuals vs distortion
-    ax[1].plot(fs, [r['m0_residual'] for r in res], 's-', color='#1e8449', lw=2, label=r'$m_0$ (f-sum) residual')
+    ax[1].plot(fs, [r['m0_residual'] for r in res], 's-', color='#1e8449', lw=2, label=r'$m_0$ (total-weight) residual')
     ax[1].plot(fs, [r['m1_residual'] for r in res], 'o-', color='#8e44ad', lw=2, label=r'$m_1$ (first-moment) residual')
     ax[1].axhline(0.05, color='#c0392b', ls='--', lw=1, label='falsification threshold')
-    ax[1].set_title('(b) the first-moment sum rule FALSIFIES what the f-sum misses', fontsize=10.5)
+    ax[1].set_title('(b) the first-moment sum rule FALSIFIES what the total-weight (m0) sum rule misses', fontsize=10.5)
     ax[1].set_xlabel('weight fraction moved mid-IR → Drude'); ax[1].set_ylabel('relative sum-rule residual')
     ax[1].legend(fontsize=8.5)
     for a in ax:
         a.grid(alpha=0.25)
-    fig.suptitle(f'TRANSPORTABLE SUM-RULE FALSIFIER — Hubbard ring L={L}, U={U} (the self-certification kernel)',
+    fig.suptitle(f'TRANSPORTABLE SUM-RULE FALSIFIER — Hubbard ring L={L}, U={U} (m0-blind / m1-detects)',
                  y=1.02, fontsize=11)
     fig.tight_layout()
     ppath = os.path.join(FIG, f'{DATE}_sumrule_falsifier.png')
@@ -169,7 +169,7 @@ def main():
     print(f'Drude/mid-IR split at omega={om_split:.2f}:  W_Drude={W_lo:.3f} @ {obar_lo:.2f},  W_midIR={W_hi:.3f} @ {obar_hi:.2f}')
     print('distortion sweep (fraction moved mid-IR->Drude):')
     for r in res[::2]:
-        print(f'  f={r["f"]:.2f}:  m0 residual={r["m0_residual"]:.1e} (f-sum: PASSES)   m1 residual={r["m1_residual"]:.3f} (first-moment: {"FLAGS" if r["m1_residual"]>0.05 else "ok"})')
+        print(f'  f={r["f"]:.2f}:  m0 residual={r["m0_residual"]:.1e} (m0 sum rule: PASSES)   m1 residual={r["m1_residual"]:.3f} (first-moment: {"FLAGS" if r["m1_residual"]>0.05 else "ok"})')
     print('VERDICT:', out['summary']['verdict'])
     print('saved:', jpath); print('saved:', ppath)
 

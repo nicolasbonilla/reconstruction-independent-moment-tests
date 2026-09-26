@@ -14,7 +14,7 @@ from nk_stage0_gate import (L, U, FN, THETA, PHI, FILL, SHOTS, ed_references, ft
 from nk_stage0_gate_v3 import build_isa, T1_FLOOR, T2_FLOOR
 from qiskit import qpy
 
-RES = os.path.normpath(os.path.join(HERE, '..', '06_results'))
+RES = os.path.normpath(os.path.join(HERE, '..', 'data'))
 
 def sha(b): return hashlib.sha256(b).hexdigest()
 def fsha(p): return sha(open(p, 'rb').read())
@@ -151,6 +151,9 @@ def main():
                           'previously exposed token must be revoked before the run; no token is ever committed',
     }
     mpath = os.path.join(RES, 'manifest_nk_device_v1.json')
+    if os.path.exists(mpath):   # the sealed manifest is a read-only record
+        raise SystemExit('REFUSING to overwrite the sealed manifest_nk_device_v1.json; '
+                         'run in a scratch copy of the repository to re-seal.')
     blob = json.dumps(manifest, indent=1, sort_keys=True).encode()
     open(mpath, 'wb').write(blob)
     h = sha(blob)

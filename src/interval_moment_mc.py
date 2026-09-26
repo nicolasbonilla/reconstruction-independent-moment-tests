@@ -126,15 +126,16 @@ out = {'_provenance': {'script': 'interval_moment_mc.py', 'sim_only': True, 'see
                    'points': [{'z': zz, 'fpr': f, 'tpr': t} for zz, f, t in roc]},
        'mhat_hist': np.histogram(mhat, bins=40)[0].tolist(),
        'mhat_edges': np.histogram(mhat, bins=40)[1].tolist()}
-os.makedirs('../06_results', exist_ok=True)
-json.dump(out, open('../06_results/2026-08-24_interval_moment_mc.json', 'w'), indent=2)
-print("\nwrote 06_results/2026-08-24_interval_moment_mc.json")
+HERE = os.path.dirname(os.path.abspath(__file__))
+DATA = os.path.normpath(os.path.join(HERE, '..', 'data'))
+json.dump(out, open(os.path.join(DATA, '2026-08-24_interval_moment_mc.json'), 'w'), indent=2)
+print("\nwrote data/2026-08-24_interval_moment_mc.json")
 
-# --- native-figure .dat mirrors (PGFPlots) into the paper's figs/ dirs ---
+# --- native-figure .dat mirrors (PGFPlots) into the paper's figs/ dir ---
 cnt, edges = np.histogram(mhat, bins=40)
 ctr = 0.5 * (edges[:-1] + edges[1:]); bw = edges[1] - edges[0]
 gauss = M * bw / (sd * np.sqrt(2*np.pi)) * np.exp(-0.5*((ctr - mu)/sd)**2)
-for figdir in ('../paper/arxiv-submission/figs', '../paper/figs'):
+for figdir in (os.path.normpath(os.path.join(HERE, '..', 'paper', 'figs')),):
     if not os.path.isdir(figdir):
         continue
     with open(os.path.join(figdir, 'momentmc_hist.dat'), 'w') as f:

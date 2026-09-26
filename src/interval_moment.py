@@ -84,6 +84,6 @@ out = {'_provenance': {'script': 'interval_moment.py', 'scale': 'L=6 U=4 current
        'm1_op': m1_op, 'm0': m0, 'var_loc': var_loc, 'sigma_shot': sigma_shot, 'bias': bias, 'delta1': delta1,
        'delta1_pct': 100*delta1/abs(m1_op), 'nsup': nsup, 'd_reject_max': d_reject_max,
        'sweep': [{'d': d, 'cov': cov, 'm1_trunc': m1t, 'gap': gap, 'verdict': v} for d,cov,m1t,gap,v in rows]}
-os.makedirs('../06_results', exist_ok=True)
-json.dump(out, open('../06_results/2026-08-22_interval_moment_closure.json','w'), indent=2)
-print("\nwrote 06_results/2026-08-22_interval_moment_closure.json")
+DATA = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'))
+json.dump(out, open(os.path.join(DATA, '2026-08-22_interval_moment_closure.json'), 'w'), indent=2)
+print("\nwrote data/2026-08-22_interval_moment_closure.json")

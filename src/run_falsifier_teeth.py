@@ -25,15 +25,14 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import scipy.sparse as sp
 HERE = os.path.dirname(os.path.abspath(__file__))
-LIB = os.path.normpath(os.path.join(HERE, '..', '..', '00_shared', 'lib'))
-sys.path.insert(0, LIB); sys.path.insert(0, HERE)
+sys.path.insert(0, HERE)   # hubbard_ed.py is vendored in src/
 import hubbard_ed as H
 from run_sumrule_falsifier import current_operator
 
 DATE = '2026-08-18'
 L, U = 6, 8.0
-RES = os.path.normpath(os.path.join(HERE, '..', '06_results'))
-FIG = os.path.normpath(os.path.join(HERE, '..', '07_figures'))
+RES = os.path.normpath(os.path.join(HERE, '..', 'data'))
+FIG = os.path.normpath(os.path.join(HERE, '..', 'out'))   # diagnostic PNGs (gitignored)
 
 
 def main():

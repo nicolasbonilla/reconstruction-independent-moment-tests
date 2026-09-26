@@ -43,7 +43,7 @@ from collections import Counter
 t0 = time.time()
 log = lambda *a: print(f"[{time.time()-t0:8.1f}s]", *a, flush=True)
 HERE = os.path.dirname(os.path.abspath(__file__))
-RES = os.path.normpath(os.path.join(HERE, '..', '06_results'))
+RES = os.path.normpath(os.path.join(HERE, '..', 'data'))
 CACHE = os.path.join(HERE, 'cache')
 DATE = '2026-08-28'
 

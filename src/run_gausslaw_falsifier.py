@@ -29,8 +29,8 @@ DATE = '2026-08-18'
 N = 4                                   # matter sites (even, staggered)
 W, M = 1.0, 0.6                         # hopping, staggered mass
 HERE = os.path.dirname(os.path.abspath(__file__))
-RES = os.path.normpath(os.path.join(HERE, '..', '06_results'))
-FIG = os.path.normpath(os.path.join(HERE, '..', '07_figures'))
+RES = os.path.normpath(os.path.join(HERE, '..', 'data'))
+FIG = os.path.normpath(os.path.join(HERE, '..', 'out'))   # diagnostic PNGs (gitignored)
 
 I2 = sp.identity(2, format='csr', dtype=complex)
 SZ = sp.csr_matrix(np.array([[1, 0], [0, -1]], complex))

@@ -6,7 +6,7 @@ m0-preserving ac)."""
 import os, json, math
 from collections import defaultdict
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.normpath(os.path.join(HERE, '..', '06_results'))
+OUT = os.path.normpath(os.path.join(HERE, '..', 'data'))
 
 
 def wilson(k, n, z=1.96):

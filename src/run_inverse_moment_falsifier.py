@@ -33,7 +33,7 @@ is the cheapest of all the moment estimators (one-body operator: JW weight-2 XX/
 two qubit-wise-commuting settings, a subset of what m_0/m_1 already require -- Sec. 'measurement cost').
 
 Outputs (no matplotlib; native-pgfplots .dat + JSON only):
-  06_results/<date>_inverse_moment_falsifier.json          (all verified numbers)
+  data/<date>_inverse_moment_falsifier.json                (all verified numbers)
   paper/figs/inverse_falsifier_spectrum.dat                (A_true, A_wrong, 1/omega kernel; panel a)
   paper/figs/inverse_falsifier_sweep.dat                   (Delta_k/m_k vs misplaced fraction; panel b)
   paper/figs/inverse_falsifier_table.tex                   (\input-able booktabs-free tabular)
@@ -45,15 +45,13 @@ from scipy.sparse.linalg import eigsh, LinearOperator
 from itertools import combinations
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-LIB  = os.path.normpath(os.path.join(HERE, '..', '..', '00_shared', 'lib'))
-sys.path.insert(0, LIB); sys.path.insert(0, HERE)
+sys.path.insert(0, HERE)   # hubbard_ed.py is vendored in src/
 import spectral_lanczos as SL   # strings(), occ_matrix(), haydock_poles() reused verbatim
 
 DATE = datetime.date.today().isoformat()
-RES  = os.path.normpath(os.path.join(HERE, '..', '06_results'))
-# write native-pgfplots inputs to BOTH the working figs dir and the arxiv-submission build dir
-FIGS_DIRS = [os.path.normpath(os.path.join(HERE, '..', 'paper', 'figs')),
-             os.path.normpath(os.path.join(HERE, '..', 'paper', 'arxiv-submission', 'figs'))]
+RES  = os.path.normpath(os.path.join(HERE, '..', 'data'))
+# write native-pgfplots inputs to the paper's figs dir
+FIGS_DIRS = [os.path.normpath(os.path.join(HERE, '..', 'paper', 'figs'))]
 FIGS = FIGS_DIRS[0]
 
 def _write_figs(name, text):

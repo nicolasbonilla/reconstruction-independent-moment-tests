@@ -68,7 +68,7 @@ for bias_frac in (0.0, 0.02, 0.04):
                          delta0=d0, delta1=d1, delta2=d2, m1_verdict=m1v, battery_verdict=bv))
 print("\nKEY: at bias<=2%, d=98 -- MISSED by m1 alone -- is REJECTED by the joint (m1,m2) battery (g2 >> delta2).")
 print("The second moment probes weight at higher freq that the accidental m1-match hides -> the battery has no blind spot at d=98.")
-_out = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '06_results', 'interval_battery_showcase.json')
+_out = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data', 'interval_battery_showcase.json')
 json.dump({'L': L, 'U': U, 'Ns': Ns, 'z': z, 'seeded_eigsh': True,
            'independent_moments': {'m0': m0_op, 'm1': m1_op, 'm2': m2_op},
            'focus_ds': focus_ds, 'nsup': nsup, 'rows': rows}, open(_out, 'w'), indent=1)

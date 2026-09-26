@@ -35,14 +35,13 @@ import numpy as np
 import scipy.sparse as sp
 from scipy.sparse.linalg import eigsh
 HERE = os.path.dirname(os.path.abspath(__file__))
-LIB = os.path.normpath(os.path.join(HERE, '..', '..', '00_shared', 'lib'))
-sys.path.insert(0, LIB); sys.path.insert(0, HERE)
+sys.path.insert(0, HERE)   # hubbard_ed.py is vendored in src/
 import hubbard_ed as H
 
 DATE = '2026-08-26'
 L, U, T = 6, 8.0, 1.0
-RES = os.path.normpath(os.path.join(HERE, '..', '06_results'))
-FIGS = os.path.normpath(os.path.join(HERE, '..', 'paper', 'arxiv-submission', 'figs'))
+RES = os.path.normpath(os.path.join(HERE, '..', 'data'))
+FIGS = os.path.normpath(os.path.join(HERE, '..', 'paper', 'figs'))
 
 # representative momenta q = 2*pi*m/L ; m in {1,2,3} -> q/pi in {1/3, 2/3, 1}
 M_REP = [1, 2, 3]

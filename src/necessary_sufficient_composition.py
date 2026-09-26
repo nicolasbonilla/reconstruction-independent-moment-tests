@@ -74,7 +74,7 @@ print("\nKEY: the two layers act on the IDENTICAL {m_0,m_1,m_2}; bare Hankel pos
 print("under-dispersion, the support-localizing SDP catches over-dispersion. Necessary o sufficient")
 print("is thus a demonstrated composition on one moment sequence, not merely a framed one.")
 
-out = os.path.normpath(os.path.join(HERE, "..", "06_results", "necessary_sufficient_composition.json"))
+out = os.path.normpath(os.path.join(HERE, "..", "data", "necessary_sufficient_composition.json"))
 json.dump({"L": 6, "U": 8.0, "support": [a, b], "m0": m0, "m1": m1, "m2": m2,
            "hankel_lower_bound_m2": hankel_lo, "support_upper_bound_m2": support_hi,
            "certified_interval_m2": [hankel_lo, support_hi], "true_m2_inside": inside,

@@ -165,6 +165,6 @@ out = {'_provenance': {'script': 'within_sector_control.py', 'sim_only': True,
                   'deltas_m0_to_m5': [float(x) for x in deltas], 'hankel_psd': bool(hk),
                   'stieltjes_shifted_psd': bool(hks), 'second_probe_delta': float(dprime)}
                  for K, moved, deltas, hk, hks, dprime in rows]}
-os.makedirs('../06_results', exist_ok=True)
-json.dump(out, open('../06_results/2026-08-24_within_sector_control.json', 'w'), indent=2)
-print("\nwrote 06_results/2026-08-24_within_sector_control.json")
+DATA = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'))
+json.dump(out, open(os.path.join(DATA, '2026-08-24_within_sector_control.json'), 'w'), indent=2)
+print("\nwrote data/2026-08-24_within_sector_control.json")

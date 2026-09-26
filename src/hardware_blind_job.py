@@ -13,7 +13,7 @@ verification; the estimator is identical.
    qiskit-ibm-runtime>=0.34 (the pair installed as of writing, qiskit 1.0.2 + runtime 0.24.0, is
    INCOMPATIBLE: runtime import fails on SamplerPubResult). Use an ISOLATED venv so other projects
    are untouched:
-       py -m venv C:\tmp\ibmqpu && C:\tmp\ibmqpu\Scripts\activate
+       py -m venv .venv-ibmqpu && .venv-ibmqpu\Scripts\activate
        pip install -U "qiskit>=1.2" "qiskit-ibm-runtime>=0.34" qiskit-aer numpy scipy
 1. CREDENTIALS (USER-ONLY): from IBM Quantum Platform save the account ONCE in a private shell
    (NOT this repo, NOT chat). New-platform form (API key + instance CRN, both on your dashboard):
@@ -35,7 +35,7 @@ verification; the estimator is identical.
    exact seed-prep + Trotter snapshots for a matched, classically-checkable run.
 5. Mitigation matched to the companion: dynamical decoupling (XpXm), Pauli gate twirling
    (num_randomizations=32), measurement twirling + TREX. Submit as ONE Batch. RETAIN raw per-basis
-   counts -> 06_results/heron_counts_<jobid>.json.
+   counts -> data/heron_counts_<jobid>.json.
 ==============================================================================
 """
 import os, sys, json
@@ -52,7 +52,7 @@ NMOM = int(os.environ.get("NMOM", 3))   # 3 = full battery m0,m1,m2 (~357 bond-b
 BACKEND = os.environ.get("IBM_BACKEND", "ibm_fez")        # 156q Heron r2, confirmed available on your instance
 ACCOUNT = os.environ.get("IBM_ACCOUNT", "open-instance")  # saved-account name (your dashboard: 'open-instance')
 NQ = bme.NQ
-OUT = os.path.normpath(os.path.join(HERE, '..', '06_results'))
+OUT = os.path.normpath(os.path.join(HERE, '..', 'data'))
 
 
 def build_prep_circuit():

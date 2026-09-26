@@ -252,10 +252,10 @@ def main():
            'm_hat': {f'm{j}': float(est[:, j].mean()) for j in range(3)},
            'm_std': {f'm{j}': float(est[:, j].std()) for j in range(3)}}
     import json
-    RES = _os.path.normpath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '06_results'))
+    RES = _os.path.normpath(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', 'data'))
     _os.makedirs(RES, exist_ok=True)
     json.dump(res, open(_os.path.join(RES, f'2026-08-25_bond_moment_estimator_L{L}.json'), 'w'), indent=2)
-    print(f"\nwrote 06_results/2026-08-25_bond_moment_estimator_L{L}.json")
+    print(f"\nwrote data/2026-08-25_bond_moment_estimator_L{L}.json")
     return res
 
 

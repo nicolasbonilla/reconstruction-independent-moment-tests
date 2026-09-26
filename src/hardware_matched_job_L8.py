@@ -37,7 +37,7 @@ KEEPS the correct int(bs, 2) bitstring->Fock mapping (rightmost char = qubit 0),
 companion bug, and the ADDITION-only moments (m0^+ = 1 - <n_0up>, NOT the two-sided m0 = 1).
 
 USAGE (LOCAL, 0 QPU):
-    C:\tmp\ibmqpu\Scripts\python.exe hardware_matched_job_L8.py
+    python hardware_matched_job_L8.py        # in a venv with qiskit + qiskit-aer
 Optional env overrides: L=8 NELEC_UP=5 NELEC_DN=4 SHOTS_DRY=50000 SEED=1.
 """
 import os, sys, json, time
@@ -45,7 +45,7 @@ import numpy as np
 import scipy.sparse as sp
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-RES = os.path.normpath(os.path.join(HERE, '..', '06_results'))
+RES = os.path.normpath(os.path.join(HERE, '..', 'data'))
 DATE = '2026-08-28'
 
 _trapz = getattr(np, 'trapezoid', None) or np.trapz

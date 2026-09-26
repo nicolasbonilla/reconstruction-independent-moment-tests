@@ -43,7 +43,7 @@ for G in G_LIST:
                  'B_folklore': Bf, 'pct_folklore': 100 * Bf / m1e, 'ratio_folk_exact': Bf / Be})
     print(f"{G:>5} {Be:>9.4f} {100*Be/m1e:>6.1f}% {Bf:>11.4f} {100*Bf/m1e:>6.1f}% {Bf/Be:>10.2f}  [{time.time()-t0:.0f}s]")
 
-RES = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '06_results'))
+RES = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'))
 json.dump({'eps': EPS, 'seed': SEED, 'm1_exact': m1e, 'TrM1_dim': trM1, 'Bmax': Bmax,
            'note': 'exact static-carrier local-depol floor is a LOWER bound (no operator scrambling, '
                    'no leakage, no readout); folklore global-depol is the upper edge; real Krylov-Trotter '

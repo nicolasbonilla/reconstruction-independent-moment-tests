@@ -6,12 +6,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 HERE = os.path.dirname(os.path.abspath(__file__))
-LIB = os.path.normpath(os.path.join(HERE, '..', '..', '00_shared', 'lib'))
-sys.path.insert(0, LIB); sys.path.insert(0, HERE)
+SRC = os.path.dirname(HERE)   # quarantined in src/_superseded/; hubbard_ed.py etc. live in src/
+sys.path.insert(0, SRC); sys.path.insert(0, HERE)
 import paper_style as PS; PS.apply()
 RES = os.path.normpath(os.path.join(HERE, '..', '06_results'))
 PAP = os.path.normpath(os.path.join(HERE, '..', 'paper', 'figs')); os.makedirs(PAP, exist_ok=True)
-FIGSRC = os.path.normpath('C:/Users/Nicolas/Downloads/Proyecto_SQD_ML/02_Paper_Amortizacion/release/paper/figs')
+FIGSRC = None   # companion figures: github.com/nicolasbonilla/dynamical-spectral-functions-sqd paper/figs
 
 
 def load(name):
