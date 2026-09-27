@@ -15,7 +15,7 @@
 > **Status (2026-09-27).** The manuscript is under revision. It is **not on arXiv** and not in a journal.
 > On 2026-09-27 the numbers the revision needs were recomputed as committed scripts with dated outputs
 > (`data/2026-09-27_*.json`; "phase A", listed in [`docs/REPRODUCE.md`](docs/REPRODUCE.md)), and the text
-> in [`paper/`](paper/) (now 38 pp) was revised against them: several statements of the 2026-09-05 text are
+> in [`paper/`](paper/) (now in the SciPost Physics Core template) was revised against them: several statements of the 2026-09-05 text are
 > corrected or withdrawn (listed in [`paper/README.md`](paper/README.md)). The length pass and the port to
 > the SciPost template are still to come. Where text and data disagree, the code and data in this
 > repository are the reference.
@@ -254,7 +254,7 @@ Not yet reproducible from this repository, or known defects:
 │   └── _superseded/                    #   superseded model, precursor-program data, .dat copies (see its README)
 ├── notebooks/
 │   └── 00_Reproduce_Everything.ipynb   #   narrated run of the committed generators, phase-A scripts included
-├── paper/                              # the manuscript, revised 2026-09-27 (LaTeX source + PDF, 38 pp) — see paper/README.md
+├── paper/                              # the manuscript, revised 2026-09-27 (LaTeX source + PDF, SciPost template) — see paper/README.md
 ├── docs/
 │   ├── REPRODUCE.md                    #   figure/number → script → exact command, phase-A outputs, known gaps
 │   ├── FILE_INDEX.md                   #   every file, described

@@ -1,46 +1,88 @@
-\documentclass[aps,prb,reprint,superscriptaddress,floatfix,nofootinbib]{revtex4-2}
+\PassOptionsToPackage{dvipsnames}{xcolor}
+\documentclass[submission, PhysCore]{SciPost}
 \pdfoutput=1 % force pdfLaTeX on arXiv (pgfplots + PNG raster fields require it)
 
-\usepackage{amsmath,amssymb,amsthm}
-\usepackage{graphicx}
-\usepackage[dvipsnames]{xcolor}
+% SciPost template (SciPost.cls 2021-08, the class version with the PhysCore option): fonts and link colours.
+% The template's \binoppenalty=\relpenalty=10000 (no line breaks in inline math) is not used: with this paper's
+% inline formulas it pushed lines up to 100 pt into the margin.
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+\usepackage[bitstream-charter]{mathdesign}
+\urlstyle{sf}
+\DeclareSymbolFont{usualmathcal}{OMS}{cmsy}{m}{n}
+\DeclareSymbolFontAlphabet{\mathcal}{usualmathcal}
+
+\usepackage{amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{dsfont}
+\newcommand{\openone}{\mathds{1}}% identity operator (revtex's \openone)
 \usepackage{bm}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 \usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing,decorations.markings,fit,backgrounds}
 \usepgfplotslibrary{groupplots,fillbetween}
 \input{figstyle}
-\usepackage[colorlinks=true,allcolors=RoyalBlue]{hyperref}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}{Proposition}
+
+% Figures drawn for a single APS column (width=\columnwidth) keep their proportions in the one-column layout.
+\newcommand{\onecolfig}{\setlength{\columnwidth}{0.65\textwidth}}
 
 \setlength{\emergencystretch}{2.5em}% absorb residual inline-math overfulls into invisible micro-stretch
 
 \begin{document}
 
-\title{Reconstruction-independent moment tests for quantum-computed dynamical spectra}
+\begin{center}{\Large \textbf{
+Reconstruction-independent moment tests for quantum-computed dynamical spectra
+}}\end{center}
 
-\author{Nicol\'as Bonilla Vargas}
-\email{ngbonillav@unal.edu.co}
-\affiliation{Universidad Nacional de Colombia, Bogot\'a, Colombia}
-\affiliation{SRH University, Munich, Germany}
-\affiliation{Daita AI, Munich, Germany}
+\begin{center}
+Nicol\'as Bonilla Vargas\textsuperscript{1,2,3$\star$}
+\end{center}
+
+\begin{center}
+{\bf 1} Universidad Nacional de Colombia, Bogot\'a, Colombia
+\\
+{\bf 2} SRH University, Munich, Germany
+\\
+{\bf 3} Daita AI, Munich, Germany
+\\
+${}^\star$ {\small \sf ngbonillav@unal.edu.co}
+\end{center}
+
+\begin{center}
+\today
+\end{center}
+
+% Line numbers for refereeing (SciPost template option).
+\linenumbers
 % Affiliations aligned with the companion (arXiv:2608.16436v3, main.tex:231-235). Daita AI is a
 % company: its role is stated under "Competing interests" in the back matter (author decision, 2026-09-27).
 
-\begin{abstract}
+\section*{Abstract}
+{\bf
 Sample-based quantum diagonalization now reconstructs dynamical spectral functions $A(\omega)$ classically in subspaces sampled on a quantum processor. We develop and calibrate a screen comparing the moments read off a reconstruction with ground-state operator expectations that never use $A(\omega)$. A mismatch beyond a preset threshold rejects it; a pass does not certify it. In a hash-sealed, blinded simulation of 300 doped Hubbard-ring instances, the pre-registered primary endpoint was a detection rate of 53.7\% (101/188; Wilson 95\% CI 46.6--60.7\%) at a false-positive rate of 0.9\% (1/112), with an unbiased simulated estimator. The screen caught all 56 determinant truncations, 74\% of spurious features and none of 71 under-converged Krylov reconstructions; two sealed secondary predictions failed. Classical moment brackets state what a pass implies; at the deployed order ($m_0$--$m_2$) guaranteed power against fixed-pole redistributions is zero. On IBM Heron only the sampled support comes from the device. The missed weight $\Delta_0$ grows from 0.004 to 0.37 as coverage falls from 94\% to 35\%, but it rewards support spreading: a uniform in-sector sampler reaches lower $\Delta_0$, and the reconstruction with $\Delta_0=0.004$ has a relative $L_1$ error of 0.35. The discriminating moments $m_1,m_2$ remain simulation-only; a sealed noise gate for an on-device momentum-distribution test failed.
-\end{abstract}
+}
 
-\maketitle
+\vspace{10pt}
+\noindent\rule{\textwidth}{1pt}
+\tableofcontents\thispagestyle{fancy}
+\noindent\rule{\textwidth}{1pt}
+\vspace{10pt}
 
-\begin{figure*}[t]
+\begin{figure}[t]
 \centering
-\input{figs/fig_hero}
+\adjustbox{max width=\textwidth}{\input{figs/fig_hero}}
 \caption{\textbf{Two moment branches from one sample set (design).} Computational-basis samples fix a subspace $\mathcal S$. The reconstruction branch diagonalizes $H$ in $\mathcal S$, assembles $A(\omega)$ and reads off $\bar m_k=\int\omega^k A(\omega)\,d\omega$. The estimator branch evaluates the ground-state operator moment $\widehat m_k=\langle J(H-e_0)^kJ\rangle$ with $e_0=\langle H\rangle$ on the prepared state; on an exact eigenstate this equals $\langle J\,\mathrm{ad}_H^{k}(J)\rangle$, the form printed in the drawing (Appendix~\ref{app:moments}). It never uses $A(\omega)$, so it can disagree with the reconstruction. The reconstruction is rejected when $\Delta_k=|\widehat m_k-\bar m_k|$ exceeds a threshold $\tau_k=z\,\delta_k$ fixed in advance from shot noise and a bias budget; a pass does not certify it. In this paper the two branches share one set of shots only in simulation; on hardware the device supplies the support $\mathcal S$ alone (Sec.~\ref{sec:device}).}
 \label{fig:hero}
-\end{figure*}
+\end{figure}
 
 \section{Introduction}
 Dynamical response functions connect many-body theory to experiment. The single-particle spectral function $A(k,\omega)$ is measured by angle-resolved photoemission~\cite{Damascelli2003}, the dynamical structure factors $S(q,\omega)$ and $S^{zz}(q,\omega)$ by inelastic neutron and resonant x-ray scattering, and the optical conductivity by infrared spectroscopy~\cite{Basov2011,Benthien2004,Qin2022}. Quantum processors, first used for static ground-state energies~\cite{AspuruGuzik2005,Peruzzo2014,McArdle2020,Bauer2020,Bravyi2022}, now return such functions as well. Trapped-ion devices have produced dynamical structure factors and single-particle spectral functions~\cite{GranetDSF2026,GranetARPES2026}, and Green's functions built from measured Hamiltonian moments~\cite{GreeneDiniz2024}. On superconducting processors, a DFT+DMFT workflow has computed its impurity Green's function with up to 14 qubits~\cite{Selisko2025}, and structure factors computed with up to 50 qubits have been compared quantitatively with neutron-scattering data~\cite{Lee2026}. Sample-based diagonalization and quantum Krylov methods, developed for ground states~\cite{QSCI2023,SQDchem2025,SKQD2501,Yoshioka2025,Motta2020}, have been extended to spectra~\cite{SQDspec2608,Patel2026}. In this quantum-centric pattern the device samples a subspace, and classical resources diagonalize the Hamiltonian in it and assemble $A(\omega)$~\cite{Alexeev2024}. The hardware run of our companion study is exact by coverage and establishes only that this pipeline executes; its post-selection read the bitstrings in reversed bit order, so all of its retained determinants came from device errors~\cite{SQDspec2608}.
@@ -67,14 +109,14 @@ This paper is the methodological complement of a companion study that reconstruc
 
 \emph{(v) A device evaluation of the coverage channel} (Sec.~\ref{sec:device}). On IBM Heron (\texttt{ibm\_fez}) we ran seven circuits for an $L=8$ electron-addition sector at four shot budgets ($5\times10^4$ to $4\times10^3$ shots per circuit) and kept the raw counts. The circuits prepare a computational-basis determinant and apply on-site $R_{zz}$ phases and number- and spin-conserving $R_{xx}R_{yy}$ hopping without Jordan--Wigner strings, so they sample the addition sector but are not the Hubbard propagator of the probe state; the sampler used measurement twirling, Pauli gate twirling and dynamical decoupling, and the counts were post-selected to the physical sector without configuration recovery or readout-error mitigation. The device supplies only the support $\mathcal S$. The missed weight $\Delta_0$ grows from $0.0044$ to $0.37$ as coverage falls from $94\%$ to $35\%$, but it measures support, not fidelity. At $5\times10^4$ shots per circuit the device value lies below all $2000$ noiseless multinomial replicas of the same circuits at the same raw shot count, and at $4\times10^3$ above all of them. A uniform sampler over the sector, drawing as many in-sector samples as the device retained, reaches a lower $\Delta_0$ and a more accurate reconstruction than the device at every budget. The device reconstruction with $\Delta_0=0.0044$ has a relative $L_1$ error of $0.35$; that is still better than all 80 noiseless replicas we reconstructed at the same budget, while at $4\times10^3$ shots the device reconstruction is worse than all 80. The discriminating moments $m_1,m_2$ were not measured on the device: at the companion's circuit depth ($292$ CZ) the forecast depolarizing bias of the bond-basis estimate of $m_1$ is $37$--$116\%$ of the signal (local to global depolarizing at a two-qubit error of $2.5\times10^{-3}$). A sealed simulated noise gate for an on-device momentum-distribution test failed at the relaxed noise floors of its single permitted amendment ($T_1=100\,\mu$s, $T_2=70\,\mu$s, two-qubit error parameter $3.5\times10^{-3}$), and that run was not made.
 
-\begin{table*}[t]
+\begin{table}[t]
 \caption{\textbf{Contribution relative to the closest prior art.} ``recon.-indep.'' states whether the check compares a reconstruction with something the reconstruction did not produce, and with what; ``same samples'' states whether that comparison quantity comes from the samples that produced the spectrum; ``---'' marks an axis that does not apply to the method's object. The semidefinite programs bound the true moments; requiring the read-off moments to lie inside their intervals is a second necessary condition, not a sufficient one (Sec.~\ref{sec:stack}). $^{a}$Designed; realized only in part, and only in simulation (Sec.~\ref{sec:role}); same-sample estimation, blinded pre-registration and on-device execution have not been realized together in one experiment. $^{b}$The device supplies the sampled support only; the discriminating moments $m_1,m_2$ are simulation-only (Table~\ref{tab:scope}). $^{c}$Blinded simulation with an oracle-centred estimator (Sec.~\ref{sec:blind}). $^{d}$The companion's $L=6$ device run covers the whole sector, so its bound is not exercised on device data.}
 \label{tab:contribution}
-\begin{ruledtabular}
 \footnotesize
-\begin{tabular}{p{0.29\textwidth}p{0.21\textwidth}lllp{0.17\textwidth}}
+\begin{tabular}{p{0.24\textwidth}p{0.17\textwidth}>{\raggedright\arraybackslash}p{0.09\textwidth}>{\raggedright\arraybackslash}p{0.10\textwidth}>{\raggedright\arraybackslash}p{0.07\textwidth}p{0.16\textwidth}}
+\toprule
 method & recon.-indep. & same samples & on device & blinded & role \tabularnewline
-\colrule
+\midrule
 \raggedright Turkowski--Freericks sum-rule checks~\cite{TurkowskiFreericks2006,Freericks2009} & \raggedright yes (vs classical) & no & no & no & \raggedright consistency check \tabularnewline
 \raggedright maxent / stochastic continuation~\cite{Jarrell1996,Sandvik1998} & \raggedright yes (vs classical) & no & no & no & \raggedright consistency check \tabularnewline
 \raggedright Buchs \emph{et al.}\ validation framework~\cite{Buchs2026} & \raggedright yes (vs experiment, classical, sum-rule targets) & no & no & no & \raggedright validation metrics, incl.\ moments \tabularnewline
@@ -86,9 +128,9 @@ method & recon.-indep. & same samples & on device & blinded & role \tabularnewli
 \raggedright reference-free observable estimation~\cite{OEACV2026} & \raggedright --- (certifies number) & --- & yes & no & \raggedright validity \tabularnewline
 \raggedright companion: captured weight and leakage~\cite{SQDspec2608} & \raggedright --- (bounds the error) & --- & no$^{d}$ & no & \raggedright a posteriori error bound \tabularnewline
 \raggedright \textbf{this work} & \raggedright \textbf{yes} & \textbf{designed}$^{a}$ & \textbf{support only}$^{b}$ & \textbf{yes}$^{c}$ & \raggedright \textbf{necessary condition} \tabularnewline
+\bottomrule
 \end{tabular}
-\end{ruledtabular}
-\end{table*}
+\end{table}
 
 We state the scope at the outset. The method can reject a reconstruction but cannot certify one; its conditions are necessary, not sufficient. The moment screen targets determinant-subspace truncation and spurious features in sample-based-diagonalization (SQD/QSCI) spectra, that is, weight and subspace misassignment; the Gauss-law identity targets gauge-symmetry violation in the prepared state. The screen is out of scope for Krylov-convergence errors: a subspace containing the order-$K$ Krylov space reproduces the moments through order $2K+1$~\cite{SQDspec2608}, so an under-converged Krylov reconstruction passes the battery (Sec.~\ref{sec:blind}). Detecting that error class calls for a separate instrument, most naturally a Ritz-residual convergence check on the Krylov basis, which we leave to future work. Neither check is a general device-noise diagnostic, which remains the province of noise-model and observable-estimation validation~\cite{OEACV2026}. The screen tests integrated moments, not pointwise line shapes; its positivity structure is that of a diagonal $T=0$ Lehmann spectrum~\cite{Lehmann1954}; and every demonstration is at a classically reproducible size (Hubbard chains and rings with $L\le12$, a small lattice-Schwinger model, and a DMRG scalability check at $L=24$). On hardware, moments carry statistical and systematic error, so the exact-moment tests must be replaced by interval tests before they can be trusted there (Appendix~\ref{app:estimator}); Table~\ref{tab:scope} separates what is measured on hardware, what is simulated and what is deferred.
 
@@ -111,7 +153,7 @@ The screen attaches to the spectrum an estimator $\widehat{m}_k$ of each moment 
 The screen is a battery, not a single test. It applies $\Delta_k$ for $k = 0,1,\dots,K$ (deployed: $K=2$) and, separately, checks that the estimated sequence $\{\widehat{m}_k\}$ is itself a moment sequence of a positive measure. That requires the Hankel matrix $H_n=[\widehat m_{i+j}]\succeq 0$ and, because a diagonal $T=0$ Lehmann measure is supported on $\omega=E_n-E_0\ge 0$, also the shifted Stieltjes matrix $H_n^{(1)}=[\widehat m_{i+j+1}]\succeq 0$~\cite{ShohatTamarkin1943,Akhiezer1965,KreinNudelman1977} (Fig.~\ref{fig:momentcone}). A violation rejects the estimate---device, mitigation or estimator---independently of $A(\omega)$. It cannot reject a non-negative reconstruction, whose own moments satisfy these conditions by construction; in the blinded test the branch was applied to $\bar m_k$ and could not fire (Sec.~\ref{sec:blind}). The battery also accepts any exactly known operator identity: a conserved charge $[H,G]=0$ with a known physical eigenvalue gives a constraint on the prepared state whose violation rejects that state, as in the gauge-theory example below~\cite{Gauss2020}. The construction transports across models and observables because it needs only (a) a positive spectral measure and (b) operators whose ground-state expectations can be estimated without the reconstruction~\cite{KPM2006,GM2010}.
 
 \begin{figure}[t]
-\centering
+\centering\onecolfig
 \input{figs/fig_momentcone}
 \caption{\textbf{Hankel-positivity region in the $(m_1,m_2)$ plane.} For a normalized measure ($m_0=1$) with frequencies rescaled to $[-1,1]$, the moments must lie in the body $m_1^2\le m_2\le 1$. The lower edge $m_2=m_1^2$ is the Hankel (rank-one) boundary, reached by a single $\delta$; the upper edge $m_2=1$ is the interval (Hausdorff) localizing condition of the $[-1,1]$ support. The two boxes are schematic shot-budget intervals on an estimated moment vector. A box that lies wholly in the Hankel-negative region $m_2<m_1^2$ (oxblood, ``falsified'') rejects the estimate with no reference to $A(\omega)$; a box inside the body (teal, ``survives'') passes. The check acts on the estimate: a non-negative reconstruction always has its own moments inside the body. The teal dot is the exact $(m_1,m_2)$ of the doped $L=6$, $U/t=8$ Hubbard current measure. The rescaling maps onto $[-1,1]$ the full range of excitation energies of the Fock-space Hamiltonian, $[0.148,52.21]\,t$, which includes states of zero weight; the weighted support $[2.49,13.92]\,t$ maps to $[-0.91,-0.47]$. In these units the measure is narrow, and one pole carries $78\%$ of its weight, so the dot lies just above the rank-one edge~\cite{ShohatTamarkin1943,Akhiezer1965}.}
 \label{fig:momentcone}
@@ -120,19 +162,19 @@ The screen is a battery, not a single test. It applies $\Delta_k$ for $k = 0,1,\
 \section{Results I: weight-misassignment errors across observables}
 We first show the physical spectra on which the screen operates. Figure~\ref{fig:akw} shows the single-particle spectral function $A(k,\omega)$ of the half-filled Hubbard ring: lower and upper Hubbard bands separated by the Mott gap, with the dispersion of a one-dimensional correlated insulator~\cite{Hubbard1963,LiebWu1968,Dagotto1994,Benthien2004,Preuss1995}. A truncated or otherwise corrupted reconstruction misplaces spectral weight. To illustrate what the first-moment check measures, we inject a corruption that flattens the band-centroid dispersion by moving weight between the Hubbard bands at each momentum, leaving the Mott gap and the per-$k$ total weight intact. It is the single-particle analogue of the optical weight misplacement of Fig.~\ref{fig:invfalsifier} and of the truncation errors of Fig.~\ref{fig:teeth}. The first moment at each momentum, given by the anticommutator sum rule for the non-Hermitian probe $c_{k\sigma}$ (Appendix~\ref{app:moments}), exposes the flattening (right panel). The corruption is built to move the centroid by a fixed fraction of $\epsilon_k$, and the moment is evaluated in closed form, so the residual is set by construction: the panel illustrates the check rather than testing it. The same construction applies to collective response. Figure~\ref{fig:sqw} shows the charge dynamical structure factor $S(q,\omega)$, gapped by a particle--hole excitation onset $\Delta_c$, and the spin structure factor $S^{zz}(q,\omega)$, whose gapless low-energy weight is the spinon continuum of the gapless spin sector~\cite{Voit1995}, a signature of spin--charge separation~\cite{Benthien2004}. Each channel is a positive $T=0$ Lehmann measure with its own moment sum rules, so the screen applies to each; Fig.~\ref{fig:collective_screen} runs it on both. Such spectra are standard output of classical many-body methods---density-matrix renormalization group and tensor-network dynamics, dynamical mean-field theory, and determinant quantum Monte Carlo with analytic continuation~\cite{White1992,Schollwock2011,Georges1996,Gull2011,Jarrell1996}; at the sizes used here we compute them exactly.
 
-\begin{figure*}[t]
+\begin{figure}[t]
 \centering
-\input{figs/fig_akw}
+\adjustbox{max width=\textwidth}{\input{figs/fig_akw}}
 \caption{\textbf{The first-moment check on the single-particle spectral function $A(k,\omega)$ of the Hubbard model.} Left: exact $A(k,\omega)$ of the half-filled ring. Frequencies are measured from the mid-gap Fermi level $E_F=U/2$ (dashed). The band edges $\mu^\pm=\pm2.484\,t$ at $k_F=\pi/2$ (dots, arrow) give the single-particle Mott gap $\Delta=\mu^+-\mu^-=4.97\,t$, which approaches $U$ only in the atomic limit $t\to0$. Center: an injected corruption that rebalances intensity between the upper and lower Hubbard bands at each momentum so that the band centroid becomes $(1-\alpha)\epsilon_k$, with $\alpha=0.25$. It leaves the gap free of poles (only the Lorentzian tail of the broadening appears at $E_F$), the edges $\mu^\pm$ unchanged, and the per-$k$ weight $m_0=\langle\{c_{k\sigma},c_{k\sigma}^\dagger\}\rangle=1$ preserved, so a total-weight check accepts it. Right: $\Delta_1=|\widehat m_1-\bar m_1|$ per momentum, with $\widehat m_1(k)=\langle\{[c_{k\sigma},H],c_{k\sigma}^\dagger\}\rangle$ the Hartree centroid; measured from $U/2$ it is $\epsilon_k+U(\langle n_{-\sigma}\rangle-\tfrac12)=\epsilon_k$ at half filling (Appendix~\ref{app:moments}). Here $\widehat m_1$ is this closed-form value, not a sampled estimate, and $\Delta_1=\alpha|\epsilon_k|$ by construction: $0.50\,t$ at $k=0,\pi,2\pi$ and zero at $k=\pi/2,3\pi/2$, where $\epsilon_k=0$. For this probe $m_0$ is pinned to $1$ and cannot discriminate, so $m_1$ is the first informative moment~\cite{Lehmann1954,Freericks2009}. Sector-basis Lanczos ground state with Haydock continued-fraction Green's functions~\cite{Haydock1972,Lanczos1950}; $L=12$ ($12$ momenta), $U/t=8$, broadening $\eta=0.16\,t$. Spinon and holon branches are only partly resolved at this size and broadening; the collective response of Fig.~\ref{fig:sqw} separates the two energy scales more clearly.}
 \label{fig:akw}
-\end{figure*}
+\end{figure}
 
-\begin{figure*}[t]
+\begin{figure}[t]
 \centering
-\input{figs/fig_sqw}
+\adjustbox{max width=\textwidth}{\input{figs/fig_sqw}}
 \caption{\textbf{Charge and spin structure factors of the half-filled Hubbard ring.} Left: the charge dynamical structure factor $S(q,\omega)$ is gapped by a particle--hole onset $\Delta_c\approx5.7\,t$ (dashed line: the lowest frequency carrying more than $5\%$ of the peak intensity); below the line only the Lorentzian tail of the broadening is visible. $\Delta_c$ is a finite-size quantity distinct from the single-particle Mott gap $\mu^+-\mu^-\approx4.97\,t$ of Fig.~\ref{fig:akw}; both are set by $U$ and coincide only in the thermodynamic limit. Right: the spin structure factor $S^{zz}(q,\omega)$ carries gapless spinon weight. White dotted curves are the des Cloizeaux--Pearson (dCP) two-spinon boundaries $\omega_L=(\pi J/2)|\sin q|$~\cite{desCloizeauxPearson1962} and $\omega_U=\pi J|\sin(q/2)|$~\cite{Muller1981}, with $J=4t^2/U=0.5\,t$; filled teal points are the dominant spinon peak at each of the eleven momenta $q/\pi\in\{1/6,\dots,11/6\}$ and lie close to the lower edge. The dCP curves are an ideal large-$U$ Heisenberg guide, not a strict bound: finite $U$, finite size and broadening put some weight below $\omega_L$. The field is linearly interpolated in $q$ for display. The panels use different frequency windows because the two channels live on separated energy scales, $\sim U$ and $\sim J$; the charge data are computed to $11\,t$ and the spin data to $2.6\,t$, and the windows clip them at $10\,t$ and $2.4\,t$. Both are positive $T=0$ Lehmann measures with their own moment sum rules~\cite{HohenbergMartin1965}. No moment test is applied in this figure; Fig.~\ref{fig:collective_screen} applies it to both channels on a smaller ($L=6$) ring. Sector-basis Lanczos ground state with Haydock continued-fraction evaluation~\cite{Haydock1972,Lanczos1950}, $L=12$ at half filling ($11$ momentum transfers), $U/t=8$; broadening $\eta=0.20\,t$ (charge) and $0.12\,t$ (spin).}
 \label{fig:sqw}
-\end{figure*}
+\end{figure}
 
 We now apply the screen to a wrong distribution of correct total weight. In the doped one-dimensional Hubbard model the regular ($\omega>0$) current spectral function $A_J(\omega)$ is dominated by a mid-infrared/Mott band, and its total weight is the ground-state quantity $m_0=\langle J^2\rangle$~\cite{Kohn1964,Maldague1977,Eskes1991,Basov2011}. On the finite ring this object is entirely regular: the charge stiffness is a separate zero-frequency Drude term that does not appear in $A_J(\omega)$. We construct a wrong reconstruction that moves a fraction $f$ of the weight above $6\,t$ into a spurious pole at $2.5\,t$---a Drude-like low-frequency peak---keeping the total fixed. Figure~\ref{fig:invfalsifier} shows the outcome, with every moment evaluated exactly on the ground state (no sampling). The zeroth moment is unchanged, so a total-weight check passes the wrong spectrum. The first moment $m_1 = \tfrac{1}{2}\langle [J,[H,J]]\rangle$~\cite{Kohn1964,HohenbergMartin1965} differs from the reconstruction's by up to $38\%$ of $m_1$ at $f=0.5$; under the deployed threshold rule ($2\%$ bias budget at $N_s=5\times10^4$) it rejects from $f\approx0.057$. Integrated weight is a weak check for this error, and the first moment---the mean frequency of the weight---is what a misplaced-weight reconstruction corrupts.
 
@@ -140,17 +182,17 @@ The same misplaced weight also moves the negative-order moment. The positive mom
 
 A larger relative shift does not mean earlier detection. Because of the cancellation, a $2\%$ bias on $\tfrac12\langle-\hat T\rangle$ sets $\tau_{-1}=0.198$, which is $61\%$ of $m_{-1}$, whereas $\tau_1$ and $\tau_2$ are $4.3\%$ of $m_1$ and $m_2$. Under this rule $m_{-1}$ is the last to reject: $m_2$ rejects first ($f\approx0.046$), then $m_1$ ($0.057$), and $m_{-1}$ only at $f\approx0.20$. The open chain ($\mathcal D=0$) does not restore an advantage for this corruption, because $41\%$ of its regular weight already lies below $6\,t$ and $m_{-1}=4.81$ is large: there the thresholds are crossed at $f\approx0.17$ for $m_{-1}$, $0.059$ for $m_1$ and $0.045$ for $m_2$. When the spurious pole is moved across $0.25$--$4\,t$, $m_{-1}$ rejects first only for poles at $0.25\,t$ and $0.5\,t$, on both geometries (at $0.25\,t$ on the ring, $f\approx0.015$ against $0.044$ for $m_1$ and $0.043$ for $m_2$). The negative-order moment is thus a complementary check for weight placed very close to $\omega=0$, not the most sensitive check for the error model of Fig.~\ref{fig:invfalsifier}. On open chains it is also cheap: $\langle-\hat T\rangle$ is a one-body operator, measured in two qubit-wise-commuting settings that are a subset of those the $m_0,m_1$ estimator already requires (Appendix~\ref{app:estimator}). On the ring, $\mathcal D$ requires ground states at twisted flux and is not a same-sample quantity. We claim no novelty for the identity, which is the textbook $f$-sum~\cite{Kohn1964,Maldague1977}; we use it as an independent negative-order check.
 
-\begin{figure*}[t]
+\begin{figure}[t]
 \centering
-\input{figs/fig_inverse_falsifier}
+\adjustbox{max width=\textwidth}{\input{figs/fig_inverse_falsifier}}
 \caption{\textbf{The current-response test: a wrong distribution of correct total weight.} Doped one-dimensional Hubbard ring ($L=12$, $U/t=8$, filling $2/3$, periodic boundaries; optical conductivity $\mathrm{Re}\,\sigma\propto A_J/\omega$). A wrong reconstruction moves a fraction $f$ of the weight above $6\,t$ into a spurious pole at $2.5\,t$ (a Drude-like peak), keeping $m_0=\langle J^2\rangle$ fixed. \textbf{(a)}~The true regular spectrum (indigo) is a mid-infrared/Mott band with only $1.4\%$ of $m_0$ below $6\,t$; the spurious peak (oxblood) sits where the kernel $1/\omega$ (teal) is large. \textbf{(b)}~Relative discrepancies $\Delta_k/m_k$ against $f$, with every moment evaluated exactly on the ground state. The total weight is unchanged ($\Delta_0/m_0<10^{-13}$); $m_1=\tfrac12\langle[J,[H,J]]\rangle$ moves by up to $38\%$, $m_2$ by up to $47\%$, and $m_{-1}=\tfrac12\langle-\hat T\rangle-\mathcal D=0.324$ by up to $154\%$. The $5\%$ line is a common relative reference, not the deployed threshold. Under the deployed rule ($2\%$ bias budget, $N_s=5\times10^4$) the thresholds are $4.3\%$ of $m_1$ and of $m_2$ but $61\%$ of $m_{-1}$ (dotted line), because $m_{-1}$ is a $94\%$ cancellation between $\tfrac12\langle-\hat T\rangle$ and the Kohn stiffness $\mathcal D$; $m_2$ then rejects first ($f\approx0.046$), $m_1$ next ($0.057$) and $m_{-1}$ last ($0.20$). $\mathcal D$ is obtained from the flux curvature, not from the same samples. The identity for $m_{-1}$ is verified against the Lehmann sum over the computed poles to a relative $2\times10^{-15}$ on open chains of $L=6$ and $8$, $2\times10^{-14}$ on the open $L=12$ chain and, with the stiffness correction, $2\times10^{-6}$ on this ring. Sector-basis Lanczos ground state with Haydock/Ritz current poles~\cite{Haydock1972,Lanczos1950,Kohn1964,Maldague1977}.}
 \label{fig:invfalsifier}
-\end{figure*}
+\end{figure}
 
 We next run the same screen on the collective channels (Fig.~\ref{fig:collective_screen}). For each probe $A\in\{\rho_q,\,S^z_q\}$, with $\rho_q=\sum_j e^{-iqj}n_j$ and $S^z_q=\sum_j e^{-iqj}S^z_j$, the two moments are ground-state operator expectations as for the current: $m_0(q)=\langle A^\dagger A\rangle_c$ and $m_1(q)=\langle 0|A^\dagger(H-E_0)A|0\rangle=\tfrac12\langle[A^\dagger,[H,A]]\rangle$. For this non-Hermitian probe the double commutator is the symmetrized form $\tfrac12[m_1(q)+m_1(-q)]$, equal to $m_1(q)$ by the inversion symmetry of the ring; both forms are evaluated on the exact ground state, where they coincide (App.~\ref{app:moments}). Only the kinetic term contributes to $m_1$, since the Hubbard interaction is diagonal in the occupation basis and commutes with $\rho_q$ and $S^z_q$. On a half-filled $L=6$ ring at $U/t=8$ the operator moments reproduce the exact Lehmann moments of $S(q,\omega)$ and $S^{zz}(q,\omega)$ to better than $10^{-14}$ at every momentum, and the two forms of $m_1$ agree to the same precision. A reconstruction that moves band weight into a spurious low-frequency peak---in the gap for the charge channel, near zero for the spin channel---while conserving the total weight passes the $m_0$ check (residual $\sim\!10^{-15}$) but its first moment is off by $29$--$36\%$ once $40\%$ of the band weight is moved, for both observables at each momentum tested ($q/\pi=1/3,2/3,1$). The moments also register the two energy scales: the mean excitation frequency $m_1/m_0$ is set by $U$ in the charge channel ($\approx8.5\,t$ at $q=2\pi/3$) and by the exchange $J=4t^2/U$ in the spin channel ($\approx1.0\,t$). These are exact-simulation demonstrations on a half-filled $L=6$ ring, not on the $L=12$ spectra of Fig.~\ref{fig:sqw}, and not a hardware result; their purpose is to show that the screen transports across observables.
 
 \begin{figure}[t]
-\centering
+\centering\onecolfig
 \input{figs/fig_collective_screen}
 \caption{\textbf{The moment test on the collective (charge and spin) channels.} The screen of Fig.~\ref{fig:invfalsifier}, applied without change to the charge $S(q,\omega)$ and spin $S^{zz}(q,\omega)$ structure factors of a half-filled Hubbard ring ($L=6$, $U/t=8$, periodic boundaries; exact simulation). For each channel a wrong reconstruction moves band weight into a spurious low-frequency peak---in the gap ($\omega=2.0\,t$) for the gapped charge channel, near zero ($\omega=0.10\,t$) for the gapless spin channel---conserving the total weight $m_0$ exactly. At $q/\pi=2/3$ the total weight $m_0$ (grey) stays blind for both channels, while the relative first-moment residual of the charge ($\rho_q=\sum_j e^{-iqj}n_j$, oxblood) and spin ($S^z_q=\sum_j e^{-iqj}S^z_j$, indigo) probes grows linearly and crosses a fixed $5\%$ relative threshold, a guide rather than the deployed rule $\tau_1$. The operator moments reproduce the exact Lehmann moments to better than $10^{-14}$ at every momentum $q/\pi\in\{1/3,2/3,1\}$. The $L=12$ spectra of the same channels are shown in Fig.~\ref{fig:sqw}.}
 \label{fig:collective_screen}
@@ -166,7 +208,7 @@ The central claim of the method is that \emph{independence} is what gives the sc
 One boundary must be stated precisely. The independent estimator applies the exact operator $O_k$ to the prepared state, so $\Delta_k$ detects spectral weight that leaks \emph{outside} the retained determinant support. A corruption that only redistributes weight among the retained poles, while preserving the moments used, is not caught by those moments. In exact arithmetic this blind spot closes at a finite order: on $N$ distinct poles the weight-to-moment map is injective, so a fixed-pole redistribution that preserves $m_0,\dots,m_K$ changes some $m_j$ with $K<j\le N-1$ (Theorem~\ref{thm:detect}(a), proved in Appendix~\ref{app:withinsector}; part~(b) gives the shot cost of each further order). At the deployed order, however, the guaranteed power against such redistributions is zero: every redistribution in the $(N-K-1)$-dimensional null space of the moment rows $0,\dots,K$ passes, whatever its size. This follows from the dimension count, not from the conditioning of the poles. For the $U/t=4$ current measure of the blinded test of Sec.~\ref{sec:blind} ($N=5$ weighted poles, $K=2$) this null space is two-dimensional. One redistribution in it preserves $m_0,m_1,m_2$ exactly while moving $72\%$ of the weight and emptying two poles; at the deployed budget it also stays below the $m_3$ and $m_4$ thresholds ($0.23\,\tau_3$ and $0.70\,\tau_4$). The moment screen is therefore a necessary-condition detector of support leakage and of weight misassignment that shifts the low moments. Redistributions that preserve the deployed moments are a disclosed blind spot, not an error class we claim to catch.
 
 \begin{figure}[t]
-\centering
+\centering\onecolfig
 \input{figs/fig_teeth}
 \caption{\textbf{Independent vs.\ back-computed moment discrepancy under determinant-subspace truncation (idealized estimator).} The determinant subspace of the doped $L=12$ Hubbard ring ($N_\uparrow=N_\downarrow=4$, $U/t=8$) is truncated to its top $d$ configurations by $|\psi_0|^2$ (the sample-based-diagonalization ordering; full support $n_{\mathrm{sup}}=2.4\times10^5$), and the current first moment is recomputed within it. The reconstruction-\emph{independent} discrepancy $\Delta_1^{\mathrm{rel}}=|\widehat m_1-\bar m_1|/\widehat m_1$, with $\widehat m_1$ evaluated on the exact full-sector ground state, stays below $2\%$ down to $8\%$ coverage. It then grows sharply, crosses an illustrative fixed $5\%$ threshold at $d\approx1.6\times10^4$ ($7\%$ coverage) and saturates near $100\%$. The back-computed (circular) control compares $\bar m_1$ with itself and is zero by definition~\cite{SQDchem2025,QSCI2023}. The screen catches severe truncation, not mild undersampling. Figure~\ref{fig:teethshared} removes the full-sector idealization. Sector-basis Lanczos: the truncated first moment is $\langle J\psi_0^d|(H_d-E_0^d)|J\psi_0^d\rangle$ from one subspace ground state, with no full diagonalization~\cite{Lanczos1950}.}
 \label{fig:teeth}
@@ -177,7 +219,7 @@ Figure~\ref{fig:teeth} evaluates the independent estimator on the exact full-sec
 The shared-state discrepancy is nonzero and rises by about five orders of magnitude across the sweep, from $5\times10^{-6}$ at full support to ${\approx}100\%$ at deep truncation (non-monotone near both ends: below $10^{-4}$ near full support, and at saturation). On the $L=12$ doped ring at $U/t=8$ it crosses the $5\%$ line at $d\approx4.4\times10^{4}$ retained determinants ($18\%$ coverage). The idealized curve, which reproduces Fig.~\ref{fig:teeth}, crosses at $d\approx1.6\times10^{4}$ ($7\%$) and dips at moderate truncation, where the full-state reference and the truncated reconstruction happen to track each other. With the shared state the screen therefore fires at milder truncation, so at this threshold the idealization of Fig.~\ref{fig:teeth} does not inflate the result. Neither branch stays at the exact value once the state is truncated: $\widehat m_1$ rises from $35.1$ at full support to $60.1$ at the deepest cut, while $\bar m_1$ falls toward zero. The discrepancy measures the leak, not the error of either branch against the exact moment.
 
 \begin{figure}[t]
-\centering
+\centering\onecolfig
 \input{figs/fig_teeth_shared}
 \caption{\textbf{Shared-state discrimination: the operator leak on a single subspace state.} Both first-moment branches are evaluated on the \emph{same} subspace ground state $|0_\mathcal{S}\rangle$ of $H_\mathcal{S}=\Pi_\mathcal{S}H\Pi_\mathcal{S}$, with shared reference $e_0=\langle0_\mathcal{S}|H|0_\mathcal{S}\rangle$, using only what a sample-based-diagonalization pipeline has (Appendix~\ref{app:estimator}); the evaluation is classical. Solid (oxblood): the shared-state discrepancy $\Delta_1^{\mathrm{shared}}=|\widehat m_1-\bar m_1|/\widehat m_1$, with $\widehat m_1=\langle0_\mathcal{S}|J(H-e_0)J|0_\mathcal{S}\rangle$ formed with the \emph{full} operators (reaching determinants outside $\mathcal{S}$) and $\bar m_1=\int\omega A(\omega)\,d\omega$ the within-$\mathcal{S}$ reconstruction moment; their difference is the $k{=}1$ operator leak of Eq.~\eqref{eq:app-leak}. Dashed (indigo): the idealized curve of Fig.~\ref{fig:teeth}, with $\widehat m_1$ evaluated on the exact full-sector ground state. As the retained determinant count $d$ falls (truncation $\rightarrow$), the shared-state discrepancy rises by about five orders of magnitude (non-monotone near both ends: below $10^{-4}$ near full support, and at saturation) and crosses the illustrative $5\%$ threshold at $d\approx4.4\times10^{4}$ ($18\%$ coverage). The idealized curve crosses at $d\approx1.6\times10^{4}$ ($7\%$), after an accidental dip near $d\sim4\times10^{4}$ where the full-state reference and the truncated reconstruction track each other. Both saturate near $100\%$. $L=12$ doped Hubbard ring ($N_\uparrow=N_\downarrow=4$, $2/3$ filling), $U/t=8$, sector-basis Lanczos.}
 \label{fig:teethshared}
@@ -204,7 +246,7 @@ Post hoc, we rebuilt the $56$ sealed truncation instances and rescored them with
 Within this catalog the screen detects support truncation and most added spectral features, and it does not detect reconstructions that reproduce the tested moments within the thresholds. The scope is limited: the ground truth is classically known here and merely withheld from the classifier, so this is a blinded test, not a field catch of an error whose correctness is unknown, and no device is in the loop; both remain future work.
 
 \begin{figure}[t]
-\centering
+\centering\onecolfig
 \input{figs/fig_separating}
 \caption{\textbf{The diagonal and off-diagonal moments have complementary reach} (sealed, pre-registered blinded battery, SHA-256 \texttt{0e4c3368\ldots}). For each of the $300$ instances every residual is normalized to its frozen threshold, $r_k=|\widehat m_k-\bar m_k|/\tau_k$ ($z=1.96$ at $N_s=5\times10^4$, including the assumed $2\%$ bias), so $r_k>1$ is exactly a fire. The horizontal axis is the total-weight residual $r_0$; the vertical axis is $\max(r_1,r_2)$. All $300$ points are drawn at their true values. Determinant truncations ($56/56$ caught) have $r_0>1$ in $55$ of $56$ cases; the exception (id~$162$, ringed) is caught only off-diagonally with the idealized estimator of the sealed test and has $r_0=15.8$ with the shared-state estimator (Sec.~\ref{sec:blind}). The shaded region ($r_0<1$, $\max(r_1,r_2)>1$) holds $26$ instances rejected by an off-diagonal moment alone ($m_1$ on $16$, $m_2$ alone on $10$): $20$ $m_0$-preserving spurious features, $4$ weight-changing ones whose weight shift stayed below $\tau_0$, truncation id~$162$ and the single false positive (id~$184$, ringed). An example is id~$222$, $m_0$-preserving, with $(r_0,r_1,r_2)=(0.16,3.3,9.1)$. Legend counts are numbers of plotted points: the entries for $m_0$-preserving ($20$) and $m_0$-changing ($4$) spurious features count only points in the shaded region, and the other $14$ preserving and $23$ changing ones are in ``spurious, unshaded'' ($37$). The pre-registration predicted low detection for the $m_0$-preserving artifacts, so reading the $20$ caught (of $34$) as a capability is post hoc. Under-converged Krylov reconstructions ($0/71$) match $m_0$--$m_2$ exactly ($n_l\ge2$) or within the bias budget ($n_l=1$) and are caught by neither channel. The thresholds include shot noise and the assumed $2\%$ bias but no device gate-error bias. The off-diagonal moments are simulated (exact value plus Gaussian noise); on current hardware they would carry the depolarizing bias of Sec.~\ref{sec:device} (${\sim}37$--$116\%$ of the signal). This is a structural separation in simulation, not device-realizable firing.}
 \label{fig:separating}
@@ -247,10 +289,10 @@ A pre-registered on-device $n_k$ test was sealed on 2026-09-02 (manifest SHA-256
 \begin{table}[t]
 \caption{\textbf{What is demonstrated on hardware, in simulation, analytically, and deferred.} The only device-derived quantity is the support set $\mathcal S$; no moment is estimated from device counts. Every discriminating result is classically reproducible simulation, and the beyond-classical field test is deferred.}
 \label{tab:scope}
-\begin{ruledtabular}
 \begin{tabular}{p{0.37\columnwidth}p{0.17\columnwidth}p{0.38\columnwidth}}
+\toprule
 quantity & source & status \tabularnewline
-\colrule
+\midrule
 \raggedright support set $\mathcal S$ and coverage residual $\Delta_0$, $L=8$ addition sector & \raggedright\texttt{ibm\_fez} ($\mathcal S$ only) & \raggedright $\Delta_0$ computed classically on $\mathcal S$; rewards support spreading (a uniform in-sector sampler scores lower); tests neither the device nor $A(\omega)$ (Fig.~\ref{fig:device}) \tabularnewline
 \raggedright full-sector recovery, $L=6$ (companion) & \raggedright\texttt{ibm\_fez} & \raggedright executability only; the retained determinants all came from device errors (Fig.~\ref{fig:heron}) \tabularnewline
 \raggedright off-diagonal moments $m_1,m_2$ (weight discrimination) & \raggedright simulation & \raggedright deferred: forecast depolarizing bias $37$--$116\%$ of the signal at $292$ CZ (Sec.~\ref{sec:device}; Fig.~\ref{fig:separating}) \tabularnewline
@@ -259,26 +301,26 @@ quantity & source & status \tabularnewline
 \raggedright same-sample $\widehat m_k$ and $\bar m_k$ (one set of shots) & \raggedright simulation & \raggedright correlation $\rho\approx0.43$ at $84\%$ coverage, no power gain (Sec.~\ref{sec:limits}) \tabularnewline
 \raggedright Christoffel miss-distance bound; moment-interval layer & \raggedright exact / analytic & \raggedright classical bound, re-derived; Hausdorff interval shown; composition with the Wang/Mortimer SDP not implemented \tabularnewline
 \raggedright field catch of an unknown-truth error (beyond-classical) & \raggedright --- & \raggedright future work (Sec.~\ref{sec:limits}) \tabularnewline
+\bottomrule
 \end{tabular}
-\end{ruledtabular}
 \end{table}
 
 \begin{figure}[t]
-\centering
+\centering\onecolfig
 \input{figs/fig_device}
 \caption{\textbf{Coverage residual on device-sampled supports} (\texttt{ibm\_fez}, $L=8$, $16$ qubits, $U/t=4$, addition sector of dimension $3920$; seven circuits; measurement twirling, Pauli gate twirling and dynamical decoupling, no readout-error mitigation). Oxblood: $\Delta_0=|m_0-\bar m_0|$, computed exactly on the support $\mathcal S$ retained from the device counts; the top axis of (a) gives the device coverage $|\mathcal S|/3920$. Indigo: $2000$ multinomial replicas of the exact output distributions of the same circuits at the device's raw shots per circuit (dashed, mean; shading, mean $\pm1$ sd; the distribution is right-skewed, so the shading is not a $68\%$ interval). Grey diamonds, drawn in (b) only: a uniform in-sector sampler at the device's retained count $N$, $\mathbb{E}[\Delta_0]=m_0(1-1/3920)^N$. (a) Linear scale; (b) logarithmic scale. The device lies below all noiseless replicas at $50$k, at the $1.7$th percentile at $30$k, at the $57.9$th at $16$k and above all of them at $4$k. The uniform sampler, which uses no device, scores lower than the device at every budget. $\Delta_0$ measures support coverage and rewards support spreading; it is not a fidelity diagnostic (main text).}
 \label{fig:device}
 \end{figure}
 
 \begin{figure}[t]
-\centering
+\centering\onecolfig
 \input{figs/fig_heron}
 \caption{\textbf{Executability run of the companion study ($L=6$, full-sector support).} Exact $A(\omega)$ (indigo) and the reconstruction on the device-retained support (dashed), for the $L=6$ Hubbard model at $U/t=4$ in the addition sector $4\!\uparrow,3\!\downarrow$ ($300$ configurations), $\eta=0.15\,t$. \texttt{ibm\_fez}, $12$ qubits, $3.5\times10^{5}$ shots ($5\times10^{4}$ on each of seven circuits; job \texttt{d9s16avpemts73ct6g8g}), with measurement twirling, Pauli gate twirling and dynamical decoupling and no readout-error mitigation~\cite{SQDspec2608}. The retained support is the whole sector ($|\mathcal S|=300/300$), so the reconstruction equals exact diagonalization by coverage. The bitstrings were post-selected after being read in reversed qubit order, so all $300$ retained determinants came from device errors. The run shows only that the pipeline executes; it says nothing about accuracy at incomplete coverage. The coverage residual on an incomplete, device-sampled support is Fig.~\ref{fig:device}.}
 \label{fig:heron}
 \end{figure}
 
 \begin{figure}[t]
-\centering
+\centering\onecolfig
 \includegraphics[width=\columnwidth]{figs/fig_circuit_qtk.pdf}
 \caption{\textbf{Measurement circuit of the bond-basis moment estimator (schematic; not run on hardware).} One circuit of the estimator of Appendix~\ref{app:estimator}, drawn for a two-site unit cell ($4$ qubits: two spin-up and two spin-down orbitals). The first blocks stand for a state preparation: a reference state $|\Psi_0\rangle$, number-conserving hopping within each spin species ($\mathrm{Giv}$), and the on-site interaction $U\hat n_\uparrow\hat n_\downarrow$ (the controlled pairs, coupling each up orbital to its down partner). A per-qubit basis rotation $R_b$ follows ($H$ or $S^\dagger H$ for the $X$ or $Y$ Pauli components, the identity for $Z$), then a computational-basis measurement. One circuit is needed per qubit-wise-commuting Pauli group. The diagonal density probe gives $m_0$ from the single all-$Z$ setting; the hopping content of $m_1,m_2$ needs the rotated settings ($357$ groups for the full battery at $L=6$; $83$ for the $(m_0,m_1)$ falsifier at $L=12$). The verification of Appendix~\ref{app:estimator} samples the exact ground state in each basis instead of running a preparation circuit. On present hardware the off-diagonal estimate would carry the bias of Sec.~\ref{sec:device}.}
 \label{fig:circuit}
@@ -287,14 +329,14 @@ quantity & source & status \tabularnewline
 \section{A closed-form bound: the Christoffel miss-distance}
 \label{sec:christoffel}
 
-\begin{figure*}[t]
+\begin{figure}[t]
 \centering
-\input{figs/fig_bracketing}\\[6pt]
-\input{figs/fig_christoffel}
+\adjustbox{max width=\textwidth}{\input{figs/fig_bracketing}}\\[6pt]
+\adjustbox{max width=\textwidth}{\input{figs/fig_christoffel}}
 \caption{\textbf{The Christoffel miss-distance bound at exact moments.} \emph{Top---the bracketing mechanism.} Finitely many moments do not pin the spectrum; they \emph{bracket} its cumulative weight $F(t)$ (ink staircase) between the extremal Gauss--Radau measures sharing $m_0,\dots,m_{2n}$. The band width is the Christoffel function $W_n(t)$; the $n{=}4$ band (deep) nests inside the $n{=}2$ band (light), and $t^{*}$ marks the dominant atom. \emph{Bottom (a--c)---the bound quantified.} \textbf{(a)} $W_n(t)=1/\sum_{j=0}^{n}p_j(t)^2$ contracts as $n$ grows. \textbf{(b)} Its maximum over $t$ decreases with $n$: $1.000$, $0.969$, $0.886$, $0.882$ for $n=1,\dots,4$ (exact maxima, by root-finding). At the deployed order $n=1$ the maximum is $W_1=m_0$, attained at the mean frequency, so there the bracket is vacuous. \textbf{(c)} At the dominant atom ($\omega=11.09\,t$, residue $0.778$) $W_n$ reaches the residue at $n=4$ and stays there: the measure has five weighted atoms, and the bracket at an atom never falls below the jump of $F$ it carries. Pointwise $W_n\to0$ is a thermodynamic-limit statement for a continuous density, not a property of a finite atomic spectrum. All curves assume exact moments; a reconstruction that passes with finite tolerances is bracketed less tightly (see text). Doped Hubbard $L=6$, $U/t=8$ current Lehmann measure, normalized to $m_0=1$ (the ground state is a spin triplet; the measure is the same for each of its $S_z$ components), rescaled to $t\in[-1,1]$ from the full-Fock frequency range $[0.148,52.21]\,t$, zero-weight states included, so the weighted atoms occupy $t\in[-0.91,-0.47]$~\cite{GM2010,ShohatTamarkin1943,Akhiezer1965,Totik2000,MNT1991,Szego1975}.}
 \label{fig:bracketing}
 \label{fig:christoffel}
-\end{figure*}
+\end{figure}
 
 Having shown empirically what the screen catches, we now state what a \emph{passing} screen implies. The bound below is classical, from the theory of moments and orthogonal polynomials. Our contribution is its evaluation as a diagnostic for a reconstructed spectrum, not the mathematics; the Christoffel--Darboux kernel is by now an established data-analysis tool in its own right~\cite{GM2010,Szego1975,PauwelsLasserre2019,LasserrePauwelsPutinar2022}. Consider the cumulative spectral weight $F(t) = \int_{-\infty}^{t} A(\omega)\,d\omega$ of a diagonal $T=0$ Lehmann measure, and suppose the first $2n{+}1$ moments $m_0,\dots,m_{2n}$ are known exactly. They fix the orthonormal polynomials $p_0,\dots,p_n$ via the Hankel system~\cite{ShohatTamarkin1943}. Let $W_n(t) = 1/\sum_{j=0}^{n} p_j(t)^2$ be the Christoffel function, also written $\lambda_n(t)\equiv W_n(t)=1/K_n(t,t)$ with $K_n(x,y)=\sum_{j=0}^{n}p_j(x)p_j(y)$ the Christoffel--Darboux kernel; its construction from the moments is given in Appendix~\ref{app:evaluate}~\cite{Szego1975,GM2010}.
 
@@ -417,20 +459,20 @@ The hardware run shows less. On IBM \texttt{ibm\_fez} the device supplied only t
 
 Several problems remain open: estimating $m_1$ and $m_2$ on hardware, where the depolarizing bias of the bond-basis estimate of $m_1$ is at least $37\%$ of the signal at the companion circuit depth and a two-qubit error of $2.5\times10^{-3}$, and the diagonal $n_k$ alternative did not pass its sealed simulated gate; calibrating the screen with a realistic mitigation bias and a device-realizable same-sample estimator; closing the within-sector blind spot with higher moments at an affordable shot cost; applying the semidefinite moment bounds of Refs.~\cite{WangAcin2024,Mortimer2026} to the same moment sequence; and a field test on a spectrum whose correctness is not known in advance.
 
-\begin{acknowledgments}
+\section*{Acknowledgements}
 The author acknowledges the use of IBM Quantum services for this work. The views expressed are those of the author and do not reflect the official policy or position of IBM or the IBM Quantum team. Circuits were built, simulated and run with Qiskit and Qiskit Aer~\cite{Qiskit2024}; the DMRG references of the scalability check used TeNPy~\cite{TeNPy2024}; the exact-diagonalization and Lanczos computations used NumPy and SciPy. The author used Claude (Anthropic), an AI assistant, for support in drafting the text, writing code and carrying out analyses; the author is responsible for all content of this paper.
-\end{acknowledgments}
 
-\section*{Funding information}
+\paragraph{Funding information}
 The author received no specific funding for this work.
 
-\section*{Competing interests}
+\paragraph{Competing interests}
 The author is also affiliated with Daita AI; the company had no role in this work and the author declares no competing interests.
 
-\section*{Data availability}
+\paragraph{Data availability}
 The code and data that support the findings of this study are archived on Zenodo (DOI to be added at submission) and openly available in the GitHub repository \url{https://github.com/nicolasbonilla/reconstruction-independent-moment-tests}. The repository contains the exact sector-Lanczos/Haydock engine; the interval-moment, blinded-test, within-sector and hardware-analysis scripts; the pre-registration with its SHA-256 seal and the sealed blinded records; the per-figure data; and Makefile targets and a notebook that run the generators. The file \texttt{docs/REPRODUCE.md} maps each figure and the key quoted numbers to their scripts and data files, and lists the items that do not yet regenerate from source. The raw measurement counts of our four $L=8$ \texttt{ibm\_fez} jobs are included (jobs \texttt{da983qse74ec73ajfr2g}, \texttt{da98k16rbfbs73chckvg}, \texttt{da98icsjbipc73fej78g} and \texttt{da98cksjbipc73fej1tg} at $50$, $30$, $16$ and $4\times10^3$ shots per circuit), together with the reference-distribution generator \texttt{src/\allowbreak delta0\_\allowbreak reference\_\allowbreak mc.py} (output \texttt{data/\allowbreak 2026-09-27\_\allowbreak delta0\_\allowbreak reference\_\allowbreak mc.json}) and the exporter \texttt{src/\allowbreak export\_\allowbreak device\_\allowbreak dat.py} of Fig.~\ref{fig:device}. The raw counts of the companion's $L=6$ run (Fig.~\ref{fig:heron}) are not deposited; that run was post-selected in reversed bit order, so all of its retained determinants came from device errors~\cite{SQDspec2608}. The sealed blinded files are the canonical record: regenerating the truncation instances from the seed depends on tie-breaking inside degenerate $|\psi_0|^2$ shells, and the tie order that reproduces them is stored with the blinded-test addenda (\texttt{data/2026-09-27\_blind\_addenda.json}).
 
-\appendix
+\begin{appendix}
+\numberwithin{equation}{section}
 
 \section{Derivation of the moment identities}
 \label{app:moments}
@@ -572,12 +614,12 @@ We verify it by finite-shot sampling of the exact ground state of an open $L=6$ 
 
 The estimator, including its off-diagonal content, is therefore measurable from a fixed shot budget in principle, but not on present hardware. Under depolarizing noise the estimate of $m_1$ is pulled upward, toward $\operatorname{Tr}(O_1)/\dim\mathcal{H}=34.3$ against $m_1=10.6$ for this probe. An exact density-matrix simulation with local two-qubit depolarizing noise at $\varepsilon=2.5\times10^{-3}$ on $292$ CZ gates puts the bias at $37\%$ of $m_1$; this is exact for that surrogate and a lower bound for a real circuit. A coherent-$ZZ$ error model gives $47\%$ and global depolarizing $116\%$ (Sec.~\ref{sec:device}). No off-diagonal moment has been measured on a device in this work. A job script that builds the rotated-basis circuits and applies this estimator (\texttt{hardware\_blind\_job.py}) is in the repository; its state preparation is a placeholder, it has not been run on a quantum processor, and an off-diagonal test on hardware awaits lower gate error.
 
-\begin{figure*}[t]
+\begin{figure}[t]
 \centering
-\input{figs/fig_momentmc}
+\adjustbox{max width=\textwidth}{\input{figs/fig_momentmc}}
 \caption{\textbf{Monte-Carlo calibration of the interval-moment test} (simulation only: current probe of the doped $L=6$ ring, $U/t=4$; $N_s=5\times10^4$ shots per replica drawn from $|\langle x|0\rangle|^2$, $M=4\times10^3$ replicas; no device data enter). \textbf{(a)}~The realized estimator $\widehat m_1$ is close to Gaussian, and its false-positive rate on the full reconstruction is $4.5\%$ (Wilson $95\%$ interval $[3.9,5.2]\%$) against the nominal $5\%$. Dashed: the shot-only band $\pm z\sigma_{\mathrm{shot}}=\pm0.158$; the deployed threshold with the $2\%$ bias budget, $\tau_1=0.229$, is wider. \textbf{(b)}~Power of $m_1$ alone against truncated reconstructions at the shot-only threshold, for every retained count $d$ (line) and on a $22$-point log grid (filled markers); open marker: the reconstruction on the full support ($d=186$), whose $\bar m_1$ is exact, so its rejection rate is the false-positive rate. Coverage $d/186$ is the retained fraction of the ground state's $186$-determinant support. Power is at least $0.95$ at $161$ of the $185$ truncations. It falls to the false-positive level in three narrow windows near $46\%$, $51\%$ and $87\%$ coverage; the grid touches the first two only at their edges and misses the third. The window cuts lie inside degenerate $|\psi_0|^2$ shells, so their exact location depends on how ties are broken (text). The shot term is the exact-state local-estimator variance, which likely understates the per-shot uncertainty of a device estimator.}
 \label{fig:momentmc}
-\end{figure*}
+\end{figure}
 We close with a Monte-Carlo calibration of this test (Fig.~\ref{fig:momentmc}) at $N_s=5\times10^4$, the largest per-circuit shot budget of the \texttt{ibm\_fez} jobs. It is a simulation: $M=4\times10^3$ replicas of $N_s$ shots are drawn from the exact ground-state distribution $|\langle x|0\rangle|^2$ of the doped $L=6$, $U/t=4$ ring, a system not run on hardware, and $\widehat m_1$ is the local estimator above for its current probe. Each truncated reconstruction is built from the ground state of the truncated Hamiltonian. The Monte Carlo checks the analytic interval rather than replacing it. The realized estimator is close to Gaussian (skewness $-0.04$, excess kurtosis $-0.05$), its spread matches the analytic shot term to $1\%$ ($0.0799$ against $0.0806$), and its false-positive rate, $4.5\%$ (Wilson $95\%$ interval $[3.9,5.2]\%$), is consistent with the nominal $5\%$ (Fig.~\ref{fig:momentmc}a). Two inputs are modeled. The shot term uses the exact-state local-estimator variance, which assumes known amplitudes and omits ratio-estimator and Pauli-grouping overhead, so it likely understates the per-shot uncertainty of a device estimator. The bias term $b_k$ is assumed and swept, not measured. For this probe $\operatorname{Var}(O_1)\approx3.2\times10^{2}$ gives a shot standard error $\sqrt{\operatorname{Var}(O_1)/N_s}\approx0.081$ ($1.9\%$ of $m_1$); with the $2\%$ bias budget the threshold is $\tau_1=0.229$ ($5.4\%$ of $m_1$), close to the $5\%$ relative line of Figs.~\ref{fig:teeth} and~\ref{fig:teethshared}.
 
 Power is high but not uniform in the truncation depth. At the shot-only threshold, $m_1$ alone reaches power $\ge0.95$ at $161$ of the $185$ truncations, already at $d=181$ ($97\%$ coverage, power $0.98$). The exceptions are the four mildest truncations ($d=182$--$185$, one to four determinants dropped) and three narrow windows, $d=84$--$88$, $93$--$98$ and $158$--$166$ (coverage $45$--$47\%$, $50$--$53\%$ and $85$--$89\%$). At the window centres power falls to the false-positive level: $5.5\%$, $6.1\%$ and $5.0\%$ at $d=86$, $95$ and $162$. The $22$-point grid of Fig.~\ref{fig:momentmc}b touches the first two windows only at their edges ($d=88$ and $98$, power $0.93$ and $0.94$) and misses the third. An earlier grid-only version of this analysis, with ties broken by floating-point noise, showed a single low-power point near $53\%$ coverage; the scan at every $d$ supersedes it. The noise-free residuals tell the same story. At the deployed $2\%$ bias budget, $|\widehat m_1-\bar m_1|$ stays below $\tau_1$ for $17$ of the $185$ truncations ($d=183$--$185$, $159$--$165$, $94$--$97$ and $85$--$87$), and at a $4\%$ budget for $27$.
@@ -634,7 +676,7 @@ The admixed state is chosen by an explicit rule. The generator \texttt{src/\allo
 Gauss-law violation has been measured in a $71$-site cold-atom quantum simulator~\cite{Gauss2020} and analyzed theoretically under gauge-breaking errors~\cite{HalimehHauke2020}. The lattice Schwinger model is also the model of self-verifying variational simulation on a trapped-ion analog quantum simulator~\cite{Kokail2019} and of early digital simulations of Schwinger-model dynamics~\cite{Martinez2016,Klco2018}.
 
 \begin{figure}[t]
-\centering
+\centering\onecolfig
 \input{figs/fig_gausslaw}
 \caption{\textbf{A state-level check: the Gauss-law identity.} In the U(1) lattice Schwinger model every $G_x$ annihilates physical states, so they have $\langle\sum_x G_x^2\rangle=0$; $[H,G_x]=0$ keeps the dynamics in that sector. The plotted state is $|\psi(\epsilon)\rangle\propto(1-\epsilon)|\psi_0\rangle+\epsilon|\phi_u\rangle$, with $|\psi_0\rangle$ the physical ground state and $|\phi_u\rangle$ the lowest-energy charge-neutral state with the smallest violation, $\sum_xG_x^2=2$. Here $\epsilon$ is an amplitude: the unphysical weight is $f_u=\epsilon^2/[(1-\epsilon)^2+\epsilon^2]$, only $0.155$ at $\epsilon=0.3$, and the curve equals $2f_u$ by construction. It is computed exactly on the state vector; no sampling is simulated. The check tests the prepared state, not a reconstructed spectrum, and targets gauge-symmetry breaking, an error class the moment test does not address. $N=4$ staggered sites, $3$ spin-$\tfrac12$ links, open boundaries, $w=1$, $m=0.6$; generator \texttt{src/\allowbreak export\_\allowbreak gauss\_\allowbreak state.py} (see text).}
 \label{fig:gauss}
@@ -644,18 +686,19 @@ Gauss-law violation has been measured in a $71$-site cold-atom quantum simulator
 \label{app:withinsector}
 This appendix proves Theorem~\ref{thm:detect} and evaluates it on one spectrum. Results~II states the boundary: the independent estimator detects weight that leaks \emph{outside} the retained determinant support, but not a redistribution strictly \emph{within} it that preserves the moments used (Sec.~\ref{sec:teeth}). We treat that residual in three steps. \emph{Injectivity} (part~(a)): in exact arithmetic, $m_0,\dots,m_{N-1}$ fix the weights on $N$ distinct poles. \emph{Conditioning} (part~(b) and the Corollary): how large a shift a redistribution can produce, which gives a sufficient and a necessary condition for exposing it at finite shots. \emph{Reach}: a linear program and explicit counterexamples on the doped $L=6$, $U/t=4$ current spectrum whose thresholds are set in App.~\ref{app:estimator} (Table~\ref{tab:withinsector}). The result at the deployed order is negative: the battery $(m_0,m_1,m_2)$ has no guaranteed power against within-sector redistributions of this spectrum, although its poles are well separated. We characterize this residual; we do not close it. Unless stated otherwise, the numbers below are in \texttt{data/\allowbreak 2026-09-27\_\allowbreak theory\_\allowbreak numerics.json} (script \texttt{src/\allowbreak within\_\allowbreak sector\_\allowbreak lp.py}).
 
-\begin{table*}[t]
+\begin{table}[t]
 \caption{\label{tab:withinsector}Within-sector redistributions of the $L=6$, $U/t=4$ current spectrum ($N=5$ distinct poles). Each row keeps $m_0,\dots,m_K$ exactly and asks how far the next moment $m_{K+1}$ can move. ``LP range'' is the range of the signed shift $\sum_n\delta_n\,\omega_n^{K+1}$ over all such redistributions with non-negative corrupted weights [Eq.~\eqref{eq:wclp}]; every range contains $0$. The threshold $\tau_{K+1}=z_{0.975}\,\delta_{K+1}$ follows the deployed rule ($N_s=5\times10^4$, $2\%$ bias budget, $z_{0.975}=1.96$; App.~\ref{app:estimator}); for $m_3$ and $m_4$, which the deployed battery does not use, it is the value the same rule would give. When $\dim\ker V_{0:K+1}>0$, some redistributions of finite size leave $m_{K+1}$ exactly unchanged, so the guaranteed power at that order is zero and the maximum describes only the best case.}
-\begin{ruledtabular}
-\begin{tabular}{ccccccc}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{>{\centering\arraybackslash}p{0.12\textwidth}>{\centering\arraybackslash}p{0.08\textwidth}>{\centering\arraybackslash}p{0.19\textwidth}>{\centering\arraybackslash}p{0.07\textwidth}>{\centering\arraybackslash}p{0.10\textwidth}>{\centering\arraybackslash}p{0.10\textwidth}>{\centering\arraybackslash}p{0.12\textwidth}}
+\toprule
 preserved exactly & next moment & LP range of shift [Eq.~\eqref{eq:wclp}] & $\tau_{K+1}$ & max shift$/\tau_{K+1}$ & $\dim\ker V_{0:K+1}$ & in deployed battery? \\
-\hline
+\midrule
 $m_0,m_1$ & $m_2$ & $[-0.92,\,7.09]$ & $1.848$ & $3.8$ & $2$ & yes \\
 $m_0,\dots,m_2$ & $m_3$ & $[-0.14,\,5.26]$ & $14.98$ & $0.35$ & $1$ & no \\
 $m_0,\dots,m_3$ & $m_4$ & $[-0.30,\,0.39]$ & $122.0$ & $0.003$ & $0$ & no \\
+\bottomrule
 \end{tabular}
-\end{ruledtabular}
-\end{table*}
+\end{table}
 
 \emph{Injectivity (proof of Theorem~\ref{thm:detect}(a)).} A $T=0$ Lehmann current spectrum on a finite sector is a discrete measure $A(\omega)=\sum_{n=1}^{N}w_n\,\delta(\omega-\omega_n)$ on $N$ distinct poles $\{\omega_n\}$, where $w_n=\sum_{a:\,E_a-E_0=\omega_n}|\langle a|J|0\rangle|^2\ge0$ is the total weight of the eigenstates at $\omega_n$. Its moments are $m_k=\sum_n w_n\,\omega_n^{k}$, i.e.\ $\mathbf{m}=V\mathbf{w}$ with $V_{kn}=\omega_n^{k}$ a Vandermonde matrix. Because the poles are distinct, the block $V_{0:N-1}$ of rows $0,\dots,N-1$ is invertible, so the weight-to-moment map is injective through order $N-1$: a redistribution $\mathbf{w}\to\mathbf{w}+\bm{\delta}$ with $\bm{\delta}\neq0$ cannot preserve all of $m_0,\dots,m_{N-1}$. A redistribution that preserves $m_0,\dots,m_K$ ($K<N-1$) zeroes the first $K{+}1$ entries of $V_{0:N-1}\bm{\delta}$, so $\|(\Delta_{K+1},\dots,\Delta_{N-1})\|_2=\|V_{0:N-1}\bm{\delta}\|_2\ge\sigma_{\min}(V_{0:N-1})\|\bm{\delta}\|_2$; the largest of these $N{-}1{-}K$ shifts is at least this norm divided by $\sqrt{N-1-K}$, which is Eq.~\eqref{eq:detect-sigmamin}. If the poles may also move, an $N$-atom measure has $2N$ parameters and is fixed by $m_0,\dots,m_{2N-1}$ (Prony)~\cite{ShohatTamarkin1943,PottsTasche2013}. Weight traded among degenerate eigenstates at a single frequency changes no moment and leaves $A(\omega)$ unchanged; it is not an error.
 
@@ -695,7 +738,10 @@ The joint battery does catch some errors that $m_1$ alone misses, but the exampl
 
 Positivity cannot help against within-sector redistributions: a redistribution with non-negative weights is itself a positive measure, so the Hankel and Stieltjes conditions hold by construction. Only independent moments of high enough order, estimated precisely enough, can expose it, and at the deployed order the guaranteed power is zero. We report this residual; we do not claim to close it.
 
-\bibliographystyle{apsrev4-2}
+\end{appendix}
+
 \bibliography{refs}
+
+\nolinenumbers
 
 \end{document}

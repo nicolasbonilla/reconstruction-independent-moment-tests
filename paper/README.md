@@ -1,6 +1,8 @@
 # The manuscript, revised on 2026-09-27
 
-This folder holds the manuscript (38 pp, revtex4-2). It is not on arXiv or in a journal; the intended venue
+This folder holds the manuscript, in the SciPost submission class (`SciPost.cls`, 2021-08 version, the one with
+the PhysCore option; `SciPost_bibstyle.bst`). The revtex4-2 build of the same text was 38 pp; the SciPost build
+is 63 pp before the length pass. It is not on arXiv or in a journal; the intended venue
 is SciPost Physics Core. The 2026-09-05 text (31 pp) was revised on 2026-09-27 in three steps: the
 recomputations (phase A; scripts and dated outputs in [`../docs/REPRODUCE.md`](../docs/REPRODUCE.md)), every
 section rewritten against them (phase B), and a paper-wide consistency pass over the text, the figure

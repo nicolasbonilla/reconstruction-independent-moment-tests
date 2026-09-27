@@ -1,1617 +1,934 @@
-%apsrev4-2.bst 2019-01-14 (MD) hand-edited version of apsrev4-1.bst
-%Control: key (0)
-%Control: author (72) initials jnrlst
-%Control: editor formatted (1) identically to author
-%Control: production of article title (-1) disabled
-%Control: page (0) single
-%Control: year (1) truncated
-%Control: production of eprint (0) enabled
-\begin{thebibliography}{127}%
-\makeatletter
-\providecommand \@ifxundefined [1]{%
- \@ifx{#1\undefined}
-}%
-\providecommand \@ifnum [1]{%
- \ifnum #1\expandafter \@firstoftwo
- \else \expandafter \@secondoftwo
- \fi
-}%
-\providecommand \@ifx [1]{%
- \ifx #1\expandafter \@firstoftwo
- \else \expandafter \@secondoftwo
- \fi
-}%
-\providecommand \natexlab [1]{#1}%
-\providecommand \enquote  [1]{``#1''}%
-\providecommand \bibnamefont  [1]{#1}%
-\providecommand \bibfnamefont [1]{#1}%
-\providecommand \citenamefont [1]{#1}%
-\providecommand \href@noop [0]{\@secondoftwo}%
-\providecommand \href [0]{\begingroup \@sanitize@url \@href}%
-\providecommand \@href[1]{\@@startlink{#1}\@@href}%
-\providecommand \@@href[1]{\endgroup#1\@@endlink}%
-\providecommand \@sanitize@url [0]{\catcode `\\12\catcode `\$12\catcode
-  `\&12\catcode `\#12\catcode `\^12\catcode `\_12\catcode `\%12\relax}%
-\providecommand \@@startlink[1]{}%
-\providecommand \@@endlink[0]{}%
-\providecommand \url  [0]{\begingroup\@sanitize@url \@url }%
-\providecommand \@url [1]{\endgroup\@href {#1}{\urlprefix }}%
-\providecommand \urlprefix  [0]{URL }%
-\providecommand \Eprint [0]{\href }%
-\providecommand \doibase [0]{https://doi.org/}%
-\providecommand \selectlanguage [0]{\@gobble}%
-\providecommand \bibinfo  [0]{\@secondoftwo}%
-\providecommand \bibfield  [0]{\@secondoftwo}%
-\providecommand \translation [1]{[#1]}%
-\providecommand \BibitemOpen [0]{}%
-\providecommand \bibitemStop [0]{}%
-\providecommand \bibitemNoStop [0]{.\EOS\space}%
-\providecommand \EOS [0]{\spacefactor3000\relax}%
-\providecommand \BibitemShut  [1]{\csname bibitem#1\endcsname}%
-\let\auto@bib@innerbib\@empty
-%</preamble>
-\bibitem [{\citenamefont {Damascelli}\ \emph {et~al.}(2003)\citenamefont
-  {Damascelli}, \citenamefont {Hussain},\ and\ \citenamefont
-  {Shen}}]{Damascelli2003}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Damascelli}}, \bibinfo {author} {\bibfnamefont {Z.}~\bibnamefont
-  {Hussain}},\ and\ \bibinfo {author} {\bibfnamefont {Z.-X.}\ \bibnamefont
-  {Shen}},\ }\href {https://doi.org/10.1103/RevModPhys.75.473} {\bibfield
-  {journal} {\bibinfo  {journal} {Rev. Mod. Phys.}\ }\textbf {\bibinfo {volume}
-  {75}},\ \bibinfo {pages} {473} (\bibinfo {year} {2003})}\BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Basov}\ \emph {et~al.}(2011)\citenamefont {Basov},
-  \citenamefont {Averitt}, \citenamefont {van~der Marel}, \citenamefont
-  {Dressel},\ and\ \citenamefont {Haule}}]{Basov2011}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {D.~N.}\ \bibnamefont
-  {Basov}}, \bibinfo {author} {\bibfnamefont {R.~D.}\ \bibnamefont {Averitt}},
-  \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {van~der Marel}}, \bibinfo
-  {author} {\bibfnamefont {M.}~\bibnamefont {Dressel}},\ and\ \bibinfo {author}
-  {\bibfnamefont {K.}~\bibnamefont {Haule}},\ }\href
-  {https://doi.org/10.1103/RevModPhys.83.471} {\bibfield  {journal} {\bibinfo
-  {journal} {Rev. Mod. Phys.}\ }\textbf {\bibinfo {volume} {83}},\ \bibinfo
-  {pages} {471} (\bibinfo {year} {2011})},\ \Eprint
-  {https://arxiv.org/abs/1106.2309} {arXiv:1106.2309} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Benthien}\ \emph {et~al.}(2004)\citenamefont
-  {Benthien}, \citenamefont {Gebhard},\ and\ \citenamefont
-  {Jeckelmann}}]{Benthien2004}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont
-  {Benthien}}, \bibinfo {author} {\bibfnamefont {F.}~\bibnamefont {Gebhard}},\
-  and\ \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont {Jeckelmann}},\
-  }\href {https://doi.org/10.1103/PhysRevLett.92.256401} {\bibfield  {journal}
-  {\bibinfo  {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo {volume} {92}},\
-  \bibinfo {pages} {256401} (\bibinfo {year} {2004})},\ \Eprint
-  {https://arxiv.org/abs/cond-mat/0402664} {arXiv:cond-mat/0402664}
-  \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Qin}\ \emph {et~al.}(2022)\citenamefont {Qin},
-  \citenamefont {Sch{\"a}fer}, \citenamefont {Andergassen}, \citenamefont
-  {Corboz},\ and\ \citenamefont {Gull}}]{Qin2022}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
-  {Qin}}, \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Sch{\"a}fer}},
-  \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Andergassen}}, \bibinfo
-  {author} {\bibfnamefont {P.}~\bibnamefont {Corboz}},\ and\ \bibinfo {author}
-  {\bibfnamefont {E.}~\bibnamefont {Gull}},\ }\href
-  {https://doi.org/10.1146/annurev-conmatphys-090921-033948} {\bibfield
-  {journal} {\bibinfo  {journal} {Annu. Rev. Condens. Matter Phys.}\ }\textbf
-  {\bibinfo {volume} {13}},\ \bibinfo {pages} {275} (\bibinfo {year} {2022})},\
-  \Eprint {https://arxiv.org/abs/2104.00064} {arXiv:2104.00064} \BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Aspuru-Guzik}\ \emph {et~al.}(2005)\citenamefont
-  {Aspuru-Guzik}, \citenamefont {Dutoi}, \citenamefont {Love},\ and\
-  \citenamefont {Head-Gordon}}]{AspuruGuzik2005}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Aspuru-Guzik}}, \bibinfo {author} {\bibfnamefont {A.~D.}\ \bibnamefont
-  {Dutoi}}, \bibinfo {author} {\bibfnamefont {P.~J.}\ \bibnamefont {Love}},\
-  and\ \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Head-Gordon}},\
-  }\href {https://doi.org/10.1126/science.1113479} {\bibfield  {journal}
-  {\bibinfo  {journal} {Science}\ }\textbf {\bibinfo {volume} {309}},\ \bibinfo
-  {pages} {1704} (\bibinfo {year} {2005})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Peruzzo}\ \emph {et~al.}(2014)\citenamefont
-  {Peruzzo}, \citenamefont {McClean}, \citenamefont {Shadbolt}, \citenamefont
-  {Yung}, \citenamefont {Zhou}, \citenamefont {Love}, \citenamefont
-  {Aspuru-Guzik},\ and\ \citenamefont {O'Brien}}]{Peruzzo2014}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Peruzzo}}, \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {McClean}},
-  \bibinfo {author} {\bibfnamefont {P.}~\bibnamefont {Shadbolt}}, \bibinfo
-  {author} {\bibfnamefont {M.-H.}\ \bibnamefont {Yung}}, \bibinfo {author}
-  {\bibfnamefont {X.-Q.}\ \bibnamefont {Zhou}}, \bibinfo {author}
-  {\bibfnamefont {P.~J.}\ \bibnamefont {Love}}, \bibinfo {author}
-  {\bibfnamefont {A.}~\bibnamefont {Aspuru-Guzik}},\ and\ \bibinfo {author}
-  {\bibfnamefont {J.~L.}\ \bibnamefont {O'Brien}},\ }\href
-  {https://doi.org/10.1038/ncomms5213} {\bibfield  {journal} {\bibinfo
-  {journal} {Nat. Commun.}\ }\textbf {\bibinfo {volume} {5}},\ \bibinfo {pages}
-  {4213} (\bibinfo {year} {2014})},\ \Eprint {https://arxiv.org/abs/1304.3061}
-  {arXiv:1304.3061} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {McArdle}\ \emph {et~al.}(2020)\citenamefont
-  {McArdle}, \citenamefont {Endo}, \citenamefont {Aspuru-Guzik}, \citenamefont
-  {Benjamin},\ and\ \citenamefont {Yuan}}]{McArdle2020}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
-  {McArdle}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Endo}},
-  \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Aspuru-Guzik}}, \bibinfo
-  {author} {\bibfnamefont {S.~C.}\ \bibnamefont {Benjamin}},\ and\ \bibinfo
-  {author} {\bibfnamefont {X.}~\bibnamefont {Yuan}},\ }\href
-  {https://doi.org/10.1103/RevModPhys.92.015003} {\bibfield  {journal}
-  {\bibinfo  {journal} {Rev. Mod. Phys.}\ }\textbf {\bibinfo {volume} {92}},\
-  \bibinfo {pages} {015003} (\bibinfo {year} {2020})},\ \Eprint
-  {https://arxiv.org/abs/1808.10402} {arXiv:1808.10402} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Bauer}\ \emph {et~al.}(2020)\citenamefont {Bauer},
-  \citenamefont {Bravyi}, \citenamefont {Motta},\ and\ \citenamefont
-  {Chan}}]{Bauer2020}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {B.}~\bibnamefont
-  {Bauer}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Bravyi}},
-  \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Motta}},\ and\ \bibinfo
-  {author} {\bibfnamefont {G.~K.-L.}\ \bibnamefont {Chan}},\ }\href
-  {https://doi.org/10.1021/acs.chemrev.9b00829} {\bibfield  {journal} {\bibinfo
-   {journal} {Chem. Rev.}\ }\textbf {\bibinfo {volume} {120}},\ \bibinfo
-  {pages} {12685} (\bibinfo {year} {2020})},\ \Eprint
-  {https://arxiv.org/abs/2001.03685} {arXiv:2001.03685} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Bravyi}\ \emph {et~al.}(2022)\citenamefont {Bravyi},
-  \citenamefont {Dial}, \citenamefont {Gambetta}, \citenamefont {Gil},\ and\
-  \citenamefont {Nazario}}]{Bravyi2022}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
-  {Bravyi}}, \bibinfo {author} {\bibfnamefont {O.}~\bibnamefont {Dial}},
-  \bibinfo {author} {\bibfnamefont {J.~M.}\ \bibnamefont {Gambetta}}, \bibinfo
-  {author} {\bibfnamefont {D.}~\bibnamefont {Gil}},\ and\ \bibinfo {author}
-  {\bibfnamefont {Z.}~\bibnamefont {Nazario}},\ }\href
-  {https://doi.org/10.1063/5.0082975} {\bibfield  {journal} {\bibinfo
-  {journal} {J. Appl. Phys.}\ }\textbf {\bibinfo {volume} {132}},\ \bibinfo
-  {pages} {160902} (\bibinfo {year} {2022})},\ \Eprint
-  {https://arxiv.org/abs/2209.06841} {arXiv:2209.06841} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Granet}\ \emph
-  {et~al.}(2026{\natexlab{a}})\citenamefont {Granet}, \citenamefont {Murota},
-  \citenamefont {Dreyer}, \citenamefont {Yamamoto}, \citenamefont {Pedersen},\
-  and\ \citenamefont {Suwa}}]{GranetDSF2026}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {E.}~\bibnamefont
-  {Granet}}, \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Murota}},
-  \bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Dreyer}}, \bibinfo
-  {author} {\bibfnamefont {K.}~\bibnamefont {Yamamoto}}, \bibinfo {author}
-  {\bibfnamefont {J.}~\bibnamefont {Pedersen}},\ and\ \bibinfo {author}
-  {\bibfnamefont {H.}~\bibnamefont {Suwa}},\ }\href@noop {} {\bibinfo {title}
-  {Dynamical structure factor with a pumping approach on a trapped-ion quantum
-  computer}} (\bibinfo {year} {2026}{\natexlab{a}}),\ \Eprint
-  {https://arxiv.org/abs/2607.07138} {arXiv:2607.07138 [quant-ph]} \BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Granet}\ \emph
-  {et~al.}(2026{\natexlab{b}})\citenamefont {Granet}, \citenamefont
-  {Nigmatullin}, \citenamefont {Stephen},\ and\ \citenamefont
-  {Dreyer}}]{GranetARPES2026}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {E.}~\bibnamefont
-  {Granet}}, \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Nigmatullin}},
-  \bibinfo {author} {\bibfnamefont {D.~T.}\ \bibnamefont {Stephen}},\ and\
-  \bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Dreyer}},\ }\href@noop {}
-  {\bibinfo {title} {Spectral functions on a quantum computer through
-  system--environment interaction}} (\bibinfo {year} {2026}{\natexlab{b}}),\
-  \Eprint {https://arxiv.org/abs/2605.01440} {arXiv:2605.01440 [quant-ph]}
-  \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Greene-Diniz}\ \emph {et~al.}(2024)\citenamefont
-  {Greene-Diniz}, \citenamefont {Manrique}, \citenamefont {Yamamoto},
-  \citenamefont {Plekhanov}, \citenamefont {Fitzpatrick}, \citenamefont
-  {Krompiec}, \citenamefont {Sakuma},\ and\ \citenamefont
-  {Mu{\~n}oz~Ramo}}]{GreeneDiniz2024}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {G.}~\bibnamefont
-  {Greene-Diniz}}, \bibinfo {author} {\bibfnamefont {D.~Z.}\ \bibnamefont
-  {Manrique}}, \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Yamamoto}},
-  \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont {Plekhanov}}, \bibinfo
-  {author} {\bibfnamefont {N.}~\bibnamefont {Fitzpatrick}}, \bibinfo {author}
-  {\bibfnamefont {M.}~\bibnamefont {Krompiec}}, \bibinfo {author}
-  {\bibfnamefont {R.}~\bibnamefont {Sakuma}},\ and\ \bibinfo {author}
-  {\bibfnamefont {D.}~\bibnamefont {Mu{\~n}oz~Ramo}},\ }\href
-  {https://doi.org/10.22331/q-2024-06-20-1383} {\bibfield  {journal} {\bibinfo
-  {journal} {Quantum}\ }\textbf {\bibinfo {volume} {8}},\ \bibinfo {pages}
-  {1383} (\bibinfo {year} {2024})},\ \Eprint {https://arxiv.org/abs/2309.09685}
-  {arXiv:2309.09685} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Selisko}\ \emph {et~al.}(2025)\citenamefont
-  {Selisko}, \citenamefont {Amsler}, \citenamefont {Wever}, \citenamefont
-  {Kawashima}, \citenamefont {Samsonidze}, \citenamefont {Ul~Haq},
-  \citenamefont {Tacchino}, \citenamefont {Tavernelli},\ and\ \citenamefont
-  {Eckl}}]{Selisko2025}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
-  {Selisko}}, \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Amsler}},
-  \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Wever}}, \bibinfo
-  {author} {\bibfnamefont {Y.}~\bibnamefont {Kawashima}}, \bibinfo {author}
-  {\bibfnamefont {G.}~\bibnamefont {Samsonidze}}, \bibinfo {author}
-  {\bibfnamefont {R.}~\bibnamefont {Ul~Haq}}, \bibinfo {author} {\bibfnamefont
-  {F.}~\bibnamefont {Tacchino}}, \bibinfo {author} {\bibfnamefont
-  {I.}~\bibnamefont {Tavernelli}},\ and\ \bibinfo {author} {\bibfnamefont
-  {T.}~\bibnamefont {Eckl}},\ }\href
-  {https://doi.org/10.1038/s41524-025-01772-6} {\bibfield  {journal} {\bibinfo
-  {journal} {npj Comput. Mater.}\ }\textbf {\bibinfo {volume} {11}},\ \bibinfo
-  {pages} {325} (\bibinfo {year} {2025})},\ \Eprint
-  {https://arxiv.org/abs/2404.09527} {arXiv:2404.09527} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Lee}\ \emph {et~al.}(2026)\citenamefont {Lee},
-  \citenamefont {Kumaran}, \citenamefont {Pokharel}, \citenamefont {Scheie},
-  \citenamefont {Sarkis}, \citenamefont {Nagler}, \citenamefont {Tennant},
-  \citenamefont {Humble}, \citenamefont {Schleife}, \citenamefont {Kandala},\
-  and\ \citenamefont {Banerjee}}]{Lee2026}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {Y.-T.}\ \bibnamefont
-  {Lee}}, \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Kumaran}},
-  \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Pokharel}}, \bibinfo
-  {author} {\bibfnamefont {A.}~\bibnamefont {Scheie}}, \bibinfo {author}
-  {\bibfnamefont {C.~L.}\ \bibnamefont {Sarkis}}, \bibinfo {author}
-  {\bibfnamefont {S.~E.}\ \bibnamefont {Nagler}}, \bibinfo {author}
-  {\bibfnamefont {D.~A.}\ \bibnamefont {Tennant}}, \bibinfo {author}
-  {\bibfnamefont {T.~S.}\ \bibnamefont {Humble}}, \bibinfo {author}
-  {\bibfnamefont {A.}~\bibnamefont {Schleife}}, \bibinfo {author}
-  {\bibfnamefont {A.}~\bibnamefont {Kandala}},\ and\ \bibinfo {author}
-  {\bibfnamefont {A.}~\bibnamefont {Banerjee}},\ }\href@noop {} {\bibinfo
-  {title} {Benchmarking quantum simulation with neutron-scattering
-  experiments}} (\bibinfo {year} {2026}),\ \Eprint
-  {https://arxiv.org/abs/2603.15608} {arXiv:2603.15608 [quant-ph]} \BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Kanno}\ \emph {et~al.}(2026)\citenamefont {Kanno},
-  \citenamefont {Kohda}, \citenamefont {Imai}, \citenamefont {Koh},
-  \citenamefont {Mitarai}, \citenamefont {Mizukami},\ and\ \citenamefont
-  {Nakagawa}}]{QSCI2023}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {K.}~\bibnamefont
-  {Kanno}}, \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Kohda}},
-  \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Imai}}, \bibinfo {author}
-  {\bibfnamefont {S.}~\bibnamefont {Koh}}, \bibinfo {author} {\bibfnamefont
-  {K.}~\bibnamefont {Mitarai}}, \bibinfo {author} {\bibfnamefont
-  {W.}~\bibnamefont {Mizukami}},\ and\ \bibinfo {author} {\bibfnamefont
-  {Y.~O.}\ \bibnamefont {Nakagawa}},\ }\href
-  {https://doi.org/10.1103/dmn4-snfx} {\bibfield  {journal} {\bibinfo
-  {journal} {Phys. Rev. Research}\ }\textbf {\bibinfo {volume} {8}},\ \bibinfo
-  {pages} {023268} (\bibinfo {year} {2026})},\ \Eprint
-  {https://arxiv.org/abs/2302.11320} {arXiv:2302.11320} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Robledo-Moreno}\ \emph {et~al.}(2025)\citenamefont
-  {Robledo-Moreno}, \citenamefont {Motta}, \citenamefont {Haas}, \citenamefont
-  {Javadi-Abhari}, \citenamefont {Jurcevic}, \citenamefont {Kirby},
-  \citenamefont {Martiel}, \citenamefont {Sharma}, \citenamefont {Sharma},
-  \citenamefont {Shirakawa}, \citenamefont {Sitdikov}, \citenamefont {Sun},
-  \citenamefont {Sung}, \citenamefont {Takita}, \citenamefont {Tran},
-  \citenamefont {Yunoki},\ and\ \citenamefont {Mezzacapo}}]{SQDchem2025}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
-  {Robledo-Moreno}}, \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
-  {Motta}}, \bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Haas}},
-  \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Javadi-Abhari}}, \bibinfo
-  {author} {\bibfnamefont {P.}~\bibnamefont {Jurcevic}}, \bibinfo {author}
-  {\bibfnamefont {W.}~\bibnamefont {Kirby}}, \bibinfo {author} {\bibfnamefont
-  {S.}~\bibnamefont {Martiel}}, \bibinfo {author} {\bibfnamefont
-  {K.}~\bibnamefont {Sharma}}, \bibinfo {author} {\bibfnamefont
-  {S.}~\bibnamefont {Sharma}}, \bibinfo {author} {\bibfnamefont
-  {T.}~\bibnamefont {Shirakawa}}, \bibinfo {author} {\bibfnamefont
-  {I.}~\bibnamefont {Sitdikov}}, \bibinfo {author} {\bibfnamefont {R.-Y.}\
-  \bibnamefont {Sun}}, \bibinfo {author} {\bibfnamefont {K.~J.}\ \bibnamefont
-  {Sung}}, \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Takita}},
-  \bibinfo {author} {\bibfnamefont {M.~C.}\ \bibnamefont {Tran}}, \bibinfo
-  {author} {\bibfnamefont {S.}~\bibnamefont {Yunoki}},\ and\ \bibinfo {author}
-  {\bibfnamefont {A.}~\bibnamefont {Mezzacapo}},\ }\href
-  {https://doi.org/10.1126/sciadv.adu9991} {\bibfield  {journal} {\bibinfo
-  {journal} {Science Advances}\ }\textbf {\bibinfo {volume} {11}},\ \bibinfo
-  {pages} {eadu9991} (\bibinfo {year} {2025})},\ \Eprint
-  {https://arxiv.org/abs/2405.05068} {arXiv:2405.05068} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Yu}\ \emph {et~al.}(2025)\citenamefont {Yu},
-  \citenamefont {Robledo~Moreno}, \citenamefont {Iosue}, \citenamefont
-  {Bertels}, \citenamefont {Claudino}, \citenamefont {Fuller}, \citenamefont
-  {Groszkowski}, \citenamefont {Humble}, \citenamefont {Jurcevic},
-  \citenamefont {Kirby}, \citenamefont {Maier}, \citenamefont {Motta},
-  \citenamefont {Pokharel}, \citenamefont {Seif}, \citenamefont {Shehata},
-  \citenamefont {Sung}, \citenamefont {Tran}, \citenamefont {Tripathi},
-  \citenamefont {Mezzacapo},\ and\ \citenamefont {Sharma}}]{SKQD2501}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
-  {Yu}}, \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Robledo~Moreno}},
-  \bibinfo {author} {\bibfnamefont {J.~T.}\ \bibnamefont {Iosue}}, \bibinfo
-  {author} {\bibfnamefont {L.}~\bibnamefont {Bertels}}, \bibinfo {author}
-  {\bibfnamefont {D.}~\bibnamefont {Claudino}}, \bibinfo {author}
-  {\bibfnamefont {B.}~\bibnamefont {Fuller}}, \bibinfo {author} {\bibfnamefont
-  {P.}~\bibnamefont {Groszkowski}}, \bibinfo {author} {\bibfnamefont {T.~S.}\
-  \bibnamefont {Humble}}, \bibinfo {author} {\bibfnamefont {P.}~\bibnamefont
-  {Jurcevic}}, \bibinfo {author} {\bibfnamefont {W.}~\bibnamefont {Kirby}},
-  \bibinfo {author} {\bibfnamefont {T.~A.}\ \bibnamefont {Maier}}, \bibinfo
-  {author} {\bibfnamefont {M.}~\bibnamefont {Motta}}, \bibinfo {author}
-  {\bibfnamefont {B.}~\bibnamefont {Pokharel}}, \bibinfo {author}
-  {\bibfnamefont {A.}~\bibnamefont {Seif}}, \bibinfo {author} {\bibfnamefont
-  {A.}~\bibnamefont {Shehata}}, \bibinfo {author} {\bibfnamefont {K.~J.}\
-  \bibnamefont {Sung}}, \bibinfo {author} {\bibfnamefont {M.~C.}\ \bibnamefont
-  {Tran}}, \bibinfo {author} {\bibfnamefont {V.}~\bibnamefont {Tripathi}},
-  \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Mezzacapo}},\ and\
-  \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Sharma}},\ }\href@noop {}
-  {\bibinfo {title} {Quantum-centric algorithm for sample-based krylov
-  diagonalization}} (\bibinfo {year} {2025}),\ \Eprint
-  {https://arxiv.org/abs/2501.09702} {arXiv:2501.09702} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Yoshioka}\ \emph {et~al.}(2025)\citenamefont
-  {Yoshioka}, \citenamefont {Amico}, \citenamefont {Kirby} \emph
-  {et~al.}}]{Yoshioka2025}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {N.}~\bibnamefont
-  {Yoshioka}}, \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Amico}},
-  \bibinfo {author} {\bibfnamefont {W.}~\bibnamefont {Kirby}}, \emph {et~al.},\
-  }\href {https://doi.org/10.1038/s41467-025-59716-z} {\bibfield  {journal}
-  {\bibinfo  {journal} {Nat. Commun.}\ }\textbf {\bibinfo {volume} {16}},\
-  \bibinfo {pages} {5014} (\bibinfo {year} {2025})},\ \Eprint
-  {https://arxiv.org/abs/2407.14431} {arXiv:2407.14431} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Motta}\ \emph {et~al.}(2020)\citenamefont {Motta},
-  \citenamefont {Sun}, \citenamefont {Tan}, \citenamefont {O'Rourke},
-  \citenamefont {Ye}, \citenamefont {Minnich}, \citenamefont {Brand{\~a}o},\
-  and\ \citenamefont {Chan}}]{Motta2020}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
-  {Motta}}, \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Sun}}, \bibinfo
-  {author} {\bibfnamefont {A.~T.~K.}\ \bibnamefont {Tan}}, \bibinfo {author}
-  {\bibfnamefont {M.~J.}\ \bibnamefont {O'Rourke}}, \bibinfo {author}
-  {\bibfnamefont {E.}~\bibnamefont {Ye}}, \bibinfo {author} {\bibfnamefont
-  {A.~J.}\ \bibnamefont {Minnich}}, \bibinfo {author} {\bibfnamefont {F.~G.
-  S.~L.}\ \bibnamefont {Brand{\~a}o}},\ and\ \bibinfo {author} {\bibfnamefont
-  {G.~K.-L.}\ \bibnamefont {Chan}},\ }\href
-  {https://doi.org/10.1038/s41567-019-0704-4} {\bibfield  {journal} {\bibinfo
-  {journal} {Nat. Phys.}\ }\textbf {\bibinfo {volume} {16}},\ \bibinfo {pages}
-  {205} (\bibinfo {year} {2020})},\ \Eprint {https://arxiv.org/abs/1901.07653}
-  {arXiv:1901.07653} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Bonilla~Vargas}(2026{\natexlab{a}})}]{SQDspec2608}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {N.}~\bibnamefont
-  {Bonilla~Vargas}},\ }\href@noop {} {\bibinfo {title} {Captured weight and
-  boundary leakage bound the error of sample-based spectral functions}}
-  (\bibinfo {year} {2026}{\natexlab{a}}),\ \Eprint
-  {https://arxiv.org/abs/2608.16436v3} {arXiv:2608.16436v3 [quant-ph]}
-  \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Patel}\ \emph {et~al.}(2026)\citenamefont {Patel},
-  \citenamefont {Rangi},\ and\ \citenamefont {Tam}}]{Patel2026}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
-  {Patel}}, \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Rangi}},\ and\
-  \bibinfo {author} {\bibfnamefont {K.-M.}\ \bibnamefont {Tam}},\ }\href@noop
-  {} {\bibinfo {title} {{Green's} functions from sample-based {Krylov} quantum
-  diagonalization: An impurity solver for dynamical mean-field theory}}
-  (\bibinfo {year} {2026}),\ \Eprint {https://arxiv.org/abs/2609.09147}
-  {arXiv:2609.09147 [cond-mat.str-el]} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Alexeev}\ \emph {et~al.}(2024)\citenamefont {Alexeev}
-  \emph {et~al.}}]{Alexeev2024}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont
-  {Alexeev}} \emph {et~al.},\ }\href
-  {https://doi.org/10.1016/j.future.2024.04.060} {\bibfield  {journal}
-  {\bibinfo  {journal} {Future Gener. Comput. Syst.}\ }\textbf {\bibinfo
-  {volume} {160}},\ \bibinfo {pages} {666} (\bibinfo {year} {2024})},\ \Eprint
-  {https://arxiv.org/abs/2312.09733} {arXiv:2312.09733} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Preskill}(2018)}]{Preskill2018}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
-  {Preskill}},\ }\href {https://doi.org/10.22331/q-2018-08-06-79} {\bibfield
-  {journal} {\bibinfo  {journal} {Quantum}\ }\textbf {\bibinfo {volume} {2}},\
-  \bibinfo {pages} {79} (\bibinfo {year} {2018})},\ \Eprint
-  {https://arxiv.org/abs/1801.00862} {arXiv:1801.00862} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Daley}\ \emph {et~al.}(2022)\citenamefont {Daley},
-  \citenamefont {Bloch}, \citenamefont {Kokail}, \citenamefont {Flannigan},
-  \citenamefont {Pearson}, \citenamefont {Troyer},\ and\ \citenamefont
-  {Zoller}}]{Daley2022}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.~J.}\ \bibnamefont
-  {Daley}}, \bibinfo {author} {\bibfnamefont {I.}~\bibnamefont {Bloch}},
-  \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Kokail}}, \bibinfo
-  {author} {\bibfnamefont {S.}~\bibnamefont {Flannigan}}, \bibinfo {author}
-  {\bibfnamefont {N.}~\bibnamefont {Pearson}}, \bibinfo {author} {\bibfnamefont
-  {M.}~\bibnamefont {Troyer}},\ and\ \bibinfo {author} {\bibfnamefont
-  {P.}~\bibnamefont {Zoller}},\ }\href
-  {https://doi.org/10.1038/s41586-022-04940-6} {\bibfield  {journal} {\bibinfo
-  {journal} {Nature}\ }\textbf {\bibinfo {volume} {607}},\ \bibinfo {pages}
-  {667} (\bibinfo {year} {2022})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Kim}\ \emph {et~al.}(2023)\citenamefont {Kim},
-  \citenamefont {Eddins}, \citenamefont {Anand}, \citenamefont {Wei},
-  \citenamefont {van~den Berg}, \citenamefont {Rosenblatt}, \citenamefont
-  {Nayfeh}, \citenamefont {Wu}, \citenamefont {Zaletel}, \citenamefont
-  {Temme},\ and\ \citenamefont {Kandala}}]{Kim2023}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont
-  {Kim}}, \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Eddins}},
-  \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Anand}}, \bibinfo
-  {author} {\bibfnamefont {K.~X.}\ \bibnamefont {Wei}}, \bibinfo {author}
-  {\bibfnamefont {E.}~\bibnamefont {van~den Berg}}, \bibinfo {author}
-  {\bibfnamefont {S.}~\bibnamefont {Rosenblatt}}, \bibinfo {author}
-  {\bibfnamefont {H.}~\bibnamefont {Nayfeh}}, \bibinfo {author} {\bibfnamefont
-  {Y.}~\bibnamefont {Wu}}, \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
-  {Zaletel}}, \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Temme}},\
-  and\ \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Kandala}},\ }\href
-  {https://doi.org/10.1038/s41586-023-06096-3} {\bibfield  {journal} {\bibinfo
-  {journal} {Nature}\ }\textbf {\bibinfo {volume} {618}},\ \bibinfo {pages}
-  {500} (\bibinfo {year} {2023})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Tindall}\ \emph {et~al.}(2024)\citenamefont
-  {Tindall}, \citenamefont {Fishman}, \citenamefont {Stoudenmire},\ and\
-  \citenamefont {Sels}}]{Tindall2024}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
-  {Tindall}}, \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Fishman}},
-  \bibinfo {author} {\bibfnamefont {E.~M.}\ \bibnamefont {Stoudenmire}},\ and\
-  \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Sels}},\ }\href
-  {https://doi.org/10.1103/PRXQuantum.5.010308} {\bibfield  {journal} {\bibinfo
-   {journal} {PRX Quantum}\ }\textbf {\bibinfo {volume} {5}},\ \bibinfo {pages}
-  {010308} (\bibinfo {year} {2024})},\ \Eprint
-  {https://arxiv.org/abs/2306.14887} {arXiv:2306.14887} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Tang}(2019)}]{Tang2019}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {E.}~\bibnamefont
-  {Tang}},\ }in\ \href {https://doi.org/10.1145/3313276.3316310} {\emph
-  {\bibinfo {booktitle} {Proceedings of the 51st Annual ACM SIGACT Symposium on
-  Theory of Computing (STOC 2019)}}}\ (\bibinfo {year} {2019})\ pp.\ \bibinfo
-  {pages} {217--228},\ \Eprint {https://arxiv.org/abs/1807.04271}
-  {arXiv:1807.04271} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Hangleiter}\ and\ \citenamefont
-  {Eisert}(2023)}]{Hangleiter2023}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {D.}~\bibnamefont
-  {Hangleiter}}\ and\ \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
-  {Eisert}},\ }\href {https://doi.org/10.1103/RevModPhys.95.035001} {\bibfield
-  {journal} {\bibinfo  {journal} {Rev. Mod. Phys.}\ }\textbf {\bibinfo {volume}
-  {95}},\ \bibinfo {pages} {035001} (\bibinfo {year} {2023})},\ \Eprint
-  {https://arxiv.org/abs/2206.04079} {arXiv:2206.04079} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont
-  {Bonilla~Vargas}(2026{\natexlab{b}})}]{BonillaReviewSQD2026}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {N.}~\bibnamefont
-  {Bonilla~Vargas}},\ }\href@noop {} {\bibinfo {title} {Machine learning for
-  sample-based quantum diagonalization: a review of generative configuration
-  recovery and the classical-simulability frontier}} (\bibinfo {year}
-  {2026}{\natexlab{b}}),\ \Eprint {https://arxiv.org/abs/2608.05314}
-  {arXiv:2608.05314 [quant-ph]} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Eisert}\ \emph {et~al.}(2020)\citenamefont {Eisert},
-  \citenamefont {Hangleiter}, \citenamefont {Walk}, \citenamefont {Roth},
-  \citenamefont {Markham}, \citenamefont {Parekh}, \citenamefont {Chabaud},\
-  and\ \citenamefont {Kashefi}}]{Eisert2020}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
-  {Eisert}}, \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Hangleiter}},
-  \bibinfo {author} {\bibfnamefont {N.}~\bibnamefont {Walk}}, \bibinfo {author}
-  {\bibfnamefont {I.}~\bibnamefont {Roth}}, \bibinfo {author} {\bibfnamefont
-  {D.}~\bibnamefont {Markham}}, \bibinfo {author} {\bibfnamefont
-  {R.}~\bibnamefont {Parekh}}, \bibinfo {author} {\bibfnamefont
-  {U.}~\bibnamefont {Chabaud}},\ and\ \bibinfo {author} {\bibfnamefont
-  {E.}~\bibnamefont {Kashefi}},\ }\href
-  {https://doi.org/10.1038/s42254-020-0186-4} {\bibfield  {journal} {\bibinfo
-  {journal} {Nat. Rev. Phys.}\ }\textbf {\bibinfo {volume} {2}},\ \bibinfo
-  {pages} {382} (\bibinfo {year} {2020})},\ \Eprint
-  {https://arxiv.org/abs/1910.06343} {arXiv:1910.06343} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Carrasco}\ \emph {et~al.}(2021)\citenamefont
-  {Carrasco}, \citenamefont {Elben}, \citenamefont {Kokail}, \citenamefont
-  {Kraus},\ and\ \citenamefont {Zoller}}]{Carrasco2021}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
-  {Carrasco}}, \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Elben}},
-  \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Kokail}}, \bibinfo
-  {author} {\bibfnamefont {B.}~\bibnamefont {Kraus}},\ and\ \bibinfo {author}
-  {\bibfnamefont {P.}~\bibnamefont {Zoller}},\ }\href
-  {https://doi.org/10.1103/PRXQuantum.2.010102} {\bibfield  {journal} {\bibinfo
-   {journal} {PRX Quantum}\ }\textbf {\bibinfo {volume} {2}},\ \bibinfo {pages}
-  {010102} (\bibinfo {year} {2021})},\ \Eprint
-  {https://arxiv.org/abs/2102.05927} {arXiv:2102.05927} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Elben}\ \emph {et~al.}(2020)\citenamefont {Elben},
-  \citenamefont {Vermersch}, \citenamefont {van Bijnen}, \citenamefont
-  {Kokail}, \citenamefont {Brydges}, \citenamefont {Maier}, \citenamefont
-  {Joshi}, \citenamefont {Blatt}, \citenamefont {Roos},\ and\ \citenamefont
-  {Zoller}}]{Elben2020}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Elben}}, \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Vermersch}},
-  \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {van Bijnen}}, \bibinfo
-  {author} {\bibfnamefont {C.}~\bibnamefont {Kokail}}, \bibinfo {author}
-  {\bibfnamefont {T.}~\bibnamefont {Brydges}}, \bibinfo {author} {\bibfnamefont
-  {C.}~\bibnamefont {Maier}}, \bibinfo {author} {\bibfnamefont {M.~K.}\
-  \bibnamefont {Joshi}}, \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
-  {Blatt}}, \bibinfo {author} {\bibfnamefont {C.~F.}\ \bibnamefont {Roos}},\
-  and\ \bibinfo {author} {\bibfnamefont {P.}~\bibnamefont {Zoller}},\ }\href
-  {https://doi.org/10.1103/PhysRevLett.124.010504} {\bibfield  {journal}
-  {\bibinfo  {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo {volume} {124}},\
-  \bibinfo {pages} {010504} (\bibinfo {year} {2020})},\ \Eprint
-  {https://arxiv.org/abs/1909.01282} {arXiv:1909.01282} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Lubinski}\ \emph {et~al.}(2023)\citenamefont
-  {Lubinski}, \citenamefont {Johri}, \citenamefont {Varosy}, \citenamefont
-  {Coleman}, \citenamefont {Zhao}, \citenamefont {Necaise}, \citenamefont
-  {Baldwin}, \citenamefont {Mayer},\ and\ \citenamefont
-  {Proctor}}]{Lubinski2023}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {T.}~\bibnamefont
-  {Lubinski}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Johri}},
-  \bibinfo {author} {\bibfnamefont {P.}~\bibnamefont {Varosy}}, \bibinfo
-  {author} {\bibfnamefont {J.}~\bibnamefont {Coleman}}, \bibinfo {author}
-  {\bibfnamefont {L.}~\bibnamefont {Zhao}}, \bibinfo {author} {\bibfnamefont
-  {J.}~\bibnamefont {Necaise}}, \bibinfo {author} {\bibfnamefont {C.~H.}\
-  \bibnamefont {Baldwin}}, \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont
-  {Mayer}},\ and\ \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont
-  {Proctor}},\ }\href {https://doi.org/10.1109/TQE.2023.3253761} {\bibfield
-  {journal} {\bibinfo  {journal} {IEEE Transactions on Quantum Engineering}\
-  }\textbf {\bibinfo {volume} {4}},\ \bibinfo {pages} {1} (\bibinfo {year}
-  {2023})},\ \Eprint {https://arxiv.org/abs/2110.03137} {arXiv:2110.03137}
-  \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Flammia}\ and\ \citenamefont
-  {Liu}(2011)}]{Flammia2011}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.~T.}\ \bibnamefont
-  {Flammia}}\ and\ \bibinfo {author} {\bibfnamefont {Y.-K.}\ \bibnamefont
-  {Liu}},\ }\href {https://doi.org/10.1103/PhysRevLett.106.230501} {\bibfield
-  {journal} {\bibinfo  {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo
-  {volume} {106}},\ \bibinfo {pages} {230501} (\bibinfo {year} {2011})},\
-  \Eprint {https://arxiv.org/abs/1104.4695} {arXiv:1104.4695} \BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Hohenberg}\ and\ \citenamefont
-  {Martin}(1965)}]{HohenbergMartin1965}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.~C.}\ \bibnamefont
-  {Hohenberg}}\ and\ \bibinfo {author} {\bibfnamefont {P.~C.}\ \bibnamefont
-  {Martin}},\ }\href {https://doi.org/10.1016/0003-4916(65)90280-0} {\bibfield
-  {journal} {\bibinfo  {journal} {Ann. Phys. (N.Y.)}\ }\textbf {\bibinfo
-  {volume} {34}},\ \bibinfo {pages} {291} (\bibinfo {year} {1965})}\BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Kohn}(1964)}]{Kohn1964}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {W.}~\bibnamefont
-  {Kohn}},\ }\href {https://doi.org/10.1103/PhysRev.133.A171} {\bibfield
-  {journal} {\bibinfo  {journal} {Phys. Rev.}\ }\textbf {\bibinfo {volume}
-  {133}},\ \bibinfo {pages} {A171} (\bibinfo {year} {1964})}\BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Maldague}(1977)}]{Maldague1977}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.~F.}\ \bibnamefont
-  {Maldague}},\ }\href {https://doi.org/10.1103/PhysRevB.16.2437} {\bibfield
-  {journal} {\bibinfo  {journal} {Phys. Rev. B}\ }\textbf {\bibinfo {volume}
-  {16}},\ \bibinfo {pages} {2437} (\bibinfo {year} {1977})}\BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Lehmann}(1954)}]{Lehmann1954}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont
-  {Lehmann}},\ }\href {https://doi.org/10.1007/BF02783624} {\bibfield
-  {journal} {\bibinfo  {journal} {Nuovo Cimento}\ }\textbf {\bibinfo {volume}
-  {11}},\ \bibinfo {pages} {342} (\bibinfo {year} {1954})}\BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Yang}\ \emph {et~al.}(2020)\citenamefont {Yang},
-  \citenamefont {Sun}, \citenamefont {Ott}, \citenamefont {Wang}, \citenamefont
-  {Zache}, \citenamefont {Halimeh}, \citenamefont {Yuan}, \citenamefont
-  {Hauke},\ and\ \citenamefont {Pan}}]{Gauss2020}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {B.}~\bibnamefont
-  {Yang}}, \bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Sun}}, \bibinfo
-  {author} {\bibfnamefont {R.}~\bibnamefont {Ott}}, \bibinfo {author}
-  {\bibfnamefont {H.-Y.}\ \bibnamefont {Wang}}, \bibinfo {author}
-  {\bibfnamefont {T.~V.}\ \bibnamefont {Zache}}, \bibinfo {author}
-  {\bibfnamefont {J.~C.}\ \bibnamefont {Halimeh}}, \bibinfo {author}
-  {\bibfnamefont {Z.-S.}\ \bibnamefont {Yuan}}, \bibinfo {author}
-  {\bibfnamefont {P.}~\bibnamefont {Hauke}},\ and\ \bibinfo {author}
-  {\bibfnamefont {J.-W.}\ \bibnamefont {Pan}},\ }\href
-  {https://doi.org/10.1038/s41586-020-2910-8} {\bibfield  {journal} {\bibinfo
-  {journal} {Nature}\ }\textbf {\bibinfo {volume} {587}},\ \bibinfo {pages}
-  {392} (\bibinfo {year} {2020})},\ \Eprint {https://arxiv.org/abs/2003.08945}
-  {arXiv:2003.08945} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Buchs}\ \emph {et~al.}(2026)\citenamefont {Buchs},
-  \citenamefont {Wong}, \citenamefont {Baul}, \citenamefont {Hamilton},
-  \citenamefont {Banerjee}, \citenamefont {Eidenbenz}, \citenamefont
-  {Hal\'asz}, \citenamefont {Kumaran}, \citenamefont {Maier}, \citenamefont
-  {{Naughton III}}, \citenamefont {Pelofske}, \citenamefont {Russo},
-  \citenamefont {Scheie}, \citenamefont {Subasi}, \citenamefont {Tennant},
-  \citenamefont {Touil}, \citenamefont {Humble},\ and\ \citenamefont
-  {Sornborger}}]{Buchs2026}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {G.}~\bibnamefont
-  {Buchs}}, \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont {Wong}},
-  \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Baul}}, \bibinfo {author}
-  {\bibfnamefont {K.~E.}\ \bibnamefont {Hamilton}}, \bibinfo {author}
-  {\bibfnamefont {A.}~\bibnamefont {Banerjee}}, \bibinfo {author}
-  {\bibfnamefont {S.}~\bibnamefont {Eidenbenz}}, \bibinfo {author}
-  {\bibfnamefont {G.~B.}\ \bibnamefont {Hal\'asz}}, \bibinfo {author}
-  {\bibfnamefont {K.}~\bibnamefont {Kumaran}}, \bibinfo {author} {\bibfnamefont
-  {T.}~\bibnamefont {Maier}}, \bibinfo {author} {\bibfnamefont
-  {T.}~\bibnamefont {{Naughton III}}}, \bibinfo {author} {\bibfnamefont
-  {E.}~\bibnamefont {Pelofske}}, \bibinfo {author} {\bibfnamefont
-  {V.}~\bibnamefont {Russo}}, \bibinfo {author} {\bibfnamefont
-  {A.}~\bibnamefont {Scheie}}, \bibinfo {author} {\bibfnamefont
-  {Y.}~\bibnamefont {Subasi}}, \bibinfo {author} {\bibfnamefont {D.~A.}\
-  \bibnamefont {Tennant}}, \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Touil}}, \bibinfo {author} {\bibfnamefont {T.~S.}\ \bibnamefont {Humble}},\
-  and\ \bibinfo {author} {\bibfnamefont {A.~T.}\ \bibnamefont {Sornborger}},\
-  }\href@noop {} {\bibinfo {title} {A validation framework for quantum
-  simulation of spin dynamics against inelastic neutron scattering and
-  classical simulation}} (\bibinfo {year} {2026}),\ \Eprint
-  {https://arxiv.org/abs/2607.01568} {arXiv:2607.01568 [quant-ph]} \BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Kokail}\ \emph {et~al.}(2019)\citenamefont {Kokail},
-  \citenamefont {Maier}, \citenamefont {van Bijnen}, \citenamefont {Brydges},
-  \citenamefont {Joshi}, \citenamefont {Jurcevic}, \citenamefont {Muschik},
-  \citenamefont {Silvi}, \citenamefont {Blatt}, \citenamefont {Roos},\ and\
-  \citenamefont {Zoller}}]{Kokail2019}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
-  {Kokail}}, \bibinfo {author} {\bibfnamefont {C.}~\bibnamefont {Maier}},
-  \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {van Bijnen}}, \bibinfo
-  {author} {\bibfnamefont {T.}~\bibnamefont {Brydges}}, \bibinfo {author}
-  {\bibfnamefont {M.~K.}\ \bibnamefont {Joshi}}, \bibinfo {author}
-  {\bibfnamefont {P.}~\bibnamefont {Jurcevic}}, \bibinfo {author}
-  {\bibfnamefont {C.~A.}\ \bibnamefont {Muschik}}, \bibinfo {author}
-  {\bibfnamefont {P.}~\bibnamefont {Silvi}}, \bibinfo {author} {\bibfnamefont
-  {R.}~\bibnamefont {Blatt}}, \bibinfo {author} {\bibfnamefont {C.~F.}\
-  \bibnamefont {Roos}},\ and\ \bibinfo {author} {\bibfnamefont
-  {P.}~\bibnamefont {Zoller}},\ }\href
-  {https://doi.org/10.1038/s41586-019-1177-4} {\bibfield  {journal} {\bibinfo
-  {journal} {Nature}\ }\textbf {\bibinfo {volume} {569}},\ \bibinfo {pages}
-  {355} (\bibinfo {year} {2019})},\ \Eprint {https://arxiv.org/abs/1810.03421}
-  {arXiv:1810.03421} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Cerezo}\ \emph {et~al.}(2021)\citenamefont {Cerezo},
-  \citenamefont {Arrasmith}, \citenamefont {Babbush}, \citenamefont {Benjamin},
-  \citenamefont {Endo}, \citenamefont {Fujii}, \citenamefont {McClean},
-  \citenamefont {Mitarai}, \citenamefont {Yuan}, \citenamefont {Cincio},\ and\
-  \citenamefont {Coles}}]{Cerezo2021}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
-  {Cerezo}}, \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Arrasmith}},
-  \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Babbush}}, \bibinfo
-  {author} {\bibfnamefont {S.~C.}\ \bibnamefont {Benjamin}}, \bibinfo {author}
-  {\bibfnamefont {S.}~\bibnamefont {Endo}}, \bibinfo {author} {\bibfnamefont
-  {K.}~\bibnamefont {Fujii}}, \bibinfo {author} {\bibfnamefont {J.~R.}\
-  \bibnamefont {McClean}}, \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont
-  {Mitarai}}, \bibinfo {author} {\bibfnamefont {X.}~\bibnamefont {Yuan}},
-  \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {Cincio}},\ and\ \bibinfo
-  {author} {\bibfnamefont {P.~J.}\ \bibnamefont {Coles}},\ }\href
-  {https://doi.org/10.1038/s42254-021-00348-9} {\bibfield  {journal} {\bibinfo
-  {journal} {Nat. Rev. Phys.}\ }\textbf {\bibinfo {volume} {3}},\ \bibinfo
-  {pages} {625} (\bibinfo {year} {2021})},\ \Eprint
-  {https://arxiv.org/abs/2012.09265} {arXiv:2012.09265} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Bharti}\ \emph {et~al.}(2022)\citenamefont {Bharti},
-  \citenamefont {Cervera-Lierta}, \citenamefont {Kyaw}, \citenamefont {Haug},
-  \citenamefont {Alperin-Lea}, \citenamefont {Anand}, \citenamefont {Degroote},
-  \citenamefont {Heimonen}, \citenamefont {Kottmann}, \citenamefont {Menke},
-  \citenamefont {Mok}, \citenamefont {Sim}, \citenamefont {Kwek},\ and\
-  \citenamefont {Aspuru-Guzik}}]{Bharti2022}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {K.}~\bibnamefont
-  {Bharti}}, \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Cervera-Lierta}}, \bibinfo {author} {\bibfnamefont {T.~H.}\ \bibnamefont
-  {Kyaw}}, \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Haug}}, \bibinfo
-  {author} {\bibfnamefont {S.}~\bibnamefont {Alperin-Lea}}, \bibinfo {author}
-  {\bibfnamefont {A.}~\bibnamefont {Anand}}, \bibinfo {author} {\bibfnamefont
-  {M.}~\bibnamefont {Degroote}}, \bibinfo {author} {\bibfnamefont
-  {H.}~\bibnamefont {Heimonen}}, \bibinfo {author} {\bibfnamefont {J.~S.}\
-  \bibnamefont {Kottmann}}, \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont
-  {Menke}}, \bibinfo {author} {\bibfnamefont {W.-K.}\ \bibnamefont {Mok}},
-  \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Sim}}, \bibinfo {author}
-  {\bibfnamefont {L.-C.}\ \bibnamefont {Kwek}},\ and\ \bibinfo {author}
-  {\bibfnamefont {A.}~\bibnamefont {Aspuru-Guzik}},\ }\href
-  {https://doi.org/10.1103/RevModPhys.94.015004} {\bibfield  {journal}
-  {\bibinfo  {journal} {Rev. Mod. Phys.}\ }\textbf {\bibinfo {volume} {94}},\
-  \bibinfo {pages} {015004} (\bibinfo {year} {2022})},\ \Eprint
-  {https://arxiv.org/abs/2101.08448} {arXiv:2101.08448} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Huang}\ \emph {et~al.}(2025)\citenamefont {Huang},
-  \citenamefont {Preskill},\ and\ \citenamefont
-  {Soleimanifar}}]{HuangPreskillSoleimanifar2024}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.-Y.}\ \bibnamefont
-  {Huang}}, \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Preskill}},\
-  and\ \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Soleimanifar}},\
-  }\href {https://doi.org/10.1038/s41567-025-03025-1} {\bibfield  {journal}
-  {\bibinfo  {journal} {Nat. Phys.}\ }\textbf {\bibinfo {volume} {21}},\
-  \bibinfo {pages} {1834} (\bibinfo {year} {2025})},\ \Eprint
-  {https://arxiv.org/abs/2404.07281} {arXiv:2404.07281 [quant-ph]} \BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Temme}\ \emph {et~al.}(2017)\citenamefont {Temme},
-  \citenamefont {Bravyi},\ and\ \citenamefont {Gambetta}}]{TemmeBravyi2017}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {K.}~\bibnamefont
-  {Temme}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Bravyi}},\ and\
-  \bibinfo {author} {\bibfnamefont {J.~M.}\ \bibnamefont {Gambetta}},\ }\href
-  {https://doi.org/10.1103/PhysRevLett.119.180509} {\bibfield  {journal}
-  {\bibinfo  {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo {volume} {119}},\
-  \bibinfo {pages} {180509} (\bibinfo {year} {2017})},\ \Eprint
-  {https://arxiv.org/abs/1612.02058} {arXiv:1612.02058} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Kandala}\ \emph {et~al.}(2019)\citenamefont
-  {Kandala}, \citenamefont {Temme}, \citenamefont {C{\'o}rcoles}, \citenamefont
-  {Mezzacapo}, \citenamefont {Chow},\ and\ \citenamefont
-  {Gambetta}}]{Kandala2019}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Kandala}}, \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Temme}},
-  \bibinfo {author} {\bibfnamefont {A.~D.}\ \bibnamefont {C{\'o}rcoles}},
-  \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Mezzacapo}}, \bibinfo
-  {author} {\bibfnamefont {J.~M.}\ \bibnamefont {Chow}},\ and\ \bibinfo
-  {author} {\bibfnamefont {J.~M.}\ \bibnamefont {Gambetta}},\ }\href
-  {https://doi.org/10.1038/s41586-019-1040-7} {\bibfield  {journal} {\bibinfo
-  {journal} {Nature}\ }\textbf {\bibinfo {volume} {567}},\ \bibinfo {pages}
-  {491} (\bibinfo {year} {2019})},\ \Eprint {https://arxiv.org/abs/1805.04492}
-  {arXiv:1805.04492} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Endo}\ \emph {et~al.}(2018)\citenamefont {Endo},
-  \citenamefont {Benjamin},\ and\ \citenamefont {Li}}]{EndoBenjaminLi2018}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
-  {Endo}}, \bibinfo {author} {\bibfnamefont {S.~C.}\ \bibnamefont {Benjamin}},\
-  and\ \bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont {Li}},\ }\href
-  {https://doi.org/10.1103/PhysRevX.8.031027} {\bibfield  {journal} {\bibinfo
-  {journal} {Phys. Rev. X}\ }\textbf {\bibinfo {volume} {8}},\ \bibinfo {pages}
-  {031027} (\bibinfo {year} {2018})},\ \Eprint
-  {https://arxiv.org/abs/1712.09271} {arXiv:1712.09271} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {van~den Berg}\ \emph {et~al.}(2023)\citenamefont
-  {van~den Berg}, \citenamefont {Minev}, \citenamefont {Kandala},\ and\
-  \citenamefont {Temme}}]{vandenBerg2023}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {E.}~\bibnamefont
-  {van~den Berg}}, \bibinfo {author} {\bibfnamefont {Z.~K.}\ \bibnamefont
-  {Minev}}, \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Kandala}},\
-  and\ \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Temme}},\ }\href
-  {https://doi.org/10.1038/s41567-023-02042-2} {\bibfield  {journal} {\bibinfo
-  {journal} {Nat. Phys.}\ }\textbf {\bibinfo {volume} {19}},\ \bibinfo {pages}
-  {1116} (\bibinfo {year} {2023})},\ \Eprint {https://arxiv.org/abs/2201.09866}
-  {arXiv:2201.09866} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Cai}\ \emph {et~al.}(2023)\citenamefont {Cai},
-  \citenamefont {Babbush}, \citenamefont {Benjamin}, \citenamefont {Endo},
-  \citenamefont {Huggins}, \citenamefont {Li}, \citenamefont {McClean},\ and\
-  \citenamefont {O'Brien}}]{Cai2023}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {Z.}~\bibnamefont
-  {Cai}}, \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Babbush}},
-  \bibinfo {author} {\bibfnamefont {S.~C.}\ \bibnamefont {Benjamin}}, \bibinfo
-  {author} {\bibfnamefont {S.}~\bibnamefont {Endo}}, \bibinfo {author}
-  {\bibfnamefont {W.~J.}\ \bibnamefont {Huggins}}, \bibinfo {author}
-  {\bibfnamefont {Y.}~\bibnamefont {Li}}, \bibinfo {author} {\bibfnamefont
-  {J.~R.}\ \bibnamefont {McClean}},\ and\ \bibinfo {author} {\bibfnamefont
-  {T.~E.}\ \bibnamefont {O'Brien}},\ }\href
-  {https://doi.org/10.1103/RevModPhys.95.045005} {\bibfield  {journal}
-  {\bibinfo  {journal} {Rev. Mod. Phys.}\ }\textbf {\bibinfo {volume} {95}},\
-  \bibinfo {pages} {045005} (\bibinfo {year} {2023})},\ \Eprint
-  {https://arxiv.org/abs/2210.00921} {arXiv:2210.00921} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Huang}\ \emph {et~al.}(2020)\citenamefont {Huang},
-  \citenamefont {Kueng},\ and\ \citenamefont
-  {Preskill}}]{HuangKuengPreskill2020}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.-Y.}\ \bibnamefont
-  {Huang}}, \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Kueng}},\ and\
-  \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Preskill}},\ }\href
-  {https://doi.org/10.1038/s41567-020-0932-7} {\bibfield  {journal} {\bibinfo
-  {journal} {Nat. Phys.}\ }\textbf {\bibinfo {volume} {16}},\ \bibinfo {pages}
-  {1050} (\bibinfo {year} {2020})},\ \Eprint {https://arxiv.org/abs/2002.08953}
-  {arXiv:2002.08953} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Elben}\ \emph {et~al.}(2023)\citenamefont {Elben},
-  \citenamefont {Flammia}, \citenamefont {Huang}, \citenamefont {Kueng},
-  \citenamefont {Preskill}, \citenamefont {Vermersch},\ and\ \citenamefont
-  {Zoller}}]{Elben2023}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Elben}}, \bibinfo {author} {\bibfnamefont {S.~T.}\ \bibnamefont {Flammia}},
-  \bibinfo {author} {\bibfnamefont {H.-Y.}\ \bibnamefont {Huang}}, \bibinfo
-  {author} {\bibfnamefont {R.}~\bibnamefont {Kueng}}, \bibinfo {author}
-  {\bibfnamefont {J.}~\bibnamefont {Preskill}}, \bibinfo {author}
-  {\bibfnamefont {B.}~\bibnamefont {Vermersch}},\ and\ \bibinfo {author}
-  {\bibfnamefont {P.}~\bibnamefont {Zoller}},\ }\href
-  {https://doi.org/10.1038/s42254-022-00535-2} {\bibfield  {journal} {\bibinfo
-  {journal} {Nat. Rev. Phys.}\ }\textbf {\bibinfo {volume} {5}},\ \bibinfo
-  {pages} {9} (\bibinfo {year} {2023})},\ \Eprint
-  {https://arxiv.org/abs/2203.11374} {arXiv:2203.11374} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Barron}\ \emph {et~al.}(2026)\citenamefont {Barron},
-  \citenamefont {Mitchell}, \citenamefont {Tripathi}, \citenamefont {Grieco},
-  \citenamefont {Rosen} \emph {et~al.}}]{OEACV2026}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.~V.}\ \bibnamefont
-  {Barron}}, \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Mitchell}},
-  \bibinfo {author} {\bibfnamefont {V.}~\bibnamefont {Tripathi}}, \bibinfo
-  {author} {\bibfnamefont {F.}~\bibnamefont {Grieco}}, \bibinfo {author}
-  {\bibfnamefont {I.}~\bibnamefont {Rosen}}, \emph {et~al.},\ }\href@noop {}
-  {\bibinfo {title} {Observable estimation in the absence of classical
-  verification}} (\bibinfo {year} {2026}),\ \Eprint
-  {https://arxiv.org/abs/2607.25998} {arXiv:2607.25998} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Kraft}\ \emph {et~al.}(2026)\citenamefont {Kraft},
-  \citenamefont {Joshi}, \citenamefont {Lam}, \citenamefont {Olsacher},
-  \citenamefont {Kranzl}, \citenamefont {Franke}, \citenamefont {Joshi},
-  \citenamefont {Blatt}, \citenamefont {Smerzi}, \citenamefont
-  {Stilck~Fran{\c{c}}a}, \citenamefont {Vermersch}, \citenamefont {Kraus},
-  \citenamefont {Roos},\ and\ \citenamefont {Zoller}}]{Kraft2026}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {T.}~\bibnamefont
-  {Kraft}}, \bibinfo {author} {\bibfnamefont {M.~K.}\ \bibnamefont {Joshi}},
-  \bibinfo {author} {\bibfnamefont {W.~T.}\ \bibnamefont {Lam}}, \bibinfo
-  {author} {\bibfnamefont {T.}~\bibnamefont {Olsacher}}, \bibinfo {author}
-  {\bibfnamefont {F.}~\bibnamefont {Kranzl}}, \bibinfo {author} {\bibfnamefont
-  {J.}~\bibnamefont {Franke}}, \bibinfo {author} {\bibfnamefont {L.~K.}\
-  \bibnamefont {Joshi}}, \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
-  {Blatt}}, \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Smerzi}},
-  \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Stilck~Fran{\c{c}}a}},
-  \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Vermersch}}, \bibinfo
-  {author} {\bibfnamefont {B.}~\bibnamefont {Kraus}}, \bibinfo {author}
-  {\bibfnamefont {C.~F.}\ \bibnamefont {Roos}},\ and\ \bibinfo {author}
-  {\bibfnamefont {P.}~\bibnamefont {Zoller}},\ }\href
-  {https://doi.org/10.1103/s96t-n8tx} {\bibfield  {journal} {\bibinfo
-  {journal} {Phys. Rev. X}\ }\textbf {\bibinfo {volume} {16}},\ \bibinfo
-  {pages} {031037} (\bibinfo {year} {2026})},\ \Eprint
-  {https://arxiv.org/abs/2511.23392} {arXiv:2511.23392} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Reinholdt}\ \emph {et~al.}(2025)\citenamefont
-  {Reinholdt}, \citenamefont {Ziems}, \citenamefont {Kjellgren}, \citenamefont
-  {Coriani}, \citenamefont {Sauer},\ and\ \citenamefont
-  {Kongsted}}]{Reinholdt2025}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.}~\bibnamefont
-  {Reinholdt}}, \bibinfo {author} {\bibfnamefont {K.~M.}\ \bibnamefont
-  {Ziems}}, \bibinfo {author} {\bibfnamefont {E.~R.}\ \bibnamefont
-  {Kjellgren}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Coriani}},
-  \bibinfo {author} {\bibfnamefont {S.~P.~A.}\ \bibnamefont {Sauer}},\ and\
-  \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Kongsted}},\ }\href
-  {https://doi.org/10.1021/acs.jctc.5c00375} {\bibfield  {journal} {\bibinfo
-  {journal} {J. Chem. Theory Comput.}\ }\textbf {\bibinfo {volume} {21}},\
-  \bibinfo {pages} {6811} (\bibinfo {year} {2025})},\ \Eprint
-  {https://arxiv.org/abs/2501.07231} {arXiv:2501.07231} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Epperly}\ \emph {et~al.}(2022)\citenamefont
-  {Epperly}, \citenamefont {Lin},\ and\ \citenamefont
-  {Nakatsukasa}}]{Epperly2022}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {E.~N.}\ \bibnamefont
-  {Epperly}}, \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {Lin}},\ and\
-  \bibinfo {author} {\bibfnamefont {Y.}~\bibnamefont {Nakatsukasa}},\ }\href
-  {https://doi.org/10.1137/21M145954X} {\bibfield  {journal} {\bibinfo
-  {journal} {SIAM J. Matrix Anal. Appl.}\ }\textbf {\bibinfo {volume} {43}},\
-  \bibinfo {pages} {1263} (\bibinfo {year} {2022})},\ \Eprint
-  {https://arxiv.org/abs/2110.07492} {arXiv:2110.07492} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Kirby}(2024)}]{Kirby2024}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {W.}~\bibnamefont
-  {Kirby}},\ }\href {https://doi.org/10.22331/q-2024-08-29-1457} {\bibfield
-  {journal} {\bibinfo  {journal} {Quantum}\ }\textbf {\bibinfo {volume} {8}},\
-  \bibinfo {pages} {1457} (\bibinfo {year} {2024})},\ \Eprint
-  {https://arxiv.org/abs/2401.01246} {arXiv:2401.01246} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Gaberle}\ and\ \citenamefont
-  {Jattana}(2026)}]{GaberleJattana2026}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
-  {Gaberle}}\ and\ \bibinfo {author} {\bibfnamefont {M.~S.}\ \bibnamefont
-  {Jattana}},\ }\href@noop {} {\bibinfo {title} {A critical assessment of the
-  sample-based quantum diagonalization for heisenberg and hubbard models}}
-  (\bibinfo {year} {2026}),\ \Eprint {https://arxiv.org/abs/2605.02494}
-  {arXiv:2605.02494 [quant-ph]} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Vaquero-Sabater}\ \emph {et~al.}(2026)\citenamefont
-  {Vaquero-Sabater}, \citenamefont {Carreras}, \citenamefont {Broers},
-  \citenamefont {Shirakawa}, \citenamefont {Yunoki},\ and\ \citenamefont
-  {Casanova}}]{VaqueroSabater2026}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {N.}~\bibnamefont
-  {Vaquero-Sabater}}, \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Carreras}}, \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {Broers}},
-  \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Shirakawa}}, \bibinfo
-  {author} {\bibfnamefont {S.}~\bibnamefont {Yunoki}},\ and\ \bibinfo {author}
-  {\bibfnamefont {D.}~\bibnamefont {Casanova}},\ }\href@noop {} {\bibinfo
-  {title} {Noise and configuration recovery impact on quantum selected
-  configuration interaction}} (\bibinfo {year} {2026}),\ \bibinfo {note}
-  {noiseless LUCJ sampling yields compact, biased configurational spaces},\
-  \Eprint {https://arxiv.org/abs/2605.23697} {arXiv:2605.23697 [quant-ph]}
-  \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Reinholdt}\ \emph {et~al.}(2026)\citenamefont
-  {Reinholdt}, \citenamefont {Kjellgren},\ and\ \citenamefont
-  {Kongsted}}]{LRSCI2025}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.}~\bibnamefont
-  {Reinholdt}}, \bibinfo {author} {\bibfnamefont {E.~R.}\ \bibnamefont
-  {Kjellgren}},\ and\ \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
-  {Kongsted}},\ }\href {https://doi.org/10.1021/acs.jctc.5c01676} {\bibfield
-  {journal} {\bibinfo  {journal} {J. Chem. Theory Comput.}\ }\textbf {\bibinfo
-  {volume} {22}},\ \bibinfo {pages} {358} (\bibinfo {year} {2026})},\ \Eprint
-  {https://arxiv.org/abs/2510.02949} {arXiv:2510.02949 [physics.chem-ph]}
-  \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Kubo}(1957)}]{Kubo1957}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
-  {Kubo}},\ }\href {https://doi.org/10.1143/JPSJ.12.570} {\bibfield  {journal}
-  {\bibinfo  {journal} {J. Phys. Soc. Jpn.}\ }\textbf {\bibinfo {volume}
-  {12}},\ \bibinfo {pages} {570} (\bibinfo {year} {1957})}\BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Turkowski}\ and\ \citenamefont
-  {Freericks}(2006)}]{TurkowskiFreericks2006}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {V.~M.}\ \bibnamefont
-  {Turkowski}}\ and\ \bibinfo {author} {\bibfnamefont {J.~K.}\ \bibnamefont
-  {Freericks}},\ }\href {https://doi.org/10.1103/PhysRevB.73.075108} {\bibfield
-   {journal} {\bibinfo  {journal} {Phys. Rev. B}\ }\textbf {\bibinfo {volume}
-  {73}},\ \bibinfo {pages} {075108} (\bibinfo {year} {2006})},\ \bibinfo {note}
-  {erratum: Phys. Rev. B \textbf{73}, 209902 (2006)}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Freericks}\ and\ \citenamefont
-  {Turkowski}(2009)}]{Freericks2009}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.~K.}\ \bibnamefont
-  {Freericks}}\ and\ \bibinfo {author} {\bibfnamefont {V.}~\bibnamefont
-  {Turkowski}},\ }\href {https://doi.org/10.1103/PhysRevB.80.115119} {\bibfield
-   {journal} {\bibinfo  {journal} {Phys. Rev. B}\ }\textbf {\bibinfo {volume}
-  {80}},\ \bibinfo {pages} {115119} (\bibinfo {year} {2009})},\ \bibinfo {note}
-  {erratum: Phys. Rev. B \textbf{82}, 129902 (2010)}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Jarrell}\ and\ \citenamefont
-  {Gubernatis}(1996)}]{Jarrell1996}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
-  {Jarrell}}\ and\ \bibinfo {author} {\bibfnamefont {J.~E.}\ \bibnamefont
-  {Gubernatis}},\ }\href {https://doi.org/10.1016/0370-1573(95)00074-7}
-  {\bibfield  {journal} {\bibinfo  {journal} {Phys. Rep.}\ }\textbf {\bibinfo
-  {volume} {269}},\ \bibinfo {pages} {133} (\bibinfo {year}
-  {1996})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Sandvik}(1998)}]{Sandvik1998}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.~W.}\ \bibnamefont
-  {Sandvik}},\ }\href {https://doi.org/10.1103/PhysRevB.57.10287} {\bibfield
-  {journal} {\bibinfo  {journal} {Phys. Rev. B}\ }\textbf {\bibinfo {volume}
-  {57}},\ \bibinfo {pages} {10287} (\bibinfo {year} {1998})}\BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Shohat}\ and\ \citenamefont
-  {Tamarkin}(1943)}]{ShohatTamarkin1943}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.~A.}\ \bibnamefont
-  {Shohat}}\ and\ \bibinfo {author} {\bibfnamefont {J.~D.}\ \bibnamefont
-  {Tamarkin}},\ }\href@noop {} {\emph {\bibinfo {title} {The Problem of
-  Moments}}},\ \bibinfo {series} {Mathematical Surveys}, Vol.~\bibinfo {volume}
-  {1}\ (\bibinfo  {publisher} {American Mathematical Society},\ \bibinfo {year}
-  {1943})\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Akhiezer}(1965)}]{Akhiezer1965}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {N.~I.}\ \bibnamefont
-  {Akhiezer}},\ }\href@noop {} {\emph {\bibinfo {title} {The Classical Moment
-  Problem and Some Related Questions in Analysis}}}\ (\bibinfo  {publisher}
-  {Oliver and Boyd},\ \bibinfo {year} {1965})\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Krein}\ and\ \citenamefont
-  {Nudelman}(1977)}]{KreinNudelman1977}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.~G.}\ \bibnamefont
-  {Krein}}\ and\ \bibinfo {author} {\bibfnamefont {A.~A.}\ \bibnamefont
-  {Nudelman}},\ }\href@noop {} {\emph {\bibinfo {title} {The Markov Moment
-  Problem and Extremal Problems}}},\ \bibinfo {series} {Translations of
-  Mathematical Monographs}, Vol.~\bibinfo {volume} {50}\ (\bibinfo  {publisher}
-  {American Mathematical Society},\ \bibinfo {year} {1977})\BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Simon}(1998)}]{Simon1998}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {B.}~\bibnamefont
-  {Simon}},\ }\href {https://doi.org/10.1006/aima.1998.1728} {\bibfield
-  {journal} {\bibinfo  {journal} {Adv. Math.}\ }\textbf {\bibinfo {volume}
-  {137}},\ \bibinfo {pages} {82} (\bibinfo {year} {1998})},\ \Eprint
-  {https://arxiv.org/abs/math-ph/9906008} {arXiv:math-ph/9906008} \BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Golub}\ and\ \citenamefont {Meurant}(2010)}]{GM2010}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {G.~H.}\ \bibnamefont
-  {Golub}}\ and\ \bibinfo {author} {\bibfnamefont {G.}~\bibnamefont
-  {Meurant}},\ }\href@noop {} {\emph {\bibinfo {title} {Matrices, Moments and
-  Quadrature with Applications}}}\ (\bibinfo  {publisher} {Princeton University
-  Press},\ \bibinfo {year} {2010})\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Szeg\H{o}}(1975)}]{Szego1975}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {G.}~\bibnamefont
-  {Szeg\H{o}}},\ }\href@noop {} {\emph {\bibinfo {title} {Orthogonal
-  Polynomials}}},\ \bibinfo {edition} {4th}\ ed.,\ \bibinfo {series} {AMS
-  Colloquium Publications}, Vol.~\bibinfo {volume} {23}\ (\bibinfo  {publisher}
-  {American Mathematical Society},\ \bibinfo {year} {1975})\ \bibinfo {note}
-  {see \S 3.41.}\BibitemShut {Stop}%
-\bibitem [{\citenamefont {Golub}\ and\ \citenamefont
-  {Welsch}(1969)}]{GolubWelsch1969}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {G.~H.}\ \bibnamefont
-  {Golub}}\ and\ \bibinfo {author} {\bibfnamefont {J.~H.}\ \bibnamefont
-  {Welsch}},\ }\href {https://doi.org/10.1090/S0025-5718-69-99647-1} {\bibfield
-   {journal} {\bibinfo  {journal} {Math. Comp.}\ }\textbf {\bibinfo {volume}
-  {23}},\ \bibinfo {pages} {221} (\bibinfo {year} {1969})}\BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Nevai}(1986)}]{Nevai1986}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {P.}~\bibnamefont
-  {Nevai}},\ }\href {https://doi.org/10.1016/0021-9045(86)90016-X} {\bibfield
-  {journal} {\bibinfo  {journal} {J. Approx. Theory}\ }\textbf {\bibinfo
-  {volume} {48}},\ \bibinfo {pages} {3} (\bibinfo {year} {1986})}\BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Lanczos}(1950)}]{Lanczos1950}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
-  {Lanczos}},\ }\href {https://doi.org/10.6028/jres.045.026} {\bibfield
-  {journal} {\bibinfo  {journal} {J. Res. Natl. Bur. Stand.}\ }\textbf
-  {\bibinfo {volume} {45}},\ \bibinfo {pages} {255} (\bibinfo {year}
-  {1950})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Wei\ss{}e}\ \emph {et~al.}(2006)\citenamefont
-  {Wei\ss{}e}, \citenamefont {Wellein}, \citenamefont {Alvermann},\ and\
-  \citenamefont {Fehske}}]{KPM2006}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Wei\ss{}e}}, \bibinfo {author} {\bibfnamefont {G.}~\bibnamefont {Wellein}},
-  \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Alvermann}},\ and\
-  \bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Fehske}},\ }\href
-  {https://doi.org/10.1103/RevModPhys.78.275} {\bibfield  {journal} {\bibinfo
-  {journal} {Rev. Mod. Phys.}\ }\textbf {\bibinfo {volume} {78}},\ \bibinfo
-  {pages} {275} (\bibinfo {year} {2006})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Haydock}\ \emph {et~al.}(1972)\citenamefont
-  {Haydock}, \citenamefont {Heine},\ and\ \citenamefont {Kelly}}]{Haydock1972}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
-  {Haydock}}, \bibinfo {author} {\bibfnamefont {V.}~\bibnamefont {Heine}},\
-  and\ \bibinfo {author} {\bibfnamefont {M.~J.}\ \bibnamefont {Kelly}},\ }\href
-  {https://doi.org/10.1088/0022-3719/5/20/004} {\bibfield  {journal} {\bibinfo
-  {journal} {J. Phys. C: Solid State Phys.}\ }\textbf {\bibinfo {volume} {5}},\
-  \bibinfo {pages} {2845} (\bibinfo {year} {1972})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Silver}\ \emph {et~al.}(1996)\citenamefont {Silver},
-  \citenamefont {R{\"o}der}, \citenamefont {Voter},\ and\ \citenamefont
-  {Kress}}]{Silver1996}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.~N.}\ \bibnamefont
-  {Silver}}, \bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {R{\"o}der}},
-  \bibinfo {author} {\bibfnamefont {A.~F.}\ \bibnamefont {Voter}},\ and\
-  \bibinfo {author} {\bibfnamefont {J.~D.}\ \bibnamefont {Kress}},\ }\href
-  {https://doi.org/10.1006/jcph.1996.0048} {\bibfield  {journal} {\bibinfo
-  {journal} {J. Comput. Phys.}\ }\textbf {\bibinfo {volume} {124}},\ \bibinfo
-  {pages} {115} (\bibinfo {year} {1996})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Holzner}\ \emph {et~al.}(2011)\citenamefont
-  {Holzner}, \citenamefont {Weichselbaum}, \citenamefont {McCulloch},
-  \citenamefont {Schollw{\"o}ck},\ and\ \citenamefont {von
-  Delft}}]{Holzner2011}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Holzner}}, \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Weichselbaum}}, \bibinfo {author} {\bibfnamefont {I.~P.}\ \bibnamefont
-  {McCulloch}}, \bibinfo {author} {\bibfnamefont {U.}~\bibnamefont
-  {Schollw{\"o}ck}},\ and\ \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
-  {von Delft}},\ }\href {https://doi.org/10.1103/PhysRevB.83.195115} {\bibfield
-   {journal} {\bibinfo  {journal} {Phys. Rev. B}\ }\textbf {\bibinfo {volume}
-  {83}},\ \bibinfo {pages} {195115} (\bibinfo {year} {2011})},\ \Eprint
-  {https://arxiv.org/abs/1101.5895} {arXiv:1101.5895} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Abbott}\ \emph {et~al.}(2025)\citenamefont {Abbott},
-  \citenamefont {Jay},\ and\ \citenamefont {Oare}}]{AbbottJayOare2025}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
-  {Abbott}}, \bibinfo {author} {\bibfnamefont {W.~I.}\ \bibnamefont {Jay}},\
-  and\ \bibinfo {author} {\bibfnamefont {P.~R.}\ \bibnamefont {Oare}},\
-  }\href@noop {} {\bibinfo {title} {Moment problems and bounds for
-  matrix-valued smeared spectral functions}} (\bibinfo {year} {2025}),\ \Eprint
-  {https://arxiv.org/abs/2508.01377} {arXiv:2508.01377} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Abbott}\ \emph {et~al.}(2026)\citenamefont {Abbott},
-  \citenamefont {Fields}, \citenamefont {Jay}, \citenamefont {Oare},\ and\
-  \citenamefont {Saccardi}}]{CausalBootstrap2026}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
-  {Abbott}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Fields}},
-  \bibinfo {author} {\bibfnamefont {W.~I.}\ \bibnamefont {Jay}}, \bibinfo
-  {author} {\bibfnamefont {P.}~\bibnamefont {Oare}},\ and\ \bibinfo {author}
-  {\bibfnamefont {M.}~\bibnamefont {Saccardi}},\ }\bibfield  {journal}
-  {\bibinfo  {journal} {Phys. Rev. D}\ }\href
-  {https://doi.org/10.1103/m9kj-y6t3} {10.1103/m9kj-y6t3} (\bibinfo {year}
-  {2026}),\ \bibinfo {note} {accepted},\ \Eprint
-  {https://arxiv.org/abs/2605.20509} {arXiv:2605.20509} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Mutzel}\ and\ \citenamefont
-  {Tilloy}(2026)}]{CertifiedSpectral2026}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
-  {Mutzel}}\ and\ \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Tilloy}},\ }\href@noop {} {\bibinfo {title} {Certified spectral functions
-  from lattice monte carlo data}} (\bibinfo {year} {2026}),\ \Eprint
-  {https://arxiv.org/abs/2606.09791} {arXiv:2606.09791} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Wang}\ \emph {et~al.}(2024)\citenamefont {Wang},
-  \citenamefont {Surace}, \citenamefont {Fr\'erot}, \citenamefont {Legat},
-  \citenamefont {Renou}, \citenamefont {Magron},\ and\ \citenamefont
-  {Ac\'in}}]{WangAcin2024}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
-  {Wang}}, \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Surace}},
-  \bibinfo {author} {\bibfnamefont {I.}~\bibnamefont {Fr\'erot}}, \bibinfo
-  {author} {\bibfnamefont {B.}~\bibnamefont {Legat}}, \bibinfo {author}
-  {\bibfnamefont {M.-O.}\ \bibnamefont {Renou}}, \bibinfo {author}
-  {\bibfnamefont {V.}~\bibnamefont {Magron}},\ and\ \bibinfo {author}
-  {\bibfnamefont {A.}~\bibnamefont {Ac\'in}},\ }\href
-  {https://doi.org/10.1103/PhysRevX.14.031006} {\bibfield  {journal} {\bibinfo
-  {journal} {Phys. Rev. X}\ }\textbf {\bibinfo {volume} {14}},\ \bibinfo
-  {pages} {031006} (\bibinfo {year} {2024})},\ \Eprint
-  {https://arxiv.org/abs/2310.05844} {arXiv:2310.05844} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Mortimer}\ \emph {et~al.}(2026)\citenamefont
-  {Mortimer}, \citenamefont {Zambrano}, \citenamefont {Ac\'in},\ and\
-  \citenamefont {Farina}}]{Mortimer2026}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {L.}~\bibnamefont
-  {Mortimer}}, \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {Zambrano}},
-  \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Ac\'in}},\ and\ \bibinfo
-  {author} {\bibfnamefont {D.}~\bibnamefont {Farina}},\ }\href@noop {}
-  {\bibinfo {title} {Bounding many-body properties under partial information
-  and finite measurement statistics}} (\bibinfo {year} {2026}),\ \Eprint
-  {https://arxiv.org/abs/2601.10408} {arXiv:2601.10408} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Totik}(2000)}]{Totik2000}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {V.}~\bibnamefont
-  {Totik}},\ }\href {https://doi.org/10.1007/BF02788993} {\bibfield  {journal}
-  {\bibinfo  {journal} {J. Anal. Math.}\ }\textbf {\bibinfo {volume} {81}},\
-  \bibinfo {pages} {283} (\bibinfo {year} {2000})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Mikkelsen}\ and\ \citenamefont
-  {Nakagawa}(2025)}]{Mikkelsen2024}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
-  {Mikkelsen}}\ and\ \bibinfo {author} {\bibfnamefont {Y.~O.}\ \bibnamefont
-  {Nakagawa}},\ }\href {https://doi.org/10.1103/75pv-hbrx} {\bibfield
-  {journal} {\bibinfo  {journal} {Phys. Rev. Research}\ }\textbf {\bibinfo
-  {volume} {7}},\ \bibinfo {pages} {043043} (\bibinfo {year} {2025})},\ \Eprint
-  {https://arxiv.org/abs/2412.13839} {arXiv:2412.13839} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Hubbard}(1963)}]{Hubbard1963}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
-  {Hubbard}},\ }\href {https://doi.org/10.1098/rspa.1963.0204} {\bibfield
-  {journal} {\bibinfo  {journal} {Proc. R. Soc. Lond. A}\ }\textbf {\bibinfo
-  {volume} {276}},\ \bibinfo {pages} {238} (\bibinfo {year}
-  {1963})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Lieb}\ and\ \citenamefont {Wu}(1968)}]{LiebWu1968}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {E.~H.}\ \bibnamefont
-  {Lieb}}\ and\ \bibinfo {author} {\bibfnamefont {F.~Y.}\ \bibnamefont {Wu}},\
-  }\href {https://doi.org/10.1103/PhysRevLett.20.1445} {\bibfield  {journal}
-  {\bibinfo  {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo {volume} {20}},\
-  \bibinfo {pages} {1445} (\bibinfo {year} {1968})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Dagotto}(1994)}]{Dagotto1994}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {E.}~\bibnamefont
-  {Dagotto}},\ }\href {https://doi.org/10.1103/RevModPhys.66.763} {\bibfield
-  {journal} {\bibinfo  {journal} {Rev. Mod. Phys.}\ }\textbf {\bibinfo {volume}
-  {66}},\ \bibinfo {pages} {763} (\bibinfo {year} {1994})}\BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Preuss}\ \emph {et~al.}(1995)\citenamefont {Preuss},
-  \citenamefont {Hanke},\ and\ \citenamefont {von~der Linden}}]{Preuss1995}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
-  {Preuss}}, \bibinfo {author} {\bibfnamefont {W.}~\bibnamefont {Hanke}},\ and\
-  \bibinfo {author} {\bibfnamefont {W.}~\bibnamefont {von~der Linden}},\ }\href
-  {https://doi.org/10.1103/PhysRevLett.75.1344} {\bibfield  {journal} {\bibinfo
-   {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo {volume} {75}},\ \bibinfo
-  {pages} {1344} (\bibinfo {year} {1995})},\ \Eprint
-  {https://arxiv.org/abs/cond-mat/9412089} {arXiv:cond-mat/9412089}
-  \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Voit}(1995)}]{Voit1995}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
-  {Voit}},\ }\href {https://doi.org/10.1088/0034-4885/58/9/002} {\bibfield
-  {journal} {\bibinfo  {journal} {Rep. Prog. Phys.}\ }\textbf {\bibinfo
-  {volume} {58}},\ \bibinfo {pages} {977} (\bibinfo {year} {1995})}\BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {White}(1992)}]{White1992}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.~R.}\ \bibnamefont
-  {White}},\ }\href {https://doi.org/10.1103/PhysRevLett.69.2863} {\bibfield
-  {journal} {\bibinfo  {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo
-  {volume} {69}},\ \bibinfo {pages} {2863} (\bibinfo {year}
-  {1992})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Schollw{\"o}ck}(2011)}]{Schollwock2011}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {U.}~\bibnamefont
-  {Schollw{\"o}ck}},\ }\href {https://doi.org/10.1016/j.aop.2010.09.012}
-  {\bibfield  {journal} {\bibinfo  {journal} {Ann. Phys.}\ }\textbf {\bibinfo
-  {volume} {326}},\ \bibinfo {pages} {96} (\bibinfo {year} {2011})},\ \Eprint
-  {https://arxiv.org/abs/1008.3477} {arXiv:1008.3477} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Georges}\ \emph {et~al.}(1996)\citenamefont
-  {Georges}, \citenamefont {Kotliar}, \citenamefont {Krauth},\ and\
-  \citenamefont {Rozenberg}}]{Georges1996}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Georges}}, \bibinfo {author} {\bibfnamefont {G.}~\bibnamefont {Kotliar}},
-  \bibinfo {author} {\bibfnamefont {W.}~\bibnamefont {Krauth}},\ and\ \bibinfo
-  {author} {\bibfnamefont {M.~J.}\ \bibnamefont {Rozenberg}},\ }\href
-  {https://doi.org/10.1103/RevModPhys.68.13} {\bibfield  {journal} {\bibinfo
-  {journal} {Rev. Mod. Phys.}\ }\textbf {\bibinfo {volume} {68}},\ \bibinfo
-  {pages} {13} (\bibinfo {year} {1996})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Gull}\ \emph {et~al.}(2011)\citenamefont {Gull},
-  \citenamefont {Millis}, \citenamefont {Lichtenstein}, \citenamefont
-  {Rubtsov}, \citenamefont {Troyer},\ and\ \citenamefont {Werner}}]{Gull2011}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {E.}~\bibnamefont
-  {Gull}}, \bibinfo {author} {\bibfnamefont {A.~J.}\ \bibnamefont {Millis}},
-  \bibinfo {author} {\bibfnamefont {A.~I.}\ \bibnamefont {Lichtenstein}},
-  \bibinfo {author} {\bibfnamefont {A.~N.}\ \bibnamefont {Rubtsov}}, \bibinfo
-  {author} {\bibfnamefont {M.}~\bibnamefont {Troyer}},\ and\ \bibinfo {author}
-  {\bibfnamefont {P.}~\bibnamefont {Werner}},\ }\href
-  {https://doi.org/10.1103/RevModPhys.83.349} {\bibfield  {journal} {\bibinfo
-  {journal} {Rev. Mod. Phys.}\ }\textbf {\bibinfo {volume} {83}},\ \bibinfo
-  {pages} {349} (\bibinfo {year} {2011})},\ \Eprint
-  {https://arxiv.org/abs/1012.4474} {arXiv:1012.4474} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {des Cloizeaux}\ and\ \citenamefont
-  {Pearson}(1962)}]{desCloizeauxPearson1962}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {des
-  Cloizeaux}}\ and\ \bibinfo {author} {\bibfnamefont {J.~J.}\ \bibnamefont
-  {Pearson}},\ }\href {https://doi.org/10.1103/PhysRev.128.2131} {\bibfield
-  {journal} {\bibinfo  {journal} {Phys. Rev.}\ }\textbf {\bibinfo {volume}
-  {128}},\ \bibinfo {pages} {2131} (\bibinfo {year} {1962})}\BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {M{\"u}ller}\ \emph {et~al.}(1981)\citenamefont
-  {M{\"u}ller}, \citenamefont {Thomas}, \citenamefont {Beck},\ and\
-  \citenamefont {Bonner}}]{Muller1981}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {G.}~\bibnamefont
-  {M{\"u}ller}}, \bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Thomas}},
-  \bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Beck}},\ and\ \bibinfo
-  {author} {\bibfnamefont {J.~C.}\ \bibnamefont {Bonner}},\ }\href
-  {https://doi.org/10.1103/PhysRevB.24.1429} {\bibfield  {journal} {\bibinfo
-  {journal} {Phys. Rev. B}\ }\textbf {\bibinfo {volume} {24}},\ \bibinfo
-  {pages} {1429} (\bibinfo {year} {1981})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Eskes}\ \emph {et~al.}(1991)\citenamefont {Eskes},
-  \citenamefont {Meinders},\ and\ \citenamefont {Sawatzky}}]{Eskes1991}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont
-  {Eskes}}, \bibinfo {author} {\bibfnamefont {M.~B.~J.}\ \bibnamefont
-  {Meinders}},\ and\ \bibinfo {author} {\bibfnamefont {G.~A.}\ \bibnamefont
-  {Sawatzky}},\ }\href {https://doi.org/10.1103/PhysRevLett.67.1035} {\bibfield
-   {journal} {\bibinfo  {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo
-  {volume} {67}},\ \bibinfo {pages} {1035} (\bibinfo {year}
-  {1991})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {M\'at\'e}\ \emph {et~al.}(1991)\citenamefont
-  {M\'at\'e}, \citenamefont {Nevai},\ and\ \citenamefont {Totik}}]{MNT1991}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {M\'at\'e}}, \bibinfo {author} {\bibfnamefont {P.}~\bibnamefont {Nevai}},\
-  and\ \bibinfo {author} {\bibfnamefont {V.}~\bibnamefont {Totik}},\ }\href
-  {https://doi.org/10.2307/2944352} {\bibfield  {journal} {\bibinfo  {journal}
-  {Ann. of Math.}\ }\textbf {\bibinfo {volume} {134}},\ \bibinfo {pages} {433}
-  (\bibinfo {year} {1991})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Lasserre}\ and\ \citenamefont
-  {Pauwels}(2019)}]{PauwelsLasserre2019}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.~B.}\ \bibnamefont
-  {Lasserre}}\ and\ \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont
-  {Pauwels}},\ }\href {https://doi.org/10.1007/s10444-019-09673-1} {\bibfield
-  {journal} {\bibinfo  {journal} {Adv. Comput. Math.}\ }\textbf {\bibinfo
-  {volume} {45}},\ \bibinfo {pages} {1439} (\bibinfo {year} {2019})},\ \Eprint
-  {https://arxiv.org/abs/1701.02886} {arXiv:1701.02886} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Lasserre}\ \emph {et~al.}(2022)\citenamefont
-  {Lasserre}, \citenamefont {Pauwels},\ and\ \citenamefont
-  {Putinar}}]{LasserrePauwelsPutinar2022}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.~B.}\ \bibnamefont
-  {Lasserre}}, \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont {Pauwels}},\
-  and\ \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Putinar}},\
-  }\href@noop {} {\emph {\bibinfo {title} {The {Christoffel--Darboux} Kernel
-  for Data Analysis}}},\ Cambridge Monographs on Applied and Computational
-  Mathematics\ (\bibinfo  {publisher} {Cambridge University Press},\ \bibinfo
-  {year} {2022})\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Karlin}\ and\ \citenamefont
-  {Studden}(1966)}]{KarlinStudden1966}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
-  {Karlin}}\ and\ \bibinfo {author} {\bibfnamefont {W.~J.}\ \bibnamefont
-  {Studden}},\ }\href@noop {} {\emph {\bibinfo {title} {Tchebycheff Systems:
-  With Applications in Analysis and Statistics}}},\ \bibinfo {series} {Pure and
-  Applied Mathematics}, Vol.~\bibinfo {volume} {15}\ (\bibinfo  {publisher}
-  {Interscience (Wiley)},\ \bibinfo {address} {New York},\ \bibinfo {year}
-  {1966})\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Dette}\ and\ \citenamefont
-  {Studden}(1997)}]{DetteStudden1997}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.}~\bibnamefont
-  {Dette}}\ and\ \bibinfo {author} {\bibfnamefont {W.~J.}\ \bibnamefont
-  {Studden}},\ }\href@noop {} {\emph {\bibinfo {title} {The Theory of Canonical
-  Moments with Applications in Statistics, Probability, and Analysis}}},\ Wiley
-  Series in Probability and Statistics\ (\bibinfo  {publisher} {Wiley},\
-  \bibinfo {address} {New York},\ \bibinfo {year} {1997})\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Potts}\ and\ \citenamefont
-  {Tasche}(2013)}]{PottsTasche2013}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {D.}~\bibnamefont
-  {Potts}}\ and\ \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Tasche}},\
-  }\href {https://doi.org/10.1016/j.laa.2012.10.036} {\bibfield  {journal}
-  {\bibinfo  {journal} {Linear Algebra Appl.}\ }\textbf {\bibinfo {volume}
-  {439}},\ \bibinfo {pages} {1024} (\bibinfo {year} {2013})}\BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Moitra}(2015)}]{Moitra2015}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Moitra}},\ }in\ \href {https://doi.org/10.1145/2746539.2746561} {\emph
-  {\bibinfo {booktitle} {Proceedings of the Forty-Seventh Annual ACM Symposium
-  on Theory of Computing (STOC 2015)}}}\ (\bibinfo {year} {2015})\ pp.\
-  \bibinfo {pages} {821--830},\ \Eprint {https://arxiv.org/abs/1408.1681}
-  {arXiv:1408.1681} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Batenkov}\ \emph {et~al.}(2020)\citenamefont
-  {Batenkov}, \citenamefont {Demanet}, \citenamefont {Goldman},\ and\
-  \citenamefont {Yomdin}}]{BatenkovClustered2020}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {D.}~\bibnamefont
-  {Batenkov}}, \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {Demanet}},
-  \bibinfo {author} {\bibfnamefont {G.}~\bibnamefont {Goldman}},\ and\ \bibinfo
-  {author} {\bibfnamefont {Y.}~\bibnamefont {Yomdin}},\ }\href
-  {https://doi.org/10.1137/18M1212197} {\bibfield  {journal} {\bibinfo
-  {journal} {SIAM J. Matrix Anal. Appl.}\ }\textbf {\bibinfo {volume} {41}},\
-  \bibinfo {pages} {199} (\bibinfo {year} {2020})},\ \Eprint
-  {https://arxiv.org/abs/1809.00658} {arXiv:1809.00658} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Kunis}\ and\ \citenamefont
-  {Nagel}(2020)}]{KunisNagel2021}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
-  {Kunis}}\ and\ \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Nagel}},\
-  }\href {https://doi.org/10.1016/j.laa.2020.06.003} {\bibfield  {journal}
-  {\bibinfo  {journal} {Linear Algebra Appl.}\ }\textbf {\bibinfo {volume}
-  {604}},\ \bibinfo {pages} {1} (\bibinfo {year} {2020})},\ \Eprint
-  {https://arxiv.org/abs/1907.07119} {arXiv:1907.07119} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Donoho}(1992)}]{Donoho1992}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {D.~L.}\ \bibnamefont
-  {Donoho}},\ }\href {https://doi.org/10.1137/0523074} {\bibfield  {journal}
-  {\bibinfo  {journal} {SIAM J. Math. Anal.}\ }\textbf {\bibinfo {volume}
-  {23}},\ \bibinfo {pages} {1309} (\bibinfo {year} {1992})}\BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Gautschi}(1962)}]{Gautschi1962}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {W.}~\bibnamefont
-  {Gautschi}},\ }\href {https://doi.org/10.1007/BF01386302} {\bibfield
-  {journal} {\bibinfo  {journal} {Numer. Math.}\ }\textbf {\bibinfo {volume}
-  {4}},\ \bibinfo {pages} {117} (\bibinfo {year} {1962})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Gautschi}(1963)}]{Gautschi1963}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {W.}~\bibnamefont
-  {Gautschi}},\ }\href {https://doi.org/10.1007/BF01385906} {\bibfield
-  {journal} {\bibinfo  {journal} {Numer. Math.}\ }\textbf {\bibinfo {volume}
-  {5}},\ \bibinfo {pages} {425} (\bibinfo {year} {1963})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Vehale}\ and\ \citenamefont
-  {Goel}(2026)}]{CertifyED2026}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
-  {Vehale}}\ and\ \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Goel}},\
-  }\href@noop {} {\bibinfo {title} {{CERTIFY-ED}: A multi-layer verification
-  framework for exact diagonalization of quantum many-body systems}} (\bibinfo
-  {year} {2026}),\ \Eprint {https://arxiv.org/abs/2605.11787} {arXiv:2605.11787
-  [quant-ph]} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Fei}\ \emph {et~al.}(2021)\citenamefont {Fei},
-  \citenamefont {Yeh},\ and\ \citenamefont {Gull}}]{Fei2021}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
-  {Fei}}, \bibinfo {author} {\bibfnamefont {C.-N.}\ \bibnamefont {Yeh}},\ and\
-  \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont {Gull}},\ }\href
-  {https://doi.org/10.1103/PhysRevLett.126.056402} {\bibfield  {journal}
-  {\bibinfo  {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo {volume} {126}},\
-  \bibinfo {pages} {056402} (\bibinfo {year} {2021})},\ \Eprint
-  {https://arxiv.org/abs/2010.04572} {arXiv:2010.04572} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Zhang}\ and\ \citenamefont
-  {Gull}(2024)}]{ZhangGull2024}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {L.}~\bibnamefont
-  {Zhang}}\ and\ \bibinfo {author} {\bibfnamefont {E.}~\bibnamefont {Gull}},\
-  }\href {https://doi.org/10.1103/PhysRevB.110.035154} {\bibfield  {journal}
-  {\bibinfo  {journal} {Phys. Rev. B}\ }\textbf {\bibinfo {volume} {110}},\
-  \bibinfo {pages} {035154} (\bibinfo {year} {2024})},\ \Eprint
-  {https://arxiv.org/abs/2312.10576} {arXiv:2312.10576} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Huang}\ and\ \citenamefont
-  {Liang}(2023)}]{HuangLiang2023}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {L.}~\bibnamefont
-  {Huang}}\ and\ \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Liang}},\
-  }\href {https://doi.org/10.1103/PhysRevB.108.235143} {\bibfield  {journal}
-  {\bibinfo  {journal} {Phys. Rev. B}\ }\textbf {\bibinfo {volume} {108}},\
-  \bibinfo {pages} {235143} (\bibinfo {year} {2023})},\ \Eprint
-  {https://arxiv.org/abs/2307.11324} {arXiv:2307.11324} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Irmejs}\ and\ \citenamefont
-  {Santos}(2025)}]{IrmejsSantos2025}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
-  {Irmejs}}\ and\ \bibinfo {author} {\bibfnamefont {R.~A.}\ \bibnamefont
-  {Santos}},\ }\href {https://doi.org/10.22331/q-2025-02-19-1639} {\bibfield
-  {journal} {\bibinfo  {journal} {Quantum}\ }\textbf {\bibinfo {volume} {9}},\
-  \bibinfo {pages} {1639} (\bibinfo {year} {2025})},\ \Eprint
-  {https://arxiv.org/abs/2406.03204} {arXiv:2406.03204 [quant-ph]} \BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Piccinelli}\ \emph {et~al.}(2026)\citenamefont
-  {Piccinelli}, \citenamefont {Tacchino}, \citenamefont {Tavernelli},\ and\
-  \citenamefont {Carleo}}]{Piccinelli2026}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
-  {Piccinelli}}, \bibinfo {author} {\bibfnamefont {F.}~\bibnamefont
-  {Tacchino}}, \bibinfo {author} {\bibfnamefont {I.}~\bibnamefont
-  {Tavernelli}},\ and\ \bibinfo {author} {\bibfnamefont {G.}~\bibnamefont
-  {Carleo}},\ }\href {https://doi.org/10.22331/q-2026-04-13-2060} {\bibfield
-  {journal} {\bibinfo  {journal} {Quantum}\ }\textbf {\bibinfo {volume} {10}},\
-  \bibinfo {pages} {2060} (\bibinfo {year} {2026})},\ \Eprint
-  {https://arxiv.org/abs/2505.05563} {arXiv:2505.05563 [quant-ph]} \BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Hausman}(1978)}]{Hausman1978}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.~A.}\ \bibnamefont
-  {Hausman}},\ }\href {https://doi.org/10.2307/1913827} {\bibfield  {journal}
-  {\bibinfo  {journal} {Econometrica}\ }\textbf {\bibinfo {volume} {46}},\
-  \bibinfo {pages} {1251} (\bibinfo {year} {1978})}\BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Hauschild}\ \emph {et~al.}(2024)\citenamefont
-  {Hauschild}, \citenamefont {Unfried}, \citenamefont {Anand}, \citenamefont
-  {Andrews}, \citenamefont {Bintz}, \citenamefont {Borla}, \citenamefont
-  {Divic}, \citenamefont {Drescher}, \citenamefont {Geiger}, \citenamefont
-  {Hefel}, \citenamefont {H\'emery}, \citenamefont {Kadow}, \citenamefont
-  {Kemp}, \citenamefont {Kirchner}, \citenamefont {Liu}, \citenamefont
-  {M{\"o}ller}, \citenamefont {Parker}, \citenamefont {Rader}, \citenamefont
-  {Romen}, \citenamefont {Scalet}, \citenamefont {Schoonderwoerd},
-  \citenamefont {Schulz}, \citenamefont {Soejima}, \citenamefont {Thoma},
-  \citenamefont {Wu}, \citenamefont {Zechmann}, \citenamefont {Zweng},
-  \citenamefont {Mong}, \citenamefont {Zaletel},\ and\ \citenamefont
-  {Pollmann}}]{TeNPy2024}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
-  {Hauschild}}, \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Unfried}},
-  \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Anand}}, \bibinfo
-  {author} {\bibfnamefont {B.}~\bibnamefont {Andrews}}, \bibinfo {author}
-  {\bibfnamefont {M.}~\bibnamefont {Bintz}}, \bibinfo {author} {\bibfnamefont
-  {U.}~\bibnamefont {Borla}}, \bibinfo {author} {\bibfnamefont
-  {S.}~\bibnamefont {Divic}}, \bibinfo {author} {\bibfnamefont
-  {M.}~\bibnamefont {Drescher}}, \bibinfo {author} {\bibfnamefont
-  {J.}~\bibnamefont {Geiger}}, \bibinfo {author} {\bibfnamefont
-  {M.}~\bibnamefont {Hefel}}, \bibinfo {author} {\bibfnamefont
-  {K.}~\bibnamefont {H\'emery}}, \bibinfo {author} {\bibfnamefont
-  {W.}~\bibnamefont {Kadow}}, \bibinfo {author} {\bibfnamefont
-  {J.}~\bibnamefont {Kemp}}, \bibinfo {author} {\bibfnamefont {N.}~\bibnamefont
-  {Kirchner}}, \bibinfo {author} {\bibfnamefont {V.~S.}\ \bibnamefont {Liu}},
-  \bibinfo {author} {\bibfnamefont {G.}~\bibnamefont {M{\"o}ller}}, \bibinfo
-  {author} {\bibfnamefont {D.}~\bibnamefont {Parker}}, \bibinfo {author}
-  {\bibfnamefont {M.}~\bibnamefont {Rader}}, \bibinfo {author} {\bibfnamefont
-  {A.}~\bibnamefont {Romen}}, \bibinfo {author} {\bibfnamefont
-  {S.}~\bibnamefont {Scalet}}, \bibinfo {author} {\bibfnamefont
-  {L.}~\bibnamefont {Schoonderwoerd}}, \bibinfo {author} {\bibfnamefont
-  {M.}~\bibnamefont {Schulz}}, \bibinfo {author} {\bibfnamefont
-  {T.}~\bibnamefont {Soejima}}, \bibinfo {author} {\bibfnamefont
-  {P.}~\bibnamefont {Thoma}}, \bibinfo {author} {\bibfnamefont
-  {Y.}~\bibnamefont {Wu}}, \bibinfo {author} {\bibfnamefont {P.}~\bibnamefont
-  {Zechmann}}, \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {Zweng}},
-  \bibinfo {author} {\bibfnamefont {R.~S.~K.}\ \bibnamefont {Mong}}, \bibinfo
-  {author} {\bibfnamefont {M.~P.}\ \bibnamefont {Zaletel}},\ and\ \bibinfo
-  {author} {\bibfnamefont {F.}~\bibnamefont {Pollmann}},\ }\bibfield  {journal}
-  {\bibinfo  {journal} {SciPost Phys. Codebases}\ }\textbf {\bibinfo {volume}
-  {41}},\ \href {https://doi.org/10.21468/SciPostPhysCodeb.41}
-  {10.21468/SciPostPhysCodeb.41} (\bibinfo {year} {2024}),\ \Eprint
-  {https://arxiv.org/abs/2408.02010} {arXiv:2408.02010} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Govia}\ \emph {et~al.}(2025)\citenamefont {Govia},
-  \citenamefont {Majumder}, \citenamefont {Barron}, \citenamefont {Mitchell},
-  \citenamefont {Seif}, \citenamefont {Kim}, \citenamefont {Wood},
-  \citenamefont {Pritchett}, \citenamefont {Merkel},\ and\ \citenamefont
-  {McKay}}]{Govia2025}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {L.~C.~G.}\
-  \bibnamefont {Govia}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
-  {Majumder}}, \bibinfo {author} {\bibfnamefont {S.~V.}\ \bibnamefont
-  {Barron}}, \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Mitchell}},
-  \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Seif}}, \bibinfo {author}
-  {\bibfnamefont {Y.}~\bibnamefont {Kim}}, \bibinfo {author} {\bibfnamefont
-  {C.~J.}\ \bibnamefont {Wood}}, \bibinfo {author} {\bibfnamefont {E.~J.}\
-  \bibnamefont {Pritchett}}, \bibinfo {author} {\bibfnamefont {S.~T.}\
-  \bibnamefont {Merkel}},\ and\ \bibinfo {author} {\bibfnamefont {D.~C.}\
-  \bibnamefont {McKay}},\ }\href {https://doi.org/10.1103/PRXQuantum.6.010354}
-  {\bibfield  {journal} {\bibinfo  {journal} {PRX Quantum}\ }\textbf {\bibinfo
-  {volume} {6}},\ \bibinfo {pages} {010354} (\bibinfo {year} {2025})},\ \Eprint
-  {https://arxiv.org/abs/2408.10985} {arXiv:2408.10985} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Piccinelli}\ \emph {et~al.}(2025)\citenamefont
-  {Piccinelli}, \citenamefont {Baiardi}, \citenamefont {Barison}, \citenamefont
-  {Rossmannek}, \citenamefont {Carrera~Vazquez}, \citenamefont {Tacchino},
-  \citenamefont {Mensa}, \citenamefont {Altamura}, \citenamefont {Alavi},
-  \citenamefont {Motta}, \citenamefont {Robledo-Moreno}, \citenamefont {Kirby},
-  \citenamefont {Sharma}, \citenamefont {Mezzacapo},\ and\ \citenamefont
-  {Tavernelli}}]{SqDRIFT2508}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
-  {Piccinelli}}, \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Baiardi}},
-  \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Barison}}, \bibinfo
-  {author} {\bibfnamefont {M.}~\bibnamefont {Rossmannek}}, \bibinfo {author}
-  {\bibfnamefont {A.}~\bibnamefont {Carrera~Vazquez}}, \bibinfo {author}
-  {\bibfnamefont {F.}~\bibnamefont {Tacchino}}, \bibinfo {author}
-  {\bibfnamefont {S.}~\bibnamefont {Mensa}}, \bibinfo {author} {\bibfnamefont
-  {E.}~\bibnamefont {Altamura}}, \bibinfo {author} {\bibfnamefont
-  {A.}~\bibnamefont {Alavi}}, \bibinfo {author} {\bibfnamefont
-  {M.}~\bibnamefont {Motta}}, \bibinfo {author} {\bibfnamefont
-  {J.}~\bibnamefont {Robledo-Moreno}}, \bibinfo {author} {\bibfnamefont
-  {W.}~\bibnamefont {Kirby}}, \bibinfo {author} {\bibfnamefont
-  {K.}~\bibnamefont {Sharma}}, \bibinfo {author} {\bibfnamefont
-  {A.}~\bibnamefont {Mezzacapo}},\ and\ \bibinfo {author} {\bibfnamefont
-  {I.}~\bibnamefont {Tavernelli}},\ }\href@noop {} {\bibinfo {title} {Quantum
-  chemistry with provable convergence via randomized sample-based krylov
-  quantum diagonalization}} (\bibinfo {year} {2025}),\ \Eprint
-  {https://arxiv.org/abs/2508.02578} {arXiv:2508.02578 [quant-ph]} \BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Mirzakhani}\ \emph {et~al.}(2026)\citenamefont
-  {Mirzakhani}, \citenamefont {Kwon},\ and\ \citenamefont {Moon}}]{QKDHub2607}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
-  {Mirzakhani}}, \bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Kwon}},\
-  and\ \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Moon}},\ }\href@noop
-  {} {\bibinfo {title} {Performance and stability of quantum krylov
-  diagonalization for the hubbard model}} (\bibinfo {year} {2026}),\ \Eprint
-  {https://arxiv.org/abs/2607.23604} {arXiv:2607.23604} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Huang}\ \emph {et~al.}(2022)\citenamefont {Huang},
-  \citenamefont {Kueng}, \citenamefont {Torlai}, \citenamefont {Albert},\ and\
-  \citenamefont {Preskill}}]{HuangScience2022}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.-Y.}\ \bibnamefont
-  {Huang}}, \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Kueng}},
-  \bibinfo {author} {\bibfnamefont {G.}~\bibnamefont {Torlai}}, \bibinfo
-  {author} {\bibfnamefont {V.~V.}\ \bibnamefont {Albert}},\ and\ \bibinfo
-  {author} {\bibfnamefont {J.}~\bibnamefont {Preskill}},\ }\href
-  {https://doi.org/10.1126/science.abk3333} {\bibfield  {journal} {\bibinfo
-  {journal} {Science}\ }\textbf {\bibinfo {volume} {377}},\ \bibinfo {pages}
-  {eabk3333} (\bibinfo {year} {2022})},\ \Eprint
-  {https://arxiv.org/abs/2106.12627} {arXiv:2106.12627} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Chan}\ \emph {et~al.}(2025)\citenamefont {Chan},
-  \citenamefont {Meister}, \citenamefont {Goh},\ and\ \citenamefont
-  {Koczor}}]{ShadowSpec2025}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.~H.~S.}\
-  \bibnamefont {Chan}}, \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
-  {Meister}}, \bibinfo {author} {\bibfnamefont {M.~L.}\ \bibnamefont {Goh}},\
-  and\ \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Koczor}},\ }\href
-  {https://doi.org/10.1103/PRXQuantum.6.010352} {\bibfield  {journal} {\bibinfo
-   {journal} {PRX Quantum}\ }\textbf {\bibinfo {volume} {6}},\ \bibinfo {pages}
-  {010352} (\bibinfo {year} {2025})},\ \Eprint
-  {https://arxiv.org/abs/2212.11036} {arXiv:2212.11036} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Ko}\ \emph {et~al.}(2025)\citenamefont {Ko},
-  \citenamefont {Han}, \citenamefont {Park},\ and\ \citenamefont
-  {Choi}}]{FAST2025}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {T.}~\bibnamefont
-  {Ko}}, \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Han}}, \bibinfo
-  {author} {\bibfnamefont {H.}~\bibnamefont {Park}},\ and\ \bibinfo {author}
-  {\bibfnamefont {S.}~\bibnamefont {Choi}},\ }\href@noop {} {\bibinfo {title}
-  {Fermionic-adapted shadow tomography for dynamical correlation functions}}
-  (\bibinfo {year} {2025}),\ \Eprint {https://arxiv.org/abs/2508.03192}
-  {arXiv:2508.03192 [quant-ph]} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Javadi-Abhari}\ \emph {et~al.}(2024)\citenamefont
-  {Javadi-Abhari}, \citenamefont {Treinish}, \citenamefont {Krsulich},
-  \citenamefont {Wood}, \citenamefont {Lishman}, \citenamefont {Gacon},
-  \citenamefont {Martiel}, \citenamefont {Nation}, \citenamefont {Bishop},
-  \citenamefont {Cross}, \citenamefont {Johnson},\ and\ \citenamefont
-  {Gambetta}}]{Qiskit2024}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Javadi-Abhari}}, \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
-  {Treinish}}, \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Krsulich}},
-  \bibinfo {author} {\bibfnamefont {C.~J.}\ \bibnamefont {Wood}}, \bibinfo
-  {author} {\bibfnamefont {J.}~\bibnamefont {Lishman}}, \bibinfo {author}
-  {\bibfnamefont {J.}~\bibnamefont {Gacon}}, \bibinfo {author} {\bibfnamefont
-  {S.}~\bibnamefont {Martiel}}, \bibinfo {author} {\bibfnamefont {P.~D.}\
-  \bibnamefont {Nation}}, \bibinfo {author} {\bibfnamefont {L.~S.}\
-  \bibnamefont {Bishop}}, \bibinfo {author} {\bibfnamefont {A.~W.}\
-  \bibnamefont {Cross}}, \bibinfo {author} {\bibfnamefont {B.~R.}\ \bibnamefont
-  {Johnson}},\ and\ \bibinfo {author} {\bibfnamefont {J.~M.}\ \bibnamefont
-  {Gambetta}},\ }\href {https://doi.org/10.48550/arXiv.2405.08810} {\bibinfo
-  {title} {Quantum computing with {Qiskit}}} (\bibinfo {year} {2024}),\ \Eprint
-  {https://arxiv.org/abs/2405.08810} {arXiv:2405.08810 [quant-ph]} \BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Carleo}\ and\ \citenamefont
-  {Troyer}(2017)}]{CarleoTroyer2017}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {G.}~\bibnamefont
-  {Carleo}}\ and\ \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
-  {Troyer}},\ }\href {https://doi.org/10.1126/science.aag2302} {\bibfield
-  {journal} {\bibinfo  {journal} {Science}\ }\textbf {\bibinfo {volume}
-  {355}},\ \bibinfo {pages} {602} (\bibinfo {year} {2017})},\ \Eprint
-  {https://arxiv.org/abs/1606.02318} {arXiv:1606.02318} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Halimeh}\ and\ \citenamefont
-  {Hauke}(2020)}]{HalimehHauke2020}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.~C.}\ \bibnamefont
-  {Halimeh}}\ and\ \bibinfo {author} {\bibfnamefont {P.}~\bibnamefont
-  {Hauke}},\ }\href {https://doi.org/10.1103/PhysRevLett.125.030503} {\bibfield
-   {journal} {\bibinfo  {journal} {Phys. Rev. Lett.}\ }\textbf {\bibinfo
-  {volume} {125}},\ \bibinfo {pages} {030503} (\bibinfo {year} {2020})},\
-  \Eprint {https://arxiv.org/abs/2001.00024} {arXiv:2001.00024} \BibitemShut
-  {NoStop}%
-\bibitem [{\citenamefont {Martinez}\ \emph {et~al.}(2016)\citenamefont
-  {Martinez}, \citenamefont {Muschik}, \citenamefont {Schindler}, \citenamefont
-  {Nigg}, \citenamefont {Erhard}, \citenamefont {Heyl}, \citenamefont {Hauke},
-  \citenamefont {Dalmonte}, \citenamefont {Monz}, \citenamefont {Zoller},\ and\
-  \citenamefont {Blatt}}]{Martinez2016}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {E.~A.}\ \bibnamefont
-  {Martinez}}, \bibinfo {author} {\bibfnamefont {C.~A.}\ \bibnamefont
-  {Muschik}}, \bibinfo {author} {\bibfnamefont {P.}~\bibnamefont {Schindler}},
-  \bibinfo {author} {\bibfnamefont {D.}~\bibnamefont {Nigg}}, \bibinfo {author}
-  {\bibfnamefont {A.}~\bibnamefont {Erhard}}, \bibinfo {author} {\bibfnamefont
-  {M.}~\bibnamefont {Heyl}}, \bibinfo {author} {\bibfnamefont {P.}~\bibnamefont
-  {Hauke}}, \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Dalmonte}},
-  \bibinfo {author} {\bibfnamefont {T.}~\bibnamefont {Monz}}, \bibinfo {author}
-  {\bibfnamefont {P.}~\bibnamefont {Zoller}},\ and\ \bibinfo {author}
-  {\bibfnamefont {R.}~\bibnamefont {Blatt}},\ }\href
-  {https://doi.org/10.1038/nature18318} {\bibfield  {journal} {\bibinfo
-  {journal} {Nature}\ }\textbf {\bibinfo {volume} {534}},\ \bibinfo {pages}
-  {516} (\bibinfo {year} {2016})},\ \Eprint {https://arxiv.org/abs/1605.04570}
-  {arXiv:1605.04570} \BibitemShut {NoStop}%
-\bibitem [{\citenamefont {Klco}\ \emph {et~al.}(2018)\citenamefont {Klco},
-  \citenamefont {Dumitrescu}, \citenamefont {McCaskey}, \citenamefont {Morris},
-  \citenamefont {Pooser}, \citenamefont {Sanz}, \citenamefont {Solano},
-  \citenamefont {Lougovski},\ and\ \citenamefont {Savage}}]{Klco2018}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {N.}~\bibnamefont
-  {Klco}}, \bibinfo {author} {\bibfnamefont {E.~F.}\ \bibnamefont
-  {Dumitrescu}}, \bibinfo {author} {\bibfnamefont {A.~J.}\ \bibnamefont
-  {McCaskey}}, \bibinfo {author} {\bibfnamefont {T.~D.}\ \bibnamefont
-  {Morris}}, \bibinfo {author} {\bibfnamefont {R.~C.}\ \bibnamefont {Pooser}},
-  \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Sanz}}, \bibinfo {author}
-  {\bibfnamefont {E.}~\bibnamefont {Solano}}, \bibinfo {author} {\bibfnamefont
-  {P.}~\bibnamefont {Lougovski}},\ and\ \bibinfo {author} {\bibfnamefont
-  {M.~J.}\ \bibnamefont {Savage}},\ }\href
-  {https://doi.org/10.1103/PhysRevA.98.032331} {\bibfield  {journal} {\bibinfo
-  {journal} {Phys. Rev. A}\ }\textbf {\bibinfo {volume} {98}},\ \bibinfo
-  {pages} {032331} (\bibinfo {year} {2018})},\ \Eprint
-  {https://arxiv.org/abs/1803.03326} {arXiv:1803.03326} \BibitemShut {NoStop}%
-\end{thebibliography}%
+\begin{thebibliography}{100}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem{Damascelli2003}
+A.~Damascelli, Z.~Hussain and Z.-X. Shen,
+\newblock \emph{Angle-resolved photoemission studies of the cuprate
+  superconductors},
+\newblock Rev. Mod. Phys. \textbf{75}, 473 (2003),
+\newblock \doi{10.1103/RevModPhys.75.473}.
+
+\bibitem{Basov2011}
+D.~N. Basov, R.~D. Averitt, D.~van~der Marel, M.~Dressel and K.~Haule,
+\newblock \emph{Electrodynamics of correlated electron materials},
+\newblock Rev. Mod. Phys. \textbf{83}(2), 471 (2011),
+\newblock \doi{10.1103/RevModPhys.83.471},
+\newblock \eprint{1106.2309}.
+
+\bibitem{Benthien2004}
+H.~Benthien, F.~Gebhard and E.~Jeckelmann,
+\newblock \emph{Spectral function of the one-dimensional hubbard model away
+  from half filling},
+\newblock Phys. Rev. Lett. \textbf{92}(25), 256401 (2004),
+\newblock \doi{10.1103/PhysRevLett.92.256401},
+\newblock \eprint{cond-mat/0402664}.
+
+\bibitem{Qin2022}
+M.~Qin, T.~Sch{\"a}fer, S.~Andergassen, P.~Corboz and E.~Gull,
+\newblock \emph{The hubbard model: A computational perspective},
+\newblock Annu. Rev. Condens. Matter Phys. \textbf{13}, 275 (2022),
+\newblock \doi{10.1146/annurev-conmatphys-090921-033948},
+\newblock \eprint{2104.00064}.
+
+\bibitem{AspuruGuzik2005}
+A.~Aspuru-Guzik, A.~D. Dutoi, P.~J. Love and M.~Head-Gordon,
+\newblock \emph{Simulated quantum computation of molecular energies},
+\newblock Science \textbf{309}(5741), 1704 (2005),
+\newblock \doi{10.1126/science.1113479}.
+
+\bibitem{Peruzzo2014}
+A.~Peruzzo, J.~McClean, P.~Shadbolt, M.-H. Yung, X.-Q. Zhou, P.~J. Love,
+  A.~Aspuru-Guzik and J.~L. O'Brien,
+\newblock \emph{A variational eigenvalue solver on a photonic quantum
+  processor},
+\newblock Nat. Commun. \textbf{5}, 4213 (2014),
+\newblock \doi{10.1038/ncomms5213},
+\newblock \eprint{1304.3061}.
+
+\bibitem{McArdle2020}
+S.~McArdle, S.~Endo, A.~Aspuru-Guzik, S.~C. Benjamin and X.~Yuan,
+\newblock \emph{Quantum computational chemistry},
+\newblock Rev. Mod. Phys. \textbf{92}(1), 015003 (2020),
+\newblock \doi{10.1103/RevModPhys.92.015003},
+\newblock \eprint{1808.10402}.
+
+\bibitem{Bauer2020}
+B.~Bauer, S.~Bravyi, M.~Motta and G.~K.-L. Chan,
+\newblock \emph{Quantum algorithms for quantum chemistry and quantum materials
+  science},
+\newblock Chem. Rev. \textbf{120}(22), 12685 (2020),
+\newblock \doi{10.1021/acs.chemrev.9b00829},
+\newblock \eprint{2001.03685}.
+
+\bibitem{Bravyi2022}
+S.~Bravyi, O.~Dial, J.~M. Gambetta, D.~Gil and Z.~Nazario,
+\newblock \emph{The future of quantum computing with superconducting qubits},
+\newblock J. Appl. Phys. \textbf{132}(16), 160902 (2022),
+\newblock \doi{10.1063/5.0082975},
+\newblock \eprint{2209.06841}.
+
+\bibitem{GranetDSF2026}
+E.~Granet, K.~Murota, H.~Dreyer, K.~Yamamoto, J.~Pedersen and H.~Suwa,
+\newblock \emph{Dynamical structure factor with a pumping approach on a
+  trapped-ion quantum computer} (2026), \eprint{2607.07138}.
+
+\bibitem{GranetARPES2026}
+E.~Granet, R.~Nigmatullin, D.~T. Stephen and H.~Dreyer,
+\newblock \emph{Spectral functions on a quantum computer through
+  system--environment interaction} (2026), \eprint{2605.01440}.
+
+\bibitem{GreeneDiniz2024}
+G.~Greene-Diniz, D.~Z. Manrique, K.~Yamamoto, E.~Plekhanov, N.~Fitzpatrick,
+  M.~Krompiec, R.~Sakuma and D.~Mu{\~n}oz~Ramo,
+\newblock \emph{Quantum computed green's functions using a cumulant expansion
+  of the lanczos method},
+\newblock Quantum \textbf{8}, 1383 (2024),
+\newblock \doi{10.22331/q-2024-06-20-1383},
+\newblock \eprint{2309.09685}.
+
+\bibitem{Selisko2025}
+J.~Selisko, M.~Amsler, C.~Wever, Y.~Kawashima, G.~Samsonidze, R.~Ul~Haq,
+  F.~Tacchino, I.~Tavernelli and T.~Eckl,
+\newblock \emph{Dynamical mean-field theory for real materials on a quantum
+  computer},
+\newblock npj Comput. Mater. \textbf{11}, 325 (2025),
+\newblock \doi{10.1038/s41524-025-01772-6},
+\newblock \eprint{2404.09527}.
+
+\bibitem{Lee2026}
+Y.-T. Lee, K.~Kumaran, B.~Pokharel, A.~Scheie, C.~L. Sarkis, S.~E. Nagler,
+  D.~A. Tennant, T.~S. Humble, A.~Schleife, A.~Kandala and A.~Banerjee,
+\newblock \emph{Benchmarking quantum simulation with neutron-scattering
+  experiments} (2026), \eprint{2603.15608}.
+
+\bibitem{QSCI2023}
+K.~Kanno, M.~Kohda, R.~Imai, S.~Koh, K.~Mitarai, W.~Mizukami and Y.~O.
+  Nakagawa,
+\newblock \emph{Quantum-selected configuration interaction: Classical
+  diagonalization of hamiltonians in subspaces selected by quantum computers},
+\newblock Phys. Rev. Research \textbf{8}, 023268 (2026),
+\newblock \doi{10.1103/dmn4-snfx},
+\newblock \eprint{2302.11320}.
+
+\bibitem{SQDchem2025}
+J.~Robledo-Moreno, M.~Motta, H.~Haas, A.~Javadi-Abhari, P.~Jurcevic, W.~Kirby,
+  S.~Martiel, K.~Sharma, S.~Sharma, T.~Shirakawa, I.~Sitdikov, R.-Y. Sun
+  \emph{et~al.},
+\newblock \emph{Chemistry beyond the scale of exact diagonalization on a
+  quantum-centric supercomputer},
+\newblock Science Advances \textbf{11}(25), eadu9991 (2025),
+\newblock \doi{10.1126/sciadv.adu9991},
+\newblock \eprint{2405.05068}.
+
+\bibitem{SKQD2501}
+J.~Yu, J.~Robledo~Moreno, J.~T. Iosue, L.~Bertels, D.~Claudino, B.~Fuller,
+  P.~Groszkowski, T.~S. Humble, P.~Jurcevic, W.~Kirby, T.~A. Maier, M.~Motta
+  \emph{et~al.},
+\newblock \emph{Quantum-centric algorithm for sample-based krylov
+  diagonalization} (2025), \eprint{2501.09702}.
+
+\bibitem{Yoshioka2025}
+N.~Yoshioka, M.~Amico, W.~Kirby \emph{et~al.},
+\newblock \emph{Krylov diagonalization of large many-body hamiltonians on a
+  quantum processor},
+\newblock Nat. Commun. \textbf{16}, 5014 (2025),
+\newblock \doi{10.1038/s41467-025-59716-z},
+\newblock \eprint{2407.14431}.
+
+\bibitem{Motta2020}
+M.~Motta, C.~Sun, A.~T.~K. Tan, M.~J. O'Rourke, E.~Ye, A.~J. Minnich, F.~G.
+  S.~L. Brand{\~a}o and G.~K.-L. Chan,
+\newblock \emph{Determining eigenstates and thermal states on a quantum
+  computer using quantum imaginary time evolution},
+\newblock Nat. Phys. \textbf{16}(2), 205 (2020),
+\newblock \doi{10.1038/s41567-019-0704-4},
+\newblock \eprint{1901.07653}.
+
+\bibitem{SQDspec2608}
+N.~Bonilla~Vargas,
+\newblock \emph{Captured weight and boundary leakage bound the error of
+  sample-based spectral functions} (2026), \eprint{2608.16436v3}.
+
+\bibitem{Patel2026}
+J.~Patel, C.~Rangi and K.-M. Tam,
+\newblock \emph{{Green's} functions from sample-based {Krylov} quantum
+  diagonalization: An impurity solver for dynamical mean-field theory} (2026),
+  \eprint{2609.09147}.
+
+\bibitem{Alexeev2024}
+Y.~Alexeev \emph{et~al.},
+\newblock \emph{Quantum-centric supercomputing for materials science: A
+  perspective on challenges and future directions},
+\newblock Future Gener. Comput. Syst. \textbf{160}, 666 (2024),
+\newblock \doi{10.1016/j.future.2024.04.060},
+\newblock \eprint{2312.09733}.
+
+\bibitem{Preskill2018}
+J.~Preskill,
+\newblock \emph{Quantum computing in the {NISQ} era and beyond},
+\newblock Quantum \textbf{2}, 79 (2018),
+\newblock \doi{10.22331/q-2018-08-06-79},
+\newblock \eprint{1801.00862}.
+
+\bibitem{Daley2022}
+A.~J. Daley, I.~Bloch, C.~Kokail, S.~Flannigan, N.~Pearson, M.~Troyer and
+  P.~Zoller,
+\newblock \emph{Practical quantum advantage in quantum simulation},
+\newblock Nature \textbf{607}(7920), 667 (2022),
+\newblock \doi{10.1038/s41586-022-04940-6}.
+
+\bibitem{Kim2023}
+Y.~Kim, A.~Eddins, S.~Anand, K.~X. Wei, E.~van~den Berg, S.~Rosenblatt,
+  H.~Nayfeh, Y.~Wu, M.~Zaletel, K.~Temme and A.~Kandala,
+\newblock \emph{Evidence for the utility of quantum computing before fault
+  tolerance},
+\newblock Nature \textbf{618}(7965), 500 (2023),
+\newblock \doi{10.1038/s41586-023-06096-3}.
+
+\bibitem{Tindall2024}
+J.~Tindall, M.~Fishman, E.~M. Stoudenmire and D.~Sels,
+\newblock \emph{Efficient tensor network simulation of {IBM}'s eagle kicked
+  ising experiment},
+\newblock PRX Quantum \textbf{5}(1), 010308 (2024),
+\newblock \doi{10.1103/PRXQuantum.5.010308},
+\newblock \eprint{2306.14887}.
+
+\bibitem{Tang2019}
+E.~Tang,
+\newblock \emph{A quantum-inspired classical algorithm for recommendation
+  systems},
+\newblock In \emph{Proceedings of the 51st Annual ACM SIGACT Symposium on
+  Theory of Computing (STOC 2019)}, pp. 217--228,
+\newblock \doi{10.1145/3313276.3316310} (2019), \eprint{1807.04271}.
+
+\bibitem{Hangleiter2023}
+D.~Hangleiter and J.~Eisert,
+\newblock \emph{Computational advantage of quantum random sampling},
+\newblock Rev. Mod. Phys. \textbf{95}(3), 035001 (2023),
+\newblock \doi{10.1103/RevModPhys.95.035001},
+\newblock \eprint{2206.04079}.
+
+\bibitem{BonillaReviewSQD2026}
+N.~Bonilla~Vargas,
+\newblock \emph{Machine learning for sample-based quantum diagonalization: a
+  review of generative configuration recovery and the classical-simulability
+  frontier} (2026), \eprint{2608.05314}.
+
+\bibitem{Eisert2020}
+J.~Eisert, D.~Hangleiter, N.~Walk, I.~Roth, D.~Markham, R.~Parekh, U.~Chabaud
+  and E.~Kashefi,
+\newblock \emph{Quantum certification and benchmarking},
+\newblock Nat. Rev. Phys. \textbf{2}(7), 382 (2020),
+\newblock \doi{10.1038/s42254-020-0186-4},
+\newblock \eprint{1910.06343}.
+
+\bibitem{Carrasco2021}
+J.~Carrasco, A.~Elben, C.~Kokail, B.~Kraus and P.~Zoller,
+\newblock \emph{Theoretical and experimental perspectives of quantum
+  verification},
+\newblock PRX Quantum \textbf{2}(1), 010102 (2021),
+\newblock \doi{10.1103/PRXQuantum.2.010102},
+\newblock \eprint{2102.05927}.
+
+\bibitem{Elben2020}
+A.~Elben, B.~Vermersch, R.~van Bijnen, C.~Kokail, T.~Brydges, C.~Maier, M.~K.
+  Joshi, R.~Blatt, C.~F. Roos and P.~Zoller,
+\newblock \emph{Cross-platform verification of intermediate scale quantum
+  devices},
+\newblock Phys. Rev. Lett. \textbf{124}(1), 010504 (2020),
+\newblock \doi{10.1103/PhysRevLett.124.010504},
+\newblock \eprint{1909.01282}.
+
+\bibitem{Lubinski2023}
+T.~Lubinski, S.~Johri, P.~Varosy, J.~Coleman, L.~Zhao, J.~Necaise, C.~H.
+  Baldwin, K.~Mayer and T.~Proctor,
+\newblock \emph{Application-oriented performance benchmarks for quantum
+  computing},
+\newblock IEEE Transactions on Quantum Engineering \textbf{4}, 1 (2023),
+\newblock \doi{10.1109/TQE.2023.3253761},
+\newblock \eprint{2110.03137}.
+
+\bibitem{Flammia2011}
+S.~T. Flammia and Y.-K. Liu,
+\newblock \emph{Direct fidelity estimation from few pauli measurements},
+\newblock Phys. Rev. Lett. \textbf{106}(23), 230501 (2011),
+\newblock \doi{10.1103/PhysRevLett.106.230501},
+\newblock \eprint{1104.4695}.
+
+\bibitem{HohenbergMartin1965}
+P.~C. Hohenberg and P.~C. Martin,
+\newblock \emph{Microscopic theory of superfluid helium},
+\newblock Ann. Phys. (N.Y.) \textbf{34}, 291 (1965),
+\newblock \doi{10.1016/0003-4916(65)90280-0}.
+
+\bibitem{Kohn1964}
+W.~Kohn,
+\newblock \emph{Theory of the insulating state},
+\newblock Phys. Rev. \textbf{133}, A171 (1964),
+\newblock \doi{10.1103/PhysRev.133.A171}.
+
+\bibitem{Maldague1977}
+P.~F. Maldague,
+\newblock \emph{Optical spectrum of a hubbard chain},
+\newblock Phys. Rev. B \textbf{16}, 2437 (1977),
+\newblock \doi{10.1103/PhysRevB.16.2437}.
+
+\bibitem{Lehmann1954}
+H.~Lehmann,
+\newblock \emph{\"uber eigenschaften von ausbreitungsfunktionen und
+  renormierungskonstanten quantisierter felder},
+\newblock Nuovo Cimento \textbf{11}, 342 (1954),
+\newblock \doi{10.1007/BF02783624}.
+
+\bibitem{Gauss2020}
+B.~Yang, H.~Sun, R.~Ott, H.-Y. Wang, T.~V. Zache, J.~C. Halimeh, Z.-S. Yuan,
+  P.~Hauke and J.-W. Pan,
+\newblock \emph{Observation of gauge invariance in a 71-site bose--hubbard
+  quantum simulator},
+\newblock Nature \textbf{587}, 392 (2020),
+\newblock \doi{10.1038/s41586-020-2910-8},
+\newblock \eprint{2003.08945}.
+
+\bibitem{Buchs2026}
+G.~Buchs, E.~Wong, A.~Baul, K.~E. Hamilton, A.~Banerjee, S.~Eidenbenz, G.~B.
+  Hal\'asz, K.~Kumaran, T.~Maier, T.~{Naughton III}, E.~Pelofske, V.~Russo
+  \emph{et~al.},
+\newblock \emph{A validation framework for quantum simulation of spin dynamics
+  against inelastic neutron scattering and classical simulation} (2026),
+  \eprint{2607.01568}.
+
+\bibitem{Kokail2019}
+C.~Kokail, C.~Maier, R.~van Bijnen, T.~Brydges, M.~K. Joshi, P.~Jurcevic, C.~A.
+  Muschik, P.~Silvi, R.~Blatt, C.~F. Roos and P.~Zoller,
+\newblock \emph{Self-verifying variational quantum simulation of lattice
+  models},
+\newblock Nature \textbf{569}, 355 (2019),
+\newblock \doi{10.1038/s41586-019-1177-4},
+\newblock \eprint{1810.03421}.
+
+\bibitem{Cerezo2021}
+M.~Cerezo, A.~Arrasmith, R.~Babbush, S.~C. Benjamin, S.~Endo, K.~Fujii, J.~R.
+  McClean, K.~Mitarai, X.~Yuan, L.~Cincio and P.~J. Coles,
+\newblock \emph{Variational quantum algorithms},
+\newblock Nat. Rev. Phys. \textbf{3}(9), 625 (2021),
+\newblock \doi{10.1038/s42254-021-00348-9},
+\newblock \eprint{2012.09265}.
+
+\bibitem{Bharti2022}
+K.~Bharti, A.~Cervera-Lierta, T.~H. Kyaw, T.~Haug, S.~Alperin-Lea, A.~Anand,
+  M.~Degroote, H.~Heimonen, J.~S. Kottmann, T.~Menke, W.-K. Mok, S.~Sim
+  \emph{et~al.},
+\newblock \emph{Noisy intermediate-scale quantum algorithms},
+\newblock Rev. Mod. Phys. \textbf{94}(1), 015004 (2022),
+\newblock \doi{10.1103/RevModPhys.94.015004},
+\newblock \eprint{2101.08448}.
+
+\bibitem{HuangPreskillSoleimanifar2024}
+H.-Y. Huang, J.~Preskill and M.~Soleimanifar,
+\newblock \emph{Certifying almost all quantum states with few single-qubit
+  measurements},
+\newblock Nat. Phys. \textbf{21}(11), 1834 (2025),
+\newblock \doi{10.1038/s41567-025-03025-1},
+\newblock \eprint{2404.07281}.
+
+\bibitem{TemmeBravyi2017}
+K.~Temme, S.~Bravyi and J.~M. Gambetta,
+\newblock \emph{Error mitigation for short-depth quantum circuits},
+\newblock Phys. Rev. Lett. \textbf{119}(18), 180509 (2017),
+\newblock \doi{10.1103/PhysRevLett.119.180509},
+\newblock \eprint{1612.02058}.
+
+\bibitem{Kandala2019}
+A.~Kandala, K.~Temme, A.~D. C{\'o}rcoles, A.~Mezzacapo, J.~M. Chow and J.~M.
+  Gambetta,
+\newblock \emph{Error mitigation extends the computational reach of a noisy
+  quantum processor},
+\newblock Nature \textbf{567}(7749), 491 (2019),
+\newblock \doi{10.1038/s41586-019-1040-7},
+\newblock \eprint{1805.04492}.
+
+\bibitem{EndoBenjaminLi2018}
+S.~Endo, S.~C. Benjamin and Y.~Li,
+\newblock \emph{Practical quantum error mitigation for near-future
+  applications},
+\newblock Phys. Rev. X \textbf{8}(3), 031027 (2018),
+\newblock \doi{10.1103/PhysRevX.8.031027},
+\newblock \eprint{1712.09271}.
+
+\bibitem{vandenBerg2023}
+E.~van~den Berg, Z.~K. Minev, A.~Kandala and K.~Temme,
+\newblock \emph{Probabilistic error cancellation with sparse pauli--lindblad
+  models on noisy quantum processors},
+\newblock Nat. Phys. \textbf{19}(8), 1116 (2023),
+\newblock \doi{10.1038/s41567-023-02042-2},
+\newblock \eprint{2201.09866}.
+
+\bibitem{Cai2023}
+Z.~Cai, R.~Babbush, S.~C. Benjamin, S.~Endo, W.~J. Huggins, Y.~Li, J.~R.
+  McClean and T.~E. O'Brien,
+\newblock \emph{Quantum error mitigation},
+\newblock Rev. Mod. Phys. \textbf{95}(4), 045005 (2023),
+\newblock \doi{10.1103/RevModPhys.95.045005},
+\newblock \eprint{2210.00921}.
+
+\bibitem{HuangKuengPreskill2020}
+H.-Y. Huang, R.~Kueng and J.~Preskill,
+\newblock \emph{Predicting many properties of a quantum system from very few
+  measurements},
+\newblock Nat. Phys. \textbf{16}(10), 1050 (2020),
+\newblock \doi{10.1038/s41567-020-0932-7},
+\newblock \eprint{2002.08953}.
+
+\bibitem{Elben2023}
+A.~Elben, S.~T. Flammia, H.-Y. Huang, R.~Kueng, J.~Preskill, B.~Vermersch and
+  P.~Zoller,
+\newblock \emph{The randomized measurement toolbox},
+\newblock Nat. Rev. Phys. \textbf{5}(1), 9 (2023),
+\newblock \doi{10.1038/s42254-022-00535-2},
+\newblock \eprint{2203.11374}.
+
+\bibitem{OEACV2026}
+S.~V. Barron, B.~Mitchell, V.~Tripathi, F.~Grieco, I.~Rosen \emph{et~al.},
+\newblock \emph{Observable estimation in the absence of classical verification}
+  (2026), \eprint{2607.25998}.
+
+\bibitem{Kraft2026}
+T.~Kraft, M.~K. Joshi, W.~T. Lam, T.~Olsacher, F.~Kranzl, J.~Franke, L.~K.
+  Joshi, R.~Blatt, A.~Smerzi, D.~Stilck~Fran{\c{c}}a, B.~Vermersch, B.~Kraus
+  \emph{et~al.},
+\newblock \emph{Bounded-error quantum simulation via {Hamiltonian} and
+  {Lindbladian} learning},
+\newblock Phys. Rev. X \textbf{16}(3), 031037 (2026),
+\newblock \doi{10.1103/s96t-n8tx},
+\newblock \eprint{2511.23392}.
+
+\bibitem{Reinholdt2025}
+P.~Reinholdt, K.~M. Ziems, E.~R. Kjellgren, S.~Coriani, S.~P.~A. Sauer and
+  J.~Kongsted,
+\newblock \emph{Critical limitations in quantum-selected configuration
+  interaction methods},
+\newblock J. Chem. Theory Comput. \textbf{21}(14), 6811 (2025),
+\newblock \doi{10.1021/acs.jctc.5c00375},
+\newblock \eprint{2501.07231}.
+
+\bibitem{Epperly2022}
+E.~N. Epperly, L.~Lin and Y.~Nakatsukasa,
+\newblock \emph{A theory of quantum subspace diagonalization},
+\newblock SIAM J. Matrix Anal. Appl. \textbf{43}(3), 1263 (2022),
+\newblock \doi{10.1137/21M145954X},
+\newblock \eprint{2110.07492}.
+
+\bibitem{Kirby2024}
+W.~Kirby,
+\newblock \emph{Analysis of quantum krylov algorithms with errors},
+\newblock Quantum \textbf{8}, 1457 (2024),
+\newblock \doi{10.22331/q-2024-08-29-1457},
+\newblock \eprint{2401.01246}.
+
+\bibitem{GaberleJattana2026}
+C.~Gaberle and M.~S. Jattana,
+\newblock \emph{A critical assessment of the sample-based quantum
+  diagonalization for heisenberg and hubbard models} (2026),
+  \eprint{2605.02494}.
+
+\bibitem{VaqueroSabater2026}
+N.~Vaquero-Sabater, A.~Carreras, L.~Broers, T.~Shirakawa, S.~Yunoki and
+  D.~Casanova,
+\newblock \emph{Noise and configuration recovery impact on quantum selected
+  configuration interaction},
+\newblock Noiseless LUCJ sampling yields compact, biased configurational spaces
+  (2026), \eprint{2605.23697}.
+
+\bibitem{LRSCI2025}
+P.~Reinholdt, E.~R. Kjellgren and J.~Kongsted,
+\newblock \emph{Linear response selected configuration interaction},
+\newblock J. Chem. Theory Comput. \textbf{22}(1), 358 (2026),
+\newblock \doi{10.1021/acs.jctc.5c01676},
+\newblock \eprint{2510.02949}.
+
+\bibitem{Kubo1957}
+R.~Kubo,
+\newblock \emph{Statistical-mechanical theory of irreversible processes. i.
+  general theory and simple applications to magnetic and conduction problems},
+\newblock J. Phys. Soc. Jpn. \textbf{12}(6), 570 (1957),
+\newblock \doi{10.1143/JPSJ.12.570}.
+
+\bibitem{TurkowskiFreericks2006}
+V.~M. Turkowski and J.~K. Freericks,
+\newblock \emph{Spectral moment sum rules for strongly correlated electrons in
+  time-dependent electric fields},
+\newblock Phys. Rev. B \textbf{73}(7), 075108 (2006),
+\newblock \doi{10.1103/PhysRevB.73.075108},
+\newblock Erratum: Phys. Rev. B \textbf{73}, 209902 (2006).
+
+\bibitem{Freericks2009}
+J.~K. Freericks and V.~Turkowski,
+\newblock \emph{Inhomogeneous spectral moment sum rules for the retarded green
+  function and self-energy of strongly correlated electrons or ultracold
+  fermionic atoms in optical lattices},
+\newblock Phys. Rev. B \textbf{80}(11), 115119 (2009),
+\newblock \doi{10.1103/PhysRevB.80.115119},
+\newblock Erratum: Phys. Rev. B \textbf{82}, 129902 (2010).
+
+\bibitem{Jarrell1996}
+M.~Jarrell and J.~E. Gubernatis,
+\newblock \emph{Bayesian inference and the analytic continuation of
+  imaginary-time quantum monte carlo data},
+\newblock Phys. Rep. \textbf{269}(3), 133 (1996),
+\newblock \doi{10.1016/0370-1573(95)00074-7}.
+
+\bibitem{Sandvik1998}
+A.~W. Sandvik,
+\newblock \emph{Stochastic method for analytic continuation of quantum monte
+  carlo data},
+\newblock Phys. Rev. B \textbf{57}(17), 10287 (1998),
+\newblock \doi{10.1103/PhysRevB.57.10287}.
+
+\bibitem{ShohatTamarkin1943}
+J.~A. Shohat and J.~D. Tamarkin,
+\newblock \emph{The Problem of Moments}, vol.~1 of \emph{Mathematical Surveys},
+\newblock American Mathematical Society (1943).
+
+\bibitem{Akhiezer1965}
+N.~I. Akhiezer,
+\newblock \emph{The Classical Moment Problem and Some Related Questions in
+  Analysis},
+\newblock Oliver and Boyd (1965).
+
+\bibitem{KreinNudelman1977}
+M.~G. Krein and A.~A. Nudelman,
+\newblock \emph{The Markov Moment Problem and Extremal Problems}, vol.~50 of
+  \emph{Translations of Mathematical Monographs},
+\newblock American Mathematical Society (1977).
+
+\bibitem{Simon1998}
+B.~Simon,
+\newblock \emph{The classical moment problem as a self-adjoint finite
+  difference operator},
+\newblock Adv. Math. \textbf{137}(1), 82 (1998),
+\newblock \doi{10.1006/aima.1998.1728},
+\newblock \eprint{math-ph/9906008}.
+
+\bibitem{GM2010}
+G.~H. Golub and G.~Meurant,
+\newblock \emph{Matrices, Moments and Quadrature with Applications},
+\newblock Princeton University Press,
+\newblock ISBN 9780691143415 (2010).
+
+\bibitem{Szego1975}
+G.~Szeg\H{o},
+\newblock \emph{Orthogonal Polynomials}, vol.~23 of \emph{AMS Colloquium
+  Publications},
+\newblock American Mathematical Society, 4th edn.,
+\newblock See \S 3.41. (1975).
+
+\bibitem{GolubWelsch1969}
+G.~H. Golub and J.~H. Welsch,
+\newblock \emph{Calculation of gauss quadrature rules},
+\newblock Math. Comp. \textbf{23}(106), 221 (1969),
+\newblock \doi{10.1090/S0025-5718-69-99647-1}.
+
+\bibitem{Nevai1986}
+P.~Nevai,
+\newblock \emph{G{\'e}za freud, orthogonal polynomials and christoffel
+  functions. a case study},
+\newblock J. Approx. Theory \textbf{48}(1), 3 (1986),
+\newblock \doi{10.1016/0021-9045(86)90016-X}.
+
+\bibitem{Lanczos1950}
+C.~Lanczos,
+\newblock \emph{An iteration method for the solution of the eigenvalue problem
+  of linear differential and integral operators},
+\newblock J. Res. Natl. Bur. Stand. \textbf{45}(4), 255 (1950),
+\newblock \doi{10.6028/jres.045.026}.
+
+\bibitem{KPM2006}
+A.~Wei\ss{}e, G.~Wellein, A.~Alvermann and H.~Fehske,
+\newblock \emph{The kernel polynomial method},
+\newblock Rev. Mod. Phys. \textbf{78}, 275 (2006),
+\newblock \doi{10.1103/RevModPhys.78.275}.
+
+\bibitem{Haydock1972}
+R.~Haydock, V.~Heine and M.~J. Kelly,
+\newblock \emph{Electronic structure based on the local atomic environment for
+  tight-binding bands},
+\newblock J. Phys. C: Solid State Phys. \textbf{5}, 2845 (1972),
+\newblock \doi{10.1088/0022-3719/5/20/004}.
+
+\bibitem{Silver1996}
+R.~N. Silver, H.~R{\"o}der, A.~F. Voter and J.~D. Kress,
+\newblock \emph{Kernel polynomial approximations for densities of states and
+  spectral functions},
+\newblock J. Comput. Phys. \textbf{124}(1), 115 (1996),
+\newblock \doi{10.1006/jcph.1996.0048}.
+
+\bibitem{Holzner2011}
+A.~Holzner, A.~Weichselbaum, I.~P. McCulloch, U.~Schollw{\"o}ck and J.~von
+  Delft,
+\newblock \emph{Chebyshev matrix product state approach for spectral
+  functions},
+\newblock Phys. Rev. B \textbf{83}(19), 195115 (2011),
+\newblock \doi{10.1103/PhysRevB.83.195115},
+\newblock \eprint{1101.5895}.
+
+\bibitem{AbbottJayOare2025}
+R.~Abbott, W.~I. Jay and P.~R. Oare,
+\newblock \emph{Moment problems and bounds for matrix-valued smeared spectral
+  functions} (2025), \eprint{2508.01377}.
+
+\bibitem{CausalBootstrap2026}
+R.~Abbott, S.~Fields, W.~I. Jay, P.~Oare and M.~Saccardi,
+\newblock \emph{Causal bootstrap: Bounding smeared spectral functions from
+  nonperturbative {Euclidean} data},
+\newblock Phys. Rev. D  (2026),
+\newblock \doi{10.1103/m9kj-y6t3},
+\newblock Accepted,
+\newblock \eprint{2605.20509}.
+
+\bibitem{CertifiedSpectral2026}
+S.~Mutzel and A.~Tilloy,
+\newblock \emph{Certified spectral functions from lattice monte carlo data}
+  (2026), \eprint{2606.09791}.
+
+\bibitem{WangAcin2024}
+J.~Wang, J.~Surace, I.~Fr\'erot, B.~Legat, M.-O. Renou, V.~Magron and
+  A.~Ac\'in,
+\newblock \emph{Certifying ground-state properties of many-body systems},
+\newblock Phys. Rev. X \textbf{14}(3), 031006 (2024),
+\newblock \doi{10.1103/PhysRevX.14.031006},
+\newblock \eprint{2310.05844}.
+
+\bibitem{Mortimer2026}
+L.~Mortimer, L.~Zambrano, A.~Ac\'in and D.~Farina,
+\newblock \emph{Bounding many-body properties under partial information and
+  finite measurement statistics} (2026), \eprint{2601.10408}.
+
+\bibitem{Totik2000}
+V.~Totik,
+\newblock \emph{Asymptotics for christoffel functions for general measures on
+  the real line},
+\newblock J. Anal. Math. \textbf{81}, 283 (2000),
+\newblock \doi{10.1007/BF02788993}.
+
+\bibitem{Mikkelsen2024}
+M.~Mikkelsen and Y.~O. Nakagawa,
+\newblock \emph{Quantum-selected configuration interaction with time-evolved
+  state},
+\newblock Phys. Rev. Research \textbf{7}(4), 043043 (2025),
+\newblock \doi{10.1103/75pv-hbrx},
+\newblock \eprint{2412.13839}.
+
+\bibitem{Hubbard1963}
+J.~Hubbard,
+\newblock \emph{Electron correlations in narrow energy bands},
+\newblock Proc. R. Soc. Lond. A \textbf{276}(1365), 238 (1963),
+\newblock \doi{10.1098/rspa.1963.0204}.
+
+\bibitem{LiebWu1968}
+E.~H. Lieb and F.~Y. Wu,
+\newblock \emph{Absence of mott transition in an exact solution of the
+  short-range, one-band model in one dimension},
+\newblock Phys. Rev. Lett. \textbf{20}(25), 1445 (1968),
+\newblock \doi{10.1103/PhysRevLett.20.1445}.
+
+\bibitem{Dagotto1994}
+E.~Dagotto,
+\newblock \emph{Correlated electrons in high-temperature superconductors},
+\newblock Rev. Mod. Phys. \textbf{66}(3), 763 (1994),
+\newblock \doi{10.1103/RevModPhys.66.763}.
+
+\bibitem{Preuss1995}
+R.~Preuss, W.~Hanke and W.~von~der Linden,
+\newblock \emph{Quasiparticle dispersion of the 2d hubbard model: From an
+  insulator to a metal},
+\newblock Phys. Rev. Lett. \textbf{75}(7), 1344 (1995),
+\newblock \doi{10.1103/PhysRevLett.75.1344},
+\newblock \eprint{cond-mat/9412089}.
+
+\bibitem{Voit1995}
+J.~Voit,
+\newblock \emph{One-dimensional fermi liquids},
+\newblock Rep. Prog. Phys. \textbf{58}, 977 (1995),
+\newblock \doi{10.1088/0034-4885/58/9/002}.
+
+\bibitem{White1992}
+S.~R. White,
+\newblock \emph{Density matrix formulation for quantum renormalization groups},
+\newblock Phys. Rev. Lett. \textbf{69}(19), 2863 (1992),
+\newblock \doi{10.1103/PhysRevLett.69.2863}.
+
+\bibitem{Schollwock2011}
+U.~Schollw{\"o}ck,
+\newblock \emph{The density-matrix renormalization group in the age of matrix
+  product states},
+\newblock Ann. Phys. \textbf{326}(1), 96 (2011),
+\newblock \doi{10.1016/j.aop.2010.09.012},
+\newblock \eprint{1008.3477}.
+
+\bibitem{Georges1996}
+A.~Georges, G.~Kotliar, W.~Krauth and M.~J. Rozenberg,
+\newblock \emph{Dynamical mean-field theory of strongly correlated fermion
+  systems and the limit of infinite dimensions},
+\newblock Rev. Mod. Phys. \textbf{68}(1), 13 (1996),
+\newblock \doi{10.1103/RevModPhys.68.13}.
+
+\bibitem{Gull2011}
+E.~Gull, A.~J. Millis, A.~I. Lichtenstein, A.~N. Rubtsov, M.~Troyer and
+  P.~Werner,
+\newblock \emph{Continuous-time monte carlo methods for quantum impurity
+  models},
+\newblock Rev. Mod. Phys. \textbf{83}(2), 349 (2011),
+\newblock \doi{10.1103/RevModPhys.83.349},
+\newblock \eprint{1012.4474}.
+
+\bibitem{desCloizeauxPearson1962}
+J.~des Cloizeaux and J.~J. Pearson,
+\newblock \emph{Spin-wave spectrum of the antiferromagnetic linear chain},
+\newblock Phys. Rev. \textbf{128}, 2131 (1962),
+\newblock \doi{10.1103/PhysRev.128.2131}.
+
+\bibitem{Muller1981}
+G.~M{\"u}ller, H.~Thomas, H.~Beck and J.~C. Bonner,
+\newblock \emph{Quantum spin dynamics of the antiferromagnetic linear chain in
+  zero and nonzero magnetic field},
+\newblock Phys. Rev. B \textbf{24}, 1429 (1981),
+\newblock \doi{10.1103/PhysRevB.24.1429}.
+
+\bibitem{Eskes1991}
+H.~Eskes, M.~B.~J. Meinders and G.~A. Sawatzky,
+\newblock \emph{Anomalous transfer of spectral weight in doped strongly
+  correlated systems},
+\newblock Phys. Rev. Lett. \textbf{67}(8), 1035 (1991),
+\newblock \doi{10.1103/PhysRevLett.67.1035}.
+
+\bibitem{MNT1991}
+A.~M\'at\'e, P.~Nevai and V.~Totik,
+\newblock \emph{{Szeg\H{o}}'s extremum problem on the unit circle},
+\newblock Ann. of Math. \textbf{134}, 433 (1991),
+\newblock \doi{10.2307/2944352}.
+
+\bibitem{PauwelsLasserre2019}
+J.~B. Lasserre and E.~Pauwels,
+\newblock \emph{The empirical {Christoffel} function with applications in data
+  analysis},
+\newblock Adv. Comput. Math. \textbf{45}(3), 1439 (2019),
+\newblock \doi{10.1007/s10444-019-09673-1},
+\newblock \eprint{1701.02886}.
+
+\bibitem{LasserrePauwelsPutinar2022}
+J.~B. Lasserre, E.~Pauwels and M.~Putinar,
+\newblock \emph{The {Christoffel--Darboux} Kernel for Data Analysis},
+\newblock Cambridge Monographs on Applied and Computational Mathematics.
+  Cambridge University Press,
+\newblock ISBN 9781108838061 (2022).
+
+\bibitem{KarlinStudden1966}
+S.~Karlin and W.~J. Studden,
+\newblock \emph{Tchebycheff Systems: With Applications in Analysis and
+  Statistics}, vol.~15 of \emph{Pure and Applied Mathematics},
+\newblock Interscience (Wiley), New York (1966).
+
+\bibitem{DetteStudden1997}
+H.~Dette and W.~J. Studden,
+\newblock \emph{The Theory of Canonical Moments with Applications in
+  Statistics, Probability, and Analysis},
+\newblock Wiley Series in Probability and Statistics. Wiley, New York,
+\newblock ISBN 9780471109914 (1997).
+
+\bibitem{PottsTasche2013}
+D.~Potts and M.~Tasche,
+\newblock \emph{Parameter estimation for nonincreasing exponential sums by
+  {Prony}-like methods},
+\newblock Linear Algebra Appl. \textbf{439}(4), 1024 (2013),
+\newblock \doi{10.1016/j.laa.2012.10.036}.
+
+\bibitem{Moitra2015}
+A.~Moitra,
+\newblock \emph{Super-resolution, extremal functions and the condition number
+  of {Vandermonde} matrices},
+\newblock In \emph{Proceedings of the Forty-Seventh Annual ACM Symposium on
+  Theory of Computing (STOC 2015)}, pp. 821--830,
+\newblock \doi{10.1145/2746539.2746561} (2015), \eprint{1408.1681}.
+
+\bibitem{BatenkovClustered2020}
+D.~Batenkov, L.~Demanet, G.~Goldman and Y.~Yomdin,
+\newblock \emph{Conditioning of partial nonuniform {Fourier} matrices with
+  clustered nodes},
+\newblock SIAM J. Matrix Anal. Appl. \textbf{41}(1), 199 (2020),
+\newblock \doi{10.1137/18M1212197},
+\newblock \eprint{1809.00658}.
+
+\bibitem{KunisNagel2021}
+S.~Kunis and D.~Nagel,
+\newblock \emph{On the smallest singular value of multivariate {Vandermonde}
+  matrices with clustered nodes},
+\newblock Linear Algebra Appl. \textbf{604}, 1 (2020),
+\newblock \doi{10.1016/j.laa.2020.06.003},
+\newblock \eprint{1907.07119}.
+
+\bibitem{Donoho1992}
+D.~L. Donoho,
+\newblock \emph{Superresolution via sparsity constraints},
+\newblock SIAM J. Math. Anal. \textbf{23}(5), 1309 (1992),
+\newblock \doi{10.1137/0523074}.
+
+\bibitem{Gautschi1962}
+W.~Gautschi,
+\newblock \emph{On inverses of {Vandermonde} and confluent {Vandermonde}
+  matrices},
+\newblock Numer. Math. \textbf{4}(1), 117 (1962),
+\newblock \doi{10.1007/BF01386302}.
+
+\bibitem{Gautschi1963}
+W.~Gautschi,
+\newblock \emph{On inverses of {Vandermonde} and confluent {Vandermonde}
+  matrices. {II}},
+\newblock Numer. Math. \textbf{5}(1), 425 (1963),
+\newblock \doi{10.1007/BF01385906}.
+
+\bibitem{CertifyED2026}
+S.~Vehale and R.~Goel,
+\newblock \emph{{CERTIFY-ED}: A multi-layer verification framework for exact
+  diagonalization of quantum many-body systems} (2026), \eprint{2605.11787}.
+
+\bibitem{Fei2021}
+J.~Fei, C.-N. Yeh and E.~Gull,
+\newblock \emph{Nevanlinna analytical continuation},
+\newblock Phys. Rev. Lett. \textbf{126}(5), 056402 (2021),
+\newblock \doi{10.1103/PhysRevLett.126.056402},
+\newblock \eprint{2010.04572}.
+
+\bibitem{ZhangGull2024}
+L.~Zhang and E.~Gull,
+\newblock \emph{Minimal pole representation and controlled analytic
+  continuation of {Matsubara} response functions},
+\newblock Phys. Rev. B \textbf{110}(3), 035154 (2024),
+\newblock \doi{10.1103/PhysRevB.110.035154},
+\newblock \eprint{2312.10576}.
+
+\bibitem{HuangLiang2023}
+L.~Huang and S.~Liang,
+\newblock \emph{Stochastic pole expansion method for analytic continuation of
+  the {Green's} function},
+\newblock Phys. Rev. B \textbf{108}(23), 235143 (2023),
+\newblock \doi{10.1103/PhysRevB.108.235143},
+\newblock \eprint{2307.11324}.
+
+\bibitem{IrmejsSantos2025}
+R.~Irmejs and R.~A. Santos,
+\newblock \emph{Approximating dynamical correlation functions with constant
+  depth quantum circuits},
+\newblock Quantum \textbf{9}, 1639 (2025),
+\newblock \doi{10.22331/q-2025-02-19-1639},
+\newblock \eprint{2406.03204}.
+
+\bibitem{Piccinelli2026}
+S.~Piccinelli, F.~Tacchino, I.~Tavernelli and G.~Carleo,
+\newblock \emph{A circuit-differentiation framework for {Green's} functions on
+  quantum computers},
+\newblock Quantum \textbf{10}, 2060 (2026),
+\newblock \doi{10.22331/q-2026-04-13-2060},
+\newblock \eprint{2505.05563}.
+
+\bibitem{Hausman1978}
+J.~A. Hausman,
+\newblock \emph{Specification tests in econometrics},
+\newblock Econometrica \textbf{46}(6), 1251 (1978),
+\newblock \doi{10.2307/1913827}.
+
+\bibitem{TeNPy2024}
+J.~Hauschild, J.~Unfried, S.~Anand, B.~Andrews, M.~Bintz, U.~Borla, S.~Divic,
+  M.~Drescher, J.~Geiger, M.~Hefel, K.~H\'emery, W.~Kadow \emph{et~al.},
+\newblock \emph{Tensor network {Python} ({TeNPy}) version 1},
+\newblock SciPost Phys. Codebases \textbf{41} (2024),
+\newblock \doi{10.21468/SciPostPhysCodeb.41},
+\newblock \eprint{2408.02010}.
+
+\bibitem{Govia2025}
+L.~C.~G. Govia, S.~Majumder, S.~V. Barron, B.~Mitchell, A.~Seif, Y.~Kim, C.~J.
+  Wood, E.~J. Pritchett, S.~T. Merkel and D.~C. McKay,
+\newblock \emph{Bounding the systematic error in quantum error mitigation due
+  to model violation},
+\newblock PRX Quantum \textbf{6}, 010354 (2025),
+\newblock \doi{10.1103/PRXQuantum.6.010354},
+\newblock \eprint{2408.10985}.
+
+\bibitem{SqDRIFT2508}
+S.~Piccinelli, A.~Baiardi, S.~Barison, M.~Rossmannek, A.~Carrera~Vazquez,
+  F.~Tacchino, S.~Mensa, E.~Altamura, A.~Alavi, M.~Motta, J.~Robledo-Moreno,
+  W.~Kirby \emph{et~al.},
+\newblock \emph{Quantum chemistry with provable convergence via randomized
+  sample-based krylov quantum diagonalization} (2025), \eprint{2508.02578}.
+
+\bibitem{QKDHub2607}
+M.~Mirzakhani, H.~Kwon and K.~Moon,
+\newblock \emph{Performance and stability of quantum krylov diagonalization for
+  the hubbard model} (2026), \eprint{2607.23604}.
+
+\bibitem{HuangScience2022}
+H.-Y. Huang, R.~Kueng, G.~Torlai, V.~V. Albert and J.~Preskill,
+\newblock \emph{Provably efficient machine learning for quantum many-body
+  problems},
+\newblock Science \textbf{377}(6613), eabk3333 (2022),
+\newblock \doi{10.1126/science.abk3333},
+\newblock \eprint{2106.12627}.
+
+\bibitem{ShadowSpec2025}
+H.~H.~S. Chan, R.~Meister, M.~L. Goh and B.~Koczor,
+\newblock \emph{Algorithmic shadow spectroscopy},
+\newblock PRX Quantum \textbf{6}, 010352 (2025),
+\newblock \doi{10.1103/PRXQuantum.6.010352},
+\newblock \eprint{2212.11036}.
+
+\bibitem{FAST2025}
+T.~Ko, M.~Han, H.~Park and S.~Choi,
+\newblock \emph{Fermionic-adapted shadow tomography for dynamical correlation
+  functions} (2025), \eprint{2508.03192}.
+
+\bibitem{Qiskit2024}
+A.~Javadi-Abhari, M.~Treinish, K.~Krsulich, C.~J. Wood, J.~Lishman, J.~Gacon,
+  S.~Martiel, P.~D. Nation, L.~S. Bishop, A.~W. Cross, B.~R. Johnson and J.~M.
+  Gambetta,
+\newblock \emph{Quantum computing with {Qiskit}},
+\newblock \doi{10.48550/arXiv.2405.08810} (2024), \eprint{2405.08810}.
+
+\bibitem{CarleoTroyer2017}
+G.~Carleo and M.~Troyer,
+\newblock \emph{Solving the quantum many-body problem with artificial neural
+  networks},
+\newblock Science \textbf{355}(6325), 602 (2017),
+\newblock \doi{10.1126/science.aag2302},
+\newblock \eprint{1606.02318}.
+
+\bibitem{HalimehHauke2020}
+J.~C. Halimeh and P.~Hauke,
+\newblock \emph{Reliability of lattice gauge theories},
+\newblock Phys. Rev. Lett. \textbf{125}(3), 030503 (2020),
+\newblock \doi{10.1103/PhysRevLett.125.030503},
+\newblock \eprint{2001.00024}.
+
+\bibitem{Martinez2016}
+E.~A. Martinez, C.~A. Muschik, P.~Schindler, D.~Nigg, A.~Erhard, M.~Heyl,
+  P.~Hauke, M.~Dalmonte, T.~Monz, P.~Zoller and R.~Blatt,
+\newblock \emph{Real-time dynamics of lattice gauge theories with a few-qubit
+  quantum computer},
+\newblock Nature \textbf{534}(7608), 516 (2016),
+\newblock \doi{10.1038/nature18318},
+\newblock \eprint{1605.04570}.
+
+\bibitem{Klco2018}
+N.~Klco, E.~F. Dumitrescu, A.~J. McCaskey, T.~D. Morris, R.~C. Pooser, M.~Sanz,
+  E.~Solano, P.~Lougovski and M.~J. Savage,
+\newblock \emph{Quantum-classical computation of schwinger model dynamics using
+  quantum computers},
+\newblock Phys. Rev. A \textbf{98}(3), 032331 (2018),
+\newblock \doi{10.1103/PhysRevA.98.032331},
+\newblock \eprint{1803.03326}.
+
+\end{thebibliography}

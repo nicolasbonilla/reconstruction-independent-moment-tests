@@ -109,7 +109,7 @@ Scripts write their JSON into `data/` and plotted data into `paper/figs/` (paths
 ## `paper/` — the manuscript, revised 2026-09-27
 
 `README.md` (status, what is still open, and the defects of the 2026-09-05 text that the revision corrected), `main.tex` (master),
-`figstyle.tex` (shared figure identity), `main.bbl` (frozen bibliography), `refs.bib`, `main.pdf` (38 pp,
+`figstyle.tex` (shared figure identity), `main.bbl` (frozen bibliography), `refs.bib`, `SciPost.cls` + `SciPost_bibstyle.bst` (the SciPost submission class and bibliography style), `main.pdf` (
 built from the revised text), `figs/` (native `.tex` fragments + `.dat` + raster `.png`),
 `figs/src/fig_circuit_qtk.tex` (source of `fig_circuit_qtk.pdf`), `figs/_superseded/` (files no figure
 reads, and the versions replaced on 2026-09-27; see its README).
