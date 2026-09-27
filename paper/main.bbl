@@ -50,12 +50,6 @@
 \providecommand \BibitemShut  [1]{\csname bibitem#1\endcsname}%
 \let\auto@bib@innerbib\@empty
 %</preamble>
-\bibitem [{\citenamefont {Bonilla~Vargas}(2026{\natexlab{a}})}]{SQDspec2608}%
-  \BibitemOpen
-  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {N.}~\bibnamefont
-  {Bonilla~Vargas}},\ }\href@noop {} {\  (\bibinfo {year}
-  {2026}{\natexlab{a}})},\ \Eprint {https://arxiv.org/abs/2608.16436}
-  {arXiv:2608.16436 [quant-ph]} \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Hohenberg}\ and\ \citenamefont
   {Martin}(1965)}]{HohenbergMartin1965}%
   \BibitemOpen
@@ -164,9 +158,11 @@
   \bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Dreyer}}, \bibinfo
   {author} {\bibfnamefont {K.}~\bibnamefont {Yamamoto}}, \bibinfo {author}
   {\bibfnamefont {J.}~\bibnamefont {Pedersen}},\ and\ \bibinfo {author}
-  {\bibfnamefont {H.}~\bibnamefont {Suwa}},\ }\href@noop {} {\  (\bibinfo
-  {year} {2026}{\natexlab{a}})},\ \Eprint {https://arxiv.org/abs/2607.07138}
-  {arXiv:2607.07138 [quant-ph]} \BibitemShut {NoStop}%
+  {\bibfnamefont {H.}~\bibnamefont {Suwa}},\ }\href@noop {} {\bibinfo {title}
+  {Dynamical structure factor with a pumping approach on a trapped-ion quantum
+  computer}} (\bibinfo {year} {2026}{\natexlab{a}}),\ \Eprint
+  {https://arxiv.org/abs/2607.07138} {arXiv:2607.07138 [quant-ph]} \BibitemShut
+  {NoStop}%
 \bibitem [{\citenamefont {Aspuru-Guzik}\ \emph {et~al.}(2005)\citenamefont
   {Aspuru-Guzik}, \citenamefont {Dutoi}, \citenamefont {Love},\ and\
   \citenamefont {Head-Gordon}}]{AspuruGuzik2005}%
@@ -304,8 +300,9 @@
   {Tran}}, \bibinfo {author} {\bibfnamefont {V.}~\bibnamefont {Tripathi}},
   \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Mezzacapo}},\ and\
   \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Sharma}},\ }\href@noop {}
-  {\  (\bibinfo {year} {2025})},\ \Eprint {https://arxiv.org/abs/2501.09702}
-  {arXiv:2501.09702} \BibitemShut {NoStop}%
+  {\bibinfo {title} {Quantum-centric algorithm for sample-based krylov
+  diagonalization}} (\bibinfo {year} {2025}),\ \Eprint
+  {https://arxiv.org/abs/2501.09702} {arXiv:2501.09702} \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Yoshioka}\ \emph {et~al.}(2025)\citenamefont
   {Yoshioka}, \citenamefont {Amico}, \citenamefont {Kirby} \emph
   {et~al.}}]{Yoshioka2025}%
@@ -334,6 +331,14 @@
   {journal} {Nat. Phys.}\ }\textbf {\bibinfo {volume} {16}},\ \bibinfo {pages}
   {205} (\bibinfo {year} {2020})},\ \Eprint {https://arxiv.org/abs/1901.07653}
   {arXiv:1901.07653} \BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Bonilla~Vargas}(2026{\natexlab{a}})}]{SQDspec2608}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {N.}~\bibnamefont
+  {Bonilla~Vargas}},\ }\href@noop {} {\bibinfo {title} {Dynamical spectral
+  functions from bitstring-sampled quantum subspaces: entanglement, not
+  one-body magic, tracks the sampling cost}} (\bibinfo {year}
+  {2026}{\natexlab{a}}),\ \Eprint {https://arxiv.org/abs/2608.16436}
+  {arXiv:2608.16436 [quant-ph]} \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Preskill}(2018)}]{Preskill2018}%
   \BibitemOpen
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {J.}~\bibnamefont
@@ -409,8 +414,10 @@
   {Bonilla~Vargas}(2026{\natexlab{b}})}]{BonillaReviewSQD2026}%
   \BibitemOpen
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {N.}~\bibnamefont
-  {Bonilla~Vargas}},\ }\href@noop {} {\  (\bibinfo {year}
-  {2026}{\natexlab{b}})},\ \Eprint {https://arxiv.org/abs/2608.05314}
+  {Bonilla~Vargas}},\ }\href@noop {} {\bibinfo {title} {Machine learning for
+  sample-based quantum diagonalization: generative configuration recovery and
+  the classical-simulability frontier}} (\bibinfo {year}
+  {2026}{\natexlab{b}}),\ \Eprint {https://arxiv.org/abs/2608.05314}
   {arXiv:2608.05314 [quant-ph]} \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Barron}\ \emph {et~al.}(2026)\citenamefont {Barron},
   \citenamefont {Mitchell}, \citenamefont {Tripathi}, \citenamefont {Grieco},
@@ -420,9 +427,10 @@
   {Barron}}, \bibinfo {author} {\bibfnamefont {B.}~\bibnamefont {Mitchell}},
   \bibinfo {author} {\bibfnamefont {V.}~\bibnamefont {Tripathi}}, \bibinfo
   {author} {\bibfnamefont {F.}~\bibnamefont {Grieco}}, \bibinfo {author}
-  {\bibfnamefont {I.}~\bibnamefont {Rosen}}, \emph {et~al.},\ }\href@noop {} {\
-   (\bibinfo {year} {2026})},\ \Eprint {https://arxiv.org/abs/2607.25998}
-  {arXiv:2607.25998} \BibitemShut {NoStop}%
+  {\bibfnamefont {I.}~\bibnamefont {Rosen}}, \emph {et~al.},\ }\href@noop {}
+  {\bibinfo {title} {Observable estimation in the absence of classical
+  verification}} (\bibinfo {year} {2026}),\ \Eprint
+  {https://arxiv.org/abs/2607.25998} {arXiv:2607.25998} \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Eisert}\ \emph {et~al.}(2020)\citenamefont {Eisert},
   \citenamefont {Hangleiter}, \citenamefont {Walk}, \citenamefont {Roth},
   \citenamefont {Markham}, \citenamefont {Parekh}, \citenamefont {Chabaud},\
@@ -577,9 +585,11 @@
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {H.-Y.}\ \bibnamefont
   {Huang}}, \bibinfo {author} {\bibfnamefont {J.}~\bibnamefont {Preskill}},\
   and\ \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Soleimanifar}},\
-  }\href@noop {} {\  (\bibinfo {year} {2024})},\ \bibinfo {note} {published in
-  Nature Physics (2025)},\ \Eprint {https://arxiv.org/abs/2404.07281}
-  {arXiv:2404.07281 [quant-ph]} \BibitemShut {NoStop}%
+  }\href@noop {} {\bibinfo {title} {Certifying almost all quantum states with
+  few single-qubit measurements}} (\bibinfo {year} {2024}),\ \bibinfo {note}
+  {published in Nature Physics (2025)},\ \Eprint
+  {https://arxiv.org/abs/2404.07281} {arXiv:2404.07281 [quant-ph]} \BibitemShut
+  {NoStop}%
 \bibitem [{\citenamefont {Granet}\ \emph
   {et~al.}(2026{\natexlab{b}})\citenamefont {Granet}, \citenamefont
   {Nigmatullin}, \citenamefont {Stephen},\ and\ \citenamefont
@@ -589,9 +599,10 @@
   {Granet}}, \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Nigmatullin}},
   \bibinfo {author} {\bibfnamefont {D.~T.}\ \bibnamefont {Stephen}},\ and\
   \bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Dreyer}},\ }\href@noop {}
-  {\  (\bibinfo {year} {2026}{\natexlab{b}})},\ \Eprint
-  {https://arxiv.org/abs/2605.01440} {arXiv:2605.01440 [quant-ph]} \BibitemShut
-  {NoStop}%
+  {\bibinfo {title} {Spectral functions on a quantum computer through
+  system--environment interaction}} (\bibinfo {year} {2026}{\natexlab{b}}),\
+  \Eprint {https://arxiv.org/abs/2605.01440} {arXiv:2605.01440 [quant-ph]}
+  \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Selisko}\ \emph {et~al.}(2025)\citenamefont
   {Selisko}, \citenamefont {Amsler}, \citenamefont {Wever}, \citenamefont
   {Kawashima}, \citenamefont {Samsonidze}, \citenamefont {Ul~Haq},
@@ -634,9 +645,10 @@
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {L.}~\bibnamefont
   {Mortimer}}, \bibinfo {author} {\bibfnamefont {L.}~\bibnamefont {Zambrano}},
   \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont {Ac\'in}},\ and\ \bibinfo
-  {author} {\bibfnamefont {D.}~\bibnamefont {Farina}},\ }\href@noop {} {\
-  (\bibinfo {year} {2026})},\ \Eprint {https://arxiv.org/abs/2601.10408}
-  {arXiv:2601.10408} \BibitemShut {NoStop}%
+  {author} {\bibfnamefont {D.}~\bibnamefont {Farina}},\ }\href@noop {}
+  {\bibinfo {title} {Bounding many-body properties under partial information
+  and finite measurement statistics}} (\bibinfo {year} {2026}),\ \Eprint
+  {https://arxiv.org/abs/2601.10408} {arXiv:2601.10408} \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Cerezo}\ \emph {et~al.}(2021)\citenamefont {Cerezo},
   \citenamefont {Arrasmith}, \citenamefont {Babbush}, \citenamefont {Benjamin},
   \citenamefont {Endo}, \citenamefont {Fujii}, \citenamefont {McClean},
@@ -810,9 +822,10 @@
   \BibitemOpen
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {C.}~\bibnamefont
   {Gaberle}}\ and\ \bibinfo {author} {\bibfnamefont {M.~S.}\ \bibnamefont
-  {Jattana}},\ }\href@noop {} {\  (\bibinfo {year} {2026})},\ \Eprint
-  {https://arxiv.org/abs/2605.02494} {arXiv:2605.02494 [quant-ph]} \BibitemShut
-  {NoStop}%
+  {Jattana}},\ }\href@noop {} {\bibinfo {title} {A critical assessment of the
+  sample-based quantum diagonalization for heisenberg and hubbard models}}
+  (\bibinfo {year} {2026}),\ \Eprint {https://arxiv.org/abs/2605.02494}
+  {arXiv:2605.02494 [quant-ph]} \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Vaquero-Sabater}\ \emph {et~al.}(2026)\citenamefont
   {Vaquero-Sabater}, \citenamefont {Carreras}, \citenamefont {Broers},
   \citenamefont {Shirakawa}, \citenamefont {Yunoki},\ and\ \citenamefont
@@ -887,7 +900,8 @@
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {R.}~\bibnamefont
   {Abbott}}, \bibinfo {author} {\bibfnamefont {W.~I.}\ \bibnamefont {Jay}},\
   and\ \bibinfo {author} {\bibfnamefont {P.~R.}\ \bibnamefont {Oare}},\
-  }\href@noop {} {\  (\bibinfo {year} {2025})},\ \Eprint
+  }\href@noop {} {\bibinfo {title} {Moment problems and bounds for
+  matrix-valued smeared spectral functions}} (\bibinfo {year} {2025}),\ \Eprint
   {https://arxiv.org/abs/2508.01377} {arXiv:2508.01377} \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Abbott}\ \emph {et~al.}(2026)\citenamefont {Abbott},
   \citenamefont {Fields}, \citenamefont {Jay}, \citenamefont {Oare},\ and\
@@ -897,15 +911,17 @@
   {Abbott}}, \bibinfo {author} {\bibfnamefont {S.}~\bibnamefont {Fields}},
   \bibinfo {author} {\bibfnamefont {W.~I.}\ \bibnamefont {Jay}}, \bibinfo
   {author} {\bibfnamefont {P.}~\bibnamefont {Oare}},\ and\ \bibinfo {author}
-  {\bibfnamefont {M.}~\bibnamefont {Saccardi}},\ }\href@noop {} {\  (\bibinfo
-  {year} {2026})},\ \Eprint {https://arxiv.org/abs/2605.20509}
-  {arXiv:2605.20509} \BibitemShut {NoStop}%
+  {\bibfnamefont {M.}~\bibnamefont {Saccardi}},\ }\href@noop {} {\bibinfo
+  {title} {The causal bootstrap: Bounding smeared spectral functions from
+  non-perturbative euclidean data}} (\bibinfo {year} {2026}),\ \Eprint
+  {https://arxiv.org/abs/2605.20509} {arXiv:2605.20509} \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Mutzel}\ and\ \citenamefont
   {Tilloy}(2026)}]{CertifiedSpectral2026}%
   \BibitemOpen
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
   {Mutzel}}\ and\ \bibinfo {author} {\bibfnamefont {A.}~\bibnamefont
-  {Tilloy}},\ }\href@noop {} {\  (\bibinfo {year} {2026})},\ \Eprint
+  {Tilloy}},\ }\href@noop {} {\bibinfo {title} {Certified spectral functions
+  from lattice monte carlo data}} (\bibinfo {year} {2026}),\ \Eprint
   {https://arxiv.org/abs/2606.09791} {arXiv:2606.09791} \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Shohat}\ and\ \citenamefont
   {Tamarkin}(1943)}]{ShohatTamarkin1943}%
@@ -1257,9 +1273,10 @@
   \BibitemOpen
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {S.}~\bibnamefont
   {Vehale}}\ and\ \bibinfo {author} {\bibfnamefont {R.}~\bibnamefont {Goel}},\
-  }\href@noop {} {\  (\bibinfo {year} {2026})},\ \Eprint
-  {https://arxiv.org/abs/2605.11787} {arXiv:2605.11787 [quant-ph]} \BibitemShut
-  {NoStop}%
+  }\href@noop {} {\bibinfo {title} {{CERTIFY-ED}: A multi-layer verification
+  framework for exact diagonalization of quantum many-body systems}} (\bibinfo
+  {year} {2026}),\ \Eprint {https://arxiv.org/abs/2605.11787} {arXiv:2605.11787
+  [quant-ph]} \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Fei}\ \emph {et~al.}(2021)\citenamefont {Fei},
   \citenamefont {Yeh},\ and\ \citenamefont {Gull}}]{Fei2021}%
   \BibitemOpen
@@ -1358,17 +1375,20 @@
   {W.}~\bibnamefont {Kirby}}, \bibinfo {author} {\bibfnamefont
   {K.}~\bibnamefont {Sharma}}, \bibinfo {author} {\bibfnamefont
   {A.}~\bibnamefont {Mezzacapo}},\ and\ \bibinfo {author} {\bibfnamefont
-  {I.}~\bibnamefont {Tavernelli}},\ }\href@noop {} {\  (\bibinfo {year}
-  {2025})},\ \Eprint {https://arxiv.org/abs/2508.02578} {arXiv:2508.02578
-  [quant-ph]} \BibitemShut {NoStop}%
+  {I.}~\bibnamefont {Tavernelli}},\ }\href@noop {} {\bibinfo {title} {Quantum
+  chemistry with provable convergence via randomized sample-based krylov
+  quantum diagonalization}} (\bibinfo {year} {2025}),\ \Eprint
+  {https://arxiv.org/abs/2508.02578} {arXiv:2508.02578 [quant-ph]} \BibitemShut
+  {NoStop}%
 \bibitem [{\citenamefont {Mirzakhani}\ \emph {et~al.}(2026)\citenamefont
   {Mirzakhani}, \citenamefont {Kwon},\ and\ \citenamefont {Moon}}]{QKDHub2607}%
   \BibitemOpen
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {M.}~\bibnamefont
   {Mirzakhani}}, \bibinfo {author} {\bibfnamefont {H.}~\bibnamefont {Kwon}},\
   and\ \bibinfo {author} {\bibfnamefont {K.}~\bibnamefont {Moon}},\ }\href@noop
-  {} {\  (\bibinfo {year} {2026})},\ \Eprint {https://arxiv.org/abs/2607.23604}
-  {arXiv:2607.23604} \BibitemShut {NoStop}%
+  {} {\bibinfo {title} {Performance and stability of quantum krylov
+  diagonalization for the hubbard model}} (\bibinfo {year} {2026}),\ \Eprint
+  {https://arxiv.org/abs/2607.23604} {arXiv:2607.23604} \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Huang}\ \emph {et~al.}(2022)\citenamefont {Huang},
   \citenamefont {Kueng}, \citenamefont {Torlai}, \citenamefont {Albert},\ and\
   \citenamefont {Preskill}}]{HuangScience2022}%
@@ -1401,8 +1421,9 @@
   \bibfield  {author} {\bibinfo {author} {\bibfnamefont {T.}~\bibnamefont
   {Ko}}, \bibinfo {author} {\bibfnamefont {M.}~\bibnamefont {Han}}, \bibinfo
   {author} {\bibfnamefont {H.}~\bibnamefont {Park}},\ and\ \bibinfo {author}
-  {\bibfnamefont {S.}~\bibnamefont {Choi}},\ }\href@noop {} {\  (\bibinfo
-  {year} {2025})},\ \Eprint {https://arxiv.org/abs/2508.03192}
+  {\bibfnamefont {S.}~\bibnamefont {Choi}},\ }\href@noop {} {\bibinfo {title}
+  {Fermionic-adapted shadow tomography for dynamical correlation functions}}
+  (\bibinfo {year} {2025}),\ \Eprint {https://arxiv.org/abs/2508.03192}
   {arXiv:2508.03192 [quant-ph]} \BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Carleo}\ and\ \citenamefont
   {Troyer}(2017)}]{CarleoTroyer2017}%
