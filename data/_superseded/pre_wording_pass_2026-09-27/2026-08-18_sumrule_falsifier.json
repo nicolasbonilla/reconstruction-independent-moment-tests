@@ -1,11 +1,11 @@
 {
   "_provenance": {
-    "script": "src/run_sumrule_falsifier.py",
+    "script": "A_payload_echoes/03_src/run_sumrule_falsifier.py",
     "date": "2026-08-18",
-    "params": "Hubbard ring L=6, U=8.0, PBC, hole-doped ground state (N=4.00, selected by the chemical-potential scan, mu=0.0)",
-    "claim": "exact classical simulation, no hardware: the total-weight (m0) sum rule is blind to a Drude/mid-IR redistribution that preserves m0; the first-moment (m1) sum rule flags it; a necessary condition only (a pass is not a certificate)",
-    "relabel_note": "2026-09-26: m0 was mislabelled the f-sum; the optical f-sum is m_-1 (see manuscript)",
-    "wording_note": "2026-09-27: provenance strings rescoped (the script path, the filling, which is hole-doped and not half filling, and the claim/verdict wording; an internal workflow identifier removed); every number unchanged"
+    "params": "Hubbard ring L=6, U=8.0, PBC, half-filling",
+    "synthesis": "wf_f9d5da8c-515 rank-1",
+    "claim": "transportable sum-rule falsifier: total-weight (m0) sum rule blind to Drude/mid-IR split; first-moment falsifies it",
+    "relabel_note": "2026-09-26: m0 was mislabelled the f-sum; the optical f-sum is m_-1 (see manuscript)"
   },
   "sum_rules": {
     "m0_operator_<J^2>": 1.1135245334965216,
@@ -82,6 +82,6 @@
   "summary": {
     "true_spectrum_satisfies_both_sumrules": true,
     "falsifier_works": true,
-    "verdict": "m0-blind / m1-detects: a wrong Drude/mid-IR split passes the total-weight (m0) sum rule (m0 residual ~0) but the first-moment sum rule (m1) flags it (relative residual above a 5% guide line; exact simulation, no shot noise)."
+    "verdict": "FALSIFIER CONFIRMED: a wrong Drude/mid-IR split passes the total-weight (m0) sum rule (m0 residual ~0) but the first-moment sum rule (m1) flags it -> m0-blind / m1-detects."
   }
 }

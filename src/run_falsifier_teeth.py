@@ -1,21 +1,25 @@
 # -*- coding: utf-8 -*-
 """
-THE TEETH EXPERIMENT — the make-or-break gate for the whole moment-test kernel (maximize-board wf_00831cb3-9d6).
+THE TEETH EXPERIMENT at L=6 (exact classical simulation): independent estimator vs a circular control.
 
-The board's decisive requirement: the sum-rule falsifier only has TEETH if it is an INDEPENDENT estimator, not
-circular. The error class SQD actually suffers is SUBSPACE TRUNCATION: the dynamical spectrum A_J(omega) is
-reconstructed (Lehmann) from an INCOMPLETE set of excited states, so its moments are wrong. The falsifier target
-must be a GROUND-STATE static operator expectation measured directly (m0=<J^2>, m1=(1/2)<[J,[H,J]]>) — which
-converges with FEWER resources than the full excited spectrum and is therefore an INDEPENDENT check.
+The sum-rule check only has TEETH if its target is an INDEPENDENT estimator, not a quantity back-computed from
+the reconstruction. The error class studied here is SUBSPACE TRUNCATION: the dynamical spectrum A_J(omega) is
+reconstructed (Lehmann) from a truncated determinant subspace, so its moments are wrong. The target is a
+GROUND-STATE static operator expectation (m0=<J^2>, m1=(1/2)<[J,[H,J]]>), which does not depend on the
+excited-state reconstruction. IDEALISED: here it is evaluated exactly on the FULL exact ground state, not
+estimated from samples (run_teeth_shared.py evaluates it on the truncated subspace state instead).
 
-This experiment proves (or kills) the teeth:
+This experiment tests the teeth:
   * INDEPENDENT falsifier: compare the truncated-spectrum moment m1_trunc to the DIRECT ground-state estimator
     m1_op. As spectral coverage drops, |m1_trunc - m1_op| GROWS -> the falsifier FIRES on the truncation error.
   * BACK-COMPUTED (circular) control: compare m1_trunc to a "target" recomputed from the SAME truncated spectrum
-    -> residual is 0 by construction -> BLIND. This is the theater the board warned about.
-If the independent estimator fires while the circular one is blind, the kernel has teeth on the subspace-truncation
-error class. We ALSO state the honest blind spot: coherent/symmetry-preserving noise corrupts both identically.
-Reuses the verified falsifier machinery (doped Hubbard ring, current operator, exact Lehmann spectrum).
+    -> residual is 0 by construction -> BLIND.
+If the independent estimator fires while the circular one is blind, the check has teeth on the subspace-truncation
+error class. Blind spot: coherent/symmetry-preserving noise corrupts both identically.
+Reuses the machinery of run_sumrule_falsifier.py (doped Hubbard ring, current operator, exact Lehmann spectrum).
+Truncation order: np.argsort(|psi0|^2) over the support; ties in |psi0|^2 are broken by floating-point noise, so
+the residual at a given d can depend on the platform (the deterministic lexsort key is used in the interval
+scripts). This L=6 record is not plotted in the paper (Fig. teeth is L=12, spectral_lanczos.run_teeth).
 """
 import os, sys, json
 import numpy as np
@@ -92,16 +96,21 @@ def main():
     r_circ_worst = max(r['residual_circular'] for r in rows)
     teeth = (r_indep_worst > 0.05) and (r_circ_worst < 1e-9)
 
-    out = {'_provenance': {'script': 'A_payload_echoes/03_src/run_falsifier_teeth.py', 'date': DATE,
-                           'params': f'doped Hubbard ring L={L}, U={U}', 'board': 'wf_00831cb3-9d6',
-                           'claim': 'independent ground-state estimator has TEETH on subspace-truncation error; back-computed is circular/blind',
+    out = {'_provenance': {'script': 'src/run_falsifier_teeth.py', 'date': DATE,
+                           'params': f'doped Hubbard ring L={L}, U={U}',
+                           'claim': 'exact simulation, idealised (independent branch on the full exact ground state): '
+                                    'the independent ground-state estimator separates from the truncated reconstruction '
+                                    'as coverage drops, while the back-computed check is identically zero',
+                           'wording_note': '2026-09-27: provenance and verdict strings rescoped (script path, internal '
+                                           'workflow identifier removed, idealisation stated); numbers unchanged',
                            'honest_blind_spot': 'coherent/symmetry-preserving device noise corrupts direct estimator and spectrum identically -> screens ONE error class (subspace truncation / Lehmann-weight misassignment), NOT device noise generally'},
            'm1_direct_operator': m1_op, 'n_poles': n_poles, 'sweep': rows,
            'summary': {'residual_independent_worst': r_indep_worst, 'residual_circular_worst': r_circ_worst,
                        'teeth_confirmed': bool(teeth),
-                       'verdict': ('TEETH CONFIRMED: the INDEPENDENT ground-state estimator fires on subspace truncation '
-                                   '(residual grows to %.1f%% at 20%% coverage) while the back-computed check is blind (0). '
-                                   'The moment-test kernel is NOT circular on this error class. Honest blind spot stated.' % (100 * r_indep_worst)
+                       'verdict': ('Teeth on this error class: the independent ground-state estimator (exact, on the full '
+                                   'ground state) fires on subspace truncation (residual grows to %.1f%% at the lowest '
+                                   'coverage) while the back-computed check is blind (0). Idealised exact-state '
+                                   'demonstration; blind spot stated.' % (100 * r_indep_worst)
                                    if teeth else 'NO TEETH / inspect')}}
     os.makedirs(RES, exist_ok=True); os.makedirs(FIG, exist_ok=True)
     with open(os.path.join(RES, f'{DATE}_falsifier_teeth.json'), 'w') as fjs:
@@ -113,7 +122,7 @@ def main():
             label='INDEPENDENT estimator (direct $m_1$)\n— FIRES on truncation (has teeth)')
     ax.plot(cov, [100 * r['residual_circular'] for r in rows], 's--', color='#c0392b', lw=2, ms=6,
             label='BACK-COMPUTED (same subspace)\n— BLIND (circular, always 0)')
-    ax.axhline(5, color='#1e8449', ls=':', lw=1.2, label='falsification threshold')
+    ax.axhline(5, color='#1e8449', ls=':', lw=1.2, label='relative 5% guide')
     ax.invert_xaxis()
     ax.set_title('THE TEETH EXPERIMENT — independent estimator vs circular control\n(subspace-truncation error, doped Hubbard)', fontsize=11)
     ax.set_xlabel('spectral coverage kept (%)  [SQD subspace undersampling →]')
@@ -126,7 +135,7 @@ def main():
     print(f'direct independent m1 = {m1_op:.4f}   ({n_poles} poles total)')
     for r in rows[::3]:
         print(f"  coverage {100*r['coverage']:4.0f}% (d={r['d']:3d}): independent residual {100*r['residual_independent']:5.1f}%   circular {100*r['residual_circular']:.1e}%")
-    print('TEETH CONFIRMED:', teeth, '| worst independent residual %.1f%%, worst circular %.1e' % (100*r_indep_worst, r_circ_worst))
+    print('independent fires, circular blind:', teeth, '| worst independent residual %.1f%%, worst circular %.1e' % (100*r_indep_worst, r_circ_worst))
     print('VERDICT:', out['summary']['verdict'])
 
 

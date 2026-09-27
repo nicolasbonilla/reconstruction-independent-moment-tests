@@ -6,7 +6,7 @@
 %Control: page (0) single
 %Control: year (1) truncated
 %Control: production of eprint (0) enabled
-\begin{thebibliography}{125}%
+\begin{thebibliography}{127}%
 \makeatletter
 \providecommand \@ifxundefined [1]{%
  \@ifx{#1\undefined}
@@ -1321,6 +1321,18 @@
   {\bibinfo  {journal} {SIAM J. Math. Anal.}\ }\textbf {\bibinfo {volume}
   {23}},\ \bibinfo {pages} {1309} (\bibinfo {year} {1992})}\BibitemShut
   {NoStop}%
+\bibitem [{\citenamefont {Gautschi}(1962)}]{Gautschi1962}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {W.}~\bibnamefont
+  {Gautschi}},\ }\href {https://doi.org/10.1007/BF01386302} {\bibfield
+  {journal} {\bibinfo  {journal} {Numer. Math.}\ }\textbf {\bibinfo {volume}
+  {4}},\ \bibinfo {pages} {117} (\bibinfo {year} {1962})}\BibitemShut {NoStop}%
+\bibitem [{\citenamefont {Gautschi}(1963)}]{Gautschi1963}%
+  \BibitemOpen
+  \bibfield  {author} {\bibinfo {author} {\bibfnamefont {W.}~\bibnamefont
+  {Gautschi}},\ }\href {https://doi.org/10.1007/BF01385906} {\bibfield
+  {journal} {\bibinfo  {journal} {Numer. Math.}\ }\textbf {\bibinfo {volume}
+  {5}},\ \bibinfo {pages} {425} (\bibinfo {year} {1963})}\BibitemShut {NoStop}%
 \bibitem [{\citenamefont {Vehale}\ and\ \citenamefont
   {Goel}(2026)}]{CertifyED2026}%
   \BibitemOpen

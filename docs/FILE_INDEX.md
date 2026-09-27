@@ -10,7 +10,7 @@ Scripts write their JSON into `data/` and plotted data into `paper/figs/` (paths
 
 | File | Role |
 |---|---|
-| `verify.py` | Fast smoke test: the current-probe moments, the shot-budget interval, and the joint battery catching (via `m₂`) an auto-calibrated truncation (`d=97`) the lone first moment misses. Still orders the truncation with `argsort`. |
+| `verify.py` | Fast smoke test: the current-probe moments, the shot-budget thresholds τ₀–τ₂, and the joint battery catching (via `m₂`) an auto-calibrated truncation (`d=97`) the lone first moment passes; deterministic `lexsort` order since **2026-09-27** (checks `|Δm₁| = 0.186`, `|Δm₂| = 2.729`). |
 | `hubbard_ed.py` | Vendored exact-diagonalization utilities (Jordan–Wigner Hubbard chain; numpy/scipy only), imported by the exporters and demonstrations. |
 | `spectral_lanczos.py` | Exact sector Lanczos + Haydock engine: ground state, `A(k,ω)`, `S(q,ω)`, `S^zz`, current probe, truncation sweeps; writes `src/cache/`. Hashed in the `n_k` manifest and kept byte-for-byte. |
 | `interval_moment.py` | Shot-budget interval-moment closure at the `ibm_fez` budget, deterministic truncation order → `data/2026-09-27_interval_moment_closure.json` (**2026-09-27**; the argsort-era `data/2026-08-22_interval_moment_closure.json` is kept as the record). |
@@ -26,13 +26,14 @@ Scripts write their JSON into `data/` and plotted data into `paper/figs/` (paths
 | `chigap_check.py` | Christoffel empty-region check on the `L=6` current measure → `data/2026-08-24_chigap_check.json`. |
 | `run_sumrule_falsifier.py` | Current-response demonstration: the total-weight `m₀` sum rule is blind, `m₁` detects → `data/2026-08-18_sumrule_falsifier.json`; defines `current_operator`. |
 | `run_collective_sumrule_falsifier.py` | The screen on the collective (charge/spin) channels → `data/2026-08-26_collective_sumrule_falsifier.json`, `collective_screen_*.dat`. |
-| `run_inverse_moment_falsifier.py` | The negative-order `m₋₁` (optical f-sum) test → `data/<run date>_inverse_moment_falsifier.json` (committed: `2026-08-28`), `inverse_falsifier_*.dat`. With `--r8` (**2026-09-27**) it writes only key `R8_inverse_moment_sensitivity` and no figure file. |
+| `run_inverse_moment_falsifier.py` | The negative-order `m₋₁` (optical f-sum) test → `data/2026-08-28_inverse_moment_falsifier.json` (a rerun reproduces it and the figure files bit for bit; checked 2026-09-27), `inverse_falsifier_*.dat`, `inverse_falsifier_table.tex`. Relative shifts only; the noise-normalized comparison is `--r8`. With `--r8` (**2026-09-27**) it writes only key `R8_inverse_moment_sensitivity` and no figure file. |
 | `run_falsifier_teeth.py` | The teeth at `L=6` (independent estimator vs a circular control) → `data/2026-08-18_falsifier_teeth.json`. |
 | `run_teeth_shared.py` | The shared-state teeth → `data/2026-08-26_teeth_shared_state.json`, `teeth_shared.dat`. |
 | `run_gausslaw_falsifier.py` | U(1) quantum link model: Hamiltonian and Gauss-law operators (`build`) and the bit-flip sweep → `data/2026-08-18_gausslaw_falsifier.json` (not what `fig_gausslaw` plots). |
 | `export_gauss_state.py` | **2026-09-27.** Generator of `paper/figs/gauss_state.dat` (`fig_gausslaw`) with an explicit admixture rule → also `data/2026-09-27_gauss_state.json`. |
 | `export_akw_dat.py` | `fig_akw` fragments and rasters from `src/cache/akw_L12.npz`. |
 | `export_sqw_dat.py` | `fig_sqw` fragments and rasters from `src/cache/sqw_L12.npz`. |
+| `check_sqw_extent.py` | **2026-09-27.** What the `fig_sqw` rasters draw below the charge-onset line and what the display windows clip → `data/2026-09-27_sqw_extent_check.json`. |
 | `export_teeth_dat.py` | `fig_teeth` fragment from `src/cache/teeth_L12.npz`. |
 | `export_bracketing_dat.py` | `fig_bracketing` fragments (Gauss–Radau bracketing); also writes `bracket_maxW.dat`, which no figure reads. |
 | `export_christoffel_dat.py` | `fig_christoffel` fragments; since **2026-09-27** exact `max_t Wₙ` by root-finding and weighted atoms only; also writes keys `R9_christoffel_max_Wn`, `m1_radau_outside_hull`, `m2_rescaled_frame`. |
@@ -41,7 +42,7 @@ Scripts write their JSON into `data/` and plotted data into `paper/figs/` (paths
 | `blind_generate.py` | Generates the 300 blinded instances from the sealed prereg (refuses to overwrite the sealed outputs). |
 | `blind_classify.py` | Applies the frozen battery blind → `data/blind_verdicts.json` (refuses to overwrite it). |
 | `blind_score.py` | Unblinds and scores → `data/2026-08-24_blind_harness_score.json` (TPR/FPR with Wilson intervals, per class). |
-| `blind_addenda.py` | **2026-09-27.** Post hoc addenda from the sealed record (frozen rule run verbatim, endpoint, FPR sensitivity, exact rebuild and shared-state rescoring of the truncations, Krylov residuals, calibrated scope) → `data/2026-09-27_blind_addenda.json`. Run in a fresh process. |
+| `blind_addenda.py` | **2026-09-27.** Post hoc addenda from the sealed record (frozen rule run verbatim, endpoint, FPR sensitivity, exact rebuild and post hoc shared-state rescoring of the truncations, Krylov residuals, calibrated scope) → `data/2026-09-27_blind_addenda.json`. The rebuild uses the stored tie order, re-validated against the sealed record on every run; it aborts and writes nothing otherwise. |
 | `separating_counts.py` | Recounts `fig_separating` from the sealed record and, since **2026-09-27**, exports `paper/figs/sep_*.dat` and `data/2026-09-27_separating_counts.json`. |
 | `bond_moment_estimator.py` | Bond-basis (Pauli-group) moment estimator, simulated → `data/2026-08-25_bond_moment_estimator_L{4,6}.json`. |
 | `estimator_scaling.py` | Circuit-count scaling of that estimator → `data/2026-08-25_estimator_circuit_scaling.json`. |
@@ -54,8 +55,9 @@ Scripts write their JSON into `data/` and plotted data into `paper/figs/` (paths
 | `hardware_matched_job_L8.py` | The `ibm_fez` `L=8` coverage job (determinant + R_xx·R_yy circuits; correct bit order; post-selection only): Aer dry run (default) or QPU (`RUN=1`; measurement twirling, Pauli gate twirling and dynamical decoupling, no readout-error mitigation) → `data/heron_counts_matched_L8_*.json`. |
 | `delta0_reference_mc.py` | **2026-09-27.** Reference distributions for the device coverage residual (noiseless raw- and retained-matched replicas, uniform-noise mixture, uniform in-sector sampler; percentile ranks) → `data/2026-09-27_delta0_reference_mc.json`. Imports `hardware_matched_job_L8.py`; needs qiskit; no QPU. |
 | `export_device_dat.py` | **2026-09-27.** `fig_device` data `device_{points,band,uniform}.dat` from `data/2026-09-27_delta0_reference_mc.json` (formatting only). |
+| `export_heron_dat.py` | **2026-09-27.** `fig_heron` data `heron_{exact,hw}.dat` from `data/heron_spectral.json` (formatting only; byte-identical to the committed files). |
 | `hardware_matched_job.py` | The `L=6` matched job on the companion's circuits; only its Aer dry run was executed → `data/heron_counts_matched_DRYRUN.json`. |
-| `hardware_blind_job.py` | A blinded hardware job builder; never run on hardware; only its dry-run output is committed (`data/heron_counts_DRYRUN.json`). |
+| `hardware_blind_job.py` | A blinded hardware job builder for the bond-basis estimator; never run on hardware; its state preparation is a placeholder, not a ground-state preparation; only a dry-run output is committed (`data/heron_counts_DRYRUN.json`, from an earlier version of the script). |
 | `aer_noiseless_baseline.py` | One noiseless Aer seed of the same `L=8` circuits → `data/aer_noiseless_baseline.json` (superseded as a comparator by `delta0_reference_mc.py`). |
 | `bootstrap_device_curve.py` | Bootstrap envelope of the device curve from the retained counts (upward-biased; not a test) → `data/bootstrap_device_curve.json`. |
 | `retention_matched_control.py` | One noiseless draw per budget at the device's kept-shot count, split equally over circuits → `data/2026-09-05_retention_matched_control.json` (see `data/README.md` for its percentile ranks). |
@@ -95,17 +97,20 @@ Scripts write their JSON into `data/` and plotted data into `paper/figs/` (paths
 - **2026-09-27 (phase A):** `2026-09-27_delta0_reference_mc.json`, `2026-09-27_blind_addenda.json`,
   `2026-09-27_separating_counts.json`, `2026-09-27_interval_moment_closure.json`,
   `2026-09-27_interval_battery.json`, `2026-09-27_interval_moment_mc.json`, `2026-09-27_gauss_state.json`,
-  `2026-09-27_theory_numerics.json` (one key per plan item, each with its own provenance). Generators in
+  `2026-09-27_sqw_extent_check.json`, `2026-09-27_theory_numerics.json` (one key per plan item, each with its
+  own provenance). Generators in
   `docs/REPRODUCE.md`.
 - Every other `*.json` is the committed output of the `src/` script named in its `_provenance` (see the table above).
 - `_superseded/` — the superseded analytic coverage model, precursor-program data not used by the manuscript,
-  and copies of `.dat` files from 2026-08-22 (see its README).
+  copies of `.dat` files from 2026-08-22, and (`pre_wording_pass_2026-09-27/`) the earlier versions of seven
+  records whose strings were rescoped on 2026-09-27 with every number unchanged (see its README and
+  `data/README.md`).
 
-## `paper/` — the 2026-09-05 text under revision
+## `paper/` — the manuscript, revised 2026-09-27
 
-`README.md` (status and the list of statements being corrected), `main.tex` (master, 2026-09-05 text),
-`figstyle.tex` (shared figure identity), `main.bbl` (frozen bibliography), `refs.bib`, `main.pdf` (31 pp,
-compiled before the phase-A figure changes), `figs/` (native `.tex` fragments + `.dat` + raster `.png`),
+`README.md` (status, what is still open, and the defects of the 2026-09-05 text that the revision corrected), `main.tex` (master),
+`figstyle.tex` (shared figure identity), `main.bbl` (frozen bibliography), `refs.bib`, `main.pdf` (38 pp,
+built from the revised text), `figs/` (native `.tex` fragments + `.dat` + raster `.png`),
 `figs/src/fig_circuit_qtk.tex` (source of `fig_circuit_qtk.pdf`), `figs/_superseded/` (files no figure
 reads, and the versions replaced on 2026-09-27; see its README).
 
@@ -117,8 +122,10 @@ panels), `sep_{ac_pres_region,ac_chg_region,region_nonac}.dat` and the regenerat
 `fig_sqw.tex`, `fig_christoffel.tex`, `fig_gausslaw.tex`.
 
 ## `notebooks/`
-`00_Reproduce_Everything.ipynb` — narrated run of the committed generators (optional cells need
-`qiskit-aer`); it does not yet include the phase-A scripts (`make reproduce` runs them after it).
+`00_Reproduce_Everything.ipynb` — narrated run of the committed generators, the 2026-09-27 (phase A) scripts
+included, each in its own process from `src/`; committed without outputs (`make reproduce` writes the
+executed copy to `out/`). The device reference Monte Carlo is behind a switch (`RUN_DEVICE_MC`, off by
+default); the optional cells need `qiskit`/`qiskit-aer`.
 
 ## `docs/`
 `REPRODUCE.md` (figure/number → script → command, phase-A outputs, sealed-record checks, known gaps),

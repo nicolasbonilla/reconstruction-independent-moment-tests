@@ -1,6 +1,12 @@
-% fig_heron.tex -- native pgfplots (single column). Executability precursor: real IBM Heron L=6 full-sector recovery.
-% Single panel: the exact target A(omega) vs the Heron SQD reconstruction, which coincides by full-sector coverage.
-% (The graded coverage test that actually exercises the falsifier from retained counts is the L=8 curve, Fig. device.)
+% fig_heron.tex -- native pgfplots (single column). Executability-only run of the companion study (arXiv:2608.16436v3,
+% sm_scope.tex): real IBM Heron L=6, U/t=4, addition sector 4up/3dn (300 configurations), eta=0.15t.
+% Data: heron_exact.dat / heron_hw.dat from data/heron_spectral.json (job d9s16avpemts73ct6g8g; shots=50000 per circuit).
+% Sampler (as stated in P2 v3): 3.5x10^5 shots = 5x10^4 on each of 7 circuits, measurement twirling, Pauli gate twirling
+% and dynamical decoupling, NO readout-error mitigation, no configuration recovery. The bitstrings were post-selected
+% after being read in reversed qubit order, so all 300 retained determinants came from device errors; the retained
+% support is the whole sector, hence A_hw == A_exact by COVERAGE (not a fidelity claim).
+% The graded coverage test on an incomplete, device-sampled support is the L=8 curve, Fig. device.
+% Labels sit between the y=0.2 and y=0.4 grid lines, clear of the curve (which is < 0.16 for omega > 5.6).
 \begin{tikzpicture}
 \begin{axis}[
   paperaxis, width=8.4cm, height=6.0cm,
@@ -8,15 +14,20 @@
   ylabel={spectral weight $A(\omega)$},
   xmin=2, xmax=12, ymin=0, ymax=0.66,
   clip=true,
+  axis on top=false,   % grid below the opaque text box (with axis on top the x=10 grid line crossed the box text)
 ]
   \addplot[draw=pIndigo, thick, fill=pIndigo, fill opacity=0.14]
       table[x=w,y=A]{figs/heron_exact.dat} \closedcycle;
   \addplot[pOx, densely dashed, line width=0.9pt] table[x=w,y=Ahw]{figs/heron_hw.dat};
-  \node[pIndigo, font=\small, anchor=east] at (axis cs:11.7,0.33) {exact target $A(\omega)$};
-  \node[pOx, font=\small, anchor=east] at (axis cs:11.7,0.22) {Heron SQD reconstruction};
+  \node[pIndigo, font=\small, anchor=east] at (axis cs:11.7,0.292) {exact $A(\omega)$};
+  \node[pOx, font=\small, anchor=east] at (axis cs:11.7,0.238) {reconstruction on retained $\mathcal S$};
   \node[draw=pIndigo, rounded corners=2pt, fill=pIndigo!7, inner sep=3pt, anchor=north east,
         align=left, font=\scriptsize] at (axis cs:11.85,0.645)
-      {\textbf{IBM Heron} \texttt{ibm\_fez}, 12 qubits\\ $50{,}000$ shots; TREX $+$ twirling $+$ DD\\
-       recovered full sector $|\mathcal S|{=}300/300$\\ $\Rightarrow$ reconstruction exact \emph{by coverage}};
+      {\textbf{IBM Heron} \texttt{ibm\_fez}, 12 qubits\\
+       $3.5{\times}10^{5}$ shots ($5{\times}10^{4}$ per circuit)\\
+       meas.\ + Pauli twirling, DD;\\
+       no readout-error mitigation\\
+       retained $|\mathcal S|{=}300/300$ (whole sector)\\
+       $\Rightarrow$ reconstruction exact \emph{by coverage}};
 \end{axis}
 \end{tikzpicture}

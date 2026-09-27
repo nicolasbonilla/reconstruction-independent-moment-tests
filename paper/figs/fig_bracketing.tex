@@ -1,14 +1,38 @@
 % fig_bracketing.tex -- NEW native pgfplots (figure*). The mechanism of Theorem 1:
 % finitely many moments BRACKET the cumulative weight F(t); the bracket width IS W_n(t), contracting with n.
+% 2026-09-27 layout fix: (i) clip mode=individual, so the t* label sits just above the top frame instead of being
+% clipped under it; (ii) the inset is typeset into a box first and placed on the main axis's FOREGROUND layer on an
+% opaque white panel inside the empty lower-left region of the main axis (t in [-0.955,-0.70], F in [0.14,0.66]:
+% F(t) < 0.03 and both brackets < 0.1 there), so the main grid (drawn on top by axis on top + fillbetween layers)
+% no longer shows through the inset and its y label no longer sits on the main 0.4 tick label;
+% (iii) inset ymax 1.04 so the n=1 marker (1.000) clears the inset's top frame; (iv) main grid drawn below the data.
+% ---- inset: max bracket width vs order (same christoffel_maxW.dat as fig_christoffel (b)) ----
+\ifdefined\bracketinsetbox\else\newsavebox\bracketinsetbox\fi
+\sbox\bracketinsetbox{%
+\begin{tikzpicture}
+\begin{axis}[
+  width=4.1cm, height=2.95cm,
+  paperaxis, grid=none,
+  xmin=0.7, xmax=4.3, ymin=0.82, ymax=1.04, xtick={1,2,3,4}, ytick={0.85,0.95},
+  xlabel={order $n$}, ylabel={$\max_t W_n$},
+  xlabel style={font=\scriptsize}, ylabel style={font=\scriptsize},
+  tick label style={font=\scriptsize},
+]
+  \addplot[pOx, very thick, mark=*, mark size=1.8pt, mark options={fill=pAmber,draw=pOx}]
+      table[x=n,y=maxW]{figs/christoffel_maxW.dat};
+\end{axis}
+\end{tikzpicture}}%
 \begin{tikzpicture}
 \begin{axis}[
   name=main, paperaxis,
   width=12.4cm, height=6.9cm,
   xmin=-1, xmax=-0.35, ymin=0, ymax=1.03,
   xtick={-1,-0.9,-0.8,-0.7,-0.6,-0.5,-0.4},
-  % clip=true: F(t) and the brackets run to t=1; without clipping they spill past xmax to the page margin
+  % F(t) and the brackets run to t=1; each plot is clipped to the axis box (clip mode=individual), while the
+  % annotation nodes below are not, so the t* label can sit above the top frame
   xlabel={rescaled frequency $t$}, ylabel={cumulative weight $F(t)=\int^{t}\!A$},
-  clip=true,
+  clip=true, clip mode=individual,
+  axis on top=false,   % grid below the data: on top, the F=1 grid line split the thick staircase into two thin lines
 ]
   % n=2 bracket (light amber) = extremal spread over measures sharing m_0..m_4
   \addplot[name path=lo2, draw=none, forget plot] table[x=t,y=Flo]{figs/bracket_env_n2.dat};
@@ -21,9 +45,9 @@
   % the true cumulative weight lies inside every bracket
   \addplot[pInk, very thick, const plot] table[x=t,y=F]{figs/bracket_F.dat};
 
-  % interior support point t* (dominant atom)
+  % interior support point t* (dominant atom): guide inside, label just above the top frame (outside the data)
   \draw[guide] (axis cs:-0.5795,0) -- (axis cs:-0.5795,1.0);
-  \node[pInk, font=\scriptsize, anchor=south] at (axis cs:-0.5795,1.0) {$t^{*}$};
+  \node[pInk, font=\scriptsize, anchor=south, inner sep=1.5pt] at (axis cs:-0.5795,1.03) {$t^{*}$};
 
   % labels (short, in the opened whitespace)
   \node[pAmber!75!black, font=\small, anchor=east] at (axis cs:-0.62,0.55) {$n{=}2$};
@@ -31,19 +55,10 @@
   \node[pInk, font=\small, anchor=east] at (axis cs:-0.38,0.92) {true $F(t)$};
   \node[pInk, font=\scriptsize, anchor=north west, align=left] at (axis cs:-0.99,0.98)
       {finitely many moments do not\\ pin $F(t)$ --- they \emph{bracket} it;\\ the band width is the\\ Christoffel function $W_n(t)$};
-\end{axis}
 
-% ---- inset: max bracket width vs order (SAME source as Fig 9b: one truth) ----
-\begin{axis}[
-  at={(main.south west)}, anchor=south west, xshift=0.85cm, yshift=1.5cm,
-  width=3.8cm, height=2.7cm,
-  paperaxis, grid=none,
-  xmin=0.7, xmax=4.3, ymin=0.82, ymax=1.02, xtick={1,2,3,4}, ytick={0.85,0.95},
-  xlabel={order $n$}, ylabel={$\max_t W_n$},
-  xlabel style={font=\scriptsize}, ylabel style={font=\scriptsize},
-  tick label style={font=\scriptsize},
-]
-  \addplot[pOx, very thick, mark=*, mark size=1.8pt, mark options={fill=pAmber,draw=pOx}]
-      table[x=n,y=maxW]{figs/christoffel_maxW.dat};
+  % the inset, on an opaque white panel above the main grid
+  \pgfplotsonlayer{axis foreground}
+    \node[fill=white, inner sep=1pt, anchor=south west] at (axis cs:-0.955,0.14) {\usebox\bracketinsetbox};
+  \endpgfplotsonlayer
 \end{axis}
 \end{tikzpicture}

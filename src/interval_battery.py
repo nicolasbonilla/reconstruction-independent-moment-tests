@@ -1,9 +1,16 @@
 # -*- coding: utf-8 -*-
-"""JOINT INTERVAL-MOMENT BATTERY (m0,m1,m2 + Hankel/Stieltjes), $0 -- the remedy for a lone-moment miss.
-Honest reframe baked in: this is a SHOT-BUDGET-INFORMED FORECAST computed on the exact state (device counts
-unsaved), NOT a load-bearing hardware test; shot term = ground-state local-estimator variance (a LOWER BOUND
-on true per-shot uncertainty); bias term = an ASSUMED residual (swept). REJECT = any |m_hat_k - m_bar_k| > delta_k
-OR interval-Hankel/Stieltjes infeasibility. Prints, per focus d, the lone-m1 verdict and the battery verdict.
+"""JOINT INTERVAL-MOMENT BATTERY (m0, m1, m2 + a Hankel/Stieltjes point check), $0 -- a PARTIAL remedy for a
+lone-moment miss, not a guarantee: the every-d scan below finds 12 truncations that the whole battery passes at
+the deployed 2% bias (data/2026-09-27_interval_battery.json, full_scan_summary_lexsort).
+Scope: a SHOT-BUDGET-INFORMED FORECAST computed on the exact state, NOT a hardware test (no moment was measured
+on a device, and the companion's device counts are not deposited); m_hat_k is the exact moment, the shot term is
+the ground-state local-estimator variance (a LOWER BOUND on the true per-shot uncertainty) at N_s = 5x10^4, and
+the bias term is an ASSUMED residual (swept 0/2/4%, not measured).
+REJECT = any |m_hat_k - m_bar_k| > delta_k (k = 0, 1, 2) OR a failed Hankel/Stieltjes POINT check on the
+truncated reconstruction's own moments (H1(m_bar) not PSD, or m_bar_1 < 0). That point check cannot fire for a
+reconstruction that is a non-negative measure, which every truncation here is, and it decides none of the
+verdicts below: the battery verdict is set by the three moment residuals. Prints, per focus d, the lone-m1
+verdict and the battery verdict.
 
 Truncation order (2026-09-27, plan item R7). The top-d determinants are ranked by |psi0|^2 with a DETERMINISTIC
 tie-break, np.lexsort((index, -round(|psi0|^2, 12))): descending probability, then ascending sector index. The
@@ -132,7 +139,7 @@ def verdicts(b0, b1, b2, bias_frac):
 
 focus_ds = [186, 167, 98, 88, 64, 42]     # the committed focus list (d=98: the committed m1-only miss; 186: full)
 
-print("=== JOINT INTERVAL BATTERY (m0,m1,m2 + Hankel), honest reframe; deterministic lexsort truncation order ===")
+print("=== JOINT INTERVAL BATTERY (m0,m1,m2 + Hankel point check), exact-state forecast; deterministic lexsort order ===")
 print(f"independent: m0={m0_op:.4f} m1={m1_op:.4f} m2={m2_op:.4f}")
 print(f"local-est var (shot LOWER bound): var0={var0:.3g} var1={var1:.3g} var2={var2:.3g}")
 print(f"|psi0|^2 shells on the support (sizes, descending p): {shell_sizes}; convention-free cuts d = {shell_bounds}")

@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
-"""ACTION 5 / B1 -- MINIMAL BLINDED HARDWARE FIELD-CATCH JOB (ibm_fez / Heron).  RUNNABLE.
+"""PREPARED, NEVER RUN: a minimal blinded hardware job for the bond-basis moment estimator (ibm_fez / Heron).
 
-Produces the first REAL shot-noisy Delta_k with error bars from RETAINED Heron bitstring counts,
-using the RECONSTRUCTION-INDEPENDENT moment estimator that is verified device-measurable in
-bond_moment_estimator.py (m0 counts-only + m1 off-diagonal via qubit-wise-commuting bond-basis
-measurements). On hardware only the state prep and the sampler backend change vs. that sim
-verification; the estimator is identical.
+STATUS: this job has never been submitted to hardware, and its state preparation is a PLACEHOLDER (below),
+not a ground-state preparation. No moment in this work was estimated from device counts. What the script
+does today is a local Aer dry run (default) of the same circuits and estimator.
+
+If it were run with a real ground-state preparation, it would estimate the reconstruction-independent
+moments m0 (computational-basis counts only) and m1 (off-diagonal hopping, via qubit-wise-commuting
+'bond-basis' rotations) of bond_moment_estimator.py from retained per-basis counts, with shot-noise error
+bars, so that Delta_k could be formed against a reconstruction. The estimator itself has been checked only
+in noiseless simulation (bond_moment_estimator.py); on hardware the state prep and the sampler backend
+change, and at ibm_fez depth the off-diagonal moments are forecast to carry a depolarizing bias of about
+37-116% of the signal (offdiag_noise_forecast.py, offdiag_gsurface.py).
 
 ============================  READ BEFORE RUNNING  ============================
 0. ENVIRONMENT (blocking): this account is on the NEW IBM Quantum Platform (quantum.cloud.ibm.com,
@@ -28,14 +34,18 @@ verification; the estimator is identical.
 2. No QPU contact unless RUN=1 AND the saved account exists. Unset RUN -> local Aer dry-run that
    exercises the exact same circuits + estimator so you can inspect the numbers first.
 3. Probe = density rho_q (diagonal) so m0 is counts-only; m1's off-diagonal hopping is read from
-   the QWC bond-basis circuits this script builds. Truth is classically known at L=6 (the run gives
-   a real shot-noisy Delta_k, not certification of a classically-hard line shape). Call the
+   the QWC bond-basis circuits this script builds. Truth is classically known at L=6 (a run would give
+   a shot-noisy Delta_k, not certification of a classically-hard line shape). Call the
    estimator "reconstruction-independent", NEVER "sample-free".
-4. The PREP below is a DOCUMENTED PLACEHOLDER; REPLACE build_prep_circuit with the companion's
-   exact seed-prep + Trotter snapshots for a matched, classically-checkable run.
+4. The PREP below is a DOCUMENTED PLACEHOLDER (one Trotter-like layer from a product state), not a
+   ground-state preparation; its dry-run moments are those of the prepared state, not of the Hubbard
+   ground state. A meaningful run needs a ground-state preparation of the L-site chain. The companion's
+   sampling circuits are NOT a substitute: they prepare (N+1)-particle states for the spectrum (a
+   product determinant followed by on-site R_zz and R_xx R_yy hopping layers without Jordan-Wigner
+   strings), not the ground state whose moments are wanted here.
 5. Options matched to the companion: dynamical decoupling (XpXm), Pauli gate twirling
    (num_randomizations=32), measurement twirling. No readout-error mitigation: measurement twirling
-   returns twirled raw counts (it is not TREX), and the resilience line in qpu_run fails on SamplerV2,
+   returns twirled raw counts (it mitigates nothing by itself), and the resilience line in qpu_run fails on SamplerV2,
    which has no resilience options. Never run on hardware. Submit as ONE Batch. RETAIN raw per-basis
    counts -> data/heron_counts_<jobid>.json.
 ==============================================================================
@@ -58,8 +68,8 @@ OUT = os.path.normpath(os.path.join(HERE, '..', 'data'))
 
 
 def build_prep_circuit():
-    """PLACEHOLDER prep: one first-order Trotter layer of the L Hubbard chain on 2L qubits, from a
-    staggered occupation. REPLACE with the companion's exact seed-prep + Trotter snapshots."""
+    """PLACEHOLDER prep: one first-order Trotter-like layer of the L Hubbard chain on 2L qubits, from a
+    staggered occupation. Not a ground-state preparation; replace it with one before any real run."""
     L = bme.L
     qc = QuantumCircuit(NQ, name=f"prep_L{L}")
     for i in range(L):                          # staggered initial occupation (half filling-ish)
@@ -117,7 +127,7 @@ def local_dry_run():
                'm_hat': m_hat, 'm_exact': m_exact, 'group_counts': group_counts},
               open(os.path.join(OUT, 'heron_counts_DRYRUN.json'), 'w'))
     print(f"[dry-run] RETAINED per-basis counts -> heron_counts_DRYRUN.json")
-    print("TODO before a real run: swap build_prep_circuit for the companion's exact prep; then set RUN=1.")
+    print("Before any real run: replace build_prep_circuit (a placeholder, not a ground-state prep); then set RUN=1.")
 
 
 def qpu_run():
@@ -147,14 +157,14 @@ def qpu_run():
                'n_bases': len(tcircs), 'm_hat': m_hat, 'group_counts': group_counts},
               open(os.path.join(OUT, f'heron_counts_{jid}.json'), 'w'))
     print(f"counts-based moments m_hat = {[round(x,4) for x in m_hat]};  RETAINED counts -> heron_counts_{jid}.json")
-    print("Next: compare m_hat to the reconstruction's back-moments -> the first REAL shot-noisy Delta_k;")
-    print("      unblind against the second party's truncated reconstruction.")
+    print("Next: compare m_hat with the reconstruction's back-moments to form a shot-noisy Delta_k (off-diagonal")
+    print("      moments carry a forecast depolarizing bias of ~37-116% at this depth); then unblind.")
 
 
 def main():
     os.makedirs(OUT, exist_ok=True)
     if os.environ.get("RUN") == "1":
-        print("RUN=1 -> QPU. Confirm the exposed token was REVOKED + REGENERATED first.")
+        print("RUN=1 -> QPU. Use your own saved account; revoke any API key that was ever exposed before running.")
         qpu_run()
     else:
         print("RUN unset -> LOCAL Aer DRY-RUN (no QPU). Set RUN=1 to submit to ibm_fez.")

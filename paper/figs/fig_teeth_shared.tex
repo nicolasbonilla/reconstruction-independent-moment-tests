@@ -1,15 +1,20 @@
-% fig_teeth_shared.tex -- native pgfplots. The DEVICE-REALIZABLE teeth: both branches on the SAME
-% subspace ground state |0_S> (Eq. app-leak, k=1), beside the idealized full-sector-GS curve.
-% L=12 doped Hubbard ring (nup=nd=4), U/t=8, sector Lanczos (run_teeth_shared.py).
+% fig_teeth_shared.tex -- native pgfplots. The SHARED-STATE teeth: both branches evaluated classically on the SAME
+% subspace ground state |0_S> of H_S = Pi_S H Pi_S (Eq. app-leak, k=1), beside the idealized full-sector-GS curve.
+% No shots and no device: the estimator needs only the sampled support and is classical post-processing; it is not a
+% moment measured on a device. The support here is a deterministic truncation to the top-d configurations by |psi0|^2.
+% L=12 doped Hubbard ring (nup=nd=4), U/t=8, sector Lanczos (run_teeth_shared.py -> teeth_shared.dat).
+% y = relative discrepancy |mhat_1 - mbar_1| / mhat_1 in %, i.e. Delta_1^shared of the caption.
 % x = determinants kept d (log, REVERSED: full support left where curves ~0, truncation right where they saturate ~100%).
-% Clean layout: legend upper-left (curves ~0 there); two crossing dots on the threshold (values given in the caption,
-% not on the plot); single headline in the lower-right pocket below the saturated curves, anchor=east so it cannot spill.
+% Layout: two-entry legend upper-left (curves ~0 there; with a third entry the box reached the rise at d=4113 and hid
+% that point); the threshold is labelled directly at lower right, where the curves have saturated near 100%; two
+% crossing dots on the threshold (values in the caption, not on the plot).
+% The 5% line is an illustrative fixed threshold, not the deployed tau_1 rule.
 \begin{tikzpicture}
 \begin{axis}[
   paperaxis, width=\columnwidth, height=6.8cm,
   xmode=log, x dir=reverse,
-  xlabel={determinants kept $d$ \; (subspace size; truncation $\rightarrow$)},
-  ylabel={first-moment discrepancy $\Delta_1$ (\%)},
+  xlabel={determinants kept $d$ \; (truncation $\rightarrow$)},
+  ylabel={relative discrepancy $\Delta_1/\widehat m_1$ (\%)},
   xmin=180, xmax=260000, ymin=-6, ymax=112,
   xtick={100000,10000,1000}, xticklabels={$10^5$,$10^4$,$10^3$},
   ytick={0,20,40,60,80,100},
@@ -17,20 +22,19 @@
                 draw=pMuted, fill=white, fill opacity=0.92, text opacity=1,
                 row sep=1pt, inner sep=3pt},
   legend cell align=left, clip=false,
+  axis on top=false,   % grid below data (on top, the light grid lines cut white breaks into the curves)
 ]
-  % shaded region under the device-realizable (shared-state) discrepancy
-  \addplot[firesband, draw=none, forget plot] table[x=d,y=rshared]{figs/teeth_shared.dat} \closedcycle;
-  % falsification threshold
-  \addplot[threshold] coordinates {(260000,5) (180,5)};
-  \addlegendentry{$5\%$ threshold}
+  % illustrative fixed threshold (not the deployed tau_1 rule), labelled directly
+  \addplot[threshold, forget plot] coordinates {(260000,5) (180,5)};
+  \node[pCrimson, font=\scriptsize, anchor=south east, inner sep=1.5pt] at (axis cs:200,5.8) {illustrative $5\%$ threshold};
   % idealized: independent estimator on the FULL-sector ground state
   \addplot[pIndigo, thick, densely dashed, mark=o, mark size=1.5pt,
            mark options={draw=pIndigo, line width=0.6pt}]
       table[x=d,y=rideal]{figs/teeth_shared.dat};
   \addlegendentry{idealized (full GS)}
-  % device-realizable: both branches on the SAME subspace GS |0_S>
+  % shared state: both branches on the SAME subspace GS |0_S> (classical evaluation)
   \addplot[firesline] table[x=d,y=rshared]{figs/teeth_shared.dat};
-  \addlegendentry{shared state (device)}
+  \addlegendentry{shared state}
 
   % crossing dots on the threshold line (quantitative values and message are in the caption, not floating on the data)
   \addplot[only marks, mark=*, mark size=2.1pt, pOx, mark options={fill=pAmber, draw=pOx}, forget plot]

@@ -2,9 +2,11 @@
 % Two stacked panels sharing the shot-budget axis:
 %   (a) linear Delta_0: device vs the noiseless SAMPLING band of the same circuits (mean +/- 1 sd);
 %   (b) log Delta_0: the same two, plus the uniform in-sector sampler at the device's retained count,
-%       whose Delta_0 (3e-10 / 1.5e-6 / 5e-4 / 0.093) is invisible on a linear axis.
-% Coordinates come from committed .dat files written by src/export_device_dat.py from
-% data/2026-09-27_delta0_reference_mc.json (src/delta0_reference_mc.py); nothing is typed in by hand:
+%       whose Delta_0 (3.4e-10 / 1.5e-6 / 5.2e-4 at 50k/30k/16k) is invisible on a linear axis; its 4k value
+%       (0.093) would be visible in (a), but the sampler is drawn in (b) only and labelled there directly.
+% Plotted coordinates come from committed .dat files written by src/export_device_dat.py from
+% data/2026-09-27_delta0_reference_mc.json (src/delta0_reference_mc.py). The only typed values are the top-axis
+% tick labels 35/71/85/94, which are device_points.dat column cov_pct (35.18/71.38/84.95/93.93) rounded:
 %   device_points.dat  -- device rows recomputed from the retained ibm_fez counts (the support S is the
 %                         only device-derived quantity);
 %   device_band.dat    -- multinomial replicas of the exact output distributions of the SAME 7 circuits at
@@ -13,14 +15,16 @@
 %   device_uniform.dat -- uniform in-sector sampler at the device's pooled retained count N:
 %                         E[Delta_0] = m0 (1 - 1/3920)^N exactly.
 % Device support coverage |S|/3920 is a SECONDARY TOP AXIS on (a) (35/71/85/94 % = device_points.dat
-% column cov_pct). Legend (opaque, grid drawn below it: axis on top=false) in the empty upper-right of (a);
-% panel letters in empty corners.
+% column cov_pct). Legend (opaque, grid drawn below it: axis on top=false) in the empty upper-right of (a); it lists
+% only the two series drawn in (a); the uniform sampler carries a direct label in the empty lower-left of (b).
+% Panel letters in empty corners. Both y labels sit at the same offset (rel axis cs:-0.15) so they align.
 \begin{tikzpicture}
 \begin{groupplot}[
   group style={group size=1 by 2, vertical sep=0.35cm, xticklabels at=edge bottom, xlabels at=edge bottom},
   paperaxis, axis on top=false, scale only axis, width=6.5cm, height=3.3cm,
   xmin=0, xmax=55, xtick={4,16,30,50}, xticklabels={$4$,$16$,$30$,$50$},
   xlabel={shots per Krylov circuit \; ($\times 10^{3}$)},
+  ylabel style={at={(rel axis cs:-0.15,0.5)}, anchor=south},
 ]
 % ---------------- (a) linear ----------------
 \nextgroupplot[
@@ -39,8 +43,6 @@
       fill between[of=bandhiA and bandloA];
   \addlegendentry{noiseless, same circuits}
   \addplot[pIndigo, densely dashed, thick, forget plot] table[x=shots_k, y=mean] {figs/device_band.dat};
-  \addlegendimage{pMuted, dash dot, thick, mark=diamond, mark size=2.4pt, mark options={solid, fill=white}}
-  \addlegendentry{uniform in-sector sampler}
   \addplot[pOx, thick, mark=*, mark size=2.4pt, mark options={fill=pOx}]
       table[x=shots_k, y=delta0] {figs/device_points.dat};
   \addlegendentry{device (\texttt{ibm\_fez})}
@@ -56,6 +58,8 @@
   \addplot[pIndigo, densely dashed, thick, forget plot] table[x=shots_k, y=mean] {figs/device_band.dat};
   \addplot[pMuted, dash dot, thick, mark=diamond, mark size=2.4pt, mark options={solid, fill=white}, forget plot]
       table[x=shots_k, y=E] {figs/device_uniform.dat};
+  % direct label for the uniform sampler (drawn in (b) only), in the empty region below its line
+  \node[pMuted, font=\small, anchor=south west, align=left] at (axis cs:13,3e-11) {uniform in-sector sampler};
   \addplot[pOx, thick, mark=*, mark size=2.4pt, mark options={fill=pOx}, forget plot]
       table[x=shots_k, y=delta0] {figs/device_points.dat};
   \node[anchor=south west, font=\small\bfseries, pInk] at (rel axis cs:0.015,0.04) {(b)};

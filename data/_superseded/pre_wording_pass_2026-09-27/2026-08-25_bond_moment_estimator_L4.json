@@ -3,7 +3,7 @@
     "script": "bond_moment_estimator.py",
     "sim_only": true,
     "model": "Hubbard L=4 chain OBC, 8 qubits, U/t=4.0, density probe rho_q q=pi",
-    "claim": "noiseless simulation: counts-based m0 (computational basis) and m1, m2 (QWC bond-basis rotations) recover the exact moments of the exact ground state within shot noise; not run on hardware"
+    "claim": "reconstruction-independent m0,m1,m2 (incl off-diagonal hopping) device-measurable via counts + bond-basis (QWC) circuits"
   },
   "E0": -2.624942271510857,
   "ns": 50000,

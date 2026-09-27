@@ -9,6 +9,15 @@ only to report how far its σ falls below the Monte Carlo spread. Records supers
 
 - `analytic_coverage_leak.json` — superseded shot-noise model of the coverage leak (`fp_rate = 1.0`); retained as a record, not evidence. Its σ is 34–195× smaller than the spread of 2000 noiseless replicas at the device's raw shots (`data/2026-09-27_delta0_reference_mc.json`, `budgets.<N>.sd_over_analytic_sigma`). Generator: `src/analytic_coverage_leak.py` (re-runs write here).
 
+## `pre_wording_pass_2026-09-27/`
+
+The versions, as committed before 2026-09-27, of seven records whose provenance, claim or verdict strings
+were rescoped that day (`2026-08-18_{sumrule_falsifier,falsifier_teeth,gausslaw_falsifier}.json`,
+`2026-08-25_bond_moment_estimator_L{4,6}.json`, `2026-08-25_estimator_circuit_scaling.json`,
+`2026-08-28_inverse_moment_falsifier.json`). Every number in them equals the live file in `data/`; only
+strings differ (for example internal workflow identifiers, "device-measurable", "SECOND DOMAIN CONFIRMED ...
+same-sample", "half-filling"). See [`../README.md`](../README.md), Wording pass.
+
 ## `precursor_program_2026-08-17/`
 
 - `2026-08-17_faf_L8_U8.json` — precursor-program data; not used by the manuscript; generator not in this repository.

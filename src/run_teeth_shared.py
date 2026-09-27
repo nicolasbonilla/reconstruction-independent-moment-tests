@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 r"""
-THE TEETH EXPERIMENT, DEVICE-REALIZABLE (SHARED-STATE) VERSION.
-================================================================
-Closes the adversarial-referee finding on Fig.~teeth: the published teeth demo evaluated the
-reconstruction-INDEPENDENT first moment on the FULL EXACT ground state psi0 (of the whole sector),
-while only the reconstruction used the truncated subspace. That is "more independent than a device
-can be": on real hardware BOTH branches are computed from ONE prepared state.
+THE TEETH EXPERIMENT, SHARED-STATE VERSION (classical post-processing of the subspace state; no shots).
+=========================================================================================================
+Addresses a referee-style objection to Fig.~teeth: the teeth demo evaluated the reconstruction-INDEPENDENT
+first moment on the FULL EXACT ground state psi0 (of the whole sector), while only the reconstruction used
+the truncated subspace. That is more independent than one prepared state allows: here BOTH branches are
+computed from ONE state, the subspace ground state.
 
-The honest, device-realizable quantity is the operator "leak" of the paper's own Eq.(app-leak):
+The quantity is the operator "leak" of the paper's own Eq.(app-leak):
 evaluate BOTH moments on the SAME subspace ground state |0_S> (the ground state OF the truncated
 subspace Hamiltonian H_S = Pi_S H Pi_S, NOT the full-sector GS), with a SHARED energy reference
 e0 = <0_S|H|0_S>:
@@ -19,9 +19,23 @@ e0 = <0_S|H|0_S>:
              = \int omega A(omega) domega,              J_S = Pi_S J Pi_S, H_S = Pi_S H Pi_S
     Delta_1^shared = | m_hat_1 - m_bar_1 |              exactly Eq.(app-leak), k=1, on the shared |0_S>.
 
-This is the paper's OWN appendix definition (Eqs. 247, app-leak): |0> there IS the subspace ground
-state, e0 the subspace ground energy. The published demo used psi0 (full GS) for the independent
-branch; here we make the demonstration match the device-realizable definition.
+This is the paper's own appendix definition (Eq. app-leak): |0> there is the subspace ground state,
+e0 the subspace ground energy. The earlier demo used psi0 (full GS) for the independent branch; here
+both branches use |0_S>. Everything is evaluated exactly and classically on |0_S> (full sparse J and H):
+no shots are drawn, no device is involved, and m_hat_1 is not a moment measured from samples. On a device
+it would be a ground-state expectation of the prepared state, which needs rotated-basis measurements and
+carries device noise.
+Truncation order: np.argsort(|psi0|^2); ties in the degenerate |psi0|^2 shells are broken by
+floating-point noise (the L=12 teeth were left on this order on purpose; see the interval scripts for the
+deterministic lexsort key).
+Reproducibility (checked 2026-09-27 in a scratch copy, scipy 1.13.1 / numpy 1.26.4): a rerun reproduces the
+two 5% crossings quoted in the paper (d ~ 15977 idealized and d ~ 43554 shared, relative change < 2e-6);
+the sweep points agree to <= 2.4e-4 (relative, every column) for d >= 460, but the three smallest d move
+(m_bar by 1.4%, 0.4% and 6.2% at d = 337, 246, 180; worst rel_shared 0.9983 -> 0.9982), because the tie order
+and the subspace eigensolves are not bit-reproducible against the 2026-08-26 run. The committed data/2026-08-26_teeth_shared_state.json, paper/figs/teeth_shared.dat
+and src/cache/teeth_shared_L12.npz are therefore kept as the record and were NOT regenerated; that JSON
+still carries the pre-2026-09-27 wording ('device-realizable', 'closes', and a verdict about the threshold
+'a device actually enforces'), which the strings written below replace.
 
 We ALSO carry the published (idealized) curve for side-by-side plotting:
     Delta_1^ideal(rel) = | m_bar_1 - m1_op | / | m1_op |,   m1_op = <psi0| J (H - E0) J | psi0 >
@@ -148,17 +162,18 @@ def main():
     # --- results JSON (provenance + honest verdict) ---
     out = {
         '_provenance': {
-            'script': 'A_payload_echoes/03_src/run_teeth_shared.py', 'date': DATE,
+            'script': 'src/run_teeth_shared.py', 'date': DATE,
             'params': 'doped Hubbard ring L=12, U/t=8, nup=nd=4 (2/3 filling)',
-            'closes': 'adversarial-referee finding on Fig. teeth: independent estimator was evaluated '
-                      'on the FULL-sector exact GS psi0 while only the reconstruction used the truncated '
-                      'subspace ("more independent than a device can be").',
+            'addresses': 'referee-style objection to Fig. teeth: the independent estimator was evaluated '
+                         'on the FULL-sector exact GS psi0 while only the reconstruction used the truncated '
+                         'subspace',
+            'scope': 'classical, exact evaluation on the subspace ground state |0_S>; no shots, no device',
             'quantity': 'Eq.(app-leak), k=1, evaluated on the SAME subspace ground state |0_S> for BOTH '
                         'branches with a shared energy reference e0=<0_S|H|0_S>.',
             'definitions': {
                 'm_hat_1_shared': '<0_S| J (H - e0)   J |0_S>   (FULL sparse J,H act on |0_S>; reach outside S)',
                 'm_bar_1':        '<0_S| J_S (H_S-e0) J_S|0_S> = int omega A(omega) domega   (within-S Lehmann)',
-                'Delta_1_shared': '| m_hat_1_shared - m_bar_1 |   (device-realizable operator leak)',
+                'Delta_1_shared': '| m_hat_1_shared - m_bar_1 |   (operator leak on the shared state; classical, no shots)',
                 'm1_op_idealized': '<psi0| J (H - E0) J |psi0>   (OLD demo: independent branch on FULL GS)',
             },
         },
@@ -170,12 +185,12 @@ def main():
         'worst_rel_shared': float(rel_shared.max()), 'worst_rel_ideal': float(rel_ideal.max()),
         'sweep': rows,
         'verdict': (
-            'The device-realizable shared-state leak Delta_1^shared is a genuine, nonzero operator leak '
-            'that GROWS as the determinant subspace is truncated: the QUALITATIVE screen still fires. '
+            'The shared-state leak Delta_1^shared (classical post-processing of |0_S>, no shots) is a nonzero '
+            'operator leak that GROWS as the determinant subspace is truncated: the qualitative screen still fires. '
             f'It crosses the 5% falsification line at d~{cx_shared:.0f} '
             f'(cov~{100*cx_shared/nsup:.1f}%), versus the idealized full-GS curve at d~{cx_ideal:.0f} '
-            f'(cov~{100*cx_ideal/nsup:.1f}%). The shared-state crossing is the QUANTITATIVE threshold a '
-            'device actually enforces.'
+            f'(cov~{100*cx_ideal/nsup:.1f}%). The shared-state crossing, not the idealized one, is the relevant '
+            'reference when both branches come from one prepared state (5% relative guide line; no shot noise).'
             if (cx_shared and cx_ideal) else
             'See sweep; report crossings directly.'),
     }
@@ -185,7 +200,7 @@ def main():
         json.dump(out, f, indent=2)
     log(f"[shared] wrote {outpath}")
 
-    print("\n=== TEETH, SHARED-STATE (device-realizable) — L=12 doped ring, U/t=8 ===")
+    print("\n=== TEETH, SHARED-STATE (classical, no shots) — L=12 doped ring, U/t=8 ===")
     print(f"idealized independent m1_op (on full psi0) = {m1_op:.4f}   E0={E0:.4f}   n_support={nsup}")
     print(f"{'d':>7} {'cov%':>6} {'m_hat':>9} {'m_bar':>9} {'D_sh_abs':>9} {'rel_sh%':>8} {'rel_id%':>8} {'leak%':>7}")
     for r in rows:

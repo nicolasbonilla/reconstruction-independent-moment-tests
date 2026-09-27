@@ -10,6 +10,8 @@
 % id 184 (the last two ringed); m1 fires on 16 of the 26, m2 alone on 10.
 % Legend counts are numbers of plotted points (rejection rates are in the caption). The legend sits
 % above the axes; no text is placed inside the data area.
+\pgfplotsset{layers/sepgridbelow/.define layer set={axis background,axis grid,pre main,main,axis ticks,axis lines,
+  axis tick labels,axis descriptions,axis foreground}{}}
 \begin{tikzpicture}
 \begin{axis}[
   paperaxis, width=0.96\columnwidth, height=6.6cm,
@@ -20,17 +22,20 @@
   xmin=5e-4, xmax=60, ymin=0.02, ymax=60,
   xtick={0.001,0.01,0.1,1,10}, ytick={0.1,1,10},
   xticklabels={$10^{-3}$,$10^{-2}$,$0.1$,$1$,$10$}, yticklabels={$0.1$,$1$,$10$},
-  legend style={at={(1,1.025)}, anchor=south east, legend columns=2, font=\scriptsize,
+  legend style={at={(1,1.05)}, anchor=south east, legend columns=2, font=\scriptsize,
                 draw=pMuted, fill=white, row sep=0.6pt, inner sep=2pt,
                 /tikz/every even column/.append style={column sep=5pt}},
   legend cell align=left, clip=true,
-  set layers,   % lets the thresholds sit above the major grid, which axis on top draws over the plots
+  % 2026-09-27 layer order: grid BELOW the data (so it neither splits the threshold dashes nor crosses markers),
+  % thresholds on the main layer drawn before the markers (markers stay on top of the dashes), and the axis
+  % frame/ticks above the data. Legend raised to 1.05 so the outward top ticks no longer touch its frame.
+  axis on top=false, set layers=sepgridbelow,
 ]
   % separating region: m0 silent (x<1) AND an off-diagonal moment fires (y>1)
   \fill[pAmber, opacity=0.14] (axis cs:5e-4,1) rectangle (axis cs:1,60);
-  % frozen thresholds (on the foreground layer, so the grid lines at 1 do not split the dashes)
-  \addplot[threshold, forget plot, on layer=axis foreground] coordinates {(1,0.02) (1,60)};
-  \addplot[threshold, forget plot, on layer=axis foreground] coordinates {(5e-4,1) (60,1)};
+  % frozen thresholds (main layer, drawn before the markers; the grid is below them)
+  \addplot[threshold, forget plot] coordinates {(1,0.02) (1,60)};
+  \addplot[threshold, forget plot] coordinates {(5e-4,1) (60,1)};
   % faithful (clean): 1 false positive (id 184, ringed)
   \addplot[only marks, mark=*, mark size=1.0pt, pMuted, mark options={fill=pMuted, fill opacity=0.45, draw=none}]
       table[x=x,y=y]{figs/sep_clean.dat};

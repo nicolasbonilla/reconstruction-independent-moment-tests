@@ -1,14 +1,16 @@
-% fig_teeth.tex -- native pgfplots. Independence gives the screen teeth (L=12, sector Lanczos).
+% fig_teeth.tex -- native pgfplots. Independence gives the screen teeth (L=12, sector Lanczos; idealized estimator:
+% mhat_1 on the exact full-sector ground state, only the reconstruction lives in the truncated subspace).
+% y = relative first-moment discrepancy |mhat_1 - mbar_1| / mhat_1 in % (Delta_1^rel of the caption).
 % x = determinants kept d (log, REVERSED: full support left where curves ~0, truncation right where the
 % independent estimator saturates ~100% while the circular control stays flat at 0).
-% Clean layout matching fig_teeth_shared: legend upper-left (curves ~0 there); one crossing dot on the threshold
-% (value in the legend, not floating on the data); single headline in the lower-right pocket, anchor=east (no spill).
+% Layout matching fig_teeth_shared: legend upper-left (curves ~0 there); one crossing dot on the threshold
+% (the crossing value is stated in the caption). The 5% line is an illustrative fixed threshold, not the deployed rule.
 \begin{tikzpicture}
 \begin{axis}[
   paperaxis, width=\columnwidth, height=6.8cm,
   xmode=log, x dir=reverse,
-  xlabel={determinants kept $d$ \; (subspace size; truncation $\rightarrow$)},
-  ylabel={first-moment discrepancy $\Delta_k$ (\%)},
+  xlabel={determinants kept $d$ \; (truncation $\rightarrow$)},
+  ylabel={relative discrepancy $\Delta_1/\widehat m_1$ (\%)},
   xmin=180, xmax=260000, ymin=-6, ymax=112,
   xtick={100000,10000,1000}, xticklabels={$10^5$,$10^4$,$10^3$},
   ytick={0,20,40,60,80,100},
@@ -16,12 +18,11 @@
                 draw=pMuted, fill=white, fill opacity=0.92, text opacity=1,
                 row sep=1pt, inner sep=3pt},
   legend cell align=left, clip=false,
+  axis on top=false,   % grid below data (on top, the light grid lines cut white breaks into the curves)
 ]
-  % shaded region under the independent discrepancy
-  \addplot[firesband, draw=none, forget plot] table[x=d,y=rind]{figs/teeth.dat} \closedcycle;
-  % falsification threshold
+  % illustrative fixed threshold (not the deployed tau_1 rule)
   \addplot[threshold] coordinates {(260000,5) (180,5)};
-  \addlegendentry{$5\%$ threshold}
+  \addlegendentry{illustrative $5\%$ threshold}
   % independent estimator: fires
   \addplot[firesline] table[x=d,y=rind]{figs/teeth.dat};
   \addlegendentry{independent $\widehat m_1$ (flags)}

@@ -8,7 +8,7 @@
    "c": "default_rng([20260927, 3, id])",
    "sealed_generator_replay": "default_rng(master_seed + 1000 + id)"
   },
-  "runtime_s": 10.76,
+  "runtime_s": 12.22,
   "python": "3.11.4",
   "numpy": "1.26.4",
   "scipy": "1.13.1",
@@ -26,9 +26,10 @@
    "blind_classify.py": "aaa4c6cbe1faee62c496cb4bf68222fe79bda2993fc4d3d0d38727e510cd0f21",
    "blind_generate.py": "42165a8a816647d3c1f13cafbc9dc606e53b83bae6688716c479413679c8551e",
    "spectral_lanczos.py": "278cc35ca25b99d576a6ef542428b07c08c66983f29b85993e7a0a2e383dd8b8",
-   "blind_addenda.py": "65a0f077ae0e5c53636ab80d59177b1b8450dd258138111736e68d090757e9ca"
+   "blind_addenda.py": "0e2009e5cbe3b21fcf91e0a401ae020a0fb637dfe0e55fef0232f38808953083"
   },
   "sealed_files_modified": false,
+  "status": "post hoc addenda (2026-09-27, after unblinding); the sealed endpoints are the ones in 2026-08-24_blind_harness_score.json, recomputed unchanged in part (a); part (c) is a post hoc rescoring with a different estimator",
   "sim_only": true
  },
  "0_frozen_rule_check": {
@@ -470,8 +471,11 @@
   "vectorised_rule_vs_verbatim_classifier": "13440/13440 identical"
  },
  "c_truncations_rebuild_and_shared_state": {
+  "status": "POST HOC (2026-09-27, after unblinding): an exact rebuild of the sealed truncations and a rescoring with a different estimator; not part of the sealed protocol and not a sealed endpoint",
   "rebuild": {
-   "method": "psi0 from scipy eigsh(k=1, which='SA') with ARPACK's default start, first v0-less calls of a fresh process, U in prereg U_grid order; truncation = top-d of argsort(|psi0|^2) (numpy default sort), exactly blind_generate.py",
+   "method": "truncation = top-d of a per-U tie order of |psi0|^2 (numpy argsort, descending), exactly blind_generate.py; the order is the one the sealed run used, recovered on 2026-09-27 from ARPACK's default start (first v0-less eigsh calls of a fresh process, U in prereg U_grid order) and stored below",
+   "tie_order_source": "stored: recovered_tie_order_top_nsup_basis_indices of the previous 2026-09-27_blind_addenda.json (sha256 of the file read 98677bab46b4884a93c79d593c070a534d5a349754ae9d7b5344fd092c9797ff), validated against the sealed record in this run",
+   "guard": "the order used must reproduce all 56 sealed m_bar, var_loc and m_hat, else the script aborts and writes nothing; the stored order is preferred over the ARPACK rebuild of the running process",
    "instances": 56,
    "cut_inside_a_degenerate_shell": 51,
    "match_sealed_m_bar_(rel<1e-8)": "56/56",
@@ -483,6 +487,26 @@
     "m_hat": 2.0982834186840032e-16
    },
    "exact_rebuild_possible": true,
+   "zero_reconstructed_weight_ids": [
+    26,
+    151,
+    229,
+    299
+   ],
+   "zero_weight_note": "4 of the 56 truncations have m_bar of order 1e-30 (J g vanishes inside the kept subspace); the relative test floors its denominator at 1e-12, so for these the m_bar match is an absolute one",
+   "arpack_default_start_rebuild_this_process": {
+    "match_sealed_m_bar_(rel<1e-8)": "56/56",
+    "match_sealed_var_loc_(rel<1e-8)": "56/56",
+    "match_sealed_m_hat_by_RNG_replay_(rel<1e-12)": "56/56",
+    "worst_rel_err": {
+     "m_bar": 3.295207143812261e-14,
+     "var_loc": 1.278976924368253e-13,
+     "m_hat": 2.0982834186840032e-16
+    },
+    "all_56_match": true,
+    "order_identical_to_used_order": true,
+    "note": "diagnostic only: the ARPACK default-start order depends on the process state (these must be the first v0-less eigsh calls) and on the scipy/ARPACK build"
+   },
    "naive_regeneration_(fixed-v0 psi0)_differs_from_sealed_on": "39/56",
    "fragility_note": "the sealed tie order is set by ARPACK start-vector noise; calling the four eigsh in another order reproduces only a minority of the sealed instances (checked 2026-09-27: 19/56 with order 6,5,4,3). The recovered order is stored below so later rescoring need not rely on ARPACK state.",
    "recovered_tie_order_top_nsup_basis_indices": {
@@ -1242,7 +1266,9 @@
    "basis": "index = iu*Dd + id over sorted up/down bit-strings (spectral_lanczos.strings, L=6, n=2)"
   },
   "shared_state_rescoring": {
+   "status": "POST HOC; the sealed test used the idealised oracle-centred estimator (m_hat = m_exact + Gaussian noise), whose result stays the reported one",
    "estimator": "m_hat_k = <J g|(H - e0)^k|J g> (full operators, g = truncated-subspace ground state, e0 = <g|H|g>) + the sealed shot-noise draw (m_hat_sealed - m_exact); var_loc as sealed (already the local variance on g); frozen rule, verbatim",
+   "threshold_note": "the thresholds reuse the sealed var_loc, whose m1 and m2 local variances are centred on the exact E0 (Hc = H - E0), whereas the shared-state moments use H - e0; only the m1/m2 thresholds are affected, not the m0 conclusion",
    "rejected_sealed_noise": "56/56",
    "rejected_idealized_sealed_estimator": "56/56 (sealed record)",
    "fires_per_moment_[m0,m1,m2]": [
@@ -1275,7 +1301,7 @@
     "U": 6.0,
     "d": 35,
     "d_over_nsup": 0.1881720430107527,
-    "retained_gs_weight": 0.8765153172888959,
+    "retained_gs_weight": 0.8765153172888952,
     "boundary_shell": {
      "shell_size": 12,
      "kept_from_shell": 5,
@@ -1323,7 +1349,7 @@
     "U": 6.0,
     "d": 43,
     "d_over_nsup": 0.23118279569892472,
-    "retained_gs_weight": 0.8981108355727633,
+    "retained_gs_weight": 0.8981108355727628,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 1,
@@ -1371,7 +1397,7 @@
     "U": 3.0,
     "d": 84,
     "d_over_nsup": 0.45161290322580644,
-    "retained_gs_weight": 0.8970801137159277,
+    "retained_gs_weight": 0.8970801137159278,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 18,
@@ -1419,7 +1445,7 @@
     "U": 4.0,
     "d": 67,
     "d_over_nsup": 0.3602150537634409,
-    "retained_gs_weight": 0.8940760433638993,
+    "retained_gs_weight": 0.8940760433638982,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 1,
@@ -1467,7 +1493,7 @@
     "U": 6.0,
     "d": 42,
     "d_over_nsup": 0.22580645161290322,
-    "retained_gs_weight": 0.896527327537363,
+    "retained_gs_weight": 0.8965273275373626,
     "boundary_shell": {
      "shell_size": 12,
      "kept_from_shell": 12,
@@ -1515,7 +1541,7 @@
     "U": 4.0,
     "d": 37,
     "d_over_nsup": 0.1989247311827957,
-    "retained_gs_weight": 0.8140141833494542,
+    "retained_gs_weight": 0.8140141833494536,
     "boundary_shell": {
      "shell_size": 12,
      "kept_from_shell": 7,
@@ -1563,7 +1589,7 @@
     "U": 3.0,
     "d": 49,
     "d_over_nsup": 0.26344086021505375,
-    "retained_gs_weight": 0.8109849350499038,
+    "retained_gs_weight": 0.810984935049904,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 7,
@@ -1611,7 +1637,7 @@
     "U": 5.0,
     "d": 29,
     "d_over_nsup": 0.15591397849462366,
-    "retained_gs_weight": 0.8132285577243925,
+    "retained_gs_weight": 0.8132285577243924,
     "boundary_shell": {
      "shell_size": 12,
      "kept_from_shell": 11,
@@ -1659,7 +1685,7 @@
     "U": 6.0,
     "d": 37,
     "d_over_nsup": 0.1989247311827957,
-    "retained_gs_weight": 0.8822330345027438,
+    "retained_gs_weight": 0.882233034502743,
     "boundary_shell": {
      "shell_size": 12,
      "kept_from_shell": 7,
@@ -1707,7 +1733,7 @@
     "U": 6.0,
     "d": 67,
     "d_over_nsup": 0.3602150537634409,
-    "retained_gs_weight": 0.9354740724453603,
+    "retained_gs_weight": 0.9354740724453608,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 1,
@@ -1755,7 +1781,7 @@
     "U": 3.0,
     "d": 75,
     "d_over_nsup": 0.4032258064516129,
-    "retained_gs_weight": 0.878235437998375,
+    "retained_gs_weight": 0.8782354379983751,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 9,
@@ -1803,7 +1829,7 @@
     "U": 5.0,
     "d": 121,
     "d_over_nsup": 0.6505376344086021,
-    "retained_gs_weight": 0.972288025357698,
+    "retained_gs_weight": 0.9722880253576981,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 7,
@@ -1899,7 +1925,7 @@
     "U": 4.0,
     "d": 91,
     "d_over_nsup": 0.489247311827957,
-    "retained_gs_weight": 0.9317427465372877,
+    "retained_gs_weight": 0.9317427465372873,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 1,
@@ -1947,7 +1973,7 @@
     "U": 5.0,
     "d": 123,
     "d_over_nsup": 0.6612903225806451,
-    "retained_gs_weight": 0.9736756255668206,
+    "retained_gs_weight": 0.9736756255668207,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 9,
@@ -1995,7 +2021,7 @@
     "U": 3.0,
     "d": 88,
     "d_over_nsup": 0.4731182795698925,
-    "retained_gs_weight": 0.9054555251459511,
+    "retained_gs_weight": 0.9054555251459512,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 22,
@@ -2043,7 +2069,7 @@
     "U": 4.0,
     "d": 105,
     "d_over_nsup": 0.5645161290322581,
-    "retained_gs_weight": 0.9491292341500435,
+    "retained_gs_weight": 0.9491292341500431,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 15,
@@ -2091,7 +2117,7 @@
     "U": 4.0,
     "d": 81,
     "d_over_nsup": 0.43548387096774194,
-    "retained_gs_weight": 0.9162476675732337,
+    "retained_gs_weight": 0.9162476675732326,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 15,
@@ -2139,7 +2165,7 @@
     "U": 5.0,
     "d": 59,
     "d_over_nsup": 0.3172043010752688,
-    "retained_gs_weight": 0.9033512986792192,
+    "retained_gs_weight": 0.9033512986792187,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 17,
@@ -2187,7 +2213,7 @@
     "U": 4.0,
     "d": 116,
     "d_over_nsup": 0.6236559139784946,
-    "retained_gs_weight": 0.9619294059432296,
+    "retained_gs_weight": 0.9619294059432293,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 2,
@@ -2235,7 +2261,7 @@
     "U": 5.0,
     "d": 48,
     "d_over_nsup": 0.25806451612903225,
-    "retained_gs_weight": 0.8822526837685745,
+    "retained_gs_weight": 0.8822526837685738,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 6,
@@ -2283,7 +2309,7 @@
     "U": 5.0,
     "d": 104,
     "d_over_nsup": 0.5591397849462365,
-    "retained_gs_weight": 0.9584450085123664,
+    "retained_gs_weight": 0.9584450085123665,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 14,
@@ -2331,7 +2357,7 @@
     "U": 6.0,
     "d": 74,
     "d_over_nsup": 0.3978494623655914,
-    "retained_gs_weight": 0.9420719368541174,
+    "retained_gs_weight": 0.9420719368541173,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 8,
@@ -2379,7 +2405,7 @@
     "U": 4.0,
     "d": 76,
     "d_over_nsup": 0.40860215053763443,
-    "retained_gs_weight": 0.9083292303556143,
+    "retained_gs_weight": 0.9083292303556132,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 10,
@@ -2427,7 +2453,7 @@
     "U": 3.0,
     "d": 35,
     "d_over_nsup": 0.1881720430107527,
-    "retained_gs_weight": 0.7514508613747442,
+    "retained_gs_weight": 0.7514508613747444,
     "boundary_shell": {
      "shell_size": 12,
      "kept_from_shell": 5,
@@ -2475,7 +2501,7 @@
     "U": 6.0,
     "d": 44,
     "d_over_nsup": 0.23655913978494625,
-    "retained_gs_weight": 0.8996943436081636,
+    "retained_gs_weight": 0.899694343608163,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 2,
@@ -2523,7 +2549,7 @@
     "U": 6.0,
     "d": 65,
     "d_over_nsup": 0.34946236559139787,
-    "retained_gs_weight": 0.9329480123515664,
+    "retained_gs_weight": 0.932948012351567,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 23,
@@ -2571,7 +2597,7 @@
     "U": 6.0,
     "d": 30,
     "d_over_nsup": 0.16129032258064516,
-    "retained_gs_weight": 0.8622210242542757,
+    "retained_gs_weight": 0.8622210242542756,
     "boundary_shell": {
      "shell_size": 12,
      "kept_from_shell": 12,
@@ -2619,7 +2645,7 @@
     "U": 5.0,
     "d": 62,
     "d_over_nsup": 0.3333333333333333,
-    "retained_gs_weight": 0.909105466382122,
+    "retained_gs_weight": 0.9091054663821219,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 20,
@@ -2667,7 +2693,7 @@
     "U": 6.0,
     "d": 41,
     "d_over_nsup": 0.22043010752688172,
-    "retained_gs_weight": 0.8936684689304392,
+    "retained_gs_weight": 0.8936684689304387,
     "boundary_shell": {
      "shell_size": 12,
      "kept_from_shell": 11,
@@ -2715,7 +2741,7 @@
     "U": 3.0,
     "d": 79,
     "d_over_nsup": 0.42473118279569894,
-    "retained_gs_weight": 0.8866108494283984,
+    "retained_gs_weight": 0.8866108494283985,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 13,
@@ -2763,7 +2789,7 @@
     "U": 4.0,
     "d": 69,
     "d_over_nsup": 0.3709677419354839,
-    "retained_gs_weight": 0.8972434182509471,
+    "retained_gs_weight": 0.897243418250946,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 3,
@@ -2811,7 +2837,7 @@
     "U": 4.0,
     "d": 74,
     "d_over_nsup": 0.3978494623655914,
-    "retained_gs_weight": 0.9051618554685665,
+    "retained_gs_weight": 0.9051618554685654,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 8,
@@ -2859,7 +2885,7 @@
     "U": 6.0,
     "d": 110,
     "d_over_nsup": 0.5913978494623656,
-    "retained_gs_weight": 0.9704319316169789,
+    "retained_gs_weight": 0.9704319316169787,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 20,
@@ -2907,7 +2933,7 @@
     "U": 5.0,
     "d": 133,
     "d_over_nsup": 0.7150537634408602,
-    "retained_gs_weight": 0.9806136266124337,
+    "retained_gs_weight": 0.980613626612434,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 19,
@@ -3003,7 +3029,7 @@
     "U": 6.0,
     "d": 111,
     "d_over_nsup": 0.5967741935483871,
-    "retained_gs_weight": 0.971095889708407,
+    "retained_gs_weight": 0.9710958897084068,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 21,
@@ -3051,7 +3077,7 @@
     "U": 3.0,
     "d": 44,
     "d_over_nsup": 0.23655913978494625,
-    "retained_gs_weight": 0.7967479270408101,
+    "retained_gs_weight": 0.7967479270408103,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 2,
@@ -3099,7 +3125,7 @@
     "U": 3.0,
     "d": 89,
     "d_over_nsup": 0.478494623655914,
-    "retained_gs_weight": 0.9075493780034569,
+    "retained_gs_weight": 0.907549378003457,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 23,
@@ -3195,7 +3221,7 @@
     "U": 5.0,
     "d": 30,
     "d_over_nsup": 0.16129032258064516,
-    "retained_gs_weight": 0.8280152485406049,
+    "retained_gs_weight": 0.828015248540605,
     "boundary_shell": {
      "shell_size": 12,
      "kept_from_shell": 12,
@@ -3243,7 +3269,7 @@
     "U": 6.0,
     "d": 138,
     "d_over_nsup": 0.7419354838709677,
-    "retained_gs_weight": 0.9872703541043841,
+    "retained_gs_weight": 0.9872703541043837,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 24,
@@ -3291,7 +3317,7 @@
     "U": 4.0,
     "d": 129,
     "d_over_nsup": 0.6935483870967742,
-    "retained_gs_weight": 0.9724798422170667,
+    "retained_gs_weight": 0.9724798422170666,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 15,
@@ -3339,7 +3365,7 @@
     "U": 4.0,
     "d": 37,
     "d_over_nsup": 0.1989247311827957,
-    "retained_gs_weight": 0.8140141833494542,
+    "retained_gs_weight": 0.8140141833494536,
     "boundary_shell": {
      "shell_size": 12,
      "kept_from_shell": 7,
@@ -3387,7 +3413,7 @@
     "U": 5.0,
     "d": 98,
     "d_over_nsup": 0.5268817204301075,
-    "retained_gs_weight": 0.953053158844325,
+    "retained_gs_weight": 0.9530531588443251,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 8,
@@ -3435,7 +3461,7 @@
     "U": 5.0,
     "d": 70,
     "d_over_nsup": 0.3763440860215054,
-    "retained_gs_weight": 0.9216254126472609,
+    "retained_gs_weight": 0.921625412647261,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 4,
@@ -3483,7 +3509,7 @@
     "U": 3.0,
     "d": 35,
     "d_over_nsup": 0.1881720430107527,
-    "retained_gs_weight": 0.7514508613747442,
+    "retained_gs_weight": 0.7514508613747444,
     "boundary_shell": {
      "shell_size": 12,
      "kept_from_shell": 5,
@@ -3531,7 +3557,7 @@
     "U": 4.0,
     "d": 48,
     "d_over_nsup": 0.25806451612903225,
-    "retained_gs_weight": 0.8504291142354488,
+    "retained_gs_weight": 0.8504291142354481,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 6,
@@ -3579,7 +3605,7 @@
     "U": 3.0,
     "d": 43,
     "d_over_nsup": 0.23118279569892472,
-    "retained_gs_weight": 0.7939005254389914,
+    "retained_gs_weight": 0.7939005254389916,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 1,
@@ -3627,7 +3653,7 @@
     "U": 6.0,
     "d": 59,
     "d_over_nsup": 0.3172043010752688,
-    "retained_gs_weight": 0.923446964139166,
+    "retained_gs_weight": 0.9234469641391659,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 17,
@@ -3675,7 +3701,7 @@
     "U": 4.0,
     "d": 115,
     "d_over_nsup": 0.6182795698924731,
-    "retained_gs_weight": 0.9611178339221652,
+    "retained_gs_weight": 0.9611178339221649,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 1,
@@ -3723,7 +3749,7 @@
     "U": 6.0,
     "d": 29,
     "d_over_nsup": 0.15591397849462366,
-    "retained_gs_weight": 0.8472432400249696,
+    "retained_gs_weight": 0.8472432400249689,
     "boundary_shell": {
      "shell_size": 12,
      "kept_from_shell": 11,
@@ -3771,7 +3797,7 @@
     "U": 6.0,
     "d": 74,
     "d_over_nsup": 0.3978494623655914,
-    "retained_gs_weight": 0.9420719368541174,
+    "retained_gs_weight": 0.9420719368541173,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 8,
@@ -3819,7 +3845,7 @@
     "U": 3.0,
     "d": 59,
     "d_over_nsup": 0.3172043010752688,
-    "retained_gs_weight": 0.8394589510680912,
+    "retained_gs_weight": 0.8394589510680913,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 17,
@@ -3867,7 +3893,7 @@
     "U": 4.0,
     "d": 124,
     "d_over_nsup": 0.6666666666666666,
-    "retained_gs_weight": 0.9684219821117449,
+    "retained_gs_weight": 0.9684219821117446,
     "boundary_shell": {
      "shell_size": 24,
      "kept_from_shell": 10,
@@ -3915,7 +3941,7 @@
     "U": 5.0,
     "d": 30,
     "d_over_nsup": 0.16129032258064516,
-    "retained_gs_weight": 0.8280152485406049,
+    "retained_gs_weight": 0.828015248540605,
     "boundary_shell": {
      "shell_size": 12,
      "kept_from_shell": 12,
@@ -4126,8 +4152,8 @@
     0.7419354838709677
    ],
    "realized_fraction_of_gs_weight_kept": [
-    0.7514508613747442,
-    0.9872703541043841
+    0.7514508613747444,
+    0.9872703541043837
    ],
    "note": "the kept |psi0|^2 weight depends only on d (tied shells carry equal weight)"
   },
@@ -4146,20 +4172,20 @@
    ],
    "om_s_drawn_uniform_in_[om_lo, om_hi]_of_each_U": {
     "U=3": {
-     "om_lo": 0.24913727404550734,
-     "om_hi": 14.338283390112613
+     "om_lo": 0.24913727404551356,
+     "om_hi": 14.338283390112618
     },
     "U=4": {
-     "om_lo": 0.2782122409950416,
-     "om_hi": 15.59673666498568
+     "om_lo": 0.2782122409950407,
+     "om_hi": 15.596736664985679
     },
     "U=5": {
-     "om_lo": 0.29868052066477446,
+     "om_lo": 0.29868052066477624,
      "om_hi": 17.017762201974215
     },
     "U=6": {
-     "om_lo": 0.314236267622098,
-     "om_hi": 18.562430644592688
+     "om_lo": 0.3142362676221069,
+     "om_hi": 18.5624306445927
     }
    },
    "realized_atom_share_of_reconstructed_m0": {

@@ -1,8 +1,11 @@
 % ==========================================================================
 % ==========================================================================
 
-% SQDspec2608: v3 title. On 2026-09-27 the arXiv API still served v2 (old title);
-% v3 is queued to announce 2026-09-28. Verify v3 is live before submission.
+% SQDspec2608: v3 title. On 2026-09-27 (last check 17:26 UTC) the arXiv API still
+% served v2 (old title "Dynamical spectral functions from bitstring-sampled quantum
+% subspaces: entanglement, not one-body magic, tracks the sampling cost");
+% v3 is queued to announce 2026-09-28. Verify v3 is live before submission;
+% if v3 is held, revert the title and drop the v3 pin.
 @misc{SQDspec2608,
   author  = {Bonilla Vargas, Nicol\'as},
   title   = {Captured weight and boundary leakage bound the error of sample-based spectral functions},
@@ -823,7 +826,7 @@
 
 @article{LeBlanc2015,
   title = {Solutions of the Two-Dimensional Hubbard Model: Benchmarks and Results from a Wide Range of Numerical Algorithms},
-  author = {LeBlanc, J. P. F. and Antipov, Andrey E. and Becca, Federico and Bulik, Ireneusz W. and Chan, Garnet Kin-Lic and Chung, Chia-Min and Deng, Youjin and Ferrero, Michel and Henderson, Thomas M. and Jim{\'e}nez-Hoyos, Carlos A. and Kozik, E. and Liu, Xuan-Wen and Millis, Andrew J. and Prokof'ev, N. V. and Qin, Mingpu and Scuseria, Gustavo E. and Shi, Hao and Svistunov, B. V. and Tocchio, Luca F. and Tupitsyn, I. S. and White, Steven R. and Zhang, Shiwei and Zheng, Bo-Xiao and Zhu, Zhenyue and Gull, Emanuel},
+  author = {LeBlanc, J. P. F. and Antipov, Andrey E. and Becca, Federico and Bulik, Ireneusz W. and Chan, Garnet Kin-Lic and Chung, Chia-Min and Deng, Youjin and Ferrero, Michel and Henderson, Thomas M. and Jim{\'e}nez-Hoyos, Carlos A. and Kozik, E. and Liu, Xuan-Wen and Millis, Andrew J. and Prokof'ev, N. V. and Qin, Mingpu and Scuseria, Gustavo E. and Shi, Hao and Svistunov, B. V. and Tocchio, Luca F. and Tupitsyn, I. S. and White, Steven R. and Zhang, Shiwei and Zheng, Bo-Xiao and Zhu, Zhenyue and Gull, Emanuel and {Simons Collaboration on the Many-Electron Problem}},
   journal = {Phys. Rev. X},
   volume = {5},
   number = {4},
@@ -1554,9 +1557,15 @@
 
 % ==========================================================================
 % Added 2026-09-27 (plan C5/M9/M1(iv)/M14). Each entry checked against the
-% arXiv API, Crossref or the DOI resolver on 2026-09-27.
+% arXiv API, Crossref or the DOI resolver on 2026-09-27, and re-checked the same
+% day ~17:10 UTC (titles, author lists, DOIs, volume/pages). Gautschi1962/1963
+% (M1(iv)) are cited in main.tex, in the Theorem 2 remarks (Sec. detect) and in
+% the "Conditioning numbers" paragraph of App. withinsector.
 % ==========================================================================
 
+% Buchs2026: 18 authors and title match the arXiv API (2607.01568v1, checked
+% 2026-09-27). The arXiv metadata writes "Thomas Naughton"; the v1 PDF byline
+% writes "Thomas Naughton III", which is kept here (generational suffix only).
 @misc{Buchs2026,
   author        = {Buchs, Gilles and Wong, Elaine and Baul, Anshumitra and Hamilton, Kathleen E. and Banerjee, Arnab and Eidenbenz, Stephan and Hal\'asz, G\'abor B. and Kumaran, Keerthi and Maier, Thomas and {Naughton III}, Thomas and Pelofske, Elijah and Russo, Vincent and Scheie, Allen and Subasi, Yigit and Tennant, D. Alan and Touil, Akram and Humble, Travis S. and Sornborger, Andrew T.},
   title         = {A Validation Framework for Quantum Simulation of Spin Dynamics against Inelastic Neutron Scattering and Classical Simulation},
@@ -1575,6 +1584,9 @@
   year          = {2026}
 }
 
+% Kraft2026: authors as the APS record gives them (Crossref deposit and the PRX
+% landing page, checked 2026-09-27). Both write "William T. Lam", as does the
+% arXiv v2 PDF byline; only the arXiv metadata has "William Lam".
 @article{Kraft2026,
   author        = {Kraft, Tristan and Joshi, Manoj K. and Lam, William T. and Olsacher, Tobias and Kranzl, Florian and Franke, Johannes and Joshi, Lata Kh and Blatt, Rainer and Smerzi, Augusto and Stilck Fran{\c{c}}a, Daniel and Vermersch, Beno{\^i}t and Kraus, Barbara and Roos, Christian F. and Zoller, Peter},
   title         = {Bounded-Error Quantum Simulation via {Hamiltonian} and {Lindbladian} Learning},
@@ -1588,8 +1600,19 @@
   archivePrefix = {arXiv}
 }
 
-% Lee2026: author list from the v3 PDF (11 authors). The arXiv metadata omits
-% S. E. Nagler and lists D. A. Tennant as David A. Tennant.
+% Lee2026: author list from the byline of the current version, v3 (2026-04-16),
+% which the unversioned eprint resolves to: 11 authors. Checked 2026-09-27
+% ~17:30 UTC against all three PDFs and the per-version abs pages. The v1 and v2
+% PDF bylines have 10 authors (no Stephen E. Nagler; "David A. Tennant",
+% "Travis Humble"). v3 adds Nagler (6th, ORNL Neutron Scattering Division) and
+% writes "D. Alan Tennant" and "Travis S. Humble". The arXiv metadata (API and
+% the abs pages of v1, v2 and v3) still carries the v1 list, because it was
+% never updated for v3. It is therefore stale, not a correction of the byline.
+% The byline forms also match Buchs2026 (same people, same name forms). The
+% arXiv-metadata list, if ever wanted, is:
+%   Lee, Yi-Ting and Kumaran, Keerthi and Pokharel, Bibek and Scheie, Allen and
+%   Sarkis, Colin L. and Tennant, David A. and Humble, Travis and
+%   Schleife, Andr\'e and Kandala, Abhinav and Banerjee, Arnab
 @misc{Lee2026,
   author        = {Lee, Yi-Ting and Kumaran, Keerthi and Pokharel, Bibek and Scheie, Allen and Sarkis, Colin L. and Nagler, Stephen E. and Tennant, D. Alan and Humble, Travis S. and Schleife, Andr\'e and Kandala, Abhinav and Banerjee, Arnab},
   title         = {Benchmarking quantum simulation with neutron-scattering experiments},

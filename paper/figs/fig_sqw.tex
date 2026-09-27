@@ -30,8 +30,10 @@
   \addplot[white, opacity=0.9, densely dashed, line width=0.7pt, forget plot] coordinates {(0.1667,5.71) (1.8333,5.71)};
   \draw[decorate, decoration={brace, amplitude=6pt}, white, line width=0.9pt]
       (axis cs:0.30,5.63) -- (axis cs:0.30,0.06);
-  \node[white, font=\scriptsize, anchor=west, align=left] at (axis cs:0.37,2.7)
-      {charge gap\\ $\Delta_c\!\approx\!5.7\,t$\\ (no weight)};
+  % gap label kept low in the gap (centre 2.2t), where only the faint eta tail remains (display <= 0.05 below 5t);
+  % "(broadening tail only)" replaces the former "(no weight)": the Lorentzian tail does reach below the onset line
+  \node[white, font=\scriptsize, anchor=west, align=left] at (axis cs:0.37,2.2)
+      {charge gap\\ $\Delta_c\!\approx\!5.7\,t$\\ (broadening\\ tail only)};
   \node[white, font=\scriptsize\itshape, anchor=west] at (axis cs:0.22,6.05) {onset};
 \end{axis}
 % ---- spin S^zz(q,omega): gapless spinon continuum, scale ~ J, fills the panel ----

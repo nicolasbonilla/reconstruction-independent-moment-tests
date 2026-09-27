@@ -2,7 +2,7 @@
   "_provenance": {
     "script": "estimator_scaling.py",
     "sim_only": true,
-    "method": "structure-only Pauli label-set counts; <rho_pi>=0 exact by the bond-centred reflection symmetry of the open chain (q=pi, even L; any filling), so drho=rho; verified vs eigsh build_operators at L<=8"
+    "method": "structure-only Pauli label-set counts; <rho>=0 exact by half-filling symmetry (q=pi, even L), so drho=rho; verified vs eigsh build_operators at L<=8"
   },
   "columns": [
     "L",

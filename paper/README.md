@@ -1,16 +1,23 @@
-# The 2026-09-05 text, under revision
+# The manuscript, revised on 2026-09-27
 
-This folder holds the manuscript as of **2026-09-05** (31 pp, revtex4-2). It is not on arXiv or in a
-journal. **Revision in progress:** the text is being corrected against the recomputations of 2026-09-27
-(phase A; scripts and dated outputs in [`../docs/REPRODUCE.md`](../docs/REPRODUCE.md)). Until that is done,
-the code and data in this repository are the reference, not the text.
+This folder holds the manuscript (38 pp, revtex4-2). It is not on arXiv or in a journal; the intended venue
+is SciPost Physics Core. The 2026-09-05 text (31 pp) was revised on 2026-09-27 in three steps: the
+recomputations (phase A; scripts and dated outputs in [`../docs/REPRODUCE.md`](../docs/REPRODUCE.md)), every
+section rewritten against them (phase B), and a paper-wide consistency pass over the text, the figure
+sources, the code and the bibliography, each change checked by a second reader (phase C). Captions and
+figures now agree, and `main.pdf` is built from this text.
 
-`main.pdf` was compiled on 2026-09-27 from this text **before** the phase-A figure changes. Several figure
-sources in `figs/` have changed since (`fig_device`, `fig_separating`, `fig_momentmc`, `fig_sqw`,
-`fig_christoffel`, `fig_gausslaw`), so a new build combines new figures with old captions. Do not use a
-build for submission until captions and figures agree.
+**Not done yet (before submission):**
+- a length pass (the introduction is about 2.4k words; several captions exceed 120 words) and the port to
+  the SciPost template, after which every figure needs a new visual check at single-column width;
+- the companion (arXiv:2608.16436) is cited with its v3 title and v3-only content, and v3 is announced on
+  2026-09-28; if it is not public at submission, the title, the version pin and the two sentences that
+  rely on it (Introduction; Sec. role) must be softened;
+- the Zenodo DOI in the Data availability statement.
 
-## Statements being corrected (not exhaustive)
+## Defects of the 2026-09-05 text, corrected in the revision
+
+Each item describes the 2026-09-05 text. The revised `main.tex` was checked for every item on 2026-09-27.
 
 **Blinded test** (`data/2026-08-24_blind_harness_score.json`, `data/2026-09-27_blind_addenda.json`)
 - The sealed primary endpoint is not reported: TPR 101/188 = 53.7% [46.6, 60.7] at FPR 1/112 = 0.9%
@@ -92,13 +99,14 @@ reported, and `n_k` is still called the next experiment (`data/2026-09-05_nk_v4_
 - `fig_sqw`: the rasters are now placed at their true extents; the markers are filled; the charge window
   is clipped at 10t.
 
-**Framing and citations** — the wording about corroboration and knowledge is being removed; the overlap
-with the companion's v3 (captured weight, moment exactness through order 2K+1, the leakage identity,
-"weight alone cannot certify") needs citations and a statement of what this work adds; several
-bibliography entries are being corrected.
+**Framing and citations** — the wording about corroboration and knowledge; the overlap with the
+companion's v3 (captured weight, moment exactness through order 2K+1, the leakage identity, "weight alone
+cannot certify"), which lacked citations and a statement of what this work adds; several bibliography
+entries.
 
 ## Build
 
-`make paper` compiles `main.tex` with the committed `main.bbl` (no BibTeX). The source of
+`make paper` compiles `main.tex` with the committed `main.bbl` (no BibTeX); after editing `refs.bib`, run
+`pdflatex main && bibtex main && pdflatex main && pdflatex main` to refresh it. The source of
 `figs/fig_circuit_qtk.pdf` is `figs/src/fig_circuit_qtk.tex` (`pdflatex fig_circuit_qtk.tex`). Files no
 figure reads, and the figure files replaced on 2026-09-27, are in `figs/_superseded/`.

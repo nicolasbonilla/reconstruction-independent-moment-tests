@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
-"""INTERVAL-MOMENT CLOSURE (Route A make-or-break, $0): upgrade the exact-moment idealization to the ROBUST
-interval-moment test the paper repeatedly promises but never shows. The falsification threshold is set by the
-REAL IBM Heron shot budget (N_s=50000, ibm_fez, arXiv:2608.16436), NOT an arbitrary 5%. Produces a genuine
-CORROBORATE (full reconstruction) vs REJECT (truncated) VERDICT from the interval test.
-Honest scope: current-probe instance at the Heron demonstration scale/budget (L=6, U=4); the device is NOT
-load-bearing at this classically-reproducible scale (full-sector recovery) -- this closes the interval machinery,
-it does not manufacture device-essentiality (that is Route B / gate design).
+"""INTERVAL-MOMENT CLOSURE ($0): the lone first-moment test with a shot-budget threshold instead of a fixed 5%
+line. The threshold tau_1 = z*delta_1 uses N_s = 5x10^4 shots, the per-circuit budget of the companion's ibm_fez
+run (arXiv:2608.16436; 7 circuits x 5x10^4 = 3.5x10^5 shots in total), the ground-state local-estimator variance
+(a LOWER bound on the per-shot variance) and an ASSUMED 2% bias budget. It gives a pass/reject verdict for the
+full reconstruction and for determinant truncations on a 22-point grid.
+Scope: an exact-state forecast, not a hardware test. m_hat_1 is the exact moment (no shots are drawn; see
+interval_moment_mc.py for the sampled version); the instance is the L=6, U/t=4 current probe, a classically
+reproducible scale at which the companion's device run recovered the full sector. m1 alone misses whole windows
+of truncations (interval_battery.py scans every d; the joint battery is a partial remedy, not a guarantee).
 
 Truncation order (2026-09-27, plan item R7): the top-d determinants are ranked by |psi0|^2 with a DETERMINISTIC
 tie-break, np.lexsort((index, -round(|psi0|^2, 12))): descending probability, then ascending sector index. The
@@ -22,11 +24,11 @@ import numpy as np, json, os, sys, platform
 import scipy
 import spectral_lanczos as sl
 
-L, U, Ns = 6, 4.0, 50000            # Heron demonstration scale + REAL ibm_fez shot budget
+L, U, Ns = 6, 4.0, 50000            # the companion's L=6 system; per-circuit shots of its ibm_fez run
 z = 1.96                            # 95% interval
 b_frac = 0.02                       # ASSUMED residual-bias budget as a fraction of m1 (not measured). The ibm_fez
                                     # runs used measurement twirling, Pauli gate twirling and dynamical decoupling;
-                                    # no readout-error mitigation was applied ("TREX" in the draft is a misnomer).
+                                    # no readout-error mitigation was applied.
 ROUND = 12                          # decimals used to identify exactly degenerate |psi0|^2 shells
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.normpath(os.path.join(HERE, '..', 'data'))
@@ -59,7 +61,7 @@ mean_loc = float(np.sum(p * O1loc))                     # == m1_op (check)
 var_loc = float(np.sum(p * O1loc ** 2) - mean_loc ** 2) # local-estimator variance
 sigma_shot = np.sqrt(max(var_loc, 0.0) / Ns)
 bias = b_frac * abs(m1_op)
-delta1 = z * np.sqrt(sigma_shot ** 2 + bias ** 2)       # the robust interval half-width (REAL 50k-shot budget)
+delta1 = z * np.sqrt(sigma_shot ** 2 + bias ** 2)       # the interval half-width tau_1 at N_s = 5e4 shots
 
 # --- deterministic truncation order: descending |psi0|^2, ties by ascending sector index (R7) ---
 prob = np.abs(psi0) ** 2
@@ -105,7 +107,7 @@ if os.path.isfile(_cpath):
                            'verdict_lexsort': v, 'm1_trunc_changed': bool(abs(c['m1_trunc'] - m1t) > 1e-9),
                            'verdict_changed': bool(c['verdict'] != v)})
 
-print("=== INTERVAL-MOMENT CLOSURE (real 50k-shot budget, ibm_fez) -- deterministic lexsort truncation order ===")
+print("=== INTERVAL-MOMENT CLOSURE (exact-state forecast at N_s = 5e4) -- deterministic lexsort truncation order ===")
 print(f"L={L} U={U}  sector={Du*Dd}  n_support={nsup}  E0={E0:.4f}")
 print(f"independent m1_op = {m1_op:.5f}   m0=<J^2> = {m0:.4f}   (local-est check {mean_loc:.5f})")
 print(f"local-estimator var = {var_loc:.4f}  -> shot sigma(50k) = {sigma_shot:.5f}")
@@ -117,12 +119,12 @@ for d, cov, m1t, gap, v in rows:
     sh = shell_at_cut(d)
     tag = f"inside {sh['shell_size']}-fold shell, {sh['n_kept_from_shell']} kept" if sh['cut_inside_shell'] else 'shell boundary'
     print(f" {d:6d}  {100*cov:5.1f}   {m1t:8.4f}  {gap:8.4f}   {v:11s} {tag}")
-print(f"\nHONEST FRAMING (per adversarial verify wf_e83094d3-0bd): this is a SHOT-BUDGET-INFORMED FORECAST of the")
-print(f"robust interval-moment screen at the ibm_fez scale/budget, computed as a MODEL on the EXACT state (device")
-print(f"counts unsaved). shot term = ground-state local-estimator variance (a LOWER BOUND on true per-shot")
-print(f"uncertainty); bias term = an ASSUMED 2% residual (swept, not measured); the interval is {100*delta1/abs(m1_op):.1f}% of m1.")
-print(f"A WIDER real interval only makes the refutation-only screen MORE conservative (fewer, safer rejects). The gap")
-print(f"here is vs the EXACT oracle m1_op (a calibration at accessible scale), NOT the deployable same-sample falsifier.")
+print(f"\nSCOPE: a SHOT-BUDGET-INFORMED FORECAST of the interval-moment screen at the ibm_fez per-circuit budget,")
+print(f"computed on the EXACT state (no moment was measured on a device; the companion's counts are not deposited).")
+print(f"shot term = ground-state local-estimator variance (a LOWER BOUND on the true per-shot uncertainty); bias term")
+print(f"= an ASSUMED 2% residual (not measured); the interval is {100*delta1/abs(m1_op):.1f}% of m1. A wider real interval")
+print(f"makes the screen more conservative (fewer rejects, hence fewer catches). The gap is taken against the EXACT")
+print(f"oracle m1_op (a calibration at an accessible scale), not against an estimate from device samples.")
 _r98 = [r for r in rows if r[0] == 98]
 if _r98:   # computed in this run
     sh = shell_at_cut(98)
@@ -134,20 +136,24 @@ if comparison:
     ch = [c['d'] for c in comparison if c['verdict_changed']]
     mv = [c['d'] for c in comparison if c['m1_trunc_changed']]
     print(f"vs committed {COMMITTED}: m1_trunc changed at d={mv}; verdict changed at d={ch if ch else 'none'}")
-print(f"A lone moment can miss a truncation (interval_battery.py scans every d); the joint (m0,m1,m2)+Hankel battery")
-print(f"is the remedy, not a guarantee. Device NOT load-bearing at this full-sector scale.")
+print(f"A lone moment can miss a truncation (interval_battery.py scans every d). The joint (m0,m1,m2)+Hankel battery")
+print(f"is a partial remedy, not a guarantee: at 2% bias it still passes 12 truncations (interval_battery.py).")
 
 runtime = time.time() - T_START
 out = {'_provenance': {'script': 'src/interval_moment.py', 'date': '2026-09-27', 'plan_item': 'R7/M7',
-       'scale': 'L=6 U=4 current-probe, Heron demonstration scale',
+       'scale': "L=6 U=4 current probe (the size of the companion's ibm_fez run)",
        'shot_budget': Ns, 'backend': 'ibm_fez (arXiv:2608.16436)',
+       'shot_budget_note': "per-circuit budget of the companion's ibm_fez run (7 circuits x 5e4 = 3.5e5 shots in "
+                           "total); no moment was measured on hardware",
        'truncation_order': f'np.lexsort((index, -np.round(|psi0|^2, {ROUND}))): descending probability, '
                            'ties by ascending sector index (deterministic convention)',
        'seed': 'none drawn; spectral_lanczos._sub_gs seeds the eigsh start vector with default_rng(0)',
        'runtime_s': round(runtime, 2), 'python': sys.version.split()[0], 'numpy': np.__version__,
        'scipy': scipy.__version__, 'platform': platform.platform(),
        'supersedes_for_ordering': f'data/{COMMITTED} (argsort, platform-dependent ties; kept unchanged)',
-       'honest_scope': 'closes the robust interval-moment gap; device NOT load-bearing at this full-sector-recovery scale'},
+       'scope': 'exact-state forecast of the lone-m1 interval test (m_hat_1 = exact moment, no shots drawn); shot term '
+                'is a lower bound, bias is assumed; a lone moment misses whole windows of truncations and the joint '
+                'battery is a partial remedy (interval_battery.py)'},
        'm1_op': m1_op, 'm0': m0, 'var_loc': var_loc, 'sigma_shot': sigma_shot, 'bias': bias, 'b_frac': b_frac,
        'z': z, 'delta1': delta1, 'delta1_pct': 100*delta1/abs(m1_op), 'nsup': nsup, 'd_reject_max': d_reject_max,
        'truncated_grid_points_not_rejected_by_m1': misses,

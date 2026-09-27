@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""DIRECT MONTE-CARLO DEMONSTRATION of the interval-moment test at the real ibm_fez
-shot budget (converts the App-B *forecast* into a *demonstrated-in-simulation* result).
-SIM-ONLY, zero QPU: shots are drawn from the exact-state distribution p_x=|<x|0>|^2 --
-device bitstring counts were not retained -- so this CALIBRATES the analytic interval at a
-classically reproducible scale; it does not certify a device line shape.
+"""MONTE-CARLO CHECK of the interval-moment test at N_s = 5x10^4 shots, the per-circuit budget of
+the companion's ibm_fez run (turns the App-B analytic forecast into a sampled simulation).
+SIM-ONLY, zero QPU: shots are drawn from the exact-state distribution p_x=|<x|0>|^2 (the companion's
+device bitstring counts are not deposited, and no moment was measured on hardware), so this CALIBRATES
+the analytic interval at a classically reproducible scale; it does not certify a device line shape.
 
 Reuses the exact sector/ground-state/local-estimator block of interval_moment.py, then:
   (i)   validates the analytic Gaussian interval (realized std vs analytic; skew/kurtosis),
@@ -11,7 +11,7 @@ Reuses the exact sector/ground-state/local-estimator block of interval_moment.py
   (iii) measures detection power vs determinant coverage on synthetic truncated reconstructions,
         on the 22-point log grid of the committed figure AND on every truncation d = 1..n_sup-1,
   (iv)  gives a ROC at d=98 (the committed "hard case") and at the lowest-power truncations found.
-Honest scope unchanged: refutation-only, necessary-not-sufficient, one probe (m1); the
+Scope: a necessary test that can only reject, one probe (m1); the
 (m0,m1,m2)+Hankel battery (interval_battery.py) is a partial remedy for a lone-moment miss, not a guarantee.
 
 Truncation order (2026-09-27, plan item R7): np.lexsort((index, -round(|psi0|^2, 12))), i.e. descending
@@ -28,7 +28,7 @@ import numpy as np
 import scipy, scipy.sparse as sp
 import spectral_lanczos as sl
 
-L, U, Ns = 6, 4.0, 50000          # Heron demonstration scale + REAL ibm_fez shot budget
+L, U, Ns = 6, 4.0, 50000          # the companion's L=6 system; per-circuit shots of its ibm_fez run
 z = 1.96                          # 95% two-sided
 M = 4000                          # Monte-Carlo replicas of the N_s-shot estimator
 SEED = 1

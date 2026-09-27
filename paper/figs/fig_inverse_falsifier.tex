@@ -1,22 +1,29 @@
 % fig_inverse_falsifier.tex -- native pgfplots (figure*, full width).
-% The negative-order (inverse) f-sum moment m_{-1}=int A_J(omega)/omega domega as a LOW-frequency falsifier.
+% The negative-order (inverse) f-sum moment m_{-1}=int A_J(omega)/omega domega beside m_1, m_2 under the same corruption.
 % Flagship doped L=12 Hubbard ring (PBC, 2/3 filling, U/t=8), sector-Lanczos current spectral function.
 % Data: run_inverse_moment_falsifier.py -> inverse_falsifier_spectrum.dat, inverse_falsifier_sweep.dat.
+% 2026-09-27 revision (R8/M6): panel (b) shows RELATIVE shifts Delta_k/m_k, which are not detection power. m_{-1} moves
+% most (154% at f=0.5, vs 38% for m_1 and 47% for m_2) but rejects LAST under the deployed rule, because its threshold
+% is 61% of m_{-1} (a 94% cancellation between (1/2)<-T> and the Kohn stiffness D) while tau_1/m_1 = tau_2/m_2 = 4.3%.
+% The dashed 5% line is a common relative guide, not the deployed threshold; the dotted oxblood line is the deployed
+% tau_{-1}/m_{-1} = 0.6094 (data/2026-09-27_theory_numerics.json, R8_inverse_moment_sensitivity.ring.
+% tau_full_rule_over_m), which the m_{-1} curve crosses at f = 0.198 (f_star_full_rule).
 \begin{tikzpicture}
 \begin{groupplot}[
   group style={group size=2 by 1, horizontal sep=2.7cm},
   paperaxis, width=8.3cm, height=6.2cm,
+  axis on top=false,   % grid below data and labels (on top, grid lines cut through label text)
 ]
-% ---- panel (a): the spectrum and the 1/omega falsifier kernel ----
+% ---- panel (a): the spectrum and the 1/omega kernel ----
 \nextgroupplot[
   xlabel={$\omega$ \; (energy above ground state, $t$)},
   ylabel={current spectral weight $A_J(\omega)$},
   xmin=0, xmax=15, ymin=0, ymax=1.42,
   ytick={0,0.5,1},
-  title={\small\textbf{(a)} the inverse kernel $1/\omega$ weights the depleted low-$\omega$ region},
+  title={\small\textbf{(a)} the kernel $1/\omega$ weights low frequencies},
   clip=false,
 ]
-  % the 1/omega falsifier kernel (rescaled to the axis), shaded: shows where m_{-1} is most sensitive
+  % the 1/omega kernel (rescaled to the axis), shaded: shows where m_{-1} is most sensitive
   \addplot[pTeal, densely dotted, line width=0.9pt, fill=pTeal, fill opacity=0.06]
       table[x=omega,y=kernel]{figs/inverse_falsifier_spectrum.dat} \closedcycle;
   % true spectrum: the mid-IR / Mott band carries essentially all the regular weight (low-omega empty)
@@ -28,21 +35,24 @@
       {true $A_J(\omega)$\\ (mid-IR band)};
   \node[pOx, font=\small, anchor=west, align=left] at (axis cs:3.35,1.20) {spurious low-$\omega$\\ (Drude-like) peak};
   \draw[pOx, -{Stealth[length=1.4mm]}, line width=0.5pt] (axis cs:3.20,1.12) -- (axis cs:2.75,1.20);
-  \node[pTeal, font=\scriptsize, anchor=west, align=left] at (axis cs:4.2,0.66) {falsifier kernel\\ $1/\omega$};
+  \node[pTeal, font=\scriptsize, anchor=west, align=left] at (axis cs:4.2,0.66) {kernel\\ $1/\omega$};
   \draw[pTeal, -{Stealth[length=1.2mm]}, line width=0.4pt] (axis cs:4.3,0.50) -- (axis cs:4.3,0.13);
 % ---- panel (b): relative discrepancies vs misplaced weight fraction ----
 \nextgroupplot[
-  xlabel={weight fraction misplaced to spurious low-$\omega$ peak (\%)},
+  xlabel={weight moved to the spurious peak, $f$ (\%)},
   ylabel={relative moment discrepancy $\Delta_k/m_k$ (\%)},
   xmin=0, xmax=50, ymin=-20, ymax=165,
   ytick={0,50,100,150},
-  title={\small\textbf{(b)} the inverse moment moves ${\sim}4\times$ more than $m_1$},
+  title={\small\textbf{(b)} relative shifts (not detection power)},
   clip=false,
 ]
+  % common 5% relative guide (NOT the deployed rule; deployed tau_1/m_1 = tau_2/m_2 = 4.3%)
   \addplot[threshold, forget plot] coordinates {(0,5) (50,5)};
-  % inverse moment: fires hardest
+  % deployed threshold of the inverse moment: tau_{-1}/m_{-1} = 60.94% (R8, full rule)
+  \addplot[pOx, densely dotted, line width=0.9pt, forget plot] coordinates {(0,60.94) (50,60.94)};
+  % inverse moment: largest relative shift
   \addplot[firesline] table[x=f,y=dm1]{figs/inverse_falsifier_sweep.dat};
-  % positive moments: modest
+  % positive moments
   \addplot[pIndigo, very thick, mark=triangle*, mark options={fill=pIndigo}]
       table[x=f,y=d2]{figs/inverse_falsifier_sweep.dat};
   \addplot[pMuted, thick, mark=diamond*, mark options={fill=white, draw=pMuted}]
@@ -52,11 +62,14 @@
   % inverse-moment label: upper-left empty wedge, above the steep inverse line
   \node[pOx, font=\small, anchor=south west, align=left] at (axis cs:2,132)
       {inverse moment $m_{-1}$\\ ($\Delta_{-1}/m_{-1}$)};
-  % positive-moment labels: at the right ends of their (shallow) lines
-  \node[pIndigo, font=\scriptsize, anchor=south east] at (axis cs:44,49) {$m_2$};
+  % deployed-threshold label for m_{-1}: left end of its dotted line, where the m_{-1} curve is still far below
+  \node[pOx, font=\scriptsize, anchor=south west, inner sep=1.5pt] at (axis cs:0.6,61.5)
+      {deployed $\tau_{-1}/m_{-1}$};
+  % positive-moment labels: m_2 above its line at f=36%, m_1 below its line at the right end
+  \node[pIndigo, font=\scriptsize, anchor=south] at (axis cs:36,38) {$m_2$};
   \node[pMuted, font=\scriptsize, anchor=north west] at (axis cs:44,30) {$m_1$};
-  % threshold label: right gap between the y=5 line and the shallow m_1 line
-  \node[pMuted, font=\scriptsize, anchor=west] at (axis cs:24,14) {$5\%$ threshold};
+  % guide label: right end, in the gap between the y=5 line and the m_1 line
+  \node[pCrimson, font=\scriptsize, anchor=south east, inner sep=1.5pt] at (axis cs:49.5,6.5) {$5\%$ relative guide};
   % blind label: centered in the widened empty strip below the m_0 line, clear of the x-axis
   \node[pBlind, font=\small] at (axis cs:25,-11)
       {total weight $m_0=\langle J^2\rangle$ (blind)};

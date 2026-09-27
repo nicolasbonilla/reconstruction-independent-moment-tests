@@ -15,7 +15,10 @@ Keys written by THIS script (the others are written by the scripts listed in KEY
                        that bond_moment_estimator.py actually uses (open chain, global Fock-space ground state).
   M5_christoffel_claims, M6_inverse_moment_claim   derived summaries of keys R4/R9 and R8 (no new physics).
 
-Run the whole A3 set (writes every key, ~2-4 min on a laptop):   cd src && python small_checks.py --all
+Run the whole A3 set (writes every key; 14-15 min on the authors' laptop in the 2026-09-27 runs, of which
+christoffel_tolerance_lp.py, export_christoffel_dat.py, necessary_sufficient_composition.py,
+run_inverse_moment_falsifier.py --r8 and this script's own R11/m4 keys take 2-3 min each):
+                                                                 cd src && python small_checks.py --all
 Run only this script's keys:                                     cd src && python small_checks.py
 No random numbers are drawn here (seed = none); eigensolvers are dense or started from a fixed vector.
 """

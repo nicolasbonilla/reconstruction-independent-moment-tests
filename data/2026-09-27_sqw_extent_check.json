@@ -1,0 +1,138 @@
+{
+ "_provenance": {
+  "script": "src/check_sqw_extent.py",
+  "date": "2026-09-27",
+  "plan_item": "B9",
+  "inputs": [
+   "src/cache/sqw_L12.npz",
+   "paper/figs/sqw_deltac.dat",
+   "paper/figs/sqw_extent.dat"
+  ],
+  "seed": null,
+  "python": "3.11.4",
+  "numpy": "1.26.4",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "runtime_s": 0.566
+ },
+ "eta_c": 0.2,
+ "eta_s": 0.12,
+ "U": 8.0,
+ "L": 12,
+ "onset_rule": "lowest omega with max_q S_charge > 5% of its global maximum (export_sqw_dat.py)",
+ "onset_recomputed": 5.71244635193133,
+ "onset_in_sqw_deltac_dat": 5.7124,
+ "onset_matches_dat": true,
+ "extent_true": {
+  "charge_wmax": 11.0,
+  "spin_wmax": 2.6
+ },
+ "display": {
+  "gamma": 0.62,
+  "vmax_99p5_percentile": 1.3344080454885547,
+  "global_max": 1.9146953080841873
+ },
+ "charge_below_onset_line": {
+  "true_extent_0_11t (current)": {
+   "max_display_value_drawn_below_onset": 0.19372893141822722,
+   "true_omega_range_drawn_below_onset": [
+    0.0,
+    5.696709585121602
+   ]
+  },
+  "stretched_to_10t (before 2026-09-27)": {
+   "max_display_value_drawn_below_onset": 0.22173265289356087,
+   "true_omega_range_drawn_below_onset": [
+    0.0,
+    6.278969957081545
+   ]
+  }
+ },
+ "charge_below_onset_profile_true_extent": [
+  {
+   "omega_range": [
+    0.0,
+    4.0
+   ],
+   "max_display": 0.030977167828459922,
+   "at_omega": 3.9971387696709586,
+   "at_q": 1.0,
+   "linear_fraction_of_vmax": 0.0036829540828817535
+  },
+  {
+   "omega_range": [
+    4.0,
+    5.0
+   ],
+   "max_display": 0.04944833822428986,
+   "at_omega": 4.988555078683834,
+   "at_q": 0.3333333333333333,
+   "linear_fraction_of_vmax": 0.007830564413284249
+  },
+  {
+   "omega_range": [
+    5.0,
+    5.5
+   ],
+   "max_display": 0.11098193005214066,
+   "at_omega": 5.4921316165951355,
+   "at_q": 0.16666666666666666,
+   "linear_fraction_of_vmax": 0.0288459144821557
+  },
+  {
+   "omega_range": [
+    5.5,
+    5.71244635193133
+   ],
+   "max_display": 0.19372893141822722,
+   "at_omega": 5.696709585121602,
+   "at_q": 1.8333333333333333,
+   "linear_fraction_of_vmax": 0.07084573041460157
+  }
+ ],
+ "window_clipping": {
+  "charge": {
+   "window": 10.0,
+   "fraction_clipped_all_q": 0.06251122760743448,
+   "fraction_clipped_worst_q": 0.08503594924819333,
+   "worst_q": 1.6666666666666667
+  },
+  "spin": {
+   "window": 2.4,
+   "fraction_clipped_all_q": 0.0025147383190037807,
+   "fraction_clipped_worst_q": 0.0029433383077910064,
+   "worst_q": 0.5
+  }
+ },
+ "spin_peaks": {
+  "q": [
+   0.16666666666666666,
+   0.3333333333333333,
+   0.5,
+   0.6666666666666666,
+   0.8333333333333334,
+   1.0,
+   1.1666666666666667,
+   1.3333333333333333,
+   1.5,
+   1.6666666666666667,
+   1.8333333333333333
+  ],
+  "peak_omega_true": [
+   0.3793991416309013,
+   0.6695278969957081,
+   0.8034334763948499,
+   0.7439198855507869,
+   0.509585121602289,
+   0.16738197424892703,
+   0.509585121602289,
+   0.7439198855507869,
+   0.8034334763948499,
+   0.6695278969957081,
+   0.3793991416309013
+  ],
+  "max_offset_drawn_vs_true_stretched_to_2p4t": 0.06180257510729614,
+  "max_offset_drawn_vs_true_true_extent": 0.0,
+  "half_pixel_omega_spin": 0.0018597997138769672,
+  "half_pixel_omega_charge": 0.007868383404864092
+ }
+}

@@ -4,6 +4,10 @@
 % shows the power at EVERY truncation d (momentmc_power_scan.dat) under the 22-point log grid
 % (momentmc_power.dat): the grid missed three narrow blind windows where the lone-m1 power falls to alpha.
 % The +/- z sigma band of panel (a) is read from momentmc_scalars.dat (m1op +/- thr) instead of hard-coded.
+% 2026-09-27 (figure pass): (a) title made descriptive (was 'the analytic interval is faithful'); the dashed band is
+% the SHOT-ONLY +/- z sigma_shot = +/- 0.158 (thr in momentmc_scalars.dat), narrower than the deployed tau_1 = 0.229 that
+% adds the 2% bias budget (caption). (b) x axis is d/186, the retained fraction of the ground state's 186-determinant
+% support (was d/|S|, which clashed with the sampled set S of App. B).
 \pgfplotstableread[header=false]{figs/momentmc_scalars.dat}\mcscalars
 \pgfplotstablegetelem{0}{[index]1}\of\mcscalars\edef\mcMop{\pgfplotsretval}
 \pgfplotstablegetelem{2}{[index]1}\of\mcscalars\edef\mcThr{\pgfplotsretval}
@@ -13,13 +17,14 @@
 \begin{groupplot}[
   group style={group size=2 by 1, horizontal sep=2.05cm},
   paperaxis, width=0.48\textwidth, height=5.4cm,
-  ytick pos=left]   % no right-side ticks: they pointed into the gap and touched panel (b)'s y label
+  ytick pos=left,   % no right-side ticks: they pointed into the gap and touched panel (b)'s y label
+  axis on top=false]   % grid below data and labels (on top, grid lines cut the histogram bars and the power line)
 
 % ---------- (a) realized estimator is Gaussian; FP matches nominal ----------
 \nextgroupplot[
   xlabel={realized estimator $\widehat m_1$ over $N_s{=}5{\times}10^4$ shots},
   ylabel={Monte-Carlo count ($M{=}4000$)},
-  title={(a) the analytic interval is faithful},
+  title={(a) realized $\widehat m_1$ vs.\ Gaussian model},
   xmin=3.95, xmax=4.51, ymin=0, ymax=460,
   ytick={0,100,200,300,400},
   legend style={at={(0.985,0.97)},anchor=north east,font=\scriptsize,draw=none,fill=none},
@@ -32,13 +37,13 @@
 \addplot[pCrimson, line width=0.9pt, dashed, forget plot] coordinates {(\mcLo,0)(\mcLo,300)};
 \addplot[pCrimson, line width=0.9pt, dashed, forget plot] coordinates {(\mcHi,0)(\mcHi,300)};
 \node[pCrimson, font=\scriptsize, anchor=south, align=center] at (axis cs:\mcMop,306)
-  {$\pm z\sigma$ threshold band};
+  {shot-only $\pm z\sigma_{\mathrm{shot}}$ band};
 \node[pOx, font=\scriptsize, anchor=north west, align=left] at (axis cs:3.965,440)
   {realized FP\\ $4.5\%$ vs $5\%$};
 
 % ---------- (b) detection power vs determinant coverage ----------
 \nextgroupplot[
-  xlabel={determinant coverage $d/|\mathcal{S}|$ (\%)},
+  xlabel={coverage $d/186$ of the ground-state support (\%)},
   ylabel={detection power $P(\mathrm{reject})$},
   title={(b) power vs coverage},
   xmin=0, xmax=102, ymin=-0.03, ymax=1.12,

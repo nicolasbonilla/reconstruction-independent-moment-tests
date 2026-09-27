@@ -1,10 +1,10 @@
 {
   "_provenance": {
-    "script": "src/run_falsifier_teeth.py",
+    "script": "A_payload_echoes/03_src/run_falsifier_teeth.py",
     "date": "2026-08-18",
     "params": "doped Hubbard ring L=6, U=8.0",
-    "claim": "exact simulation, idealised (independent branch on the full exact ground state): the independent ground-state estimator separates from the truncated reconstruction as coverage drops, while the back-computed check is identically zero",
-    "wording_note": "2026-09-27: provenance and verdict strings rescoped (script path, internal workflow identifier removed, idealisation stated); numbers unchanged",
+    "board": "wf_00831cb3-9d6",
+    "claim": "independent ground-state estimator has TEETH on subspace-truncation error; back-computed is circular/blind",
     "honest_blind_spot": "coherent/symmetry-preserving device noise corrupts direct estimator and spectrum identically -> screens ONE error class (subspace truncation / Lehmann-weight misassignment), NOT device noise generally"
   },
   "m1_direct_operator": 12.365350614153428,
@@ -143,6 +143,6 @@
     "residual_independent_worst": 1.0,
     "residual_circular_worst": 0.0,
     "teeth_confirmed": true,
-    "verdict": "Teeth on this error class: the independent ground-state estimator (exact, on the full ground state) fires on subspace truncation (residual grows to 100.0% at the lowest coverage) while the back-computed check is blind (0). Idealised exact-state demonstration; blind spot stated."
+    "verdict": "TEETH CONFIRMED: the INDEPENDENT ground-state estimator fires on subspace truncation (residual grows to 100.0% at 20% coverage) while the back-computed check is blind (0). The reconstruction-independent kernel is NOT circular on this error class. Honest blind spot stated."
   }
 }

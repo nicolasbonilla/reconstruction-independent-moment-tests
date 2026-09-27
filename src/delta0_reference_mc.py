@@ -2,8 +2,11 @@
 r"""
 Reference distributions for the device coverage residual Delta_0 (plan R1; blocking items B2, B3, B4).
 
-What the ibm_fez L=8 run supplies is ONLY the post-selected support S of 7 Krylov--Trotter circuits
-(hardware_matched_job_L8.py). Delta_0 = |m0 - m0_bar(S)| is the exact weight of phi = c^dag_{0,up}|0>
+What the ibm_fez L=8 run supplies is ONLY the post-selected support S of 7 sampling circuits
+(hardware_matched_job_L8.py): an X-gate product determinant followed by three layers of on-site R_zz and
+nearest-neighbour R_xx R_yy hopping (periodic wrap), without Jordan-Wigner strings, circuit k=0 being the bare
+determinant. They are number- and S_z-conserving samplers of the addition sector, not the Hubbard propagator
+of c^dag|psi0>, and no moment is estimated from their counts. Delta_0 = |m0 - m0_bar(S)| is the exact weight of phi = c^dag_{0,up}|0>
 missed by S. This script asks what Delta_0 (and |S|, Delta_1, rel_L1) look like for reference samplers
 evaluated with the SAME post-selection and the SAME falsifier arithmetic, so the device values can be
 read against distributions instead of against a single Aer seed or an analytic sigma.
@@ -46,8 +49,10 @@ independence). Both Monte Carlo comparators are reported: sd(i) raw-matched and 
 Output: data/2026-09-27_delta0_reference_mc.json  (new file; no existing data file is touched).
 Figure data: src/export_device_dat.py reads that JSON and writes paper/figs/device_*.dat.
 
-USAGE (0 QPU):  python src/delta0_reference_mc.py        (about 10 min on 2 BLAS threads)
-Env overrides: SEED, R_RAW, R_KEPT, R_MIX, R_UNI, R_REL_RAW, R_REL_KEPT, R_REL_UNI, LANCZOS_M.
+USAGE (0 QPU):  python src/delta0_reference_mc.py        (7-20 min: 7.2 min on 2 BLAS threads, 19.3 min under load)
+Env overrides: SEED, R_RAW, R_KEPT, R_MIX, R_UNI, R_REL_RAW, R_REL_KEPT, R_REL_UNI, LANCZOS_M. (SEED is also read
+by the imported hardware_matched_job_L8.py, but only in its Aer dry run, which is behind a __main__ guard and
+is not executed here; it does not affect this script's draws.)
 """
 import os, sys, json, time, zlib, hashlib, platform, importlib.util
 import numpy as np

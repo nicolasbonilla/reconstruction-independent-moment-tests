@@ -73,7 +73,8 @@ def main():
     print(f'doped ground state: filling N={Nfill:.2f} (half-filling={L}), doping={100*(L-Nfill)/L:.0f}% holes, mu={mu_used}, '
           f'H-variance={var_H:.1e} (clean eigenstate if ~0)')
 
-    # operator sum rules (ground-state expectations; transportable, sample-computable)
+    # operator sum rules (ground-state expectations, evaluated exactly here; on a device the off-diagonal
+    # J and H would need rotated-basis measurements, not computational-basis samples alone)
     Jpsi = J @ psi0
     m0_op = float(np.real(np.vdot(Jpsi, Jpsi)))                       # <J^2>
     HJpsi = Ham @ Jpsi
@@ -116,10 +117,16 @@ def main():
     s_m1 = abs(m1_spec - m1_op) / m1_op
     falsifier_works = (res[-1]['m0_residual'] < 1e-6) and (res[-1]['m1_residual'] > 0.05)
 
-    out = {'_provenance': {'script': 'A_payload_echoes/03_src/run_sumrule_falsifier.py', 'date': DATE,
-                           'params': f'Hubbard ring L={L}, U={U}, PBC, half-filling', 'synthesis': 'wf_f9d5da8c-515 rank-1',
-                           'claim': 'transportable sum-rule falsifier: total-weight (m0) sum rule blind to Drude/mid-IR split; first-moment falsifies it',
-                           'relabel_note': '2026-09-26: m0 was mislabelled the f-sum; the optical f-sum is m_-1 (see manuscript)'},
+    out = {'_provenance': {'script': 'src/run_sumrule_falsifier.py', 'date': DATE,
+                           'params': f'Hubbard ring L={L}, U={U}, PBC, hole-doped ground state (N={Nfill:.2f}, '
+                                     f'selected by the chemical-potential scan, mu={mu_used})',
+                           'claim': 'exact classical simulation, no hardware: the total-weight (m0) sum rule is blind '
+                                    'to a Drude/mid-IR redistribution that preserves m0; the first-moment (m1) sum rule '
+                                    'flags it; a necessary condition only (a pass is not a certificate)',
+                           'relabel_note': '2026-09-26: m0 was mislabelled the f-sum; the optical f-sum is m_-1 (see manuscript)',
+                           'wording_note': '2026-09-27: provenance strings rescoped (the script path, the filling, which '
+                                           'is hole-doped and not half filling, and the claim/verdict wording; an '
+                                           'internal workflow identifier removed); every number unchanged'},
            'sum_rules': {'m0_operator_<J^2>': m0_op, 'm1_operator_half<[J,[H,J]]>': m1_op,
                          'm0_spectrum': m0_spec, 'm1_spectrum': m1_spec,
                          'm0_match_residual': s_m0, 'm1_match_residual': s_m1},
@@ -128,8 +135,9 @@ def main():
            'distortion_sweep': res,
            'summary': {'true_spectrum_satisfies_both_sumrules': bool(s_m0 < 1e-6 and s_m1 < 1e-6),
                        'falsifier_works': bool(falsifier_works),
-                       'verdict': ('FALSIFIER CONFIRMED: a wrong Drude/mid-IR split passes the total-weight (m0) sum rule (m0 residual ~0) '
-                                   'but the first-moment sum rule (m1) flags it -> m0-blind / m1-detects.'
+                       'verdict': ('m0-blind / m1-detects: a wrong Drude/mid-IR split passes the total-weight (m0) sum '
+                                   'rule (m0 residual ~0) but the first-moment sum rule (m1) flags it (relative residual '
+                                   'above a 5% guide line; exact simulation, no shot noise).'
                                    if falsifier_works else 'INSPECT')}}
     os.makedirs(RES, exist_ok=True); os.makedirs(FIG, exist_ok=True)
     jpath = os.path.join(RES, f'{DATE}_sumrule_falsifier.json')
@@ -152,19 +160,19 @@ def main():
     # (b) sum-rule residuals vs distortion
     ax[1].plot(fs, [r['m0_residual'] for r in res], 's-', color='#1e8449', lw=2, label=r'$m_0$ (total-weight) residual')
     ax[1].plot(fs, [r['m1_residual'] for r in res], 'o-', color='#8e44ad', lw=2, label=r'$m_1$ (first-moment) residual')
-    ax[1].axhline(0.05, color='#c0392b', ls='--', lw=1, label='falsification threshold')
-    ax[1].set_title('(b) the first-moment sum rule FALSIFIES what the total-weight (m0) sum rule misses', fontsize=10.5)
+    ax[1].axhline(0.05, color='#c0392b', ls='--', lw=1, label='relative 5% guide')
+    ax[1].set_title('(b) the first-moment sum rule flags what the total-weight (m0) sum rule misses', fontsize=10.5)
     ax[1].set_xlabel('weight fraction moved mid-IR → Drude'); ax[1].set_ylabel('relative sum-rule residual')
     ax[1].legend(fontsize=8.5)
     for a in ax:
         a.grid(alpha=0.25)
-    fig.suptitle(f'TRANSPORTABLE SUM-RULE FALSIFIER — Hubbard ring L={L}, U={U} (m0-blind / m1-detects)',
+    fig.suptitle(f'Sum-rule check (exact simulation) — Hubbard ring L={L}, U={U} (m0-blind / m1-detects)',
                  y=1.02, fontsize=11)
     fig.tight_layout()
     ppath = os.path.join(FIG, f'{DATE}_sumrule_falsifier.png')
     fig.savefig(ppath, dpi=140, bbox_inches='tight')
 
-    print('=== TRANSPORTABLE SUM-RULE FALSIFIER ===')
+    print('=== SUM-RULE CHECK (exact classical simulation; no hardware) ===')
     print(f'operator sum rules:  m0=<J^2>={m0_op:.4f}   m1=(1/2)<[J,[H,J]]>={m1_op:.4f}')
     print(f'spectrum moments:    m0={m0_spec:.4f} (res {s_m0:.1e})   m1={m1_spec:.4f} (res {s_m1:.1e})  <- sanity: true spectrum obeys BOTH')
     print(f'Drude/mid-IR split at omega={om_split:.2f}:  W_Drude={W_lo:.3f} @ {obar_lo:.2f},  W_midIR={W_hi:.3f} @ {obar_hi:.2f}')

@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """ACTION 3 (4/4) -- UNBLIND and score. Joins frozen verdicts with sealed labels; reports
-confusion, TPR/FPR with Wilson 95% CIs, and the per-mode catch rate (the honest picture:
-high for trunc / nl=1 krylov / non-preserving ac; low BY DESIGN for nl>=2 krylov and
-m0-preserving ac)."""
+confusion, TPR/FPR with Wilson 95% CIs, and the per-mode and per-subclass catch rates.
+The sealed pre-registration EXPECTED high catch rates for trunc, nl=1 krylov and weight-changing
+ac, and low ones for nl>=2 krylov and m0-preserving ac. Two of those secondary predictions FAILED:
+nl=1 krylov was caught 0/15, and m0-preserving ac 20/34, an outcome the pre-registration did not
+anticipate (not a designed capability). The summary printed below is computed from the data."""
 import os, json, math
 from collections import defaultdict
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -54,12 +56,21 @@ def main():
     print("\nper-subclass (the honest blind spots):")
     for s in sorted(per_sub):
         r, n = per_sub[s]; print(f"   {s:18s}: {r}/{n} = {r/n:.2f}")
-    print("\nHONEST READ: support-truncation is caught 100%; spurious-feature (ac) 74%; under-")
-    print("converged Krylov 0% at ALL nl. The sealed prereg's secondary guess that nl=1 Krylov")
-    print("would be caught is REFUTED by the data (that is what pre-registration is for): a")
-    print("Lanczos reconstruction matches m0,m1,m2 to within the 2% assumed-bias threshold BY")
-    print("CONSTRUCTION, so the moment battery is blind to it. The screen is a detector of")
-    print("support/structure errors and spurious features, NOT of moment-preserving errors.")
+    def _r(key):
+        r, n = per_sub.get(key, (0, 0))
+        return f"{r}/{n}"
+    kry = [per_sub[s] for s in per_sub if s.startswith('krylov')]
+    kr, kn = sum(r for r, _ in kry), sum(n for _, n in kry)
+    print("\nSUMMARY (computed above): support truncation " + _r('trunc') + "; spurious feature (ac) "
+          f"{per_mode['ac'][0]}/{per_mode['ac'][1]} (weight-changing " + _r('ac raw') + ", m0-preserving "
+          + _r('ac preserve_m0') + f"); under-converged Krylov {kr}/{kn} at every nl.")
+    print("Two sealed secondary predictions FAILED: nl=1 Krylov was expected to be caught and was caught "
+          + _r('krylov nl=1') + ";")
+    print("m0-preserving ac was expected LOW and was caught " + _r('ac preserve_m0')
+          + " (not anticipated by the pre-registration; not a designed capability).")
+    print("An nl-node Lanczos reconstruction is exact through m_{2nl-1}: nl>=2 matches m0-m2 and passes by")
+    print("construction; nl=1 misses m2 by 2-4% and passes only within the 2% assumed-bias budget. The")
+    print("battery detects support/structure errors and spurious features, not moment-preserving errors.")
 
     out = {'_provenance': {'script': 'blind_score.py', 'sim_only': True,
                            'prereg_sha256': open(os.path.join(OUT, 'prereg.sha256')).read().strip()},

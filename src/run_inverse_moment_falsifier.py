@@ -1,16 +1,24 @@
 # -*- coding: utf-8 -*-
 r"""
-run_inverse_moment_falsifier.py  --  the NEGATIVE-ORDER (inverse) f-sum moment m_{-1} deployed as an
-independent LOW-FREQUENCY falsifier, alongside the positive moments m_0,m_1,m_2 of the current
-spectral function A_J(omega) = sum_n |<n|J|0>|^2 delta(omega - omega_n),  omega_n = E_n - E_0 > 0.
+run_inverse_moment_falsifier.py  --  the NEGATIVE-ORDER (inverse) f-sum moment m_{-1} as an independent
+LOW-FREQUENCY check, alongside the positive moments m_0,m_1,m_2 of the current spectral function
+A_J(omega) = sum_n |<n|J|0>|^2 delta(omega - omega_n),  omega_n = E_n - E_0 > 0 (exact simulation).
 
 WHY m_{-1}.  The flagship error (Fig. fig_falsifier) is a SPURIOUS LOW-frequency (Drude-like) peak that
 misplaces mid-infrared weight to small omega while preserving the total weight m_0. The positive power
 moments m_k = int omega^k A_J domega weight HIGH frequency (kernel omega^k), so they are WEAKEST exactly
 where this error lives; m_0 is blind by construction. The inverse moment
     m_{-1} = int A_J(omega)/omega domega = sum_n |<n|J|0>|^2 / omega_n
-carries the OPPOSITE (1/omega) kernel: it is maximally sensitive to low-frequency weight and its baseline
-is smallest (all true weight sits at high omega), so a low-omega error is amplified twice over.
+carries the OPPOSITE (1/omega) kernel: it weights low frequencies most and its baseline is small (little
+true weight sits at low omega), so a low-omega error moves it by a large RELATIVE amount (154% at the largest
+misplaced fraction on the ring, against 38% for m_1 and 47% for m_2).
+
+RELATIVE SHIFT IS NOT DETECTION POWER. Under the deployed threshold rule (shot noise at N_s = 5x10^4 plus a
+2% bias budget) m_{-1} fires LATER than m_1 and m_2 for this error model (spurious pole at 2.5t) on both
+geometries: injected fraction f* = 0.20 (m_{-1}) vs 0.057 (m_1) and 0.046 (m_2) on the ring, where
+m_{-1} = (1/2)<-That> - D is a 94% cancellation, and 0.17 vs 0.059 and 0.045 on the open chain, where 41% of
+the regular weight lies below 6t. m_{-1} fires first only for spurious poles at <= 0.5t. Run with --r8 for
+these numbers (key R8_inverse_moment_sensitivity of data/2026-09-27_theory_numerics.json).
 
 THE EXACT OPERATOR IDENTITY (verified here to ~1e-14).  m_{-1} is the classic optical f-sum rule and is a
 GROUND-STATE KINETIC ENERGY -- a ground-state expectation value, evaluated here by exact diagonalization (the
@@ -30,9 +38,14 @@ measurements, not the computational-basis samples alone; no moment is estimated 
     kinetic-energy form is recovered. On ANY geometry m_{-1} = <0| J (H-E0)^{-1} Q J |0> (reduced
     resolvent, Q = 1-|0><0|) is exact and reconstruction-independent (verified ~1e-15).
 
-We therefore DEPLOY the falsifier on the doped OPEN Hubbard chain, where m_{-1}=(1/2)<-That> is exact and
-is the cheapest of all the moment estimators (one-body operator: JW weight-2 XX/YY on adjacent qubits;
-two qubit-wise-commuting settings, a subset of what m_0/m_1 already require -- Sec. 'measurement cost').
+On the doped OPEN Hubbard chain m_{-1}=(1/2)<-That> is exact and is the cheapest of the moment estimators
+to measure (one-body operator: JW weight-2 XX/YY on adjacent qubits; two qubit-wise-commuting settings, a
+subset of what m_0/m_1 already require -- verify_mm1_measurement_cost.py); cheaper, but not more sensitive
+under the deployed rule (above). Nothing here is measured on hardware.
+
+Record: DATE is fixed to the committed record, data/2026-08-28_inverse_moment_falsifier.json. A rerun on
+2026-09-27 (scratch copy, scipy 1.13.1 / numpy 1.26.4) reproduced that JSON and the three figure files bit
+for bit; only the provenance strings were rescoped then.
 
 Outputs (no matplotlib; native-pgfplots .dat + JSON only):
   data/<date>_inverse_moment_falsifier.json                (all verified numbers)
@@ -50,7 +63,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)   # hubbard_ed.py is vendored in src/
 import spectral_lanczos as SL   # strings(), occ_matrix(), haydock_poles() reused verbatim
 
-DATE = datetime.date.today().isoformat()
+DATE = '2026-08-28'     # date of the committed record; reruns reproduce it bit for bit (checked 2026-09-27)
 RES  = os.path.normpath(os.path.join(HERE, '..', 'data'))
 # write native-pgfplots inputs to the paper's figs dir
 FIGS_DIRS = [os.path.normpath(os.path.join(HERE, '..', 'paper', 'figs'))]
@@ -324,7 +337,7 @@ def main():
                   f"|m_-1-(1/2)<-T>|={r['resid_identity_halfnegT']:.2e}  "
                   f"|m_-1-(1/2)<[P,[H,P]]>|={r['resid_poldc']:.2e}  |m_-1-resolvent|={r['resid_resolvent']:.1e}")
 
-    print("\n=== Part 2: deploy m_{-1} on the flagship doped PERIODIC ring (L=12, 2/3 filling) ===")
+    print("\n=== Part 2: m_{-1} on the doped PERIODIC ring (L=12, 2/3 filling), relative shifts ===")
     dep = deploy(L=12, U=8.0, nl=260)
     print(f"L={dep['L']} U={dep['U']} filling={dep['filling']} ring  poles={dep['npoles']}  E0={dep['E0']:.6f}")
     print(f"<-That>={dep['negT']:.6f}  (1/2)<-That>={dep['half_negT']:.6f}  D_Kohn={dep['kohn_stiffness_D']:.6f}")
@@ -338,22 +351,30 @@ def main():
         print(f"  {r['f']*100:5.0f}% | {r['dm1']*100:9.1f}% {r['d1']*100:7.1f}% {r['d2']*100:7.1f}% {r['d0']*100:9.1e}%")
 
     verdict = (dep['sweep'][-1]['dm1'] > 2 * dep['sweep'][-1]['d1']) and (dep['sweep'][-1]['d0'] < 1e-9)
-    out = {'_provenance': {'script': 'A_payload_echoes/03_src/run_inverse_moment_falsifier.py',
+    out = {'_provenance': {'script': 'src/run_inverse_moment_falsifier.py',
                            'date': DATE,
                            'claim': ('m_{-1}=int A_J/omega = (1/2)<-That> (optical f-sum, ground-state kinetic '
-                                     'energy) on the open chain; = (1/2)<-That> - D_Kohn on the ring. Deployed '
-                                     'as a LOW-frequency falsifier: Delta_{-1}/m_{-1} >> Delta_1/m_1 >> Delta_0/m_0=0 '
-                                     'for the spurious-low-omega (Drude) error the positive moments are weakest on.')},
+                                     'energy) on the open chain; = (1/2)<-That> - D_Kohn on the ring. For a spurious '
+                                     'low-omega (Drude) peak the RELATIVE shifts order as Delta_{-1}/m_{-1} > '
+                                     'Delta_1/m_1 > Delta_0/m_0 = 0 (exact simulation). Relative shift is not '
+                                     'detection power: under the deployed noise-normalized rule m_{-1} fires after '
+                                     'm_1 and m_2 for this error (key R8_inverse_moment_sensitivity).'),
+                           'wording_note': '2026-09-27: script path and claim rescoped (relative shift vs detection '
+                                           'power); numbers reproduced bit for bit'},
            'identity_checks': checks,
            'deployment': dep,
            'summary': {'inverse_moment_more_sensitive': bool(verdict),
+                       'sensitivity_meaning': 'relative shift Delta_k/m_k at the largest misplaced fraction '
+                                              '(Delta_{-1}/m_{-1} > 2 Delta_1/m_1, m_0 unchanged); not detection '
+                                              'power, see key R8_inverse_moment_sensitivity',
                        'max_Delta_minus1_over_m': dep['sweep'][-1]['dm1'],
                        'max_Delta_1_over_m': dep['sweep'][-1]['d1'],
                        'sensitivity_ratio_minus1_to_1': dep['sweep'][-1]['dm1'] / max(dep['sweep'][-1]['d1'], 1e-12)}}
     jpath = os.path.join(RES, f'{DATE}_inverse_moment_falsifier.json')
     with open(jpath, 'w') as fh:
         json.dump(out, fh, indent=2)
-    print(f"\nVERDICT: inverse moment is the more sensitive low-frequency falsifier = {verdict}")
+    print(f"\nRelative shift of m_-1 exceeds twice that of m_1 (m_0 unchanged): {verdict}  "
+          f"(relative shift, not detection power; run --r8 for the noise-normalized comparison)")
     print("saved:", jpath)
     print("saved:", os.path.join(FIGS, 'inverse_falsifier_spectrum.dat'))
     print("saved:", os.path.join(FIGS, 'inverse_falsifier_sweep.dat'))

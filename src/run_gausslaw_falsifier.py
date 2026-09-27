@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-SECOND DOMAIN — the lattice-gauge Gauss-law falsifier (maximize-board wf_00831cb3-9d6; decides cross-domain vs single-system).
+A state-level check on a second model: the lattice-gauge Gauss law (exact classical simulation, no hardware).
 
-Instantiates the transportable moment-test kernel in lattice gauge theory: the U(1) quantum link model (lattice
-Schwinger model), the standard quantum-simulation gauge testbed. The falsifier is GAUSS'S LAW — a set of LOCAL
-operator constraints G_n = E_n - E_{n-1} - q_n that EVERY physical (gauge-invariant) state satisfies EXACTLY
-(<G_n> = 0, <sum_n G_n^2> = 0). It is:
-  * NATIVE + EXACT (an exact constraint, not a necessary-only moment) — strictly stronger than a sum rule;
-  * SAME-SAMPLE (each G_n is a LOCAL operator diagonal in the computational basis) — transportable at marginal cost;
-  * a DIFFERENT error class than the Hubbard moment falsifier (it catches gauge-invariance-BREAKING errors —
-    bit-flip / leakage / non-physical-sector admixture — the dominant hardware error in LGT simulation).
-Two falsifiers, two domains, one transport principle -> the paper is genuinely cross-domain, not Hubbard dressed up.
+The U(1) quantum link model (lattice Schwinger model), a standard quantum-simulation gauge testbed. The check is
+GAUSS'S LAW -- a set of LOCAL operator constraints G_n = E_n - E_{n-1} - q_n that every physical (gauge-invariant)
+state satisfies exactly (<G_n> = 0, <sum_n G_n^2> = 0). It is:
+  * an exact constraint on physical states, not a condition on spectral moments;
+  * diagonal in the computational basis (each G_n is local and diagonal), so it is estimable from
+    computational-basis samples in principle; HERE it is evaluated exactly on state vectors (40 sampled bit-flip
+    patterns per error rate, no shot sampling);
+  * sensitive to a different error class than the Hubbard moment tests: gauge-invariance-breaking errors
+    (bit flips, leakage, admixture of the non-physical sector).
+It complements the spectral-moment tests; it is not itself a moment test of a reconstructed spectrum. The paper's
+Fig. gausslaw is drawn from export_gauss_state.py (the eps-admixture curve), not from this bit-flip sweep.
 
 Model (N staggered matter sites, N-1 spin-1/2 gauge links, OBC):
   H = -w sum_n (c†_n S+_n c_{n+1} + h.c.) + m sum_n (-1)^n c†_n c_n
@@ -136,41 +138,49 @@ def main():
     teeth = fires and (rows[-1]['gauss_violation'] > 10 * max(rows[0]['gauss_violation'], 1e-9))
     ok = (comm < 1e-9) and (g2_phys < 1e-8) and teeth
 
-    out = {'_provenance': {'script': 'A_payload_echoes/03_src/run_gausslaw_falsifier.py', 'date': DATE,
+    out = {'_provenance': {'script': 'src/run_gausslaw_falsifier.py', 'date': DATE,
                            'model': f'U(1) quantum link model (lattice Schwinger), N={N} sites, {NL} spin-1/2 links, OBC',
-                           'board': 'wf_00831cb3-9d6', 'params': f'w={W}, m={M}',
-                           'claim': 'Gauss law = native, EXACT, same-sample falsifier for LGT; catches gauge-breaking error; SECOND domain confirmed'},
+                           'params': f'w={W}, m={M}',
+                           'claim': 'exact simulation: the Gauss-law operators commute with H, vanish on the physical '
+                                    'ground state and fire on gauge-breaking bit flips; diagonal in the computational '
+                                    'basis (estimable from samples in principle; evaluated exactly here)',
+                           'wording_note': '2026-09-27: provenance and verdict strings rescoped (script path, internal '
+                                           'workflow identifier removed, no same-sample or cross-domain claim); numbers '
+                                           'unchanged'},
            'sanity': {'gauge_invariance_[H,G]_max': comm, 'physical_state_<sumG2>': g2_phys},
            'error_sweep': rows,
            'summary': {'gauge_invariant_hamiltonian': bool(comm < 1e-9),
                        'physical_state_satisfies_gauss': bool(g2_phys < 1e-8),
                        'falsifier_fires_on_gauge_breaking': bool(teeth),
                        'cross_domain_confirmed': bool(ok),
-                       'verdict': ('SECOND DOMAIN CONFIRMED: Gauss law is a native, EXACT, same-sample falsifier — [H,G]=0 '
-                                   '(gauge-invariant), physical state has <sumG2>=0, and it FIRES on gauge-breaking bit-flip '
-                                   'error (a DIFFERENT error class than the Hubbard moment falsifier). The paper is genuinely '
-                                   'cross-domain: one transport principle, two distinct falsifiers.' if ok else 'INSPECT')}}
+                       'verdict': ('Gauss-law check passes its sanity tests and fires: [H,G]=0 (gauge-invariant), the '
+                                   'physical state has <sumG2>=0, and <sumG2> is nonzero under gauge-breaking bit flips '
+                                   f'({min(r["gauss_violation"] for r in rows[1:]):.2f} to '
+                                   f'{max(r["gauss_violation"] for r in rows[1:]):.2f} for p = {100*rows[1]["p"]:.0f}-'
+                                   f'{100*rows[-1]["p"]:.0f}%; not monotonic in p), a different error class than the '
+                                   'Hubbard moment tests. Exact simulation, no shot noise.'
+                                   if ok else 'INSPECT')}}
     os.makedirs(RES, exist_ok=True); os.makedirs(FIG, exist_ok=True)
     with open(os.path.join(RES, f'{DATE}_gausslaw_falsifier.json'), 'w') as f:
         json.dump(out, f, indent=2)
 
     fig, ax = plt.subplots(figsize=(7.2, 4.6))
     ax.plot([r['p'] * 100 for r in rows], [r['gauss_violation'] for r in rows], 'o-', color='#1e8449', lw=2.2, ms=6,
-            label=r'Gauss-law falsifier $\langle\sum_n G_n^2\rangle$ — FIRES (native, exact, local)')
+            label=r'Gauss-law check $\langle\sum_n G_n^2\rangle$ (exact, local)')
     ax.plot([r['p'] * 100 for r in rows], [r['charge_drift'] for r in rows], 's--', color='#c0392b', lw=2, ms=6,
             label='global total-charge drift — weak (blind to local gauge violation)')
-    ax.set_title('SECOND DOMAIN — Gauss-law falsifier (U(1) lattice Schwinger model)\ncatches gauge-breaking error a global check misses', fontsize=10.5)
+    ax.set_title('Gauss-law check (U(1) lattice Schwinger model, exact simulation)\ncatches gauge-breaking error a global check misses', fontsize=10.5)
     ax.set_xlabel('per-qubit bit-flip error rate (%)'); ax.set_ylabel('violation signal')
     ax.legend(fontsize=8.5); ax.grid(alpha=0.25)
     fig.tight_layout()
     fig.savefig(os.path.join(FIG, f'{DATE}_gausslaw_falsifier.png'), dpi=140, bbox_inches='tight')
 
-    print('=== SECOND DOMAIN: Gauss-law falsifier (U(1) quantum link model) ===')
+    print('=== Gauss-law check (U(1) quantum link model; exact simulation) ===')
     print(f'SANITY [H,G_n]=0 (gauge invariance): max commutator = {comm:.2e}')
     print(f'SANITY physical ground state <sum G_n^2> = {g2_phys:.2e}')
     for r in rows[::2]:
         print(f"  bit-flip p={100*r['p']:4.0f}%:  <sum G^2>={r['gauss_violation']:.4f}  (charge drift {r['charge_drift']:.4f})")
-    print('CROSS-DOMAIN CONFIRMED:', ok)
+    print('sanity checks pass and the check fires on bit flips:', ok)
     print('VERDICT:', out['summary']['verdict'])
 
 

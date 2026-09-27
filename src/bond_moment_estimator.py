@@ -1,23 +1,27 @@
 # -*- coding: utf-8 -*-
-"""RECONSTRUCTION-INDEPENDENT MOMENT ESTIMATOR FROM DEVICE-STYLE MEASUREMENTS (B1 core).
+"""RECONSTRUCTION-INDEPENDENT MOMENT ESTIMATOR FROM COMPUTATIONAL-BASIS AND ROTATED-BASIS COUNTS (simulation only).
 
 The paper's independent estimator computes spectral moments m_j of a probe's spectral function
 as ground-state operator expectations of the prepared state, never read back off the spectrum. For a
 DIAGONAL probe (density rho_q) m_0=<drho^2> is a pure counts estimator on the computational-basis
 samples; but m_1=<drho(H-E0)drho> contains the HOPPING (off-diagonal) part of H, which is NOT
-counts-only: it needs extra rotated-basis circuits on the same prepared state. The rigorous, device-
-ready way to estimate it -- exactly what a real experiment does -- is Pauli grouping: expand the
-Hermitian operator into Pauli strings, group them into qubit-wise-commuting (QWC) sets, and
-measure each set in one rotated basis (a few 'bond-basis' circuits). This module builds those
-operators and estimators and VERIFIES, by finite-shot sampling, that the counts-based m_0, m_1
-recover the exact operator moments within shot noise. On real hardware only the state prep and
-the sampler backend would change; the estimator is identical. It has not been run on hardware, and
-at ibm_fez depth the off-diagonal moments carry a depolarizing bias of ~37-115% of the signal
-(offdiag_noise_forecast.py).
+counts-only: it needs extra rotated-basis circuits on the same prepared state. The standard way to
+estimate it is Pauli grouping: expand the Hermitian operator into Pauli strings, group them into
+qubit-wise-commuting (QWC) sets, and measure each set in one rotated basis (a few 'bond-basis'
+circuits; 35 for (m0, m1) and 357 for (m0, m1, m2) at L=6). This module builds those operators and
+estimators and checks, by finite-shot sampling of the EXACT ground state (noiseless simulation), that
+the counts-based m_0, m_1, m_2 recover the exact operator moments within shot noise. That is all it
+shows. It has not been run on hardware; on a device the state preparation and the noise would change
+the outcome, and at ibm_fez depth the off-diagonal moments are forecast to carry a depolarizing bias of
+about 37-116% of the signal (offdiag_noise_forecast.py, offdiag_gsurface.py). These rotated-basis
+circuits are a separate measurement campaign on a prepared ground state; they are not the samples from
+which a spectrum is reconstructed.
 
-Model (device demonstration): L=6 Hubbard chain (OBC, clean Jordan-Wigner, no wrap-around sign),
-2L=12 qubits, blocked ordering (qubits 0..L-1 spin-up sites, L..2L-1 spin-down). Probe: staggered
-density rho_q = sum_i cos(q i)(n_{i,up}+n_{i,dn}), q=pi (diagonal). SIM-ONLY verification here.
+Model (simulation): L=6 Hubbard chain (OBC, clean Jordan-Wigner, no wrap-around sign), 2L=12 qubits,
+blocked ordering (qubits 0..L-1 spin-up sites, L..2L-1 spin-down). Probe: staggered density
+rho_q = sum_i cos(q i)(n_{i,up}+n_{i,dn}), q=pi (diagonal). The ground state is the global Fock-space
+ground state of the open chain (N = 4 electrons on 6 sites, not half filling); <rho_pi> = 0 there by the
+reflection symmetry of the open chain (small_checks.py, key m4_psd_and_symmetry).
 """
 import numpy as np
 from qiskit.quantum_info import SparsePauliOp, Statevector
@@ -25,7 +29,7 @@ from qiskit import QuantumCircuit
 import scipy.sparse.linalg as sla
 
 import os as _os
-L = int(_os.environ.get('BME_L', '6'))    # L=6 (12q) matches the paper's hardware system; chunked
+L = int(_os.environ.get('BME_L', '6'))    # L=6 (12 qubits), the size of the companion's hardware run; chunked
 T, U = 1.0, 4.0                            # products + matrix-free exact moments make the full m0,m1,m2 tractable.
 NQ = 2 * L
 QPROBE = np.pi
@@ -223,7 +227,7 @@ def main():
     M0, M1, M2 = Mops
 
     print("=" * 70)
-    print(f"DEVICE-STYLE MOMENT ESTIMATOR  (Hubbard L={L} chain, {NQ} qubits, U/t={U})")
+    print(f"COUNTS-BASED MOMENT ESTIMATOR, NOISELESS SIMULATION  (Hubbard L={L} chain, {NQ} qubits, U/t={U})")
     print("=" * 70)
     print(f"ground energy E0 = {E0:.4f}")
     print(f"operator sizes (Paulis): M0 {len(M0)}, M1 {len(M1)}, M2 {len(M2)}")
@@ -240,17 +244,17 @@ def main():
         oks.append(ok)
         print(f"  {nm}_hat = {mu:.5f} +/- {sd:.5f}   (exact {m_exact[j]:.5f}, "
               f"bias {mu-m_exact[j]:+.5f} = {abs(mu-m_exact[j])/max(se,1e-9):.1f} SE-of-mean)")
-    print(f"\nVERIFIED: counts-based estimator recovers exact moments within shot noise? "
+    print(f"\nNoiseless check: counts-based estimator recovers the exact moments within shot noise? "
           f"m0:{oks[0]}  m1:{oks[1]}  m2:{oks[2]}")
-    print("=> the reconstruction-independent m0 (counts-only) and m1,m2 (bond-basis, off-diagonal")
-    print("   hopping via QWC rotated measurements) are DEVICE-MEASURABLE. On hardware only the")
-    print("   state prep and the sampler backend change; this estimator is identical.")
-    print("   (Noiseless simulation only: not run on hardware; at ibm_fez depth the off-diagonal moments")
-    print("   carry a depolarizing bias of ~37-115% of the signal, see offdiag_noise_forecast.py.)")
+    print("=> m0 is estimable from computational-basis counts, and m1, m2 (off-diagonal hopping) from QWC")
+    print("   rotated-basis ('bond-basis') counts, on the exact state in noiseless simulation. Not run on")
+    print("   hardware; at ibm_fez depth the off-diagonal moments are forecast to carry a depolarizing bias")
+    print("   of ~37-116% of the signal (offdiag_noise_forecast.py, offdiag_gsurface.py).")
     res = {'_provenance': {'script': 'bond_moment_estimator.py', 'sim_only': True,
                            'model': f'Hubbard L={L} chain OBC, {NQ} qubits, U/t={U}, density probe rho_q q=pi',
-                           'claim': 'reconstruction-independent m0,m1,m2 (incl off-diagonal hopping) '
-                                    'device-measurable via counts + bond-basis (QWC) circuits'},
+                           'claim': 'noiseless simulation: counts-based m0 (computational basis) and m1, m2 '
+                                    '(QWC bond-basis rotations) recover the exact moments of the exact ground '
+                                    'state within shot noise; not run on hardware'},
            'E0': E0, 'ns': 50000, 'reps': int(est.shape[0]), 'n_measurement_bases': ngroups,
            'op_sizes_paulis': {'M0': len(M0), 'M1': len(M1), 'M2': len(M2)},
            'm_exact': {'m0': m_exact[0], 'm1': m_exact[1], 'm2': m_exact[2]},

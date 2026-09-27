@@ -3,27 +3,36 @@
 (data/2026-09-05_nk_v4_verdict.json); manifest v2 was never sealed; this job was never run.
 The job that matches the sealed manifest v1 is nk_stage2_device_job.py. One editing artifact was
 fixed on publication (2026-09-26): a literal "\n" in the manifest-v2 assert, which made the file fail
-to parse, is now a line continuation; nothing else in the logic was changed.
+to parse, is now a line continuation; nothing else in the logic was changed. On 2026-09-27 the docstring,
+the printed messages and the assert message were rescoped to state that manifest v2 was never sealed;
+the logic is unchanged.
 
 STAGE 2 — the on-device n_k discriminating-falsifier job, amendment version (never run).
 
 Reads the circuits, thresholds and analysis from the sealed manifest v1 (data/manifest_nk_device_v1.json,
-SHA-256 recorded), but submits shots only if a manifest v2 (data/manifest_nk_device_v2.json) exists; v2 was
-never sealed, so this job can only dry-run. It applies day_of_rule_v2 (pick_chain_v2 below), not the v1
-day-of rule: backends ibm_fez / ibm_marrakesh / ibm_kingston with CZ median <= 3.5e-3; a 12-qubit path with
-T1 >= 100 us, T2 >= 70 us and readout <= the cap on every qubit, and edge CZ <= min(3.5e-3, 2x median).
+SHA-256 recorded), but submits shots only if a manifest v2 (data/manifest_nk_device_v2.json) exists. Manifest
+v2 was NEVER written or sealed, because the amendment it would have recorded was denied by its gate
+(nk_stage0_gate_v4_combine.py -> data/2026-09-05_nk_v4_verdict.json, AMENDMENT-DENIED), so this job can
+only dry-run. It applies day_of_rule_v2 (pick_chain_v2 below), the day-of rule PROPOSED by the amendment
+(fixed before the gate-v4 verdict rows ran), not the sealed v1 rule: backends ibm_fez / ibm_marrakesh /
+ibm_kingston with CZ median <= 3.5e-3; a 12-qubit path with T1 >= 100 us, T2 >= 70 us and readout <= ro_cap
+on every qubit, and edge CZ <= min(3.5e-3, 2x median). Without a manifest v2, ro_cap = 0.030, the cap the
+amendment proposed and the first rung of its readout ladder; the gate's ladder went 0.030 -> 0.025 -> 0.018
+and the 0.018 row still failed, so no readout cap was ever adopted.
 Modes:
   default        : DRY RUN — loads credentials, applies the day-of chain-acceptance rule, transpiles
                    onto the accepted chain, prints the plan + estimated QPU time. SUBMITS NOTHING.
-  RUN=1          : submits the sealed Batch (~3-4 QPU min of the 10-min window), retains raw counts.
+  RUN=1          : would submit the Batch (~3-4 QPU min of the 10-min window), but ABORTS at the manifest-v2
+                   assert, since manifest v2 does not exist. Nothing was ever submitted.
   ANALYZE=<file> : runs the frozen analysis on a retained-counts JSON (device or dry-run replay).
 
 Credentials: QiskitRuntimeService.save_account(channel='ibm_quantum_platform', token=<YOUR NEW KEY>,
 instance=<YOUR CRN>) once, locally — NEVER commit a token; revoke any previously exposed token first.
 
-Sealed job spec (manifest): 5 circuits (rung0, mirrorFT, calibFT, rungB, calibB2), 50k shots each,
-GATE-LEVEL Pauli twirling num_randomizations=32 (hard requirement) + measurement twirling (no readout extinction applied) + DD
-XpXm, one Batch, randomized interleaving. (The v1 day-of chain rule, min T1 >= 150us AND min T2 >= 100us
+Job spec (from the sealed manifest v1): 5 circuits (rung0, mirrorFT, calibFT, rungB, calibB2), 50k shots each,
+GATE-LEVEL Pauli twirling num_randomizations=32 (hard requirement) + measurement twirling (the manifest's
+wording 'TREX/measure twirling' is a misnomer: SamplerV2 returns twirled raw counts and no readout-error
+mitigation is applied) + DD XpXm, one Batch, randomized interleaving. (The v1 day-of chain rule, min T1 >= 150us AND min T2 >= 100us
 AND no chain CZ error > 2x device median, is applied by nk_stage2_device_job.py, not by this file.)
 """
 import os, sys, json, time, hashlib, io
@@ -52,7 +61,8 @@ def frozen_logical_circuits():
     return refs, out
 
 def pick_chain_v2(svc, ro_cap=0.030):
-    """day_of_rule_v2 (sealed, wf_c07c723b-b96): backends B={fez,marrakesh,kingston};
+    """day_of_rule_v2 (proposed by the denied amendment; fixed before the gate-v4 verdict rows ran; never
+    sealed into a manifest): backends B={fez,marrakesh,kingston};
     qualification CZmed<=3.5e-3; chain = 12-path with T1>=100us, T2>=70us, RO<=ro_cap per
     qubit, edge CZ<=min(3.5e-3, 2*med); deterministic selection: min sum CZ, ties by
     (1) min sum RO, (2) min sum 1/T2, (3) lexicographic. Returns (backend_name, chain,
@@ -152,10 +162,10 @@ def main():
     if os.path.exists(v2p):
         ro_cap = json.load(open(v2p)).get('noise_floors', {}).get('readout_cap', 0.030)
     else:
-        print('WARNING: manifest v2 not sealed yet — shots are FORBIDDEN (dry run only).')
+        print('WARNING: manifest v2 was never sealed (the amendment was denied) — shots are FORBIDDEN (dry run only).')
     bname, chain, score, snaps = pick_chain_v2(svc, ro_cap)
     if bname is None:
-        print('day_of_rule_v2: NO candidate chain on any qualifying backend -> FORFEIT (sealed).')
+        print('day_of_rule_v2: NO candidate chain on any qualifying backend -> FORFEIT (per the proposed rule).')
         print('snapshots:', json.dumps(snaps)); return
     backend = svc.backend(bname)
     snap_path = os.path.join(RES, time.strftime('%Y-%m-%d_%H%M') + '_chain_snapshot.json')
@@ -174,11 +184,11 @@ def main():
         isa_jobs[nm] = best_t[0]
         print(f'  {nm}: {best_t[1]} 2q gates')
     if os.environ.get('RUN') != '1':
-        print('\nDRY RUN complete (nothing submitted). Set RUN=1 to submit the sealed Batch '
-              f'(~3-4 QPU min): 5 circuits x {SHOTS} shots, gate twirling N=32, measurement twirling, DD.')
+        print('\nDRY RUN complete (nothing submitted). RUN=1 would abort: manifest v2 was never sealed '
+              f'(planned Batch, ~3-4 QPU min: 5 circuits x {SHOTS} shots, gate twirling N=32, measurement twirling, DD).')
         return
     assert os.path.exists(os.path.join(RES, 'manifest_nk_device_v2.json')), \
-        'ABORT: shots forbidden before manifest v2 is sealed (day_of_rule_v2)'
+        'ABORT: shots forbidden without a sealed manifest v2 (the amendment was denied; manifest v1 stands)'
     # ---- HARD $0 GUARD (standing user constraint: strictly within the free tier) ----
     insts = svc.instances()
     assert any(i.get('pricing_type') == 'free' or i.get('plan') == 'open' for i in insts), \
@@ -189,7 +199,7 @@ def main():
     assert rem >= EST_S + 20, \
         f'ABORT: only {rem}s free-tier QPU remaining < estimate {EST_S}s + margin — never exceed $0'
     print(f'[cost-guard] free plan OK; remaining {rem}s >= {EST_S+20}s needed — $0 assured')
-    # ---- SEALED SUBMISSION ----
+    # ---- SUBMISSION (unreachable: manifest v2 was never sealed) ----
     order = list(CIRC_NAMES); np.random.default_rng(20260902).shuffle(order)
     with Batch(backend=backend) as batch:
         sampler = SamplerV2(mode=batch)

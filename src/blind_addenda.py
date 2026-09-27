@@ -10,7 +10,9 @@ Reads ONLY the sealed record and the frozen pipeline; it never writes to any of 
     src/blind_classify.py                       the frozen decision rule (run VERBATIM, see below)
     src/blind_generate.py, src/spectral_lanczos.py   the sealed generator's physics (part c only)
 
-Output: data/2026-09-27_blind_addenda.json (a NEW file; no pre-existing file is touched).
+Output: data/2026-09-27_blind_addenda.json (a NEW file; no sealed or committed record is touched). A
+previous version of this output, when present, is read for one thing only: the stored tie order of
+part (c), which is validated against the sealed record before use.
 
 (0) Frozen rule. The decision rule lives inline in blind_classify.main(). To use it verbatim,
     frozen_classify() copies the sealed prereg into a temporary directory, writes the instances
@@ -24,28 +26,42 @@ Output: data/2026-09-27_blind_addenda.json (a NEW file; no pre-existing file is 
     threshold budgets a 2% bias. m_hat is redrawn for the 112 clean instances, with no bias
     and with a realised +2% bias on each moment (a -2% bias is reported as a supplement),
     under the frozen threshold.
-(c) Shared-state rescoring of the 56 truncations. The sealed truncation instances are first
-    REBUILT EXACTLY. The truncation keeps the top-d configurations by |psi0|^2, and |psi0|^2
-    has 24-, 12- and 6-fold degenerate shells (lattice symmetry), so which members of a
-    boundary shell are kept is decided by floating-point noise in psi0. The sealed run
-    computed psi0 with ARPACK's default random start (the fixed v0 in spectral_lanczos._sub_gs
-    came later); ARPACK draws that start from an internal generator that is seeded once per
-    process. Calling eigsh without v0 for U = 3, 4, 5, 6 (the prereg U_grid order) as the
-    FIRST such calls of a fresh process reproduces the sealed tie order. Every rebuilt instance
-    is checked against the sealed m_bar and var_loc, and against the sealed m_hat by
-    replaying the generator's RNG stream. The recovered tie order is stored in the output,
-    so it does not depend on ARPACK in future. The truncations are then rescored with the
-    shared-state estimator: full operators evaluated on the SAME truncated ground state g
-    that produced the reconstruction, m_hat_k = <J g|(H - e0)^k|J g> + (the sealed shot-noise
-    draw), e0 = <g|H|g>, scored by the frozen rule. On a device these would be ground-state
-    expectation values of the prepared state; here they are computed classically from g, and
-    no computational-basis samples are involved (this is not a same-sample estimate).
+(c) POST HOC shared-state rescoring of the 56 truncations (added 2026-09-27, after unblinding;
+    not part of the sealed protocol). The sealed truncation instances are first REBUILT
+    EXACTLY. The truncation keeps the top-d configurations by |psi0|^2, and |psi0|^2 has 24-,
+    12- and 6-fold degenerate shells (lattice symmetry), so which members of a boundary shell
+    are kept was decided by floating-point noise in psi0. The sealed run computed psi0 with
+    ARPACK's default random start (the fixed v0 in spectral_lanczos._sub_gs came later); ARPACK
+    draws that start from an internal generator that is seeded once per process, so calling
+    eigsh without v0 for U = 3, 4, 5, 6 (the prereg U_grid order) as the FIRST such calls of a
+    fresh process reproduced the sealed tie order on the authors' machine (scipy 1.13.1,
+    numpy 1.26.4). That recovered order is stored in data/2026-09-27_blind_addenda.json.
+    Guard (tie-order source): the rebuild uses the STORED order when that file is present
+    and the stored order reproduces all 56 sealed instances; otherwise it uses the ARPACK
+    default-start order of this process. Whichever order is used must reproduce every sealed
+    m_bar and var_loc (rel < 1e-8) and every sealed m_hat by replaying the generator's RNG
+    stream (rel < 1e-12); if it does not, the script ABORTS and writes nothing. The ARPACK
+    rebuild is always run as well and reported as a diagnostic (it fails, e.g., inside a
+    notebook kernel that already called eigsh, which no longer matters once the stored order
+    validates). The truncations are then rescored with the shared-state estimator: full
+    operators evaluated on the SAME truncated ground state g that produced the reconstruction,
+    m_hat_k = <J g|(H - e0)^k|J g> + (the sealed shot-noise draw), e0 = <g|H|g>, scored by the
+    frozen rule. On a device these would be ground-state expectation values of the prepared
+    state; here they are computed classically from g, and no computational-basis samples are
+    involved (this is not a same-sample estimate). The thresholds reuse the sealed var_loc,
+    whose m1/m2 local variances are centred on the exact E0, not on e0; the m0 conclusion does
+    not depend on this.
 (d) Under-converged Krylov: m_bar vs m_exact per moment, and residual/threshold ratios. nl=1
     is exact in m0 and m1 by construction and misses m2.
 (e) Calibrated scope of the sealed test: the retained ground-state support and weight in the
     truncations, the spurious-atom weights and frequencies, the U/t values and the probe.
 
-Run from src/:  python blind_addenda.py      (about 10-20 s on one core)
+Everything here is a post hoc addendum written after unblinding: only the quantities of part (a)
+that the sealed score file already holds (TPR/FPR, per-class rates) are sealed endpoints, and they
+are recomputed, not changed.
+
+Run from src/:  python blind_addenda.py      (about 10-20 s on one core; a fresh process is needed
+only for the ARPACK diagnostic in part (c), not for the result)
 """
 import contextlib
 import hashlib
@@ -322,25 +338,89 @@ def part_b(pr, sha, P, V, Lb):
 # ---------------------------------------------------------------------------------------------
 def sealed_era_ground_states(pr):
     """psi0 per U with ARPACK's DEFAULT random start, called for U in prereg U_grid order.
-    MUST be the first v0-less eigsh calls of the process (ARPACK seeds its start generator once
-    per process); main() calls this before anything else."""
+    For the ARPACK diagnostic these must be the first v0-less eigsh calls of the process (ARPACK
+    seeds its start generator once per process); main() calls this before anything else. The
+    tie-independent quantities (support size, shells, retained weight) are taken from psi_fixed
+    (fixed start vector), so they do not depend on ARPACK state."""
     import blind_generate as bg
     out = {}
     for U in pr['system']['U_grid']:
         Hs, Js, Hc, psi_fixed = bg.build_U(pr['system']['L'], U)   # build_U itself uses a fixed v0
         e, v = eigsh(Hs, k=1, which='SA')                          # sealed-era call: no v0
-        out[U] = dict(Hs=Hs, Js=Js, Hc=Hc, psi0=v[:, 0], psi_fixed=psi_fixed, E0=float(e[0]),
-                      nsup=int((np.abs(v[:, 0]) ** 2 > 1e-14).sum()))
+        nsup = int((np.abs(psi_fixed) ** 2 > 1e-14).sum())
+        if int((np.abs(v[:, 0]) ** 2 > 1e-14).sum()) != nsup:
+            raise SystemExit(f'ABORT: the ARPACK and fixed-start ground states disagree on the support at U={U}')
+        out[U] = dict(Hs=Hs, Js=Js, Hc=Hc, psi0=v[:, 0], psi_fixed=psi_fixed,
+                      E0=float(np.vdot(psi_fixed, Hs @ psi_fixed).real), nsup=nsup)
     return out
 
 
-def trunc_instance(C, d, psi0):
-    """the generator's truncation step (blind_generate.py:106-114), for a given psi0 tie order."""
+def argsort_order(psi, nsup):
+    """the generator's ordering, np.argsort(|psi|^2)[::-1] (blind_generate.py:114), top nsup."""
+    return np.argsort(np.abs(psi) ** 2)[::-1][:nsup]
+
+
+def load_stored_tie_order():
+    """The recovered tie order of the sealed run, as stored by an earlier run of this script in
+    OUT_JSON (the committed data/2026-09-27_blind_addenda.json). Returns ({U: order}, sha256 of the
+    file read) or (None, reason). It is validated against the sealed record before any use."""
+    if not os.path.isfile(OUT_JSON):
+        return None, f'{os.path.basename(OUT_JSON)} not present'
+    try:
+        blob = json.load(open(OUT_JSON))
+        stored = blob['c_truncations_rebuild_and_shared_state']['rebuild'][
+            'recovered_tie_order_top_nsup_basis_indices']
+        orders = {float(k.split('=')[1]): np.array(v, dtype=int) for k, v in stored.items()}
+    except (KeyError, ValueError, TypeError, json.JSONDecodeError) as exc:
+        return None, f'stored tie order unreadable ({exc!r})'
+    return orders, sha256(OUT_JSON)
+
+
+def rebuild_check(pr, P, Lb, GS, orders):
+    """Rebuild every sealed truncation instance from a per-U tie order and compare it with the
+    sealed record: m_bar and var_loc (rel < 1e-8, denominator floored at 1e-12) and m_hat by
+    replaying the generator's RNG stream (rel < 1e-12). Returns (per-id results, summary)."""
+    Ns = pr['battery']['Ns']
+    ids = sorted(i for i, l in Lb.items() if l['mode'] == 'trunc')
+    res, worst = {}, {'m_bar': 0.0, 'var_loc': 0.0, 'm_hat': 0.0}
+    n_mbar = n_var = n_hat = 0
+    for i in ids:
+        lab = Lb[i]
+        U, d = lab['params']['U'], lab['params']['d']
+        C = GS[U]
+        U2, mode2, d2, rng = replay_rng(pr, i, C['nsup'])
+        assert (U2, mode2, d2) == (U, 'trunc', d), f'RNG replay disagrees for id {i}'
+        order = orders[float(U)]
+        if len(order) < d:
+            raise SystemExit(f'ABORT: tie order for U={U:g} has {len(order)} entries < d={d} (id {i})')
+        T = trunc_instance(C, d, order)
+        m_ex = np.array(lab['m_exact'])
+        noise = rng.normal(0.0, np.sqrt(T['var'] / Ns))              # the generator's draw
+        sb, sv, sh = (np.array(P[i][k]) for k in ('m_bar', 'var_loc', 'm_hat'))
+        e_mbar = float(np.max(np.abs(T['m_bar'] - sb) / np.maximum(np.abs(sb), 1e-12)))
+        e_var = float(np.max(np.abs(T['var'] - sv) / np.maximum(np.abs(sv), 1e-12)))
+        e_hat = float(np.max(np.abs(m_ex + noise - sh) / np.abs(sh)))
+        worst = {k: max(worst[k], v) for k, v in zip(worst, (e_mbar, e_var, e_hat))}
+        ok_m, ok_v, ok_h = e_mbar < 1e-8, e_var < 1e-8, e_hat < 1e-12
+        n_mbar += ok_m
+        n_var += ok_v
+        n_hat += ok_h
+        res[i] = dict(T=T, e_mbar=e_mbar, e_var=e_var, e_hat=e_hat)
+    n = len(ids)
+    return res, {'match_sealed_m_bar_(rel<1e-8)': f'{n_mbar}/{n}',
+                 'match_sealed_var_loc_(rel<1e-8)': f'{n_var}/{n}',
+                 'match_sealed_m_hat_by_RNG_replay_(rel<1e-12)': f'{n_hat}/{n}',
+                 'worst_rel_err': worst,
+                 'all_56_match': bool(n_mbar == n_var == n_hat == n)}
+
+
+def trunc_instance(C, d, order):
+    """the generator's truncation step (blind_generate.py:106-114): keep the first d configurations
+    of a given tie order (basis indices sorted by descending |psi0|^2)."""
     import spectral_lanczos as sl
     import blind_generate as bg
     Hs, Js, Hc = C['Hs'], C['Js'], C['Hc']
-    prob = np.abs(psi0) ** 2
-    idx = np.sort(np.argsort(prob)[::-1][:d])
+    idx = np.sort(np.asarray(order)[:d])
     Hsub = Hs[idx][:, idx]
     Jsub = Js[idx][:, idx]
     e0, g = sl._sub_gs(Hsub)
@@ -348,7 +428,7 @@ def trunc_instance(C, d, psi0):
     Jg = Jsub @ g
     m_bar = np.array([np.vdot(Jg, Jg).real, np.vdot(Jg, Hcs @ Jg).real,
                       np.vdot(Jg, Hcs @ (Hcs @ Jg)).real])
-    gfull = np.zeros_like(psi0)
+    gfull = np.zeros_like(C['psi_fixed'])      # same shape and dtype as the generator's psi0
     gfull[idx] = g
     with warnings.catch_warnings():            # local_var casts O_k psi (real-valued, complex
         warnings.simplefilter('ignore')        # dtype: J = i*A) to real; the imaginary part is 0
@@ -389,40 +469,70 @@ def shells_of(prob, rel=1e-9):
     return shells
 
 
+def choose_tie_order(pr, P, Lb, GS):
+    """Guard for part (c). Validate the stored tie order (if present) and the ARPACK default-start
+    order of this process against the sealed record; use the stored order if it reproduces all 56
+    instances, else the ARPACK order if it does; otherwise ABORT (nothing is written)."""
+    arpack = {float(U): argsort_order(C['psi0'], C['nsup']) for U, C in GS.items()}
+    res_a, sum_a = rebuild_check(pr, P, Lb, GS, arpack)
+    stored, stored_info = load_stored_tie_order()
+    res_s = sum_s = None
+    if stored is not None:
+        res_s, sum_s = rebuild_check(pr, P, Lb, GS, stored)
+    if sum_s is not None and sum_s['all_56_match']:
+        source = (f'stored: recovered_tie_order_top_nsup_basis_indices of the previous '
+                  f'{os.path.basename(OUT_JSON)} (sha256 of the file read {stored_info}), validated '
+                  f'against the sealed record in this run')
+        used, res, summ = stored, res_s, sum_s
+    elif sum_a['all_56_match']:
+        source = ('ARPACK default start of this process (first v0-less eigsh calls, U in prereg '
+                  'U_grid order); stored order ' + ('absent: ' + stored_info if stored is None
+                                                    else 'present but did NOT reproduce the sealed record'))
+        used, res, summ = arpack, res_a, sum_a
+    else:
+        where = os.path.relpath(OUT_JSON, os.path.join(HERE, '..'))
+        msg = ['ABORT (part c): no tie order reproduces the 56 sealed truncation instances, so the',
+               'shared-state rescoring would pair sealed m_bar values with other truncations.',
+               '  ARPACK default-start rebuild: m_bar ' + sum_a['match_sealed_m_bar_(rel<1e-8)']
+               + ', var_loc ' + sum_a['match_sealed_var_loc_(rel<1e-8)']
+               + ', m_hat ' + sum_a['match_sealed_m_hat_by_RNG_replay_(rel<1e-12)']
+               + ' (needs the first v0-less eigsh calls of a fresh process; verified only with scipy 1.13.1,'
+               + ' numpy 1.26.4).',
+               '  stored order: ' + (stored_info if stored is None else
+                                     'm_bar ' + sum_s['match_sealed_m_bar_(rel<1e-8)']
+                                     + ', var_loc ' + sum_s['match_sealed_var_loc_(rel<1e-8)']
+                                     + ', m_hat ' + sum_s['match_sealed_m_hat_by_RNG_replay_(rel<1e-12)']),
+               '  Restore ' + where + ' from the repository and rerun.',
+               'Nothing was written.']
+        raise SystemExit('\n'.join(msg))
+    diag = dict(sum_a)
+    diag['order_identical_to_used_order'] = bool(all(np.array_equal(arpack[U], used[U]) for U in used))
+    diag['note'] = ('diagnostic only: the ARPACK default-start order depends on the process state '
+                    '(these must be the first v0-less eigsh calls) and on the scipy/ARPACK build')
+    return used, res, summ, source, diag
+
+
 def part_c(pr, sha, P, V, Lb, GS):
     b = pr['battery']
     Ns = b['Ns']
     ids = sorted(i for i, l in Lb.items() if l['mode'] == 'trunc')
+    used, res, summ, source, arpack_diag = choose_tie_order(pr, P, Lb, GS)
     rows, insts_sh, insts_naive = [], [], []
-    n_mbar = n_var = n_hat = n_naive_diff = 0
-    worst = {'m_bar': 0.0, 'var_loc': 0.0, 'm_hat': 0.0}
-    tie_order = {}
+    n_naive_diff = 0
     for U, C in GS.items():
-        prob = np.abs(C['psi0']) ** 2
-        tie_order[f'U={U:g}'] = [int(a) for a in np.argsort(prob)[::-1][:C['nsup']]]
+        prob = np.abs(C['psi_fixed']) ** 2        # shells and weights do not depend on the tie order
         C['shells'] = shells_of(prob)
         C['cum'] = np.cumsum(np.sort(prob)[::-1]) / prob.sum()
     for i in ids:
         lab = Lb[i]
         U, d = lab['params']['U'], lab['params']['d']
         C = GS[U]
-        U2, mode2, d2, rng = replay_rng(pr, i, C['nsup'])
-        assert (U2, mode2, d2) == (U, 'trunc', d), f'RNG replay disagrees for id {i}'
-        T = trunc_instance(C, d, C['psi0'])
+        T = res[i]['T']
+        e_mbar, e_var, e_hat = res[i]['e_mbar'], res[i]['e_var'], res[i]['e_hat']
         m_ex = np.array(lab['m_exact'])
-        noise = rng.normal(0.0, np.sqrt(T['var'] / Ns))              # the generator's draw
-        m_hat_replayed = m_ex + noise
         sb, sv, sh = (np.array(P[i][k]) for k in ('m_bar', 'var_loc', 'm_hat'))
-        e_mbar = float(np.max(np.abs(T['m_bar'] - sb) / np.maximum(np.abs(sb), 1e-12)))
-        e_var = float(np.max(np.abs(T['var'] - sv) / np.maximum(np.abs(sv), 1e-12)))
-        e_hat = float(np.max(np.abs(m_hat_replayed - sh) / np.abs(sh)))
-        worst = {k: max(worst[k], v) for k, v in zip(worst, (e_mbar, e_var, e_hat))}
-        ok_m, ok_v, ok_h = e_mbar < 1e-8, e_var < 1e-8, e_hat < 1e-12
-        n_mbar += ok_m
-        n_var += ok_v
-        n_hat += ok_h
         # naive regeneration (today's generator, fixed-v0 psi0): which instances differ?
-        Tn = trunc_instance(C, d, C['psi_fixed'])
+        Tn = trunc_instance(C, d, argsort_order(C['psi_fixed'], C['nsup']))
         naive_same = bool(np.allclose(Tn['m_bar'], sb, rtol=1e-7, atol=1e-9))
         n_naive_diff += not naive_same
         # shared-state rescoring on the REBUILT sealed instance, with the SEALED noise draw
@@ -467,31 +577,51 @@ def part_c(pr, sha, P, V, Lb, GS):
     fires_sh = np.array([[g > dl for g, dl in zip(Vsh[i]['g'], Vsh[i]['delta'])] for i in ids])
     Vsd = V
     ambiguous = sum(r['boundary_shell']['ambiguous'] for r in rows)
+    zero_w = [i for i in ids if abs(P[i]['m_bar'][0]) < 1e-12]
     return {
+        'status': 'POST HOC (2026-09-27, after unblinding): an exact rebuild of the sealed truncations and '
+                  'a rescoring with a different estimator; not part of the sealed protocol and not a '
+                  'sealed endpoint',
         'rebuild': {
-            'method': "psi0 from scipy eigsh(k=1, which='SA') with ARPACK's default start, first "
-                      "v0-less calls of a fresh process, U in prereg U_grid order; truncation = "
-                      "top-d of argsort(|psi0|^2) (numpy default sort), exactly blind_generate.py",
+            'method': "truncation = top-d of a per-U tie order of |psi0|^2 (numpy argsort, descending), "
+                      "exactly blind_generate.py; the order is the one the sealed run used, recovered on "
+                      "2026-09-27 from ARPACK's default start (first v0-less eigsh calls of a fresh process, "
+                      "U in prereg U_grid order) and stored below",
+            'tie_order_source': source,
+            'guard': 'the order used must reproduce all 56 sealed m_bar, var_loc and m_hat, else the '
+                     'script aborts and writes nothing; the stored order is preferred over the ARPACK '
+                     'rebuild of the running process',
             'instances': len(ids),
             'cut_inside_a_degenerate_shell': ambiguous,
-            'match_sealed_m_bar_(rel<1e-8)': f'{n_mbar}/{len(ids)}',
-            'match_sealed_var_loc_(rel<1e-8)': f'{n_var}/{len(ids)}',
-            'match_sealed_m_hat_by_RNG_replay_(rel<1e-12)': f'{n_hat}/{len(ids)}',
-            'worst_rel_err': worst,
-            'exact_rebuild_possible': bool(n_mbar == n_var == n_hat == len(ids)),
+            'match_sealed_m_bar_(rel<1e-8)': summ['match_sealed_m_bar_(rel<1e-8)'],
+            'match_sealed_var_loc_(rel<1e-8)': summ['match_sealed_var_loc_(rel<1e-8)'],
+            'match_sealed_m_hat_by_RNG_replay_(rel<1e-12)': summ['match_sealed_m_hat_by_RNG_replay_(rel<1e-12)'],
+            'worst_rel_err': summ['worst_rel_err'],
+            'exact_rebuild_possible': summ['all_56_match'],
+            'zero_reconstructed_weight_ids': zero_w,
+            'zero_weight_note': (f'{len(zero_w)} of the {len(ids)} truncations have m_bar of order 1e-30 (J g '
+                                 'vanishes inside the kept subspace); the relative test floors its '
+                                 'denominator at 1e-12, so for these the m_bar match is an absolute one'),
+            'arpack_default_start_rebuild_this_process': arpack_diag,
             'naive_regeneration_(fixed-v0 psi0)_differs_from_sealed_on': f'{n_naive_diff}/{len(ids)}',
             'fragility_note': 'the sealed tie order is set by ARPACK start-vector noise; calling '
                               'the four eigsh in another order reproduces only a minority of the '
                               'sealed instances (checked 2026-09-27: 19/56 with order 6,5,4,3). The '
                               'recovered order is stored below so later rescoring need not rely '
                               'on ARPACK state.',
-            'recovered_tie_order_top_nsup_basis_indices': tie_order,
+            'recovered_tie_order_top_nsup_basis_indices': {f'U={U:g}': [int(a) for a in used[float(U)]]
+                                                           for U in GS},
             'basis': 'index = iu*Dd + id over sorted up/down bit-strings (spectral_lanczos.strings, L=6, n=2)',
         },
         'shared_state_rescoring': {
+            'status': 'POST HOC; the sealed test used the idealised oracle-centred estimator (m_hat = '
+                      'm_exact + Gaussian noise), whose result stays the reported one',
             'estimator': 'm_hat_k = <J g|(H - e0)^k|J g> (full operators, g = truncated-subspace ground '
                          'state, e0 = <g|H|g>) + the sealed shot-noise draw (m_hat_sealed - m_exact); '
                          'var_loc as sealed (already the local variance on g); frozen rule, verbatim',
+            'threshold_note': 'the thresholds reuse the sealed var_loc, whose m1 and m2 local variances '
+                              'are centred on the exact E0 (Hc = H - E0), whereas the shared-state moments '
+                              'use H - e0; only the m1/m2 thresholds are affected, not the m0 conclusion',
             'rejected_sealed_noise': f"{sum(Vsh[i]['reject'] for i in ids)}/{len(ids)}",
             'rejected_idealized_sealed_estimator': '56/56 (sealed record)',
             'fires_per_moment_[m0,m1,m2]': fires_sh.sum(axis=0).tolist(),
@@ -606,7 +736,7 @@ def main():
     t0 = time.time()
     sha_before = {f: sha256(os.path.join(DATA, f)) for f in SEALED_INPUTS}
     pr, sha, P, V, Lb, score = load_sealed()
-    GS = sealed_era_ground_states(pr)            # FIRST v0-less eigsh calls of the process
+    GS = sealed_era_ground_states(pr)            # FIRST v0-less eigsh calls of the process (part c diagnostic)
     res = {}
     res['0_frozen_rule_check'] = part0_rule_check(pr, sha, P, V)
     res['a_primary_endpoint'] = part_a(pr, V, Lb, score)
@@ -630,6 +760,9 @@ def main():
         'inputs_sha256': sha_after,
         'code_sha256': {f: sha256(os.path.join(HERE, f)) for f in CODE_INPUTS},
         'sealed_files_modified': False,   # checked: input hashes identical before and after the run
+        'status': 'post hoc addenda (2026-09-27, after unblinding); the sealed endpoints are the ones in '
+                  '2026-08-24_blind_harness_score.json, recomputed unchanged in part (a); part (c) is a post '
+                  'hoc rescoring with a different estimator',
         'sim_only': True}, **res}
     json.dump(res, open(OUT_JSON, 'w'), indent=1)
 
@@ -646,11 +779,16 @@ def main():
         print(f"FPR {k:45s}: {v['FPR_mean']:.4f} +- {v['FPR_mc_se']:.4f}")
     print('  vectorised vs verbatim:', bb['vectorised_rule_vs_verbatim_classifier'])
     rb = cc['rebuild']
-    print('rebuild m_bar/var/m_hat:', rb['match_sealed_m_bar_(rel<1e-8)'], rb['match_sealed_var_loc_(rel<1e-8)'],
+    ad = rb['arpack_default_start_rebuild_this_process']
+    print('(c, POST HOC) tie order used:', rb['tie_order_source'].split(':')[0].split(' (')[0])
+    print('  rebuild m_bar/var/m_hat:', rb['match_sealed_m_bar_(rel<1e-8)'], rb['match_sealed_var_loc_(rel<1e-8)'],
           rb['match_sealed_m_hat_by_RNG_replay_(rel<1e-12)'], ' naive differs on', rb['naive_regeneration_(fixed-v0 psi0)_differs_from_sealed_on'])
+    print('  ARPACK default-start diagnostic (this process):', ad['match_sealed_m_bar_(rel<1e-8)'],
+          ad['match_sealed_var_loc_(rel<1e-8)'], ad['match_sealed_m_hat_by_RNG_replay_(rel<1e-12)'],
+          ' same order as used:', ad['order_identical_to_used_order'])
     ss = cc['shared_state_rescoring']
-    print('shared-state rescoring:', ss['rejected_sealed_noise'], ' fires/moment', ss['fires_per_moment_[m0,m1,m2]'],
-          ' fresh-noise min P(detect)', round(ss['fresh_noise']['min_detection_prob'], 4))
+    print('  shared-state rescoring (POST HOC):', ss['rejected_sealed_noise'], ' fires/moment',
+          ss['fires_per_moment_[m0,m1,m2]'], ' fresh-noise min P(detect)', round(ss['fresh_noise']['min_detection_prob'], 4))
     k1 = dd['per_nl']['nl=1']
     print('krylov nl=1 m2 rel err', np.round([k1['rel_err_m_bar_vs_m_exact_min_[m0,m1,m2]'][2],
                                               k1['rel_err_m_bar_vs_m_exact_max_[m0,m1,m2]'][2]], 4),

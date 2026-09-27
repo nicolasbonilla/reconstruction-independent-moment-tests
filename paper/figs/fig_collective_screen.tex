@@ -1,24 +1,29 @@
 % fig_collective_screen.tex -- native pgfplots (single column). The moment screen RUN on the collective channels.
 % Demonstrated (not asserted) breadth: for BOTH the charge S(q,omega) and spin S^zz(q,omega) structure factors of the
 % same Hubbard ring, an m0-preserving corruption (a spurious low-omega phantom peak) passes the total-weight check yet
-% fails the first moment. The two channels are OVERLAID in one panel (the gapped/gapless spectra themselves are Fig. 4);
-% here the point is that the SAME screen fires for both. Data: run_collective_sumrule_falsifier.py (L=6, U=8, PBC,
-% half filling), representative momentum q/pi=2/3; operator moments match the exact Lehmann spectrum to ~1e-15.
+% moves the first moment. The two channels are OVERLAID in one panel (the L=12 spectra themselves are Fig. sqw);
+% here the point is that the SAME screen transports to both. Data: run_collective_sumrule_falsifier.py (L=6, U=8, PBC,
+% half filling; exact simulation), representative momentum q/pi=2/3. Operator moments match the exact Lehmann moments
+% to <= 6.3e-15 (worst case over q and both channels: summary.worst_lehmann_m1_match_residual in
+% data/2026-08-26_collective_sumrule_falsifier.json). The dashed 5% line is a fixed RELATIVE guide, not the deployed
+% threshold rule tau_1.
 \begin{tikzpicture}
 \begin{axis}[
   paperaxis, width=8.4cm, height=6.0cm,
-  xlabel={weight fraction misplaced to spurious low-$\omega$ peak (\%)},
-  ylabel={relative first-moment residual $\Delta_1/m_1$ (\%)},
+  axis on top=false,   % grid below data and labels
+  xlabel={band weight moved to the spurious peak (\%)},
+  ylabel={relative residual $\Delta_1/m_1$ (\%)},
   xmin=0, xmax=50, ymin=-5, ymax=50,
   ytick={0,10,20,30,40,50}, clip=false,
   legend style={at={(0.03,0.97)}, anchor=north west, font=\small, draw=none, fill=none, row sep=-1pt},
+  legend cell align=left,
 ]
   \addplot[threshold, forget plot] coordinates {(0,5) (50,5)};
-  \node[pMuted, font=\scriptsize, anchor=east] at (axis cs:49,7.6) {$5\%$ threshold};
-  % charge channel: m1 fires
+  \node[pCrimson, font=\scriptsize, anchor=south east, inner sep=1.5pt] at (axis cs:49.5,5.8) {$5\%$ relative guide};
+  % charge channel: m1 moves
   \addplot[firesline] table[x=f,y=r1]{figs/collective_screen_charge.dat};
   \addlegendentry{charge $m_1$ (flags)}
-  % spin channel: m1 fires (distinct style)
+  % spin channel: m1 moves (distinct style)
   \addplot[pIndigo, very thick, densely dashed, mark=triangle*, mark size=2.4pt, mark options={fill=pIndigo}]
       table[x=f,y=r1]{figs/collective_screen_spin.dat};
   \addlegendentry{spin $m_1$ (flags)}

@@ -4,11 +4,15 @@ inflated table caught by self-audit S-1/S-3).  SIM-ONLY, structure-only (no expo
 
 The Pauli SET of M0,M1,M2 = drho (H-E0)^k drho depends on the OPERATOR structure only, not on the
 numeric values of E0 or <rho> (those scale the identity term). E0 shifts identity only. For <rho>:
-at half filling with q=pi and even L, <rho_q>=0 by particle-hole/staggering symmetry, so drho=rho
-EXACTLY (no identity shift) -- this is why we may skip the exponential eigsh. (A NONZERO <rho> would
-enlarge the support; we do NOT assume a generic nonzero placeholder -- that was the S-3 bug.)
+with q=pi and even L, <rho_pi>=0 on the open chain by its bond-centred reflection j -> L-1-j, which maps
+cos(pi j) -> -cos(pi j); this holds at ANY filling (the global ground state that bond_moment_estimator.py
+uses is not half filled: N = 2, 4, 5 electrons at L = 4, 6, 8; small_checks.py, key m4_psd_and_symmetry).
+So drho=rho EXACTLY (no identity shift) -- this is why we may skip the exponential eigsh. (A NONZERO <rho>
+would enlarge the support; we do NOT assume a generic nonzero placeholder -- that was the S-3 bug.)
+Before 2026-09-27 the docstring and the output's 'method' string gave the reason as 'half-filling
+symmetry'; the reason is now corrected, and the counts are unaffected.
 
-Verified against the full eigsh-based build_operators at L=4,6,8,10 (where eigsh is affordable):
+Verified against the full eigsh-based build_operators at L=4,6,8 (where eigsh is affordable):
 the label-set counts match exactly.
 """
 import os, sys, json, time
@@ -60,8 +64,9 @@ def main():
               f"bases={ref['full_battery_bases']}  -> {'MATCH' if match else 'MISMATCH'}")
 
     out = {'_provenance': {'script': 'estimator_scaling.py', 'sim_only': True,
-                           'method': 'structure-only Pauli label-set counts; <rho>=0 exact by half-filling '
-                                     'symmetry (q=pi, even L), so drho=rho; verified vs eigsh build_operators at L<=8'},
+                           'method': 'structure-only Pauli label-set counts; <rho_pi>=0 exact by the bond-centred '
+                                     'reflection symmetry of the open chain (q=pi, even L; any filling), so drho=rho; '
+                                     'verified vs eigsh build_operators at L<=8'},
            'columns': ['L', 'qubits', 'M2_paulis', 'full_battery_bases', 'm0m1_bases'],
            'scaling': [[r['L'], r['qubits'], r['M2_paulis'], r['full_battery_bases'], r['m0m1_bases']] for r in rows]}
     RES = os.path.normpath(os.path.join(HERE, '..', 'data'))

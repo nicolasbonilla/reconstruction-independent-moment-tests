@@ -1,4 +1,9 @@
 % fig_hero.tex -- the reconstruction-independent moment loop, native TikZ (no PNG).
+% 2026-09-27 revision: outcome boxes read "reject: Delta_k > tau_k" / "pass: Delta_k <= tau_k" (tau_k = z delta_k,
+% the preset threshold of the Method; a pass is not a certificate). The strapline states the one-sample-set DESIGN;
+% in this paper both branches share shots only in simulation, and on hardware the device supplies the support S alone
+% (caption). The footer prints the double-commutator form O_k = J ad_H^k(J), which the caption identifies as the
+% exact-eigenstate form of the deployed estimator <J (H-e0)^k J>.
 \begin{tikzpicture}[font=\small]
   % --- nodes ---
   \node[pbox, fill=pGrid!40, minimum height=10mm] (S)
@@ -10,9 +15,9 @@
   \node[pbox, draw=pInk, fill=white, minimum height=10mm] (CMP)
       at (9.9,2.2) {compare\\ $\Delta_k=\lvert\widehat m_k-\bar m_k\rvert$};
   \node[pbox, draw=pTeal, fill=pTeal!10, minimum height=9mm] (CORR)
-      at (14.3,3.4) {\textbf{corroborate}\\ $\Delta_k\approx 0$};
+      at (14.3,3.4) {\textbf{pass}\\ $\Delta_k\le\tau_k$\\[-1pt] {\scriptsize\itshape (not a certificate)}};
   \node[pbox, draw=pOx, fill=pOx!8, minimum height=9mm] (FALS)
-      at (14.3,1.0) {\textbf{falsify}\\ $\Delta_k>\epsilon$};
+      at (14.3,1.0) {\textbf{reject}\\ $\Delta_k>\tau_k$};
 
   % --- flow arrows ---
   \draw[pflow] (S) to[out=60,in=180]  (REC.west);
@@ -31,8 +36,10 @@
       {never read\\ back off $A(\omega)$};
 
   % --- strapline + footer ---
-  \node[font=\normalsize\bfseries, pInk, anchor=west] at (0.4,4.55)
-      {Two moment branches from the same samples};
+  \node[font=\normalsize\bfseries, pInk, anchor=west] (STRAP) at (0.4,4.55)
+      {Two moment branches from one sample set (design)};
+  \node[font=\scriptsize\itshape, pMuted, anchor=base west] at ($(STRAP.base east)+(0.15,0)$)
+      {shared shots realized in simulation only};
   \node[font=\scriptsize, pMuted, anchor=west] at (0.4,-0.15)
-      {$O_k=J\,\mathrm{ad}_H^{k}(J)$, \; $m_0=\langle J^2\rangle$, \; $m_1=\tfrac12\langle[J,[H,J]]\rangle$ \;\textemdash\; the estimator never touches the reconstruction, so agreement is not preordained};
+      {$O_k=J\,\mathrm{ad}_H^{k}(J)$, \; $m_0=\langle J^2\rangle$, \; $m_1=\tfrac12\langle[J,[H,J]]\rangle$ \;\textemdash\; the estimator never uses $A(\omega)$, so agreement is not preordained};
 \end{tikzpicture}

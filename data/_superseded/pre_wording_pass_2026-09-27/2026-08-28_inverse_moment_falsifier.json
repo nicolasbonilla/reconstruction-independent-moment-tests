@@ -1,9 +1,8 @@
 {
   "_provenance": {
-    "script": "src/run_inverse_moment_falsifier.py",
+    "script": "A_payload_echoes/03_src/run_inverse_moment_falsifier.py",
     "date": "2026-08-28",
-    "claim": "m_{-1}=int A_J/omega = (1/2)<-That> (optical f-sum, ground-state kinetic energy) on the open chain; = (1/2)<-That> - D_Kohn on the ring. For a spurious low-omega (Drude) peak the RELATIVE shifts order as Delta_{-1}/m_{-1} > Delta_1/m_1 > Delta_0/m_0 = 0 (exact simulation). Relative shift is not detection power: under the deployed noise-normalized rule m_{-1} fires after m_1 and m_2 for this error (key R8_inverse_moment_sensitivity).",
-    "wording_note": "2026-09-27: script path and claim rescoped (relative shift vs detection power); numbers reproduced bit for bit"
+    "claim": "m_{-1}=int A_J/omega = (1/2)<-That> (optical f-sum, ground-state kinetic energy) on the open chain; = (1/2)<-That> - D_Kohn on the ring. Deployed as a LOW-frequency falsifier: Delta_{-1}/m_{-1} >> Delta_1/m_1 >> Delta_0/m_0=0 for the spurious-low-omega (Drude) error the positive moments are weakest on."
   },
   "identity_checks": [
     {
@@ -209,7 +208,6 @@
   },
   "summary": {
     "inverse_moment_more_sensitive": true,
-    "sensitivity_meaning": "relative shift Delta_k/m_k at the largest misplaced fraction (Delta_{-1}/m_{-1} > 2 Delta_1/m_1, m_0 unchanged); not detection power, see key R8_inverse_moment_sensitivity",
     "max_Delta_minus1_over_m": 1.5422184173143711,
     "max_Delta_1_over_m": 0.38148563667385643,
     "sensitivity_ratio_minus1_to_1": 4.0426644388524124

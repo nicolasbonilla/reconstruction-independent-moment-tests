@@ -12,13 +12,13 @@
 
 </div>
 
-> **Status (2026-09-27).** The manuscript is being revised. It is **not on arXiv** and not in a journal.
-> [`paper/`](paper/) holds the **2026-09-05 text** (31 pp) that the revision starts from. On 2026-09-27
-> the numbers the revision needs were recomputed as committed scripts with dated outputs
-> (`data/2026-09-27_*.json`; "phase A", listed in [`docs/REPRODUCE.md`](docs/REPRODUCE.md)). Several of
-> these results correct or contradict statements in the 2026-09-05 text, and some figures in `paper/figs/`
-> already differ from the captions in `paper/main.tex` (see [`paper/README.md`](paper/README.md)). Where
-> they disagree, the code and data in this repository are the reference.
+> **Status (2026-09-27).** The manuscript is under revision. It is **not on arXiv** and not in a journal.
+> On 2026-09-27 the numbers the revision needs were recomputed as committed scripts with dated outputs
+> (`data/2026-09-27_*.json`; "phase A", listed in [`docs/REPRODUCE.md`](docs/REPRODUCE.md)), and the text
+> in [`paper/`](paper/) (now 38 pp) was revised against them: several statements of the 2026-09-05 text are
+> corrected or withdrawn (listed in [`paper/README.md`](paper/README.md)). The length pass and the port to
+> the SciPost template are still to come. Where text and data disagree, the code and data in this
+> repository are the reference.
 
 > **One sentence.** A reconstruction-independent, **necessary-condition** screen for sample-based quantum
 > spectral functions: low-order spectral moments m₀, m₁, m₂ (and m₋₁ on open chains) are evaluated as
@@ -109,7 +109,8 @@ spectral moment is estimated on hardware, and the discriminating off-diagonal mo
   of the ground-state support (75.1–98.7% of its weight); spurious atoms carried 2.1–24.9% of m₀ and are
   point atoms in the generator (the prereg text says "Gaussian atom").
 - **Post hoc addenda** (`data/2026-09-27_blind_addenda.json`): the 56 sealed truncations were rebuilt exactly
-  and rescored with the shared-state estimator; all 56 are rejected. One-node Krylov misses m₂ by 2.35–4.19%
+  (from a stored tie order that every run re-validates against the sealed record; the script aborts
+  otherwise) and rescored post hoc with the shared-state estimator; all 56 are rejected. One-node Krylov misses m₂ by 2.35–4.19%
   and passes only inside the 2% bias budget (largest residual 0.986 τ₂). The Hankel branch of the rule is
   evaluated on the reconstruction's own moments, so it cannot fire (0/300 by construction).
 - **The seal is self-attested** (no third-party timestamp); it fixes the protocol but cannot by itself
@@ -204,28 +205,28 @@ physical parameter (`data/2026-09-05_nk_v4_verdict.json`).
 
 Not yet reproducible from this repository, or known defects:
 
-- **Manuscript text.** `paper/main.tex` is the 2026-09-05 text. Its captions and several statements do not
-  match the phase-A figures and numbers yet; see [`paper/README.md`](paper/README.md). Do not build it for
-  submission until captions and figures agree.
-- **`fig_heron`:** no exporter yet for `paper/figs/heron_{exact,hw}.dat` (from `data/heron_spectral.json`).
-- **`verify.py`** still orders the truncation with `argsort`, not the deterministic `lexsort` key of the
-  interval scripts. Both pick d=97, but `verify.py` prints the argsort gaps (|Δm₁| = 0.155, |Δm₂| = 2.560)
-  and `interval_battery.py` the lexsort ones (0.186, 2.729).
-- **`blind_addenda.py`, part (c):** the exact rebuild of the sealed truncations needs ARPACK's default start
-  to be the first `eigsh` calls of a fresh process (verified with scipy 1.13.1 and numpy 1.26.4 only). The
-  script records `exact_rebuild_possible` but does not yet stop, or fall back to the stored tie order, when
-  the rebuild fails; check that flag after a rerun. The sealed files remain the canonical record.
-- **`fig_sqw`:** the rasters are now placed at their true extents; the charge window is clipped at 10t, and
-  the script that checked what the raster draws below the onset line is not in the repository.
-- **`fig_bracketing`** (top panel of the Christoffel figure): the inset's y label overlaps the main axis's
-  0.4 tick label, and the t* label is clipped under the frame.
+- **Manuscript text.** `paper/main.tex` was revised on 2026-09-27 against the phase-A figures and numbers.
+  It is not yet shortened or ported to the SciPost template, and it relies on the companion's arXiv v3; see
+  [`paper/README.md`](paper/README.md).
+- **`blind_addenda.py`, part (c):** the tie order of the sealed truncations was recovered from ARPACK's
+  default start (first `eigsh` calls of a fresh process; scipy 1.13.1, numpy 1.26.4) and is stored in
+  `data/2026-09-27_blind_addenda.json`. Reruns use the stored order after checking that it reproduces all 56
+  sealed instances, and abort without writing if neither it nor the ARPACK rebuild does. The sealed files
+  remain the canonical record.
+- **`run_teeth_shared.py` (L=12, `argsort` order):** a rerun reproduces the two 5% crossings (d ≈ 15977 and
+  43554) but moves the three smallest-d points of the sweep (m̄₁ by up to 6% at d = 180) against the
+  committed 2026-08-26 record, which is kept (`data/2026-08-26_teeth_shared_state.json`,
+  `paper/figs/teeth_shared.dat`).
+- **`fig_sqw`:** the rasters are placed at their true extents, and the display windows clip 6.3% of the
+  broadened charge-grid weight (above 10t; 8.5% at the worst q) and 0.25% of the spin weight (above 2.4t)
+  (`src/check_sqw_extent.py` → `data/2026-09-27_sqw_extent_check.json`).
 - **`paper/figs/bracket_maxW.dat`** (written by `export_bracketing_dat.py`, read by no figure) holds grid
   maxima that differ from the exact values in `christoffel_maxW.dat`; do not quote it.
 - **Provenance hash:** `delta0_reference_mc.py` records the SHA-256 of
   `data/_superseded/analytic_coverage_leak.json`, which changes with line endings (a CRLF checkout gives a
   different hash for identical content).
-- **Notebook:** `notebooks/00_Reproduce_Everything.ipynb` does not yet run the 2026-09-27 scripts and still
-  names the 2026-09-02 draft; `make reproduce` runs those scripts after it (`make revision`).
+- **Notebook:** the device reference Monte Carlo (`delta0_reference_mc.py`, qiskit, 7–20 min) is behind a
+  switch that is off by default, so `make reproduce` does not rerun it (`make device` does).
 - **Archive:** no Zenodo DOI yet; README thumbnails not regenerated.
 
 ---
@@ -242,6 +243,7 @@ Not yet reproducible from this repository, or known defects:
 │   ├── blind_*.py, separating_counts.py#   the sealed blinded protocol (seal → generate → classify → score), addenda, figure recount
 │   ├── hardware_matched_job_L8.py …    #   ibm_fez L=8 job, noiseless baseline, retention-matched control
 │   ├── delta0_reference_mc.py, export_device_dat.py  # reference Monte Carlo for Δ₀ and the fig_device data
+│   ├── export_heron_dat.py             #   fig_heron data from data/heron_spectral.json (formatting only)
 │   ├── small_checks.py, within_sector_lp.py, …       # theory numerics of the revision (one JSON, one key per item)
 │   ├── nk_*.py                         #   the pre-registered n_k device experiment (gate-negative; never run)
 │   ├── run_*.py, export_*.py           #   demonstrations and one data-driven generator per figure fragment
@@ -251,8 +253,8 @@ Not yet reproducible from this repository, or known defects:
 │   ├── README.md                       #   which dated files supersede which (nothing is deleted)
 │   └── _superseded/                    #   superseded model, precursor-program data, .dat copies (see its README)
 ├── notebooks/
-│   └── 00_Reproduce_Everything.ipynb   #   narrated run of the committed generators (optional cells need qiskit-aer)
-├── paper/                              # the 2026-09-05 text under revision (LaTeX source + PDF, 31 pp) — see paper/README.md
+│   └── 00_Reproduce_Everything.ipynb   #   narrated run of the committed generators, phase-A scripts included
+├── paper/                              # the manuscript, revised 2026-09-27 (LaTeX source + PDF, 38 pp) — see paper/README.md
 ├── docs/
 │   ├── REPRODUCE.md                    #   figure/number → script → exact command, phase-A outputs, known gaps
 │   ├── FILE_INDEX.md                   #   every file, described
@@ -270,8 +272,8 @@ Not yet reproducible from this repository, or known defects:
 python -m venv .venv && source .venv/bin/activate      # (Windows: .venv\Scripts\activate)
 pip install -r requirements.txt
 
-# 2. smoke test in seconds (numpy/scipy only): the current-probe moments, the shot-budget interval,
-#    and the joint battery rejecting a truncation that the lone first moment misses
+# 2. smoke test in seconds (numpy/scipy only): the current-probe moments, the shot-budget thresholds,
+#    and the joint battery rejecting, via m2, a truncation that the lone first moment passes (d=97)
 python src/verify.py        # or: make verify
 
 # 3. the 2026-09-27 recomputations (numpy/scipy/mpmath; about 20 min in total)
@@ -281,10 +283,10 @@ make device                 # reference Monte Carlo for Δ₀ + fig_device data 
 # 4. regenerate the native figure data (uses the committed src/cache/*_L12.npz)
 make figures
 
-# 5. everything: the narrated notebook, then `make revision`
+# 5. everything: the narrated notebook (includes the 2026-09-27 scripts; about 45 min)
 make reproduce
 
-# 6. build the 2026-09-05 text (needs a TeX distribution; captions are not yet updated)
+# 6. build the manuscript (needs a TeX distribution)
 make paper                  # -> paper/main.pdf   (uses the committed main.bbl; no bibtex)
 ```
 
@@ -299,12 +301,12 @@ overwrite them.
 
 | Layer | Reproducible here? | How |
 |---|---|---|
-| **The committed generators, one pass** | ✅ narrated, then the phase-A scripts | `make reproduce` (notebook + `make revision`) |
+| **The committed generators, one pass** | ✅ narrated, phase-A scripts included | `make reproduce` (the notebook) |
 | **Exact diagonalization** (`A(k,ω)`, `S(q,ω)`, `S^zz`, the current-response tests, the teeth, the Christoffel bounds) | ✅ locally | `python src/<script>.py`; see `docs/REPRODUCE.md` |
 | **Interval-moment test + joint battery** | ✅ deterministic order; every-depth scan and tie-break sensitivity | `make intervals` |
 | **Blinded, pre-registered test** | ✅ re-scores the sealed record; addenda re-derive from it | `make blind` (seal `data/prereg.sha256`) |
 | **Theory numerics of the revision** | ✅ one JSON, one key per item | `make theory` (≈15 min) |
-| **Figures** | ✅ all data-driven figures except `fig_heron` (exporter pending) | `make figures`; `fig_device` data from `make device` |
+| **Figures** | ✅ all data-driven figures | `make figures`; `fig_device` data from `make device` |
 | **IBM Heron** | ✅ re-analysis of the retained L=8 counts (needs `qiskit`) | counts in `data/heron_counts_matched_L8_*.json` (acquired by `src/hardware_matched_job_L8.py`); reference Monte Carlo `src/delta0_reference_mc.py`; the companion's L=6 raw counts are not deposited |
 
 Every result but the hardware acquisition is an **exact classical simulation**; re-acquiring device data
