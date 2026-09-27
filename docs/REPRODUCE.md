@@ -1,12 +1,18 @@
 # Reproduce the numbers and figures
 
-Every non-hardware result in the paper is an exact classical computation. The core scripts need
-`numpy`/`scipy`/`mpmath`; the noise-model forecasts and the re-analysis of the retained `ibm_fez` counts
-also need `qiskit`/`qiskit-aer`, and the `L=24` DMRG check needs `physics-tenpy` (see
-`requirements.txt`). Run scripts from the repository root (`python src/<script>.py`); their paths are
-relative to `src/`, so they write their JSON into `data/` and their plotted data into `paper/figs/*.dat`,
-and `git status` after a run shows whether a committed number moved. The items that cannot be
-regenerated yet are listed under [Known gaps](#known-gaps).
+Every non-hardware result is an exact classical computation. The core scripts need
+`numpy`/`scipy`/`mpmath`; the re-analysis of the retained `ibm_fez` counts (including the reference Monte
+Carlo for Δ₀) and the noise-model forecasts also need `qiskit`/`qiskit-aer`, and the `L=24` DMRG check
+needs `physics-tenpy` (see `requirements.txt`). Scripts resolve their paths relative to `src/`, so
+`python src/<script>.py` from the root and `cd src && python <script>.py` behave the same: JSON goes to
+`data/`, plotted data to `paper/figs/*.dat`, and `git status` after a run shows whether a committed number
+moved. The exception is the five manifest-hashed `nk_*` scripts, which write to `./06_results/` relative to
+the working directory (see Sealed records). What cannot be regenerated yet is listed under
+[Known gaps](#known-gaps).
+
+The manuscript in `paper/` is the **2026-09-05 text, under revision**. The phase-A recomputations of
+2026-09-27 (section below) correct several of its numbers and captions; until the text is revised, the
+data files named here are the reference.
 
 ## Fastest check (seconds)
 
@@ -14,43 +20,120 @@ regenerated yet are listed under [Known gaps](#known-gaps).
 python src/verify.py        # or: make verify
 ```
 Recomputes the current-probe moments `m₀, m₁, m₂` of the doped `L=6, U/t=4` ring, the shot-budget
-interval at the real `ibm_fez` 50k-shot budget, and shows the joint `(m₀,m₁,m₂)`+Hankel battery
-**catching**, via `m₂`, a determinant truncation that the lone first moment misses (the truncation is
-found by an auto-calibrated scan, currently `d=97`). Expected: **ALL CHECKS PASS**.
+interval at the `ibm_fez` 50k-shot budget, and shows the joint `(m₀,m₁,m₂)`+Hankel battery **catching**,
+via `m₂`, a determinant truncation that the lone first moment misses (found by an auto-calibrated scan:
+`d=97`). Expected: **ALL CHECKS PASS**. `verify.py` still orders the truncation with `argsort`; it picks the
+same `d=97` as the deterministic scan in `interval_battery.py`, but prints the argsort gaps
+(`|Δm₁| = 0.155`, `|Δm₂| = 2.560`) rather than the lexsort ones (0.186, 2.729).
+
+## Make targets
+
+| Target | Runs | Needs | Time |
+|---|---|---|---|
+| `make verify` | `verify.py` | numpy/scipy | seconds |
+| `make cache` | rebuilds `src/cache/*_L12.npz` if missing (committed) | numpy/scipy | minutes |
+| `make figures` | the `export_*` scripts, `separating_counts.py`, `interval_moment_mc.py` (list in the Makefile); the `run_*` demonstrations that also write `.dat` files run in the notebook | numpy/scipy/mpmath, matplotlib | ≈10 min |
+| `make intervals` | `interval_moment.py`, `interval_battery.py`, `interval_moment_mc.py` | numpy/scipy | ≈3 min |
+| `make blind` | `blind_score.py`, `blind_addenda.py`, `separating_counts.py` | numpy/scipy | ≈15 s |
+| `make theory` | `small_checks.py --all` (six scripts, then its own keys) | numpy/scipy/mpmath | ≈15 min |
+| `make gauss` | `export_gauss_state.py` | numpy/scipy | ≈25 s |
+| `make revision` | `intervals` + `blind` + `theory` + `gauss` | numpy/scipy/mpmath | ≈20 min |
+| `make device` | `delta0_reference_mc.py`, `export_device_dat.py` | qiskit (Statevector; no QPU) | 7–20 min |
+| `make reproduce` | the notebook, then `make revision` | + nbconvert, ipykernel | ≈1 h |
+| `make paper` | `pdflatex` twice on `paper/main.tex` (committed `main.bbl`) | TeX | ≈1 min |
+
+Times are from the phase-A runs on a laptop and vary with load (for example, `delta0_reference_mc.py` took
+7.2 min on 2 BLAS threads and 19.3 min under concurrent load).
 
 ## Figure → engine → data
 
 | Figure (paper) | What it shows | Engine / script | Data fragment(s) |
 |---|---|---|---|
 | `fig_hero` | the reconstruction-independent moment loop (schematic) | native TikZ | — |
-| `fig_momentcone` | a moment sequence refutable by geometry | `export_momentcone_dat.py` (≈2 min) | `momentcone_point.dat` |
-| `fig_akw` | `A(k,ω)` Mott map + per-`k` screen | `spectral_lanczos` → `export_akw_dat.py`; needs `src/cache/akw_L12.npz` (committed / `make cache`) | `akw_*.dat`, `akw_true/wrong.png` |
-| `fig_sqw` | `S(q,ω)` gapped / `S^zz` gapless | `spectral_lanczos` → `export_sqw_dat.py`; needs `src/cache/sqw_L12.npz` (committed / `make cache`) | `sqw_*.dat`, `dcp_*.dat`, `sqw_charge/spin.png` |
-| `fig_collective_screen` | the screen transported to the collective channels | `run_collective_sumrule_falsifier.py` | `collective_screen_*.dat` |
-| `fig_inverse_falsifier` | the negative-order (`m₋₁`, f-sum) test | `run_inverse_moment_falsifier.py` | `inverse_falsifier_*.dat` |
-| `fig_teeth` | independence vs a circular control | `spectral_lanczos.run_teeth` → `export_teeth_dat.py`; needs `src/cache/teeth_L12.npz` (committed / `make cache`) | `teeth.dat` |
+| `fig_momentcone` | a moment sequence outside the moment cone | `export_momentcone_dat.py` (≈2 min) | `momentcone_point.dat` |
+| `fig_akw` | `A(k,ω)` Mott map + per-`k` screen | `spectral_lanczos` → `export_akw_dat.py`; needs `src/cache/akw_L12.npz` | `akw_*.dat`, `akw_true/wrong.png` |
+| `fig_sqw` | `S(q,ω)` gapped / `S^zz` gapless | `spectral_lanczos` → `export_sqw_dat.py`; needs `src/cache/sqw_L12.npz`. Since 2026-09-27 the rasters are placed at their true extents (`sqw_extent.dat`: q 0.1667–1.8333, charge 0–11t, spin 0–2.6t) and clipped by the 10t and 2.4t axis windows | `sqw_*.dat`, `dcp_*.dat`, `sqw_charge/spin.png` |
+| `fig_collective_screen` | the screen on the collective channels | `run_collective_sumrule_falsifier.py` | `collective_screen_*.dat` |
+| `fig_inverse_falsifier` | the negative-order (`m₋₁`, f-sum) test | `run_inverse_moment_falsifier.py` (without `--r8`; writes `data/<today>_inverse_moment_falsifier.json`) | `inverse_falsifier_*.dat` |
+| `fig_teeth` | independence vs a circular control | `spectral_lanczos.run_teeth` → `export_teeth_dat.py`; needs `src/cache/teeth_L12.npz` | `teeth.dat` |
 | `fig_teeth_shared` | the shared-state leak that still fires the screen | `run_teeth_shared.py` | `teeth_shared.dat` |
-| `fig_separating` | diagonal vs off-diagonal complementary reach (blinded) | `separating_counts.py` from the sealed `data/blind_*.json` (`.dat` export pending) | `sep_*.dat` |
-| `fig_device` | device-side coverage-leak curve (real `ibm_fez`, `L=8`) | `hardware_matched_job_L8.py` (acquisition), `bootstrap_device_curve.py`, `aer_noiseless_baseline.py`; `retention_matched_control.py` → `data/2026-09-05_retention_matched_control.json` | coordinates typed inline in `fig_device.tex` (exporter pending) |
-| `fig_heron` | executability precursor on real IBM Heron data | data: `paper/figs/heron_{exact,hw}.dat` from `data/heron_spectral.json`; exporter pending | `heron_*.dat` |
+| `fig_separating` | diagonal vs off-diagonal reach (blinded record) | `separating_counts.py` from the sealed `data/blind_*.json` → also `data/2026-09-27_separating_counts.json`. The legend counts for the shaded region count in-region points only | `sep_{clean,krylov,trunc,ac_other,ac_pres_region,ac_chg_region,region_nonac}.dat` |
+| `fig_device` | device coverage residual Δ₀ (real `ibm_fez`, `L=8`) against reference samplers; two panels: (a) linear, device vs the noiseless raw-matched band (mean ± 1 sd of 2000 replicas; the distribution is right-skewed, so this is not a 68% interval); (b) log scale, adding the uniform in-sector sampler | `delta0_reference_mc.py` → `data/2026-09-27_delta0_reference_mc.json` → `export_device_dat.py` | `device_points.dat`, `device_band.dat`, `device_uniform.dat` |
+| `fig_heron` | the companion's `L=6` run on real IBM Heron data (post-selected in reversed bit order; see Hardware) | data `paper/figs/heron_{exact,hw}.dat` from `data/heron_spectral.json`; **exporter pending** | `heron_*.dat` |
 | `fig_circuit` | schematic of the simulated bond-basis estimator (not run on hardware) | `paper/figs/src/fig_circuit_qtk.tex` → `fig_circuit_qtk.pdf` (`pdflatex fig_circuit_qtk.tex`) | — |
-| `fig_bracketing` + `fig_christoffel` | Gauss–Radau bracketing + the Christoffel width `Wₙ(t)` | `export_bracketing_dat.py`, `export_christoffel_dat.py` (≈2 min each); the two-sided window bound: `markov_krein_window.py` | `bracket_*.dat`, `christoffel_*.dat` |
-| `fig_momentmc` | Monte-Carlo interval-moment test at the `ibm_fez` budget | `interval_moment_mc.py` | `momentmc_*.dat` |
-| `fig_gausslaw` | U(1) Gauss-law cross-domain state-level check | data: `paper/figs/gauss_state.dat` — generator not yet committed (known gap); `run_gausslaw_falsifier.py` writes the bit-flip sweep JSON, which the figure does not plot | `gauss_state.dat` |
+| `fig_bracketing` + `fig_christoffel` | Gauss–Radau bracketing + the Christoffel width `Wₙ(t)` | `export_bracketing_dat.py`, `export_christoffel_dat.py` (≈3 min; exact `max_t Wₙ` by root-finding since 2026-09-27); the two-sided window bound: `markov_krein_window.py` | `bracket_*.dat`, `christoffel_*.dat` (`christoffel_maxW.dat` is read by `fig_christoffel` (b) and by the `fig_bracketing` inset) |
+| `fig_momentmc` | Monte-Carlo interval-moment test at the `ibm_fez` budget; panel (b) now plots every truncation depth | `interval_moment_mc.py` | `momentmc_{hist,power,power_scan,scalars}.dat` |
+| `fig_gausslaw` | U(1) Gauss-law state-level check | `export_gauss_state.py` → also `data/2026-09-27_gauss_state.json`. ε is an amplitude: the unphysical weight is ε²/((1−ε)²+ε²), 0.155 at ε = 0.3 | `gauss_state.dat` |
+
+## Revision phase A (2026-09-27): scripts and outputs
+
+Every phase-A script writes its JSON to a **new dated file** in `data/`; no sealed or committed data record
+is overwritten, and the records they supersede stay in `data/` (see `data/README.md`). The figure `.dat`
+files they regenerate replace the previous ones. Earlier versions of `fig_device.tex`, `fig_separating.tex`,
+the `sep_*.dat` files and `christoffel_{maxW,poles}.dat` are kept in `paper/figs/_superseded/` (see its
+README); the other changed figure files (`momentmc_power.dat`, `fig_momentmc.tex`, `fig_sqw.tex`,
+`fig_christoffel.tex`, `fig_gausslaw.tex`) are in git history at commit `c4f0d77`, the last commit before
+phase A. Item labels in the scripts (R1, B2, …) refer to the internal revision plan.
+
+| Script (new or changed) | Command (from `src/`) | Output | Content | Deps, time |
+|---|---|---|---|---|
+| `delta0_reference_mc.py` (new) | `python delta0_reference_mc.py` (seed 20260927; env overrides in its docstring) | `data/2026-09-27_delta0_reference_mc.json` | Δ₀, \|S\|, Δ₁ and relative L1 of the device against: noiseless multinomial replicas at the device's raw shots (2000) and at its retained counts (per circuit and equal split); a uniform-noise mixture; a uniform in-sector sampler; percentile ranks; bit-order and Lanczos checks | qiskit, 7–20 min |
+| `export_device_dat.py` (new) | `python export_device_dat.py` | `paper/figs/device_{points,band,uniform}.dat` | reformats the JSON above; no computation | seconds |
+| `blind_addenda.py` (new) | `python blind_addenda.py` (fresh process) | `data/2026-09-27_blind_addenda.json` | (0) frozen rule rerun verbatim, 300/300; (a) primary endpoint, per-class rates, the two failed sealed predictions; (b) modelled FPR with no bias and ±2% bias; (c) exact rebuild of the 56 sealed truncations and shared-state rescoring; (d) Krylov residuals; (e) calibrated scope | numpy/scipy, ≈11 s |
+| `separating_counts.py` (extended) | `python separating_counts.py` | `paper/figs/sep_*.dat` (7 files), `data/2026-09-27_separating_counts.json` | the `fig_separating` recount from the sealed record, now exported | < 1 s |
+| `interval_moment.py` (deterministic order) | `python interval_moment.py` | `data/2026-09-27_interval_moment_closure.json` | shot-budget closure on the 22-point grid; shell at each cut; comparison with the 2026-08-22 argsort run | ≈1 s |
+| `interval_battery.py` (deterministic order, every-d scan) | `python interval_battery.py` | `data/2026-09-27_interval_battery.json` | joint battery at 0/2/4% bias for every d = 1…185; shell-boundary cuts; tie-break sensitivity (300 seeded draws per cut); comparison with `interval_battery_showcase.json` | ≈2 min |
+| `interval_moment_mc.py` (deterministic order, every d) | `python interval_moment_mc.py` (seed 1, 4000 replicas) | `data/2026-09-27_interval_moment_mc.json`, `paper/figs/momentmc_{hist,power,power_scan,scalars}.dat` | power at every d and on the grid; ROC at d=98 and at the lowest-power cuts | ≈40 s |
+| `export_gauss_state.py` (new) | `python export_gauss_state.py` | `data/2026-09-27_gauss_state.json`, `paper/figs/gauss_state.dat` (byte-identical to the committed file) | the ε-admixture curve ⟨ΣG²⟩ = g_u·w(ε) with an explicit selection rule (g_u = 2); diagnostic of the old rule | ≈6–25 s |
+| `small_checks.py` (new) | `python small_checks.py --all` | `data/2026-09-27_theory_numerics.json` (all keys) | runs the six scripts below, then writes `R11_trace_over_dim`, `m4_psd_and_symmetry`, `M5_christoffel_claims`, `M6_inverse_moment_claim` | ≈15 min |
+| `within_sector_lp.py` (new) | `python within_sector_lp.py` | keys `R3_within_sector_lp`, `M1_shifted_power_bound` | LP ranges of Δ_{K+1}, null-space dimensions, Vandermonde conditioning on raw and rescaled nodes, three explicit counterexamples, shifted-power bound checks | ≈16 s |
+| `christoffel_tolerance_lp.py` (new) | `python christoffel_tolerance_lp.py` | key `R4_tolerance_inflated_atom` | extremal atom of positive measures within the tolerance box, U/t=4 and U/t=8 measures | ≈3 min |
+| `necessary_sufficient_composition.py` (rewritten) | `python necessary_sufficient_composition.py` | key `R5_hausdorff_weighted_support` | Hankel lower and Hausdorff upper bounds on m₂ for four support intervals, a priori to oracle; no longer writes `data/necessary_sufficient_composition.json` (kept as the record) | ≈2.5 min |
+| `estimator_form_offeigenstate.py` (new) | `python estimator_form_offeigenstate.py` | key `R6_estimator_forms_off_eigenstate` | first-moment estimator forms on truncated states, lexsort and argsort orders | ≈1 s |
+| `run_inverse_moment_falsifier.py` (`--r8` added) | `python run_inverse_moment_falsifier.py --r8` | key `R8_inverse_moment_sensitivity` | noise-normalized sensitivity of m₋₁ against m₁, m₂ on the ring and the open chain; writes no figure file | ≈2.5 min |
+| `export_christoffel_dat.py` (changed) | `python export_christoffel_dat.py` | `paper/figs/christoffel_*.dat`; keys `R9_christoffel_max_Wn`, `m1_radau_outside_hull`, `m2_rescaled_frame` | exact `max_t Wₙ` by root-finding; `christoffel_poles.dat` lists weighted atoms only | ≈3 min |
+
+The `small_checks.py` docstring gives 2–4 min for `--all`; the phase-A runs took 14–15 min.
 
 ## Key numbers → script
 
 | Number | Value | Where |
 |---|---|---|
 | current-probe moments `(m₀,m₁,m₂)` (L=6, U/t=4) | `0.5542, 4.2271, 33.3887` | `verify.py`, `interval_moment.py` |
-| shot-budget 95% interval `z·δ₁` (ibm_fez, 2% bias) | `0.229` (5.4% of m₁) | `verify.py`, `interval_moment.py` |
-| joint battery catches a lone-`m₁` miss (a catch, not a guarantee) | `|Δm₂| > z·δ₂` while `|Δm₁| ≤ z·δ₁` (auto-scan: `d=97`; the committed `d=98` case does not reproduce, see Known gaps) | `verify.py`, `interval_battery.py` |
-| no guaranteed power at the deployed order `m₀`–`m₂` (counterexample) | a `K=1` within-sector redistribution moving 49% of the weight passes (`Δ₂ = 0.082`) | `within_sector_control.py` → `data/2026-08-24_within_sector_control.json` |
-| **sealed primary endpoint** | TPR `101/188 = 53.7%` [46.6, 60.7], FPR `1/112 = 0.9%` [0.2, 4.9] | `blind_score.py` → `data/2026-08-24_blind_harness_score.json` |
-| blinded pre-registered per-class rates | truncation `56/56`; spurious `45/61` (`25/27`+`20/34`); FP `1/112`; Krylov `0/71` (one-node `0/15`) | `blind_score.py`, `data/blind_verdicts.json` (seal `data/prereg.sha256`) |
-| `n_k` amendment gate | **DENIED (gate-negative)**: R1ro0.018 UCB `0.02867` > `0.02667` | `nk_stage0_gate_v4.py`, `nk_stage0_gate_v4_combine.py` → `data/2026-09-05_nk_v4_verdict.json` (combiner output plus a hand correction of its `finding`, re-sealed 2026-09-05; see Sealed records) |
-| retention-matched control (noiseless Δ₀ at the device's kept-shot count) | `0.203 / 0.248 / 0.329 / 0.418` vs device `0.0044 / 0.032 / 0.123 / 0.373` | `retention_matched_control.py` → `data/2026-09-05_retention_matched_control.json` |
-| necessary∘sufficient composition (`m₂` bracket, L=6 U/t=8) (under revision) | `123.3 ≤ m₂ ≤ 573.7` | `necessary_sufficient_composition.py`, `markov_krein_window.py` |
+| shot-budget 95% interval `z·δ₁` (50k shots, 2% bias) | `0.229` (5.4% of m₁) | `verify.py`, `data/2026-09-27_interval_moment_closure.json` |
+| **sealed primary endpoint** | TPR `101/188 = 53.7%` [46.6, 60.7], FPR `1/112 = 0.9%` [0.2, 4.9]; nominal joint target 14.3% | `blind_score.py` → `data/2026-08-24_blind_harness_score.json`; `data/2026-09-27_blind_addenda.json` `a_primary_endpoint` |
+| per-class rates | truncation `56/56`; spurious `45/61` (`25/27`+`20/34`); Krylov `0/71` (n_l = 1…4: 0/15, 0/20, 0/15, 0/21) | same |
+| failed sealed secondary predictions | one-node Krylov `0/15`; m₀-preserving spurious `20/34` = 59% [42, 74] | `a_primary_endpoint.sealed_secondary_predictions_that_failed` |
+| modelled FPR under the frozen rule (112 clean instances) | 1.3% unbiased; 8.0% with +2% bias; 11.5% with −2% | `b_fpr_sensitivity` |
+| shared-state rescoring of the 56 sealed truncations (post hoc) | 56/56 rejected; every one fires on m₀ (min r₀ = 5.94) | `c_truncations_rebuild_and_shared_state` |
+| one-node Krylov residual | m₂ off by −4.19% to −2.35%; max g₂/δ₂ = 0.986; 6/15 would fire at shot-only thresholds | `d_krylov` |
+| calibrated scope | truncations keep 29–138 of 186 support configurations (75.1–98.7% of the \|ψ₀\|² weight); spurious w_s/m₀ = 2.1–24.9%; U/t ∈ {3,4,5,6} | `e_calibrated_scope` |
+| `fig_separating` recount | 26 in the shaded region = 20 weight-preserving + 4 weight-changing spurious + truncation id 162 + clean id 184; m₁ fires on 16, m₂ alone on 10 | `separating_counts.py` → `data/2026-09-27_separating_counts.json` |
+| same-sample simulation | ρ ≈ 0.43 at 84% coverage; no power gain at matched FPR | `lever1_flip_experiment.py` → `data/2026-09-01_lever1_oracle.json` `summary["84"]` |
+| device Δ₀ (50k/30k/16k/4k) | 0.0044 / 0.032 / 0.123 / 0.373; coverage 94 / 85 / 71 / 35% | `data/2026-09-27_delta0_reference_mc.json` `device` |
+| noiseless Δ₀ at the device's raw shots (2000 replicas) | 0.0361±0.0181 / 0.0660±0.0267 / 0.1208±0.0350 / 0.2691±0.0318; device percentile rank 0 / 1.7 / 57.9 / 100 | `budgets.<N>.noiseless_raw_matched` |
+| noiseless Δ₀ at the device's retained counts | per circuit 0.224 / 0.279 / 0.343 / 0.443; equal split 0.150 / 0.205 / 0.273 / 0.404 | `noiseless_retained_matched`, `noiseless_retained_matched_equal_split` |
+| committed single-draw retention-matched control | 0.203 / 0.248 / 0.329 / 0.418, at the 95.4 / 93.6 / 99.65 / 78.9th percentiles of the equal-split distribution | `data/2026-09-05_retention_matched_control.json`; rank in `retention_matched_control_seed1_rank` |
+| uniform in-sector sampler at the device's kept counts | E[Δ₀] = 3.4×10⁻¹⁰ / 1.5×10⁻⁶ / 5.2×10⁻⁴ / 0.093; relative L1 < 4×10⁻⁹ (Lanczos floor) / < 4×10⁻⁹ / 0.014 / 0.90 | `uniform_in_sector_at_device_kept` |
+| relative L1 of the reconstructed A(ω) | device 0.35 / 0.56 / 0.90 / 1.12; noiseless raw-matched at 50k 0.566 ± 0.032 (device below all 80 replicas) | `data/heron_counts_matched_L8_*.json` `falsifier.rel_L1`; `noiseless_raw_matched.rel_L1` |
+| analytic σ vs Monte Carlo spread | MC sd / analytic σ = 195 / 177 / 125 / 34 (raw-matched comparator) | `sd_over_analytic_sigma` |
+| `n_k` amendment gate | **DENIED (gate-negative)**: R1ro0.018 (ε = 3.5×10⁻³) UCB `0.02867` > `0.02667`; R2 (ε = 2.85×10⁻³) passes | `nk_stage0_gate_v4.py`, `nk_stage0_gate_v4_combine.py` → `data/2026-09-05_nk_v4_verdict.json` (see Sealed records) |
+| truncation at d=98 (deterministic order, 2% bias) | \|g₁\| = 0.284 > 0.229 (m₁ rejects); over 300 tie choices m₁ rejects on 57%, the battery on 100% | `data/2026-09-27_interval_battery.json` `rows`, `tie_break_sensitivity` |
+| tie-robust lone-m₁ miss caught by m₂ | d=97: \|g₁\| = 0.186 < 0.229, \|g₂\| = 2.729 > 1.848 (lexsort) | `full_scan_lexsort`, `full_scan_summary_lexsort.bias2.verify_py_rule_pick_d` |
+| every-d scan (2% bias) | 17 lone-m₁ misses; m₂ catches 3 (d = 97, 96, 85); the whole battery passes 12 (d = 185, 184, 183, 165–160, 95, 87, 86). 0% bias: 13 and 6; 4% bias: 27 and 22. Over 300 tie choices the battery rejects d = 86 on 1.3%, d = 95 on 10.7%, d = 87 on 44.3%, d = 160 on 39.7%, d = 165 on 0.3% and d = 161–164, 183–185 on 0% | `full_scan_summary_lexsort`, `tie_break_sensitivity` |
+| Monte-Carlo power of lone m₁ (shot-only threshold) | < 50% at 13 depths; minima 0.050 (d=162), 0.055 (d=86), 0.061 (d=95); FP rate 0.045; grid d=98 power 0.94 | `data/2026-09-27_interval_moment_mc.json` |
+| no guaranteed power at m₀–m₂ | null-space dimension 2 (5 poles); a redistribution keeping m₀, m₁, m₂ exactly moves 71.7% of the weight; one keeping m₀, m₁ with \|Δ₂\| ≤ τ₂ moves 85.9%; both pass | `data/2026-09-27_theory_numerics.json` `R3_within_sector_lp` |
+| LP range of Δ₂ over m₀,m₁-preserving redistributions | [−0.92, 7.09] (max 3.84 τ₂; contains 0) | `R3_within_sector_lp.lp_ranges` |
+| Vandermonde conditioning | κ = 50.2 on nodes rescaled to [−1,1] (σ_min 0.056); 1.25×10⁶ on raw nodes (unit-dependent) | `R3_within_sector_lp.conditioning` |
+| committed random K=1 case | ‖δ‖₁/m₀ = 0.494 (24.7% of the weight transferred); Δ₂ = 0.082 = 0.044 τ₂ | `within_sector_control.py` → `data/2026-08-24_within_sector_control.json` |
+| shifted-power bound \|Δ_{s−1}\| ≤ ρ(D/2)^{s−1} | 0 violations in 20000 random cases; tight at s = 2 | `M1_shifted_power_bound` |
+| tolerance-inflated extremal atom | 3.6–5.7× W₁ at t = 12–20 (U/t=4); 3.2–7.7× at t = 14–20 and 10–11× at the figure's t* (U/t=8) | `R4_tolerance_inflated_atom` |
+| exact `max_t Wₙ`, n = 1…4 | 1 (at the mean) / 0.969 / 0.886 / 0.882 | `R9_christoffel_max_Wn`; `paper/figs/christoffel_maxW.dat` |
+| Hankel / Hausdorff bounds on m₂ (L=6, U/t=8) | 123.3 ≤ m₂ (true 125.4); m₂ ≤ 147.6 on the weighted support [2.49, 13.92]t (oracle); a priori 579.8 (full Fock) or 243.3 (symmetry sector); 573.7 for [0.148, 52.21]t | `R5_hausdorff_weighted_support` |
+| estimator forms off an eigenstate (44.4% coverage) | ⟨J(H−e₀)J⟩ = 4.558, ½⟨[J,[H,J]]⟩ = 3.717, m̄₁ = 3.743, exact 4.227 | `R6_estimator_forms_off_eigenstate` |
+| m₋₁ sensitivity (L=12, U/t=8; 2% bias, spurious pole at 2.5t) | ring: f* = 0.197 (m₋₁), 0.051 (m₁), 0.042 (m₂); open chain: 0.168, 0.055, 0.042; ring cancellation D/(½⟨−T⟩) = 0.94 | `R8_inverse_moment_sensitivity`, `M6_inverse_moment_claim` |
+| Tr(O)/dim for the L=8 addition moment | 6.80 (closed form U(1/4+(L−1)/8) − E₀/2, E₀ = −4.6035); O is not PSD (λ_min = −0.818) | `R11_trace_over_dim`, `m4_psd_and_symmetry` |
+| Gauss-law curve | ⟨ΣG²⟩ = 2·w(ε), w(0.3) = 0.155 | `data/2026-09-27_gauss_state.json` |
 | off-diagonal device bias floor (ibm_fez depth) | `≈ 37–115 %` of the signal | `offdiag_noise_forecast.py`, `offdiag_gsurface.py` |
 | `n_k` momentum-distribution forecast (FT-only bias) | `≈ 9 %` of the Fermi step | `nk_falsifier.py` |
 | single-particle Mott edges / gap (L=12) | `μ± = ±2.484t`, `Δ ≈ 4.97t` | `spectral_lanczos` (`A(k,ω)`) |
@@ -58,13 +141,26 @@ found by an auto-calibrated scan, currently `d=97`). Expected: **ALL CHECKS PASS
 
 ## Blinded pre-registration
 
-The blinded test is sealed: `data/prereg.json` + its SHA-256 `data/prereg.sha256`
-(`0e4c3368…`) fix the battery, thresholds, error catalog, and seed before any instance exists.
-`blind_generate.py` produces the instances, `blind_classify.py`/`blind_score.py` apply the frozen
-battery, and `data/blind_{instances_public,labels_sealed,verdicts}.json` + `separating_demonstration.json`
-hold the record. The generator and classifier both re-verify the seal and refuse to run if it is broken;
-the sealed files are read-only, so the writers refuse to overwrite them (run in a scratch copy to
-regenerate). `separating_counts.py` recounts `fig_separating` from the sealed files alone.
+The blinded test is sealed: `data/prereg.json` + its SHA-256 `data/prereg.sha256` (`0e4c3368…`) fix the
+battery, thresholds, error catalogue and seed before any instance exists. `blind_generate.py` produces the
+instances, `blind_classify.py`/`blind_score.py` apply the frozen battery, and
+`data/blind_{instances_public,labels_sealed,verdicts}.json` hold the record. The generator and classifier
+re-verify the seal and refuse to run if it is broken; the sealed files are read-only, so the writers refuse
+to overwrite them (run in a scratch copy to regenerate).
+
+What the sealed test did and did not do:
+- The independent estimate `m̂` was simulated as the exact moment plus unbiased Gaussian noise
+  (`blind_generate.py`); no same-sample covariance, no realized bias.
+- The spurious feature is a point atom in the generator; the prereg text calls it a "Gaussian atom".
+- The seal is self-attested (no third-party timestamp); the simulation is deterministic given the sealed
+  seed, so the seal alone cannot exclude pre-seal iteration.
+- Regenerating the truncation instances from the seed depends on the platform: the cut often falls inside
+  a degenerate |ψ₀|² shell (51 of 56). `blind_addenda.py` rebuilds all 56 exactly (see Known gaps for the
+  condition) and stores the recovered tie order. The sealed files are the canonical record.
+
+`blind_addenda.py` and `separating_counts.py` read only the sealed files and the frozen pipeline.
+`data/separating_demonstration.json` (24 / 15 / 9) is kept unchanged; its correction is
+`data/2026-09-27_separating_counts.json` (26 / 16 / 10).
 
 ## Sealed records: how to check them
 
@@ -92,49 +188,63 @@ the five `nk_*` scripts among them still write to `./06_results/` (gitignored), 
 
 ## Hardware
 
-Two device results use real `ibm_fez` (IBM Heron) data: the `L=6` full-sector executability precursor
-(`fig_heron`, reprocessing the companion study [arXiv:2608.16436](https://arxiv.org/abs/2608.16436))
-and a purpose-built `L=8` retained-count coverage-leak job (`fig_device`). Only the diagonal support
-set is device-derived: the `m0_hat`/`m1_hat` fields of `data/heron_counts_matched_L8_*.json` are exact
-classical values, so no spectral moment is estimated on hardware. The retention-matched control
-(`retention_matched_control.py`) re-runs the noiseless circuits at the device's kept-shot count
-(≈23.6% of raw shots survive post-selection on the device, 100% in the noiseless simulation). The `L=8`
-jobs ran SamplerV2 with measurement twirling, Pauli gate twirling and dynamical decoupling; no
-readout-error mitigation was applied (measurement twirling returns twirled raw counts; the draft's
-"TREX" is a misnomer). They read the bitstrings in the correct qubit order, and the support is defined by
-post-selection alone, without configuration recovery (82,697 of 350,000 shots kept at 50k). The
-companion's `L=6` run behind `fig_heron` was post-selected in reversed qubit order, also without
-configuration recovery, so its 300/300 coverage came from device errors (disclosed by the companion
-repository on 2026-09-26); the coverage identity `A_hw = A_exact` is unchanged. The
-discriminating off-diagonal moments are evaluated in simulation and shown presently infeasible on
-hardware. The on-device `n_k` experiment was pre-registered (manifest v1 sealed 2026-09-02), its single
-permitted amendment was denied by its sealed gate on 2026-09-05, and it was never run
-(`nk_stage2_device_job.py` is the manifest-v1 job; `nk_stage2_device_job_v2_amendment.py` is the denied
-amendment's job). Re-acquiring device data needs an IBM Quantum account (use your own credentials; never
-commit a token).
+**The `L=8` jobs of this work** (`ibm_fez`, 2026-08-29; `src/hardware_matched_job_L8.py`;
+`data/heron_counts_matched_L8_*.json` at 50k/30k/16k/4k shots per circuit):
+- Seven circuits prepare a product determinant with X gates (5 up electrons on even qubits, 4 down on odd
+  qubits) and apply three layers of RZZ on-site terms and R_xx·R_yy nearest-neighbour hopping (periodic
+  wrap), without Jordan–Wigner strings; circuit k evolves for time proportional to k, so k=0 is the bare
+  determinant. They are number- and S_z-conserving samplers of the addition sector, not the Hubbard
+  propagator of c†|ψ₀⟩.
+- Bitstrings are read in the correct qubit order (`int(bs, 2)`) and post-selected to (N↑, N↓) = (5, 4);
+  no configuration recovery. SamplerV2 ran with measurement twirling, Pauli gate twirling and XpXm dynamical
+  decoupling; no readout-error mitigation was applied (SamplerV2 returns twirled raw counts).
+- Only the support set S is device-derived. `m0_hat`/`m1_hat` in the records are exact classical values;
+  Δ₀, Δ₁ and the relative L1 error are classical functions of S. No moment is estimated from counts.
+- The reference distributions come from `delta0_reference_mc.py`, which draws from the exact noiseless
+  output distributions of the same seven circuits (qiskit Statevector) and applies the same post-selection
+  and falsifier arithmetic. Use its percentile ranks, not Gaussian z-scores. The single noiseless Aer seed
+  (`aer_noiseless_baseline.json`) sits at the 19.5 / 17.7 / 81.4 / 98.3th percentiles of the raw-matched
+  distribution, and `bootstrap_device_curve.py` resamples the retained counts (upward-biased; not a test).
+
+**The companion's `L=6` run** (behind `fig_heron`) was post-selected in reversed qubit order, so all its
+retained determinants came from device errors; its raw counts are not deposited.
+
+The discriminating off-diagonal moments are evaluated in simulation only. The on-device `n_k` experiment
+was pre-registered (manifest v1 sealed 2026-09-02), its single permitted amendment was denied by its sealed
+gate on 2026-09-05, and it was never run (`nk_stage2_device_job.py` is the manifest-v1 job;
+`nk_stage2_device_job_v2_amendment.py` is the denied amendment's job). Re-acquiring device data needs an
+IBM Quantum account (use your own credentials; never commit a token).
 
 ## Known gaps
 
-Pending generators and recomputations (being fixed with the revision; do not treat these as reproducible):
-
-- `paper/figs/gauss_state.dat` (`fig_gausslaw`) has no committed generator.
-- No exporter yet for `paper/figs/heron_{exact,hw}.dat` (`fig_heron`, from `data/heron_spectral.json`) or
-  for the inline `fig_device` coordinates (from the retained counts).
-- The `sep_*.dat` export from `separating_counts.py` (`fig_separating`) is pending. The recount differs
-  from `data/separating_demonstration.json` and from the draft's caption: the shaded region holds 26
-  instances, not 24 — the 24 spurious-feature instances plus one determinant truncation (id 162) and the
-  clean false positive (id 184); `m₁` fires on 16 and `m₂` alone on 10. The exemplar id 222 is
-  weight-preserving (`params.preserve_m0 = true`), not total-weight-changing. A corrected
-  `separating_demonstration.json` is pending.
-- The hardware sampling-noise analysis (a reference Monte Carlo for Δ₀) is being redone; the draft's
-  analytic σ understates the spread.
-- The `m₂` bracket (`123.3 ≤ m₂ ≤ 573.7`) is being revised.
-- The `d=98` single-moment miss does not reproduce from a fresh clone. The determinant truncation
-  depends on tie-breaking: fresh runs of `interval_moment.py` and `interval_battery.py` both give
-  `|Δm₁| = 0.254` at d=98 (committed: 0.2625 and 0.2250), above the 2%-bias interval 0.229, so `m₁`
-  alone rejects d=98 at 2% bias (it still misses at 4%). Until 2026-09-26 both scripts printed a
-  hard-coded "d=98 missed by m₁" message; they now print the verdict computed in the run. Other
-  truncation depths shift too (for example `|Δm₁|` at d=58 moves from 3.736 to 3.447), but no other
-  verdict of either script changes. The miss itself exists: `verify.py`'s auto-scan finds one at d=97
-  (`|Δm₁| = 0.155`, caught by `m₂`).
-- Figure fixes (including the `fig_sqw` raster extent) and regenerated README thumbnails.
+- **Manuscript.** `paper/main.tex` is the 2026-09-05 text; its captions for `fig_device`, `fig_separating`,
+  `fig_momentmc`, `fig_gausslaw`, `fig_sqw` and `fig_christoffel`, and several numbers in the text, do not
+  yet match the phase-A data (`paper/README.md`).
+- **`fig_heron`:** no exporter for `paper/figs/heron_{exact,hw}.dat` from `data/heron_spectral.json`.
+- **`verify.py`** still uses the argsort order (see Fastest check).
+- **`blind_addenda.py`, part (c):** the exact rebuild needs ARPACK's default start to be the first `eigsh`
+  calls of a fresh process; it was verified only with scipy 1.13.1 and numpy 1.26.4. After a rerun check
+  `c_truncations_rebuild_and_shared_state.rebuild.exact_rebuild_possible == true`; the script does not yet
+  stop, or fall back to the stored tie order, when it is false. The shared-state thresholds reuse the
+  sealed `var_loc`, and 4 of the 56 truncations have zero reconstructed weight (m̄ ≈ 10⁻³⁰), so their match
+  is absolute, not relative.
+- **`fig_sqw` check:** the script that measured what the raster draws below the onset line is not in the
+  repository; the charge window is clipped at 10t.
+- **`fig_bracketing`:** the inset's y label overlaps the main axis's 0.4 tick label, and the t* label is
+  clipped under the frame.
+- **`paper/figs/bracket_maxW.dat`** (from `export_bracketing_dat.py`, read by no figure) holds grid maxima
+  (0.998659 / 0.947611 / 0.883640 / 0.868666) that differ from the exact `christoffel_maxW.dat`.
+- **Provenance hash:** `delta0_reference_mc.py` hashes `data/_superseded/analytic_coverage_leak.json` as
+  checked out; a CRLF checkout gives a different hash for the same content.
+- **Notebook:** `notebooks/00_Reproduce_Everything.ipynb` does not run the phase-A scripts and still names
+  the 2026-09-02 draft; `make reproduce` runs `make revision` after it. The notebook runs
+  `run_inverse_moment_falsifier.py` without `--r8`, which writes `data/<today>_inverse_moment_falsifier.json`.
+- **Unquoted extensions:** higher-order within-sector LPs (shifts of m₃, m₄ over battery-passing
+  redistributions) were computed only outside this repository, during verification; add them to
+  `within_sector_lp.py` before quoting them.
+- **Stale script text** (numbers unaffected): `interval_moment.py`'s closing print and the
+  `interval_battery.py` docstring call the joint battery "the remedy" for a lone-moment miss, although the
+  every-d scan shows it passing 12 truncations at 2% bias; the `delta0_reference_mc.py` docstring calls the
+  device circuits "Krylov–Trotter" (they are the determinant + R_xx·R_yy circuits described under
+  Hardware); `blind_score.py`'s printed summary names only the one-node Krylov failed prediction.
+- No Zenodo DOI yet; README thumbnails not regenerated.

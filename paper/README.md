@@ -1,36 +1,104 @@
-# Draft of 2026-09-02 (under revision)
+# The 2026-09-05 text, under revision
 
-This folder is the 2026-09-02 draft (30 pp). It is not on arXiv or in a journal and is being revised.
-Known issues being corrected include (the list is not exhaustive):
+This folder holds the manuscript as of **2026-09-05** (31 pp, revtex4-2). It is not on arXiv or in a
+journal. **Revision in progress:** the text is being corrected against the recomputations of 2026-09-27
+(phase A; scripts and dated outputs in [`../docs/REPRODUCE.md`](../docs/REPRODUCE.md)). Until that is done,
+the code and data in this repository are the reference, not the text.
 
-- the sealed primary endpoint (TPR 53.7% [46.6, 60.7] at FPR 0.9%) is not reported;
-- the hardware sampling-noise analysis is being redone (the analytic σ understates the spread);
-- no spectral moment is estimated on hardware — only the sampled support is device-derived. The abstract
-  and introduction say that each moment "is estimated from the same computational-basis samples that
-  produced the spectrum" and that one moment is evaluated on hardware; neither holds in this work (the
-  `m0_hat`/`m1_hat` values are exact classical ones, and the off-diagonal `m₁`, `m₂` would need
-  rotated-basis circuits, not the computational-basis samples);
-- "TREX" is a misnomer: the `ibm_fez` runs used SamplerV2 measurement twirling, Pauli gate twirling and
-  dynamical decoupling, with no readout-error mitigation;
-- the method text describes symmetry-restoring configuration recovery, but neither device run used it:
-  the support is defined by post-selection alone. The companion's `L=6` run behind `fig_heron` was also
-  post-selected in reversed qubit order, so its 300/300 coverage came from device errors (disclosed by the
-  companion repository on 2026-09-26); the `L=8` run of this work reads the bits in the correct order;
-- "conditioning is benign and detection is generous" (the within-sector section) overstates the power:
-  `Δ₂^max = 7.1` is a worst case, and at the deployed order `m₀`–`m₂` a `K=1` redistribution moving 49% of
-  the weight passes the battery (`data/2026-08-24_within_sector_control.json`), so there is no guaranteed
-  power;
-- the `fig_separating` caption: the recount (`src/separating_counts.py`) finds 26 instances in the shaded
-  region, not 24 (`m₁` fires on 16, `m₂` alone on 10), including one determinant truncation (id 162) and
-  the clean false positive (id 184); the exemplar id 222 is weight-preserving, not total-weight-changing;
-- the `d=98` showcase (`|g₁| = 0.225 < τ₁`) does not reproduce from a fresh clone (`|g₁| = 0.254`, above
-  the 2%-bias interval 0.229); `d=97` does (see the repository README, Known gaps);
-- the n_k gate-negative outcome is not reported;
-- the "necessary∘sufficient" composition wording and the m₂ ≤ 573.7 bound are being revised;
-- the fig_sqw raster extent is misplaced.
+`main.pdf` was compiled on 2026-09-27 from this text **before** the phase-A figure changes. Several figure
+sources in `figs/` have changed since (`fig_device`, `fig_separating`, `fig_momentmc`, `fig_sqw`,
+`fig_christoffel`, `fig_gausslaw`), so a new build combines new figures with old captions. Do not use a
+build for submission until captions and figures agree.
 
-The code and data in this repository are the reference.
+## Statements being corrected (not exhaustive)
 
-`make paper` compiles this draft (`main.tex` with the committed `main.bbl`; no BibTeX). The source of
+**Blinded test** (`data/2026-08-24_blind_harness_score.json`, `data/2026-09-27_blind_addenda.json`)
+- The sealed primary endpoint is not reported: TPR 101/188 = 53.7% [46.6, 60.7] at FPR 1/112 = 0.9%
+  [0.2, 4.9].
+- Only one of the two failed sealed secondary predictions is reported as failed; the m₀-preserving
+  spurious-feature subclass (sealed as designed-blind, caught 20/34) is presented as a success.
+- The 0.9% FPR is set by construction: the simulated estimator is unbiased while the threshold budgets a
+  2% bias (modelled FPR 1.3% unbiased, 8.0% with +2% bias).
+- The Hankel branch is evaluated on the reconstruction's own moments and cannot fire (0/300 by
+  construction).
+- One-node Krylov passes only inside the 2% bias budget; Krylov with n_l ≥ 2 matches m₀–m₂ exactly.
+- The text says the seal means no threshold could be tuned after seeing an outcome. The seal is
+  self-attested (no third-party timestamp) and cannot by itself exclude pre-seal iteration. The calibrated
+  scope is not stated: L=6 doped ring, U/t ∈ {3, 4, 5, 6}; truncations keep 75.1–98.7% of the
+  ground-state weight; spurious atoms are point atoms with 2.1–24.9% of m₀.
+
+**"Same samples" and hardware** (`data/2026-09-27_delta0_reference_mc.json`, `data/heron_counts_matched_L8_*.json`)
+- The abstract and introduction say each moment is estimated from the same computational-basis samples
+  and that one moment is evaluated on hardware. Neither holds: same-shot estimation was done only in
+  simulation (ρ ≈ 0.43, no power gain), and the device supplies only the sampled support
+  (`m0_hat`/`m1_hat` are exact classical values).
+- The device circuits are described as a Trotterized evolution of c†|ψ₀⟩ with configuration recovery. They
+  prepare a product determinant (X gates, 5 up, 4 down) and apply R_xx·R_yy hopping without Jordan–Wigner
+  strings; the support is defined by post-selection alone.
+- The text names a readout-error-mitigation method that was not used: SamplerV2 ran with measurement
+  twirling, Pauli gate twirling and dynamical decoupling; no readout-error mitigation was applied.
+- "Shot noise is negligible" and the single-seed comparison are wrong. Against 2000 noiseless replicas at
+  the device's raw shots, the device Δ₀ lies below all at 50k, at the 1.7th percentile at 30k, at the
+  57.9th at 16k and above all at 4k; the analytic σ understated the spread 34–195-fold.
+- Δ₀ rewards support spreading: a uniform in-sector sampler at the device's retained counts has lower Δ₀
+  than the device at every budget. The text calls the 50k run a "clean pass"; its A(ω) has relative L1
+  error 0.35 (and any pass threshold at L=8 would apply the L=6 sealed rule counterfactually, with an exact
+  m̂₁).
+- The retention-matched comparison quotes one noiseless draw (0.2032 at 50k). That draw sits at the 95.4th
+  percentile of its distribution, and the comparator depends on how the kept shots are allocated over
+  circuits (mean 0.150 with an equal split, 0.224 per circuit, at 50k).
+- The circuit-figure caption says "the deployed run is L=6, 12 qubits"; the bond-basis estimator it draws
+  was simulated only and never run on hardware.
+- The companion's L=6 run was post-selected in reversed bit order, so all its retained determinants came
+  from device errors.
+- The `fig_device` caption (readout mitigation, one Aer seed, analytic σ) no longer matches the two-panel
+  figure.
+
+**`n_k` experiment** — the gate-negative outcome (amendment denied on 2026-09-05; not run) is not
+reported, and `n_k` is still called the next experiment (`data/2026-09-05_nk_v4_verdict.json`).
+
+**Theory and limits** (`data/2026-09-27_theory_numerics.json`)
+- "3.8× power margin" and "conditioning is benign" overstate the power. Guaranteed power at the deployed
+  order is zero because of the null-space dimension: a redistribution that keeps m₀–m₂ exactly moves 72% of
+  the weight, and one that keeps m₀, m₁ with |Δ₂| = τ₂ moves 86%; both pass. κ of the node Vandermonde is
+  50 on rescaled nodes; the raw-node 1.2×10⁶ is unit-dependent.
+- "Necessary ∘ sufficient" is wrong: the Hankel and Hausdorff bounds are both necessary conditions, and the
+  Wang/Mortimer composition is not implemented. `m₂ ≤ 573.7` used [0.148, 52.21]t; the weighted support
+  gives 147.6 (oracle), the a-priori supports 579.8 or 243.3.
+- The Christoffel caption quotes grid maxima 0.9998 and 0.875; the exact values are 1 (at the mean) and
+  0.882. The "~20–30 moments" statement has no source. A passing reconstruction is bracketed only by the
+  tolerance-inflated atom: 3.2–7.7× W₁ at t = 14–20 and 10–11× at the figure's t* on the figure's U/t=8
+  measure (3.6–5.7× at t = 12–20 on the U/t=4 measure).
+- `m₋₁` is not the sharpest moment under the deployed error model: m₁ and m₂ fire at smaller injected
+  fractions on both the ring and the open chain.
+- The estimator forms differ off an eigenstate (4.558 vs 3.717 at 44.4% coverage), enough to change a
+  verdict; the deployed form must be fixed.
+- The operator O = c(H−E₀)c† is called positive semidefinite; it is not (lowest eigenvalue −0.818). The
+  bond-estimator probe shift ⟨ρ_q⟩ (checked at q = π) vanishes by reflection symmetry, not by half filling
+  (that ground state has N = 4 on 6 sites).
+
+**Shot-budget interval test** (`data/2026-09-27_interval_battery.json`, `data/2026-09-27_interval_moment_mc.json`)
+- The "single honest exception at d=98" is a tie-break artefact (m₁ alone rejects on 57% of 300 tie
+  choices). The tie-robust lone-m₁ miss is d=97. At 2% bias the whole battery passes 12 truncated
+  reconstructions, three at 46–51% coverage, so the battery does not close the blind spot. Panel (b) of
+  `fig_momentmc` now plots every depth.
+
+**Figure captions**
+- `fig_separating`: 26 instances lie in the shaded region, not 24 (m₁ on 16, m₂ alone on 10), including
+  truncation id 162 and the clean false positive id 184; the exemplar id 222 is weight-preserving; the
+  thresholds include the 2% bias term (`data/2026-09-27_separating_counts.json`).
+- `fig_gausslaw`: ε is an amplitude, not a weight fraction (the unphysical weight is 0.155 at ε = 0.3);
+  the admixture is a minimal ΣG² = 2 violation (`data/2026-09-27_gauss_state.json`).
+- `fig_sqw`: the rasters are now placed at their true extents; the markers are filled; the charge window
+  is clipped at 10t.
+
+**Framing and citations** — the wording about corroboration and knowledge is being removed; the overlap
+with the companion's v3 (captured weight, moment exactness through order 2K+1, the leakage identity,
+"weight alone cannot certify") needs citations and a statement of what this work adds; several
+bibliography entries are being corrected.
+
+## Build
+
+`make paper` compiles `main.tex` with the committed `main.bbl` (no BibTeX). The source of
 `figs/fig_circuit_qtk.pdf` is `figs/src/fig_circuit_qtk.tex` (`pdflatex fig_circuit_qtk.tex`). Files no
-figure reads are in `figs/_superseded/`.
+figure reads, and the figure files replaced on 2026-09-27, are in `figs/_superseded/`.
