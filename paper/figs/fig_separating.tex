@@ -1,50 +1,65 @@
-% fig_separating.tex -- native pgfplots. THE separating demonstration: off-diagonal m1's disjoint reach.
-% From the SEALED, pre-registered 300-instance blinded battery (SHA-256 0e4c3368...). Each rejected
-% instance: total-weight sum-rule residual m0/tau0 (x) vs first off-diagonal moment residual m1/tau1 (y),
-% both normalized to their own frozen ibm_fez shot thresholds. Thresholds at 1 (crimson).
-% SEPARATING REGION (x<1, y>1, amber): total weight blind, off-diagonal fires -- the 24 sealed
-% spurious-feature (m0-preserving) rejections the cheap diagonal channel CANNOT reach.
-% trunc: x>1 (diagonal m0 already catches support loss). krylov+clean: near origin (blind spot / faithful).
+% fig_separating.tex -- native pgfplots. Complementary reach of the diagonal (m0) and off-diagonal (m1,m2)
+% moments on the SEALED, pre-registered 300-instance blinded battery (prereg SHA-256 0e4c3368...).
+% Every point is read from figs/sep_*.dat, written by src/separating_counts.py from
+% data/blind_verdicts.json + data/blind_labels_sealed.json; all 300 instances are drawn and none is clipped
+% (x in [9.7e-4, 25.5], y in [0.031, 25.5]).
+%   x = r0 = |m0hat - m0bar| / tau0,   y = max(r1, r2),   r_k = |mkhat - mkbar| / tau_k,
+% with tau_k the frozen z = 1.96 threshold (shot term + assumed 2% bias), so r_k > 1 is exactly a fire.
+% Shaded region (x < 1, y > 1): m0 silent, an off-diagonal moment fires. It holds 26 instances =
+% 20 weight-preserving + 4 weight-changing spurious features + truncation id 162 + clean false positive
+% id 184 (the last two ringed); m1 fires on 16 of the 26, m2 alone on 10.
+% Legend counts are numbers of plotted points (rejection rates are in the caption). The legend sits
+% above the axes; no text is placed inside the data area.
 \begin{tikzpicture}
 \begin{axis}[
-  paperaxis, width=\columnwidth, height=7.2cm,
+  paperaxis, width=0.96\columnwidth, height=6.6cm,
   xmode=log, ymode=log,
-  xlabel={total-weight $m_0$ residual $\;|\widehat m_0-\bar m_0|/\tau_0$},
-  ylabel={off-diagonal $m_{1,2}$ residual $\;\max_{k}|\widehat m_k-\bar m_k|/\tau_k$},
-  xmin=0.03, xmax=400, ymin=0.03, ymax=400,
-  xtick={0.1,1,10,100}, ytick={0.1,1,10,100},
-  xticklabels={$0.1$,$1$,$10$,$100$}, yticklabels={$0.1$,$1$,$10$,$100$},
-  legend style={at={(0.985,0.03)}, anchor=south east, font=\scriptsize,
-                draw=pMuted, fill=white, fill opacity=0.92, text opacity=1, row sep=0.5pt, inner sep=2.5pt},
+  xlabel={total-weight residual $|\widehat m_0-\bar m_0|/\tau_0$},
+  ylabel={off-diagonal residual\\$\max_{k=1,2}|\widehat m_k-\bar m_k|/\tau_k$},
+  ylabel style={align=center},
+  xmin=5e-4, xmax=60, ymin=0.02, ymax=60,
+  xtick={0.001,0.01,0.1,1,10}, ytick={0.1,1,10},
+  xticklabels={$10^{-3}$,$10^{-2}$,$0.1$,$1$,$10$}, yticklabels={$0.1$,$1$,$10$},
+  legend style={at={(1,1.025)}, anchor=south east, legend columns=2, font=\scriptsize,
+                draw=pMuted, fill=white, row sep=0.6pt, inner sep=2pt,
+                /tikz/every even column/.append style={column sep=5pt}},
   legend cell align=left, clip=true,
+  set layers,   % lets the thresholds sit above the major grid, which axis on top draws over the plots
 ]
-  % separating region: m0 blind (x<1) AND off-diagonal fires (y>1)
-  \fill[pAmber, opacity=0.14] (axis cs:0.03,1) rectangle (axis cs:1,400);
-  % frozen thresholds
-  \addplot[threshold, forget plot] coordinates {(1,0.03) (1,400)};
-  \addplot[threshold, forget plot] coordinates {(0.03,1) (400,1)};
-  % faithful (clean) -- near origin, no fire
-  \addplot[only marks, mark=*, mark size=1.0pt, pMuted, mark options={fill=pMuted, fill opacity=0.4, draw=none}]
+  % separating region: m0 silent (x<1) AND an off-diagonal moment fires (y>1)
+  \fill[pAmber, opacity=0.14] (axis cs:5e-4,1) rectangle (axis cs:1,60);
+  % frozen thresholds (on the foreground layer, so the grid lines at 1 do not split the dashes)
+  \addplot[threshold, forget plot, on layer=axis foreground] coordinates {(1,0.02) (1,60)};
+  \addplot[threshold, forget plot, on layer=axis foreground] coordinates {(5e-4,1) (60,1)};
+  % faithful (clean): 1 false positive (id 184, ringed)
+  \addplot[only marks, mark=*, mark size=1.0pt, pMuted, mark options={fill=pMuted, fill opacity=0.45, draw=none}]
       table[x=x,y=y]{figs/sep_clean.dat};
   \addlegendentry{faithful ($112$)}
-  % under-converged Krylov -- blind spot (caught by nothing)
-  \addplot[only marks, mark=square, mark size=1.7pt, pBlind, mark options={line width=0.5pt}]
+  % under-converged Krylov: caught by nothing
+  \addplot[only marks, mark=square, mark size=1.6pt, pBlind, mark options={line width=0.5pt}]
       table[x=x,y=y]{figs/sep_krylov.dat};
-  \addlegendentry{Krylov blind spot ($0/71$)}
-  % determinant truncation -- diagonal m0 ALSO catches it (x>1)
-  \addplot[only marks, mark=o, mark size=1.9pt, pIndigo, mark options={line width=0.7pt}]
+  \addlegendentry{Krylov ($71$)}
+  % determinant truncation: m0 fires on 55 of 56 (id 162 is the exception, ringed)
+  \addplot[only marks, mark=o, mark size=1.8pt, pIndigo, mark options={line width=0.6pt}]
       table[x=x,y=y]{figs/sep_trunc.dat};
-  \addlegendentry{truncation: $m_0$ catches ($56$)}
-  % spurious feature, not m0-blind
+  \addlegendentry{truncation ($56$)}
+  % spurious features outside the region
   \addplot[only marks, mark=triangle, mark size=2.0pt, pTeal, mark options={line width=0.6pt}]
       table[x=x,y=y]{figs/sep_ac_other.dat};
-  \addlegendentry{spurious, non-separating ($37$)}
-  % THE separating set: spurious + m0 blind -> off-diagonal carries the rejection
-  \addplot[only marks, mark=*, mark size=2.6pt, pOx, mark options={fill=pAmber, draw=pOx, line width=0.7pt}]
-      table[x=x,y=y]{figs/sep_ac_sep.dat};
-  \addlegendentry{$m_0$ \textbf{blind}, off-diag \textbf{fires} ($24$)}
-
-  \node[pOx, font=\scriptsize, anchor=north west, align=left] at (axis cs:0.037,320)
-      {\textbf{separating region}\\ total weight blind,\\ off-diagonal fires};
+  \addlegendentry{spurious, unshaded ($37$)}
+  % spurious features in the region: weight-preserving (20) and weight-changing (4)
+  \addplot[only marks, mark=*, mark size=2.3pt, pOx, mark options={fill=pAmber, draw=pOx, line width=0.6pt}]
+      table[x=x,y=y]{figs/sep_ac_pres_region.dat};
+  \addlegendentry{spurious, $m_0$-preserving ($20$)}
+  \addplot[only marks, mark=diamond*, mark size=2.8pt, pOx, mark options={fill=pAmber, draw=pOx, line width=0.6pt}]
+      table[x=x,y=y]{figs/sep_ac_chg_region.dat};
+  \addlegendentry{spurious, $m_0$-changing ($4$)}
+  % the two non-spurious instances in the region (truncation id 162, clean false positive id 184)
+  \addplot[only marks, mark=o, mark size=4.2pt, pOx, mark options={line width=0.8pt}]
+      table[x=x,y=y]{figs/sep_region_nonac.dat};
+  \addlegendentry{ringed: not spurious ($2$)}
+  % legend key for the shaded region
+  \addlegendimage{area legend, draw=pAmber, line width=0.4pt, fill=pAmber, fill opacity=0.14}
+  \addlegendentry{shaded: only $m_{1,2}$ fire ($26$)}
 \end{axis}
 \end{tikzpicture}

@@ -5,8 +5,12 @@
 \definecolor{cn4}{HTML}{5A160B}
 \begin{tikzpicture}
 \begin{groupplot}[
-  group style={group size=3 by 1, horizontal sep=1.4cm},
-  paperaxis, width=5.7cm, height=5.6cm,
+  % 2026-09-27 (m14): the rotated y labels of (b) and (c) touched the right-side ticks of the panel to their
+  % left. Right-side y ticks are dropped (they pointed into the gap) and the gap is widened; widths shrink so
+  % the row keeps its overall width.
+  group style={group size=3 by 1, horizontal sep=1.85cm},
+  paperaxis, width=5.45cm, height=5.6cm,
+  ytick pos=left,
 ]
 % ---- (a) the band W_n(t) contracting ----
 \nextgroupplot[

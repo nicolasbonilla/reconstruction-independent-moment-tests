@@ -2,6 +2,15 @@
 % L=12 sector-Lanczos/Haydock (spectral_lanczos.py). Data field = rasterized PNG (paperhot + gamma);
 % axes/colorbar/guides = native. Each panel on its OWN frequency window (charge ~U up to 10t; spin ~J up
 % to 2.4t) so neither channel is crushed -- the different windows ARE the spin-charge-separation signature.
+% 2026-09-27 (B9): the PNG rasters span the FULL computed grids (charge omega in [0, 11]t, spin [0, 2.6]t, q/pi in
+% [qmin, qmax]; src/export_sqw_dat.py -> sqw_extent.dat). They used to be placed at ymax=10 / 2.4, which drew every
+% feature at 10/11 = 0.909x and 2.4/2.6 = 0.923x of its true frequency. The extents are now read from
+% sqw_extent.dat; the axis windows (ymax=10, 2.4) are unchanged and clip the excess.
+\pgfplotstableread{figs/sqw_extent.dat}\sqwextent
+\pgfplotstablegetelem{0}{qmin}\of\sqwextent\edef\sqwQmin{\pgfplotsretval}
+\pgfplotstablegetelem{0}{qmax}\of\sqwextent\edef\sqwQmax{\pgfplotsretval}
+\pgfplotstablegetelem{0}{wc_max}\of\sqwextent\edef\sqwWCmax{\pgfplotsretval}
+\pgfplotstablegetelem{0}{ws_max}\of\sqwextent\edef\sqwWSmax{\pgfplotsretval}
 \begin{tikzpicture}
 % ---- charge S(q,omega): gapped, weight near omega ~ U ; the empty low-omega region IS the charge gap ----
 \begin{axis}[
@@ -16,7 +25,7 @@
   colormap name=paperhot, colorbar, point meta min=0, point meta max=1,
   colorbar style={width=0.22cm, ytick={0,0.5,1}, title={\scriptsize norm.}, tick label style={font=\scriptsize}},
 ]
-  \addplot graphics[xmin=0.1667, xmax=1.8333, ymin=0, ymax=10] {figs/sqw_charge.png};
+  \addplot graphics[xmin=\sqwQmin, xmax=\sqwQmax, ymin=0, ymax=\sqwWCmax] {figs/sqw_charge.png};
   % the charge gap = the forbidden band from omega=0 up to the onset Delta_c: brace it and name it
   \addplot[white, opacity=0.9, densely dashed, line width=0.7pt, forget plot] coordinates {(0.1667,5.71) (1.8333,5.71)};
   \draw[decorate, decoration={brace, amplitude=6pt}, white, line width=0.9pt]
@@ -39,7 +48,7 @@
   colormap name=paperhot, colorbar, point meta min=0, point meta max=1,
   colorbar style={width=0.22cm, ytick={0,0.5,1}, title={\scriptsize norm.}, tick label style={font=\scriptsize}},
 ]
-  \addplot graphics[xmin=0.1667, xmax=1.8333, ymin=0, ymax=2.4] {figs/sqw_spin.png};
+  \addplot graphics[xmin=\sqwQmin, xmax=\sqwQmax, ymin=0, ymax=\sqwWSmax] {figs/sqw_spin.png};
   % des Cloizeaux--Pearson two-spinon edges -- thin DOTTED guide (Paper-2 style), subtle not dominant
   \addplot[white, opacity=0.8, densely dotted, line width=0.7pt, forget plot] table[x=q,y=om] {figs/dcp_lower.dat};
   \addplot[white, opacity=0.8, densely dotted, line width=0.7pt, forget plot] table[x=q,y=om] {figs/dcp_upper.dat};

@@ -15,3 +15,7 @@ is now `None`, and outputs would land under `src/06_results/`, `src/07_figures/`
 | `export_falsifier_dat.py` | Writes `falsifier_{spectrum,sweep}.dat` for `fig_falsifier`, which is no longer in the manuscript; those files are in `paper/figs/_superseded/`. | — |
 
 `paper_style.py` (in `src/`) is the plotting identity these raster scripts used; no live script needs it.
+
+| Script (added 2026-09-27) | Why superseded | Live source |
+|---|---|---|
+| `necessary_sufficient_composition_2026-08.py` | The 2026-08 version of `src/necessary_sufficient_composition.py`; it generated `data/necessary_sufficient_composition.json` (kept unchanged as the record). It called the Hausdorff/support bound "sufficient (Wang/Mortimer SDP)" and took the support from all full-Fock eigenvalues including zero-weight states (m2 <= 573.68). | `src/necessary_sufficient_composition.py` (plan R5/B11): two necessary conditions, four support choices from a-priori to oracle (weighted support gives m2 <= 147.6); key `R5_hausdorff_weighted_support` of `data/2026-09-27_theory_numerics.json` |

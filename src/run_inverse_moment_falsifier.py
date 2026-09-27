@@ -360,5 +360,128 @@ def main():
     print("saved:", os.path.join(FIGS, 'inverse_falsifier_table.tex'))
 
 
+# ----------------------------------------------------------------------------------------------------
+# R8 (added 2026-09-27): noise-normalized sensitivity of m_{-1} vs m_1, m_2, ring vs open chain.
+# `python run_inverse_moment_falsifier.py --r8` writes ONLY the key 'R8_inverse_moment_sensitivity' of
+# data/2026-09-27_theory_numerics.json; it writes no figure file and no *_inverse_moment_falsifier.json.
+# main() (no flag) is unchanged.
+# ----------------------------------------------------------------------------------------------------
+R8_NS, R8_Z, R8_BIAS = 50000, 1.96, 0.02
+
+
+def _r8_measure(L, U, t, nl, pbc, seed):
+    """current Ritz poles, <-T>, and local-estimator variances of the moment operators on the sector GS."""
+    nup = ndn = L // 3
+    Hlin, Du, Dd, Tu, Td, diagU = sector_H_linop(L, U, nup, ndn, pbc, t)
+    v0 = np.random.default_rng(seed).standard_normal(Du * Dd)
+    Eg, Vg = eigsh(Hlin, k=2, which='SA', ncv=30, maxiter=5000, v0=v0, tol=1e-12)
+    o = np.argsort(Eg); E0 = float(Eg[o[0]]); psi0 = Vg[:, o[0]]; gap = float(Eg[o[1]] - Eg[o[0]])
+    Psi = psi0.reshape(Du, Dd)
+    TPsi = (Tu @ Psi + (Td @ Psi.T).T).ravel()
+    negT = -float(np.real(np.vdot(psi0, TPsi)))
+    Ju = current_string(L, nup, pbc, t); Jd = current_string(L, ndn, pbc, t)
+    Jop = lambda x: ((Ju @ x.reshape(Du, Dd)) + (x.reshape(Du, Dd) @ Jd.T)).ravel()
+    Hm = lambda x: Hlin.matvec(x) - E0 * x
+    v1 = Jop(psi0.astype(complex))
+    om, w = SL.haydock_poles(Hm, v1, nl)
+    keep = (w > 1e-12) & (om > 1e-9); om, w = om[keep], w[keep]
+    # local estimators over |psi0(x)|^2 (shot term of the deployed rule; a LOWER bound on per-shot variance)
+    p = np.abs(psi0) ** 2; mask = np.abs(psi0) > 1e-12
+
+    def locvar(Opsi):
+        loc = np.zeros(len(psi0), dtype=complex); loc[mask] = Opsi[mask] / psi0[mask]
+        mean = float(np.real(np.sum(p * loc))); return mean, float(np.sum(p * np.abs(loc) ** 2) - mean ** 2)
+    mhalfT, var_halfT = locvar(-0.5 * TPsi)                 # (1/2)<-T>
+    Hv1 = Hm(v1); H2v1 = Hm(Hv1)
+    m0l, var0 = locvar(Jop(v1)); m1l, var1 = locvar(Jop(Hv1)); m2l, var2 = locvar(Jop(H2v1))
+    return dict(E0=E0, gap_to_next=gap, negT=negT, half_negT=0.5 * negT, om=om, w=w,
+                local=dict(half_negT=(mhalfT, var_halfT), m0=(m0l, var0), m1=(m1l, var1), m2=(m2l, var2)))
+
+
+def _r8_analysis(meas, D_kohn, om_split=6.0, om_spur=2.5, fs=(0.05, 0.1, 0.2, 0.3, 0.4, 0.5)):
+    om, w = meas['om'], meas['w']
+    m0 = float(w.sum()); m1 = float((om * w).sum()); m2 = float((om ** 2 * w).sum())
+    mm1 = float((w / om).sum())
+    hi = om >= om_split; W_hi = float(w[hi].sum())
+    # exact linear shifts per unit f (fraction f of the weight at om>=om_split moved to om_spur; m0 exact)
+    dM = {k: W_hi * om_spur ** k - float((w[hi] * om[hi] ** k).sum()) for k in (-1, 1, 2)}
+    mk = {-1: mm1, 1: m1, 2: m2}
+    slope = {k: abs(dM[k]) / mk[k] for k in dM}
+    est = {-1: meas['half_negT'], 1: m1, 2: m2}             # the estimated operator expectation (bias base)
+    var = {-1: meas['local']['half_negT'][1], 1: meas['local']['m1'][1], 2: meas['local']['m2'][1]}
+    tau_b = {k: R8_Z * R8_BIAS * abs(est[k]) for k in dM}
+    tau_f = {k: R8_Z * np.sqrt(var[k] / R8_NS + (R8_BIAS * est[k]) ** 2) for k in dM}
+    fstar = lambda tau: {('m_-1' if k == -1 else f'm{k}'): (float(tau[k] / abs(dM[k])) if abs(dM[k]) > 0 else None)
+                         for k in dM}
+    name = lambda k: 'm_-1' if k == -1 else f'm{k}'
+    return dict(
+        m0=m0, m1=m1, m2=m2, m_minus1_poles=mm1, half_negT=meas['half_negT'], D_kohn=D_kohn,
+        m_minus1_fsum=meas['half_negT'] - D_kohn, resid_poles_vs_fsum_rel=abs(mm1 - (meas['half_negT'] - D_kohn)) / mm1,
+        cancellation_D_over_half_negT=D_kohn / meas['half_negT'],
+        E0=meas['E0'], gap_to_next=meas['gap_to_next'], npoles=int(len(om)),
+        W_above_split=W_hi, frac_below_split=float(w[~hi].sum() / m0),
+        shift_per_unit_f_abs={name(k): dM[k] for k in dM},
+        slope_relative_per_unit_f={name(k): slope[k] for k in slope},
+        slope_ratio_minus1_over_1=slope[-1] / slope[1], slope_ratio_minus1_over_2=slope[-1] / slope[2],
+        rel_shift_at_f=[dict(f=f, dm1=slope[-1] * f, d1=slope[1] * f, d2=slope[2] * f) for f in fs],
+        tau_bias_only={name(k): tau_b[k] for k in tau_b},
+        tau_bias_only_over_m={name(k): tau_b[k] / mk[k] for k in tau_b},
+        tau_full_rule={name(k): tau_f[k] for k in tau_f},
+        tau_full_rule_over_m={name(k): tau_f[k] / mk[k] for k in tau_f},
+        local_variance={name(k): var[k] for k in var},
+        f_star_bias_only=fstar(tau_b), f_star_full_rule=fstar(tau_f))
+
+
+def r8_main(L=12, U=8.0, t=1.0, nl=260, seed=0):
+    import time as _time
+    from small_checks import record_theory_numerics
+    t0 = _time.time()
+    ring_meas = _r8_measure(L, U, t, nl, True, seed)
+    D = _kohn_D_large(L, U, L // 3, L // 3, t)
+    ring = _r8_analysis(ring_meas, D)
+    obc_meas = _r8_measure(L, U, t, nl, False, seed)
+    obc = _r8_analysis(obc_meas, 0.0)
+    # secondary: does the conclusion depend on where the spurious pole sits? (same measures, exact arithmetic)
+    for tag, meas, Dk, rec in (('ring', ring_meas, D, ring), ('open chain', obc_meas, 0.0, obc)):
+        scan = []
+        for osp in (0.25, 0.5, 1.0, 1.5, 2.5, 4.0):
+            r = _r8_analysis(meas, Dk, om_spur=osp)
+            scan.append(dict(om_spur=osp, f_star_bias_only=r['f_star_bias_only'],
+                             f_star_full_rule=r['f_star_full_rule'],
+                             slope_relative_per_unit_f=r['slope_relative_per_unit_f']))
+        rec['om_spur_scan'] = scan
+        print(f"[{tag}] om_spur scan (f* bias-only m_-1 / m1 / m2): " + "; ".join(
+            f"{s['om_spur']}: {s['f_star_bias_only']['m_-1']:.3f}/{s['f_star_bias_only']['m1']:.3f}/"
+            f"{s['f_star_bias_only']['m2']:.3f}" for s in scan))
+    for tag, r in (('ring', ring), ('open chain', obc)):
+        print(f"[{tag}] m_-1(poles)={r['m_minus1_poles']:.5f} (1/2)<-T>={r['half_negT']:.5f} D={r['D_kohn']:.5f} "
+              f"m1={r['m1']:.4f} m2={r['m2']:.3f}; slopes rel/f: m_-1 {r['slope_relative_per_unit_f']['m_-1']:.3f} "
+              f"m1 {r['slope_relative_per_unit_f']['m1']:.3f} m2 {r['slope_relative_per_unit_f']['m2']:.3f}")
+        print(f"      tau/m (bias only) m_-1 {r['tau_bias_only_over_m']['m_-1']:.3f} m1 {r['tau_bias_only_over_m']['m1']:.4f};"
+              f" f* bias-only {r['f_star_bias_only']}  f* full rule {r['f_star_full_rule']}")
+    rt = _time.time() - t0
+    R8 = dict(
+        system=f'L={L}, U/t={U}, 2/3 filling (N_up=N_dn={L//3}); ring = deployment of this script; open chain = '
+               'same sector with open boundary (D = 0)',
+        corruption='fraction f of the regular weight at omega >= 6 t moved into a spurious pole at 2.5 t '
+                   '(m0 exact) -- the deploy() error model; shifts are exactly linear in f',
+        estimator_for_m_minus1='ring: (1/2)<-T> - D_Kohn (D computed separately by flux curvature, not same-sample); '
+                               'open chain: (1/2)<-T> exactly',
+        threshold_rules={'bias_only': 'tau_k = 1.96 * 0.02 * |estimated expectation| ((1/2)<-T> for m_-1)',
+                         'full_rule': 'tau_k = 1.96 sqrt(Var(O_k^loc)/5e4 + (0.02 x)^2), x the estimated expectation'},
+        f_star_def='f at which |Delta_k| = tau_k (fires above); None if the moment is blind',
+        ring=ring, open_chain=obc,
+        committed_ring_values={'half_negT': 5.024889909209261, 'kohn_stiffness_D': 4.700763076570524,
+                               'm_minus1': 0.32412604304278386, 'm1': 35.14516230804411,
+                               'source': 'data/2026-08-28_inverse_moment_falsifier.json deployment'},
+        plan_expectation='tau_-1 = 0.197 (61% of m_-1 = 0.324); f* ~ 0.20 for m_-1 vs ~0.05 for m1; ring = 94% '
+                         'cancellation (5.025 - 4.701); advantage expected to hold cleanly on open chains')
+    record_theory_numerics('R8_inverse_moment_sensitivity', R8, 'run_inverse_moment_falsifier.py', rt, seed=seed,
+                           command='cd src && python run_inverse_moment_falsifier.py --r8')
+
+
 if __name__ == '__main__':
-    main()
+    if '--r8' in sys.argv:
+        r8_main()
+    else:
+        main()

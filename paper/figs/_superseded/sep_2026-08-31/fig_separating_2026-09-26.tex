@@ -1,0 +1,50 @@
+% fig_separating.tex -- native pgfplots. THE separating demonstration: off-diagonal m1's disjoint reach.
+% From the SEALED, pre-registered 300-instance blinded battery (SHA-256 0e4c3368...). Each rejected
+% instance: total-weight sum-rule residual m0/tau0 (x) vs first off-diagonal moment residual m1/tau1 (y),
+% both normalized to their own frozen ibm_fez shot thresholds. Thresholds at 1 (crimson).
+% SEPARATING REGION (x<1, y>1, amber): total weight blind, off-diagonal fires -- the 24 sealed
+% spurious-feature (m0-preserving) rejections the cheap diagonal channel CANNOT reach.
+% trunc: x>1 (diagonal m0 already catches support loss). krylov+clean: near origin (blind spot / faithful).
+\begin{tikzpicture}
+\begin{axis}[
+  paperaxis, width=\columnwidth, height=7.2cm,
+  xmode=log, ymode=log,
+  xlabel={total-weight $m_0$ residual $\;|\widehat m_0-\bar m_0|/\tau_0$},
+  ylabel={off-diagonal $m_{1,2}$ residual $\;\max_{k}|\widehat m_k-\bar m_k|/\tau_k$},
+  xmin=0.03, xmax=400, ymin=0.03, ymax=400,
+  xtick={0.1,1,10,100}, ytick={0.1,1,10,100},
+  xticklabels={$0.1$,$1$,$10$,$100$}, yticklabels={$0.1$,$1$,$10$,$100$},
+  legend style={at={(0.985,0.03)}, anchor=south east, font=\scriptsize,
+                draw=pMuted, fill=white, fill opacity=0.92, text opacity=1, row sep=0.5pt, inner sep=2.5pt},
+  legend cell align=left, clip=true,
+]
+  % separating region: m0 blind (x<1) AND off-diagonal fires (y>1)
+  \fill[pAmber, opacity=0.14] (axis cs:0.03,1) rectangle (axis cs:1,400);
+  % frozen thresholds
+  \addplot[threshold, forget plot] coordinates {(1,0.03) (1,400)};
+  \addplot[threshold, forget plot] coordinates {(0.03,1) (400,1)};
+  % faithful (clean) -- near origin, no fire
+  \addplot[only marks, mark=*, mark size=1.0pt, pMuted, mark options={fill=pMuted, fill opacity=0.4, draw=none}]
+      table[x=x,y=y]{figs/sep_clean.dat};
+  \addlegendentry{faithful ($112$)}
+  % under-converged Krylov -- blind spot (caught by nothing)
+  \addplot[only marks, mark=square, mark size=1.7pt, pBlind, mark options={line width=0.5pt}]
+      table[x=x,y=y]{figs/sep_krylov.dat};
+  \addlegendentry{Krylov blind spot ($0/71$)}
+  % determinant truncation -- diagonal m0 ALSO catches it (x>1)
+  \addplot[only marks, mark=o, mark size=1.9pt, pIndigo, mark options={line width=0.7pt}]
+      table[x=x,y=y]{figs/sep_trunc.dat};
+  \addlegendentry{truncation: $m_0$ catches ($56$)}
+  % spurious feature, not m0-blind
+  \addplot[only marks, mark=triangle, mark size=2.0pt, pTeal, mark options={line width=0.6pt}]
+      table[x=x,y=y]{figs/sep_ac_other.dat};
+  \addlegendentry{spurious, non-separating ($37$)}
+  % THE separating set: spurious + m0 blind -> off-diagonal carries the rejection
+  \addplot[only marks, mark=*, mark size=2.6pt, pOx, mark options={fill=pAmber, draw=pOx, line width=0.7pt}]
+      table[x=x,y=y]{figs/sep_ac_sep.dat};
+  \addlegendentry{$m_0$ \textbf{blind}, off-diag \textbf{fires} ($24$)}
+
+  \node[pOx, font=\scriptsize, anchor=north west, align=left] at (axis cs:0.037,320)
+      {\textbf{separating region}\\ total weight blind,\\ off-diagonal fires};
+\end{axis}
+\end{tikzpicture}

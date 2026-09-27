@@ -1,34 +1,73 @@
-% fig_device.tex -- native pgfplots. Device-side coverage-leak curve on IBM Heron (L=8, ibm_fez).
-% Single panel: reconstruction-independent Delta_0 vs shot budget, device (retained counts) vs noiseless Aer.
-% Support coverage is put on a SECONDARY TOP AXIS (4k->35%, 16k->71%, 30k->85%, 50k->94%), so NO text sits on the data.
+% fig_device.tex -- native pgfplots. Device-side coverage residual on IBM Heron (L=8, ibm_fez).
+% Two stacked panels sharing the shot-budget axis:
+%   (a) linear Delta_0: device vs the noiseless SAMPLING band of the same circuits (mean +/- 1 sd);
+%   (b) log Delta_0: the same two, plus the uniform in-sector sampler at the device's retained count,
+%       whose Delta_0 (3e-10 / 1.5e-6 / 5e-4 / 0.093) is invisible on a linear axis.
+% Coordinates come from committed .dat files written by src/export_device_dat.py from
+% data/2026-09-27_delta0_reference_mc.json (src/delta0_reference_mc.py); nothing is typed in by hand:
+%   device_points.dat  -- device rows recomputed from the retained ibm_fez counts (the support S is the
+%                         only device-derived quantity);
+%   device_band.dat    -- multinomial replicas of the exact output distributions of the SAME 7 circuits at
+%                         the device's raw shots per circuit: mean, mean -/+ 1 sd (replaces the single
+%                         Aer seed of the 2026-09-02 draft);
+%   device_uniform.dat -- uniform in-sector sampler at the device's pooled retained count N:
+%                         E[Delta_0] = m0 (1 - 1/3920)^N exactly.
+% Device support coverage |S|/3920 is a SECONDARY TOP AXIS on (a) (35/71/85/94 % = device_points.dat
+% column cov_pct). Legend (opaque, grid drawn below it: axis on top=false) in the empty upper-right of (a);
+% panel letters in empty corners.
 \begin{tikzpicture}
-% ---- main axis: Delta_0 vs shot budget ----
-\begin{axis}[
-  paperaxis, width=8.6cm, height=6.4cm,
+\begin{groupplot}[
+  group style={group size=1 by 2, vertical sep=0.35cm, xticklabels at=edge bottom, xlabels at=edge bottom},
+  paperaxis, axis on top=false, scale only axis, width=6.5cm, height=3.3cm,
+  xmin=0, xmax=55, xtick={4,16,30,50}, xticklabels={$4$,$16$,$30$,$50$},
   xlabel={shots per Krylov circuit \; ($\times 10^{3}$)},
-  ylabel={coverage residual $\Delta_0=|m_0-\bar m_0|$},
-  xmin=0, xmax=55, ymin=0, ymax=0.40,
-  xtick={4,16,30,50}, xticklabels={$4$,$16$,$30$,$50$},
-  ytick={0,0.1,0.2,0.3,0.4},
-  legend style={at={(0.97,0.80)}, anchor=north east, font=\small, draw=none, fill=none},
-  clip=false,
 ]
-  % device: retained ibm_fez per-time counts (support set S is the only device-derived quantity)
-  \addplot[pOx, thick, mark=*, mark size=2.6pt]
-      coordinates {(4,0.372638) (16,0.123224) (30,0.032302) (50,0.004417)};
+% ---------------- (a) linear ----------------
+\nextgroupplot[
+  ymin=-0.02, ymax=0.50, ytick={0,0.1,0.2,0.3,0.4},
+  ylabel={$\Delta_0=|m_0-\bar m_0|$},
+  legend style={at={(0.98,0.97)}, anchor=north east, font=\small, draw=none, fill=white,
+                fill opacity=1, text opacity=1, row sep=0.5pt},
+  legend cell align=left,
+]
+  \addplot[name path=bandhiA, draw=none, forget plot] table[x=shots_k, y=hi] {figs/device_band.dat};
+  \addplot[name path=bandloA, draw=none, forget plot] table[x=shots_k, y=lo] {figs/device_band.dat};
+  \addplot[pIndigo, fill opacity=0.20, draw=none,
+           legend image code/.code={
+             \fill[pIndigo, fill opacity=0.20] (0cm,-0.11cm) rectangle (0.6cm,0.11cm);
+             \draw[pIndigo, densely dashed, thick] (0cm,0cm) -- (0.6cm,0cm);}]
+      fill between[of=bandhiA and bandloA];
+  \addlegendentry{noiseless, same circuits}
+  \addplot[pIndigo, densely dashed, thick, forget plot] table[x=shots_k, y=mean] {figs/device_band.dat};
+  \addlegendimage{pMuted, dash dot, thick, mark=diamond, mark size=2.4pt, mark options={solid, fill=white}}
+  \addlegendentry{uniform in-sector sampler}
+  \addplot[pOx, thick, mark=*, mark size=2.4pt, mark options={fill=pOx}]
+      table[x=shots_k, y=delta0] {figs/device_points.dat};
   \addlegendentry{device (\texttt{ibm\_fez})}
-  % noiseless Aer of the IDENTICAL Krylov--Trotter circuits, matched shots
-  \addplot[pIndigo, densely dashed, thick, mark=square, mark size=2.3pt]
-      coordinates {(4,0.319100) (16,0.160700) (30,0.045100) (50,0.023800)};
-  \addlegendentry{noiseless (same circuits)}
-\end{axis}
-% ---- secondary TOP axis: support coverage at the same shot positions (clean, no data overlap) ----
+  \node[anchor=north west, font=\small\bfseries, pInk] at (rel axis cs:0.015,0.97) {(a)};
+% ---------------- (b) log ----------------
+\nextgroupplot[
+  ymode=log, ymin=1e-11, ymax=5, ytick={1e-9,1e-6,1e-3,1},
+  ylabel={$\Delta_0$ (log)},
+]
+  \addplot[name path=bandhiB, draw=none, forget plot] table[x=shots_k, y=hi] {figs/device_band.dat};
+  \addplot[name path=bandloB, draw=none, forget plot] table[x=shots_k, y=lo] {figs/device_band.dat};
+  \addplot[pIndigo, fill opacity=0.20, draw=none, forget plot] fill between[of=bandhiB and bandloB];
+  \addplot[pIndigo, densely dashed, thick, forget plot] table[x=shots_k, y=mean] {figs/device_band.dat};
+  \addplot[pMuted, dash dot, thick, mark=diamond, mark size=2.4pt, mark options={solid, fill=white}, forget plot]
+      table[x=shots_k, y=E] {figs/device_uniform.dat};
+  \addplot[pOx, thick, mark=*, mark size=2.4pt, mark options={fill=pOx}, forget plot]
+      table[x=shots_k, y=delta0] {figs/device_points.dat};
+  \node[anchor=south west, font=\small\bfseries, pInk] at (rel axis cs:0.015,0.04) {(b)};
+\end{groupplot}
+% ---- secondary TOP axis on (a): device support coverage at the same shot positions ----
 \begin{axis}[
-  paperaxis, width=8.6cm, height=6.4cm,
-  xmin=0, xmax=55, ymin=0, ymax=0.40,
-  axis x line=top, axis y line=none,
+  paperaxis, scale only axis, width=6.5cm, height=3.3cm,
+  at={(group c1r1.south west)}, anchor=south west,
+  xmin=0, xmax=55, ymin=-0.02, ymax=0.50,
+  axis x line*=top, axis y line=none, grid=none,
   xtick={4,16,30,50}, xticklabels={$35$,$71$,$85$,$94$},
-  xlabel={support coverage $|\mathcal S|/|\mathcal S_{\mathrm{sector}}|$ \; (\%)},
+  xlabel={device support coverage $|\mathcal S|/|\mathcal S_{\mathrm{sector}}|$ \; (\%)},
   x tick label style={font=\scriptsize}, xlabel style={font=\small},
 ]
   \addplot[draw=none, forget plot] coordinates {(4,0) (50,0)};

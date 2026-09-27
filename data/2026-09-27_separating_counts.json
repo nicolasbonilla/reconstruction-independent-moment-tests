@@ -1,0 +1,151 @@
+{
+ "provenance": {
+  "script": "src/separating_counts.py",
+  "date": "2026-09-27",
+  "seed": null,
+  "note": "deterministic recount; no random numbers",
+  "runtime_s": 0.027,
+  "python": "3.11.4",
+  "inputs_sha256": {
+   "blind_verdicts.json": "be5e3c3ee5bedfcf4493cac69b61346c41ded7503271eda2189602160a0af405",
+   "blind_labels_sealed.json": "bf2115d3b30511170ed81c744af423dc663715e083b9b1a8448fa36ab6e3d4e8",
+   "prereg.sha256": "5cfdbe16b4294cdf02ee13f48d324a67ea937ca4ecdeaad2f45652f2e0a58ddb"
+  },
+  "code_sha256": "be17f1dca52cd1a2ab6d3bb219ec1cf74f49946effa1fb6dbdc16e045c2b10dd",
+  "prereg_sha256": "0e4c3368bd684d191792200a73514e313a837051b245a8d3a6d4a350e37a2792"
+ },
+ "normalisation": "r_k = |m_hat_k - m_bar_k| / delta_k with the frozen delta_k of blind_classify.py; x = r_0, y = max(r_1, r_2); region = x < 1 and y > 1",
+ "r_k_gt_1_reproduces_sealed_moment_fire": "300/300",
+ "n_in_region": 26,
+ "region_composition": {
+  "ac_weight_preserving": 20,
+  "ac_weight_changing": 4,
+  "trunc": 1,
+  "clean_false_positive": 1,
+  "ids": {
+   "ac_preserve_m0": [
+    18,
+    36,
+    51,
+    75,
+    79,
+    121,
+    138,
+    167,
+    182,
+    200,
+    208,
+    214,
+    222,
+    226,
+    235,
+    243,
+    254,
+    258,
+    261,
+    266
+   ],
+   "ac_weight_changing": [
+    42,
+    168,
+    297,
+    298
+   ],
+   "clean": [
+    184
+   ],
+   "trunc": [
+    162
+   ]
+  }
+ },
+ "m1_fires": 16,
+ "m2_alone": 10,
+ "m1_fires_ids": [
+  42,
+  51,
+  121,
+  138,
+  162,
+  167,
+  200,
+  208,
+  214,
+  222,
+  235,
+  243,
+  254,
+  266,
+  297,
+  298
+ ],
+ "m2_alone_ids": [
+  18,
+  36,
+  75,
+  79,
+  168,
+  182,
+  184,
+  226,
+  258,
+  261
+ ],
+ "per_class_n_and_in_region": {
+  "ac_preserve_m0": {
+   "n": 34,
+   "in_region": 20
+  },
+  "ac_weight_changing": {
+   "n": 27,
+   "in_region": 4
+  },
+  "clean": {
+   "n": 112,
+   "in_region": 1
+  },
+  "krylov": {
+   "n": 71,
+   "in_region": 0
+  },
+  "trunc": {
+   "n": 56,
+   "in_region": 1
+  }
+ },
+ "trunc_with_m0_residual_gt_1": 55,
+ "trunc_n": 56,
+ "range_x": [
+  0.000967135615781411,
+  25.51020408163265
+ ],
+ "range_y": [
+  0.031272556327278975,
+  25.497469041654316
+ ],
+ "exemplar_222": {
+  "mode": "ac",
+  "params": {
+   "U": 5.0,
+   "preserve_m0": true,
+   "w_s": 0.16643907588976578,
+   "om_s": 16.46922136538163
+  },
+  "r_k": [
+   0.15878924664731348,
+   3.316485813362927,
+   9.057532839322775
+  ],
+  "in_region": true
+ },
+ "supersedes": "data/separating_demonstration.json (24/15/9: spurious-feature instances only; kept unchanged as the earlier record)",
+ "dat_files": {
+  "sep_clean.dat": 112,
+  "sep_krylov.dat": 71,
+  "sep_trunc.dat": 56,
+  "sep_ac_other.dat": 37,
+  "sep_ac_pres_region.dat": 20,
+  "sep_ac_chg_region.dat": 4,
+  "sep_region_nonac.dat": 2
+ }
+}

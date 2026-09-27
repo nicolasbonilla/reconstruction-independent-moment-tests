@@ -1,9 +1,19 @@
 % fig_momentmc.tex -- native pgfplots. Direct Monte-Carlo demonstration of the
 % interval-moment test (validates the analytic interval + power vs coverage).
+% 2026-09-27 (R7): the truncation order is deterministic (lexsort, src/interval_moment_mc.py). Panel (b) now
+% shows the power at EVERY truncation d (momentmc_power_scan.dat) under the 22-point log grid
+% (momentmc_power.dat): the grid missed three narrow blind windows where the lone-m1 power falls to alpha.
+% The +/- z sigma band of panel (a) is read from momentmc_scalars.dat (m1op +/- thr) instead of hard-coded.
+\pgfplotstableread[header=false]{figs/momentmc_scalars.dat}\mcscalars
+\pgfplotstablegetelem{0}{[index]1}\of\mcscalars\edef\mcMop{\pgfplotsretval}
+\pgfplotstablegetelem{2}{[index]1}\of\mcscalars\edef\mcThr{\pgfplotsretval}
+\pgfmathsetmacro\mcLo{\mcMop-\mcThr}
+\pgfmathsetmacro\mcHi{\mcMop+\mcThr}
 \begin{tikzpicture}
 \begin{groupplot}[
-  group style={group size=2 by 1, horizontal sep=1.7cm},
-  paperaxis, width=0.5\textwidth, height=5.4cm]
+  group style={group size=2 by 1, horizontal sep=2.05cm},
+  paperaxis, width=0.48\textwidth, height=5.4cm,
+  ytick pos=left]   % no right-side ticks: they pointed into the gap and touched panel (b)'s y label
 
 % ---------- (a) realized estimator is Gaussian; FP matches nominal ----------
 \nextgroupplot[
@@ -18,10 +28,10 @@
   table[x=x,y=count]{figs/momentmc_hist.dat};
 \addplot[pInk, line width=1pt, smooth] table[x=x,y=gauss]{figs/momentmc_hist.dat};
 \addlegendentry{$\mathcal{N}(\widehat m_1^{\rm op},\sigma^2)$}
-% +/- z*sigma band: dashes stopped just above the peak so the upper corners stay clear for labels
-\addplot[pCrimson, line width=0.9pt, dashed, forget plot] coordinates {(4.06998,0)(4.06998,300)};
-\addplot[pCrimson, line width=0.9pt, dashed, forget plot] coordinates {(4.38420,0)(4.38420,300)};
-\node[pCrimson, font=\scriptsize, anchor=south, align=center] at (axis cs:4.227,306)
+% +/- z*sigma band (m1op -/+ thr): dashes stopped just above the peak so the upper corners stay clear for labels
+\addplot[pCrimson, line width=0.9pt, dashed, forget plot] coordinates {(\mcLo,0)(\mcLo,300)};
+\addplot[pCrimson, line width=0.9pt, dashed, forget plot] coordinates {(\mcHi,0)(\mcHi,300)};
+\node[pCrimson, font=\scriptsize, anchor=south, align=center] at (axis cs:\mcMop,306)
   {$\pm z\sigma$ threshold band};
 \node[pOx, font=\scriptsize, anchor=north west, align=left] at (axis cs:3.965,440)
   {realized FP\\ $4.5\%$ vs $5\%$};
@@ -32,17 +42,25 @@
   ylabel={detection power $P(\mathrm{reject})$},
   title={(b) power vs coverage},
   xmin=0, xmax=102, ymin=-0.03, ymax=1.12,
-  ytick={0,0.25,0.5,0.75,1}]
+  ytick={0,0.25,0.5,0.75,1},
+  legend style={at={(0.02,0.86)}, anchor=north west, font=\scriptsize, draw=none, fill=none,
+                row sep=-1pt},
+  legend cell align=left]
 \addplot[threshold, forget plot] coordinates {(0,0.05)(102,0.05)};
 \node[pCrimson, font=\scriptsize, anchor=west] at (axis cs:2,0.13) {$\alpha=5\%$};
-\addplot[pTeal, line width=1.1pt, mark=*, mark size=1.3pt,
-         error bars/.cd, y dir=both, y explicit]
+% every truncation d = 1..n_sup on the deterministic order
+\addplot[pTeal!55, line width=0.7pt] table[x=cov,y=power]{figs/momentmc_power_scan.dat};
+\addlegendentry{every $d$}
+% the 22-point log grid of d (the sampling of the earlier version of this panel)
+\addplot[only marks, pTeal, mark=*, mark size=1.3pt, error bars/.cd, y dir=both, y explicit]
   table[x=cov,y=power,y error plus expr=\thisrow{hi}-\thisrow{power},
         y error minus expr=\thisrow{power}-\thisrow{lo}]{figs/momentmc_power.dat};
-\node[pOx, font=\scriptsize, anchor=south west, align=left] at (axis cs:20,0.36)
-  {dip at $53\%$:\\ accidental\\ $m_1$ match};
-\draw[guide] (axis cs:46,0.60) -- (axis cs:53,0.82);
-\node[pInk, font=\scriptsize, anchor=south east, align=right] at (axis cs:98,0.14)
-  {FP anchor\\ at full recon};
+\addlegendentry{log grid}
+% full reconstruction: its rejection rate is the realized false-positive rate
+\addplot[only marks, mark=o, pInk, mark size=2.1pt, line width=0.7pt, restrict x to domain=99.9:100.1]
+  table[x=cov,y=power]{figs/momentmc_power.dat};
+\addlegendentry{full recon.}
+\node[pOx, font=\scriptsize, anchor=north west, align=left] at (axis cs:3,0.60)
+  {blind windows:\\ power falls\\ to $\alpha$ near\\ $46,\,51,\,87\%$};
 \end{groupplot}
 \end{tikzpicture}
