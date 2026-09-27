@@ -86,8 +86,9 @@ off-diagonal moments are simulation-only.
   `data/heron_counts_matched_L8_*.json` are exact classical values. At 50k shots the reconstructed A(ω)
   still has relative L1 error 0.35 (`falsifier.rel_L1`) while Δ₀ = 0.0044. The L=8 jobs
   (`src/hardware_matched_job_L8.py`) ran SamplerV2 with measurement twirling, Pauli gate twirling and
-  dynamical decoupling; no readout-error mitigation was applied (the draft's "TREX" is a misnomer). Bitstrings were read in the correct qubit order, and
-  post-selection alone defines the support (no configuration recovery): 82,697 of 350,000 shots kept at 50k.
+  dynamical decoupling; no readout-error mitigation was applied (the draft's "TREX" is a misnomer).
+  Bitstrings were read in the correct qubit order, and post-selection alone defines the support (no
+  configuration recovery): 82,697 of 350,000 shots kept at 50k.
 - **Retention-matched control:** the device keeps ≈23.6% of shots after post-selection, the noiseless
   simulation 100%. At equal kept samples the noiseless Δ₀ is 0.203 / 0.248 / 0.329 / 0.418 against the
   device's 0.0044 / 0.032 / 0.123 / 0.373 (50k/30k/16k/4k per circuit; `src/retention_matched_control.py`,
@@ -127,8 +128,10 @@ These are **not** reproducible from this repository yet, or are being recomputed
   depends on tie-breaking: fresh runs of `interval_moment.py` and `interval_battery.py` both give
   `|Δm₁| = 0.254` at d=98 (committed: 0.2625 and 0.2250), above the 2%-bias interval 0.229, so `m₁`
   alone rejects d=98 at 2% bias (it still misses at 4%). Until 2026-09-26 both scripts printed a
-  hard-coded "d=98 missed by m₁" message; they now print the verdict computed in the run. The miss itself
-  exists: `verify.py`'s auto-scan finds one at d=97 (`|Δm₁| = 0.155`, caught by `m₂`).
+  hard-coded "d=98 missed by m₁" message; they now print the verdict computed in the run. Other
+  truncation depths shift too (for example `|Δm₁|` at d=58 moves from 3.736 to 3.447), but no other
+  verdict of either script changes. The miss itself exists: `verify.py`'s auto-scan finds one at d=97
+  (`|Δm₁| = 0.155`, caught by `m₂`).
 - Figure fixes (including the `fig_sqw` raster extent) and regenerated README thumbnails.
 
 ---

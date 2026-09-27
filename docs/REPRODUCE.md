@@ -133,6 +133,8 @@ Pending generators and recomputations (being fixed with the revision; do not tre
   depends on tie-breaking: fresh runs of `interval_moment.py` and `interval_battery.py` both give
   `|Δm₁| = 0.254` at d=98 (committed: 0.2625 and 0.2250), above the 2%-bias interval 0.229, so `m₁`
   alone rejects d=98 at 2% bias (it still misses at 4%). Until 2026-09-26 both scripts printed a
-  hard-coded "d=98 missed by m₁" message; they now print the verdict computed in the run. The miss itself
-  exists: `verify.py`'s auto-scan finds one at d=97 (`|Δm₁| = 0.155`, caught by `m₂`).
+  hard-coded "d=98 missed by m₁" message; they now print the verdict computed in the run. Other
+  truncation depths shift too (for example `|Δm₁|` at d=58 moves from 3.736 to 3.447), but no other
+  verdict of either script changes. The miss itself exists: `verify.py`'s auto-scan finds one at d=97
+  (`|Δm₁| = 0.155`, caught by `m₂`).
 - Figure fixes (including the `fig_sqw` raster extent) and regenerated README thumbnails.
