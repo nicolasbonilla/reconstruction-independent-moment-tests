@@ -1,17 +1,18 @@
 # The manuscript, revised on 2026-09-27
 
 This folder holds the manuscript, in the SciPost submission class (`SciPost.cls`, 2021-08 version, the one with
-the PhysCore option; `SciPost_bibstyle.bst`). The revtex4-2 build of the same text was 38 pp; the SciPost build
-is 63 pp before the length pass. It is not on arXiv or in a journal; the intended venue
-is SciPost Physics Core. The 2026-09-05 text (31 pp) was revised on 2026-09-27 in three steps: the
+the PhysCore option; `SciPost_bibstyle.bst`). It is not on arXiv or in a journal; the intended venue is
+SciPost Physics Core. The 2026-09-05 text (31 pp) was revised on 2026-09-27 in three steps: the
 recomputations (phase A; scripts and dated outputs in [`../docs/REPRODUCE.md`](../docs/REPRODUCE.md)), every
 section rewritten against them (phase B), and a paper-wide consistency pass over the text, the figure
-sources, the code and the bibliography, each change checked by a second reader (phase C). Captions and
-figures now agree, and `main.pdf` is built from this text.
+sources, the code and the bibliography, each change checked by a second reader (phase C). It was then ported
+to the SciPost class (63 pp) and shortened (phase D, 2026-09-28: 56 pp; main text from about 18.7k to 12.2k
+words, abstract 9 lines, captions about 120 words; no result removed: derivations and secondary numerics moved
+to the appendices, including a new Appendix F on the device run, and every distinct number of the text is still
+present). `main.pdf` is built from this text.
 
 **Not done yet (before submission):**
-- a length pass (the introduction is about 2.4k words; several captions exceed 120 words) and the port to
-  the SciPost template, after which every figure needs a new visual check at single-column width;
+- a visual check of every page at single-column width and a strict referee read of the shortened text;
 - the companion (arXiv:2608.16436) is cited with its v3 title and v3-only content, and v3 is announced on
   2026-09-28; if it is not public at submission, the title, the version pin and the two sentences that
   rely on it (Introduction; Sec. role) must be softened;

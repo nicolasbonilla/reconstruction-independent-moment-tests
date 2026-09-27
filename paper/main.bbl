@@ -836,12 +836,6 @@ S.~Piccinelli, F.~Tacchino, I.~Tavernelli and G.~Carleo,
 \newblock \doi{10.22331/q-2026-04-13-2060},
 \newblock \eprint{2505.05563}.
 
-\bibitem{Hausman1978}
-J.~A. Hausman,
-\newblock \emph{Specification tests in econometrics},
-\newblock Econometrica \textbf{46}(6), 1251 (1978),
-\newblock \doi{10.2307/1913827}.
-
 \bibitem{TeNPy2024}
 J.~Hauschild, J.~Unfried, S.~Anand, B.~Andrews, M.~Bintz, U.~Borla, S.~Divic,
   M.~Drescher, J.~Geiger, M.~Hefel, K.~H\'emery, W.~Kadow \emph{et~al.},
@@ -905,6 +899,12 @@ G.~Carleo and M.~Troyer,
 \newblock Science \textbf{355}(6325), 602 (2017),
 \newblock \doi{10.1126/science.aag2302},
 \newblock \eprint{1606.02318}.
+
+\bibitem{Hausman1978}
+J.~A. Hausman,
+\newblock \emph{Specification tests in econometrics},
+\newblock Econometrica \textbf{46}(6), 1251 (1978),
+\newblock \doi{10.2307/1913827}.
 
 \bibitem{HalimehHauke2020}
 J.~C. Halimeh and P.~Hauke,
