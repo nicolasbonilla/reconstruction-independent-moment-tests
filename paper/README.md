@@ -23,9 +23,6 @@ and float placement (no float after the references). 65 pp, 0 errors, 0 overfull
   so shortening it is an author decision (drop a claim together with its caveat, never the caveat alone);
 - facts the committed record does not state, and the text says so: why the n_k test was not run at its sealed
   floors; why Sec. 7 uses the U/t=8 measure; why the generator used a delta atom instead of the sealed Gaussian;
-- the companion (arXiv:2608.16436) is cited with its v3 title and v3-only content, and v3 is announced on
-  2026-09-28; if it is not public at submission, the title, the version pin and the two sentences that
-  rely on it (Introduction; Sec. role) must be softened;
 - the Zenodo DOI in the Data availability statement.
 
 ## Defects of the 2026-09-05 text, corrected in the revision
