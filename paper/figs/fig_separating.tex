@@ -10,6 +10,7 @@
 % id 184 (the last two ringed); m1 fires on 16 of the 26, m2 alone on 10.
 % Legend counts are numbers of plotted points (rejection rates are in the caption). The legend sits
 % above the axes; no text is placed inside the data area.
+% 2026-09-28 (review pass E: R3-15): the legend says "reject", the paper's verdict word, instead of "fire".
 \pgfplotsset{layers/sepgridbelow/.define layer set={axis background,axis grid,pre main,main,axis ticks,axis lines,
   axis tick labels,axis descriptions,axis foreground}{}}
 \begin{tikzpicture}
@@ -65,6 +66,6 @@
   \addlegendentry{ringed: not spurious ($2$)}
   % legend key for the shaded region
   \addlegendimage{area legend, draw=pAmber, line width=0.4pt, fill=pAmber, fill opacity=0.14}
-  \addlegendentry{shaded: only $m_{1,2}$ fire ($26$)}
+  \addlegendentry{shaded: only $m_{1,2}$ reject ($26$)}
 \end{axis}
 \end{tikzpicture}

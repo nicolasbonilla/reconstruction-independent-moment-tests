@@ -1,36 +1,20 @@
 % fig_bracketing.tex -- NEW native pgfplots (figure*). The mechanism of Theorem 1:
-% finitely many moments BRACKET the cumulative weight F(t); the bracket width IS W_n(t), contracting with n.
-% 2026-09-27 layout fix: (i) clip mode=individual, so the t* label sits just above the top frame instead of being
-% clipped under it; (ii) the inset is typeset into a box first and placed on the main axis's FOREGROUND layer on an
-% opaque white panel inside the empty lower-left region of the main axis (t in [-0.955,-0.70], F in [0.14,0.66]:
-% F(t) < 0.03 and both brackets < 0.1 there), so the main grid (drawn on top by axis on top + fillbetween layers)
-% no longer shows through the inset and its y label no longer sits on the main 0.4 tick label;
-% (iii) inset ymax 1.04 so the n=1 marker (1.000) clears the inset's top frame; (iv) main grid drawn below the data.
-% ---- inset: max bracket width vs order (same christoffel_maxW.dat as fig_christoffel (b)) ----
-\ifdefined\bracketinsetbox\else\newsavebox\bracketinsetbox\fi
-\sbox\bracketinsetbox{%
-\begin{tikzpicture}
-\begin{axis}[
-  width=4.1cm, height=2.95cm,
-  paperaxis, grid=none,
-  xmin=0.7, xmax=4.3, ymin=0.82, ymax=1.04, xtick={1,2,3,4}, ytick={0.85,0.95},
-  xlabel={order $n$}, ylabel={$\max_t W_n$},
-  xlabel style={font=\scriptsize}, ylabel style={font=\scriptsize},
-  tick label style={font=\scriptsize},
-]
-  \addplot[pOx, very thick, mark=*, mark size=1.8pt, mark options={fill=pAmber,draw=pOx}]
-      table[x=n,y=maxW]{figs/christoffel_maxW.dat};
-\end{axis}
-\end{tikzpicture}}%
+% finitely many moments BRACKET the cumulative weight F(x); the bracket width IS W_n(x), contracting with n.
+% x is the rescaled frequency in [-1,1] (the data columns keep the name t; t is the hopping elsewhere in the paper).
+% 2026-09-27 layout fix: clip mode=individual, so the x* label sits just above the top frame instead of being
+% clipped under it; main grid drawn below the data.
+% 2026-09-28 (review pass E: V49-03, notation N1): the inset (max_x W_n vs n) is removed: it plotted the same
+% christoffel_maxW.dat as panel (b) of fig_christoffel directly below, the caption never mentioned it, and its opaque
+% backing cut a hole in the main grid. The rescaled frequency is written x (F(x), W_n(x), x*).
 \begin{tikzpicture}
 \begin{axis}[
   name=main, paperaxis,
   width=12.4cm, height=6.9cm,
   xmin=-1, xmax=-0.35, ymin=0, ymax=1.03,
   xtick={-1,-0.9,-0.8,-0.7,-0.6,-0.5,-0.4},
-  % F(t) and the brackets run to t=1; each plot is clipped to the axis box (clip mode=individual), while the
-  % annotation nodes below are not, so the t* label can sit above the top frame
-  xlabel={rescaled frequency $t$}, ylabel={cumulative weight $F(t)=\int^{t}\!A$},
+  % F(x) and the brackets run to x=1; each plot is clipped to the axis box (clip mode=individual), while the
+  % annotation nodes below are not, so the x* label can sit above the top frame
+  xlabel={rescaled frequency $x$}, ylabel={cumulative weight $F(x)=\int^{x}\!A$},
   clip=true, clip mode=individual,
   axis on top=false,   % grid below the data: on top, the F=1 grid line split the thick staircase into two thin lines
 ]
@@ -45,20 +29,15 @@
   % the true cumulative weight lies inside every bracket
   \addplot[pInk, very thick, const plot] table[x=t,y=F]{figs/bracket_F.dat};
 
-  % interior support point t* (dominant atom): guide inside, label just above the top frame (outside the data)
+  % interior support point x* (dominant atom): guide inside, label just above the top frame (outside the data)
   \draw[guide] (axis cs:-0.5795,0) -- (axis cs:-0.5795,1.0);
-  \node[pInk, font=\scriptsize, anchor=south, inner sep=1.5pt] at (axis cs:-0.5795,1.03) {$t^{*}$};
+  \node[pInk, font=\scriptsize, anchor=south, inner sep=1.5pt] at (axis cs:-0.5795,1.03) {$x^{*}$};
 
   % labels (short, in the opened whitespace)
   \node[pAmber!75!black, font=\small, anchor=east] at (axis cs:-0.62,0.55) {$n{=}2$};
   \node[pOx, font=\small, anchor=east] at (axis cs:-0.62,0.40) {$n{=}4$};
-  \node[pInk, font=\small, anchor=east] at (axis cs:-0.38,0.92) {true $F(t)$};
+  \node[pInk, font=\small, anchor=east] at (axis cs:-0.38,0.92) {true $F(x)$};
   \node[pInk, font=\scriptsize, anchor=north west, align=left] at (axis cs:-0.99,0.98)
-      {finitely many moments do not\\ pin $F(t)$ --- they \emph{bracket} it;\\ the band width is the\\ Christoffel function $W_n(t)$};
-
-  % the inset, on an opaque white panel above the main grid
-  \pgfplotsonlayer{axis foreground}
-    \node[fill=white, inner sep=1pt, anchor=south west] at (axis cs:-0.955,0.14) {\usebox\bracketinsetbox};
-  \endpgfplotsonlayer
+      {finitely many moments do not\\ pin $F(x)$ --- they \emph{bracket} it;\\ the band width is the\\ Christoffel function $W_n(x)$};
 \end{axis}
 \end{tikzpicture}

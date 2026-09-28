@@ -18,12 +18,16 @@
 % column cov_pct). Legend (opaque, grid drawn below it: axis on top=false) in the empty upper-right of (a); it lists
 % only the two series drawn in (a); the uniform sampler carries a direct label in the empty lower-left of (b).
 % Panel letters in empty corners. Both y labels sit at the same offset (rel axis cs:-0.15) so they align.
+% 2026-09-28 (review pass E: V17-11, R1-11, R3-09): x label "shots per circuit" (the seven circuits are
+% number-conserving samplers, not Krylov circuits of the Hubbard propagator); top axis "coverage |S|/3920" (the sector
+% dimension; |S_sector| was never defined); the uniform-sampler label moved to the empty region below its line, away
+% from the 50k diamond and from the "(b)" letter; (b) has no top tick stubs, so only one set shows in the gap.
 \begin{tikzpicture}
 \begin{groupplot}[
   group style={group size=1 by 2, vertical sep=0.35cm, xticklabels at=edge bottom, xlabels at=edge bottom},
   paperaxis, axis on top=false, scale only axis, width=6.5cm, height=3.3cm,
   xmin=0, xmax=55, xtick={4,16,30,50}, xticklabels={$4$,$16$,$30$,$50$},
-  xlabel={shots per Krylov circuit \; ($\times 10^{3}$)},
+  xlabel={shots per circuit \; ($\times 10^{3}$)},
   ylabel style={at={(rel axis cs:-0.15,0.5)}, anchor=south},
 ]
 % ---------------- (a) linear ----------------
@@ -51,6 +55,7 @@
 \nextgroupplot[
   ymode=log, ymin=1e-11, ymax=5, ytick={1e-9,1e-6,1e-3,1},
   ylabel={$\Delta_0$ (log)},
+  xtick pos=bottom,   % no top stubs: (a)'s bottom stubs are the only ones in the gap
 ]
   \addplot[name path=bandhiB, draw=none, forget plot] table[x=shots_k, y=hi] {figs/device_band.dat};
   \addplot[name path=bandloB, draw=none, forget plot] table[x=shots_k, y=lo] {figs/device_band.dat};
@@ -58,8 +63,8 @@
   \addplot[pIndigo, densely dashed, thick, forget plot] table[x=shots_k, y=mean] {figs/device_band.dat};
   \addplot[pMuted, dash dot, thick, mark=diamond, mark size=2.4pt, mark options={solid, fill=white}, forget plot]
       table[x=shots_k, y=E] {figs/device_uniform.dat};
-  % direct label for the uniform sampler (drawn in (b) only), in the empty region below its line
-  \node[pMuted, font=\small, anchor=south west, align=left] at (axis cs:13,3e-11) {uniform in-sector sampler};
+  % direct label for the uniform sampler (drawn in (b) only), in the empty region below-left of its line
+  \node[pMuted, font=\small, anchor=west, align=left] at (axis cs:8,1e-8) {uniform in-sector\\ sampler};
   \addplot[pOx, thick, mark=*, mark size=2.4pt, mark options={fill=pOx}, forget plot]
       table[x=shots_k, y=delta0] {figs/device_points.dat};
   \node[anchor=south west, font=\small\bfseries, pInk] at (rel axis cs:0.015,0.04) {(b)};
@@ -71,7 +76,7 @@
   xmin=0, xmax=55, ymin=-0.02, ymax=0.50,
   axis x line*=top, axis y line=none, grid=none,
   xtick={4,16,30,50}, xticklabels={$35$,$71$,$85$,$94$},
-  xlabel={device support coverage $|\mathcal S|/|\mathcal S_{\mathrm{sector}}|$ \; (\%)},
+  xlabel={device support coverage $|\mathcal S|/3920$ \; (\%)},
   x tick label style={font=\scriptsize}, xlabel style={font=\small},
 ]
   \addplot[draw=none, forget plot] coordinates {(4,0) (50,0)};

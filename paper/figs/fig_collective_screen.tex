@@ -7,9 +7,15 @@
 % to <= 6.3e-15 (worst case over q and both channels: summary.worst_lehmann_m1_match_residual in
 % data/2026-08-26_collective_sumrule_falsifier.json). The dashed 5% line is a fixed RELATIVE guide, not the deployed
 % threshold rule tau_1.
+% 2026-09-28 (review pass E: V1, V3, V12, R3-15): the spin channel's m0 residual (column r0 of
+% collective_screen_spin.dat) is now drawn as well, so "m0 stays blind for both channels" is shown, not asserted:
+% charge m0 markers (squares) at f = 0, 10, ..., 50 and spin m0 markers (open triangles) at f = 5, 15, ..., 45 on the
+% same zero line; markers are drawn solid (the dash pattern used to break them); legend words "(flags)" dropped (the
+% curves cross a 5% guide, not a rejection threshold); width = \columnwidth like the neighbouring single-column
+% figures, height lowered from 6.0 cm to 5.2 cm.
 \begin{tikzpicture}
 \begin{axis}[
-  paperaxis, width=8.4cm, height=6.0cm,
+  paperaxis, width=\columnwidth, height=5.2cm,
   axis on top=false,   % grid below data and labels
   xlabel={band weight moved to the spurious peak (\%)},
   ylabel={relative residual $\Delta_1/m_1$ (\%)},
@@ -22,13 +28,22 @@
   \node[pCrimson, font=\scriptsize, anchor=south east, inner sep=1.5pt] at (axis cs:49.5,5.8) {$5\%$ relative guide};
   % charge channel: m1 moves
   \addplot[firesline] table[x=f,y=r1]{figs/collective_screen_charge.dat};
-  \addlegendentry{charge $m_1$ (flags)}
-  % spin channel: m1 moves (distinct style)
-  \addplot[pIndigo, very thick, densely dashed, mark=triangle*, mark size=2.4pt, mark options={fill=pIndigo}]
+  \addlegendentry{charge $m_1$}
+  % spin channel: m1 moves (distinct style); markers solid
+  \addplot[pIndigo, very thick, densely dashed, mark=triangle*, mark size=2.4pt, mark options={fill=pIndigo, solid}]
       table[x=f,y=r1]{figs/collective_screen_spin.dat};
-  \addlegendentry{spin $m_1$ (flags)}
-  % total weight blind (flat on zero; identical for both channels since m0 is preserved)
-  \addplot[blindline] table[x=f,y=r0]{figs/collective_screen_charge.dat};
-  \addlegendentry{total weight $m_0$ (blind)}
+  \addlegendentry{spin $m_1$}
+  % total weight blind for BOTH channels (m0 is preserved): spin m0 (open triangles at odd points, forget plot) and
+  % charge m0 (squares at even points), on the same zero line
+  \addplot[pBlind, thick, dashed, mark=triangle*, mark size=2.2pt, mark options={fill=white, draw=pBlind, solid},
+           mark repeat=2, mark phase=2, forget plot]
+      table[x=f,y=r0]{figs/collective_screen_spin.dat};
+  \addplot[blindline, mark options={fill=white, draw=pBlind, solid}, mark repeat=2, mark phase=1,
+           legend image code/.code={
+             \draw[pBlind, thick, dashed] (0cm,0cm) -- (0.6cm,0cm);
+             \draw[pBlind, solid, fill=white] plot[mark=square*, mark size=2pt] coordinates {(0.15cm,0cm)};
+             \draw[pBlind, solid, fill=white] plot[mark=triangle*, mark size=2.2pt] coordinates {(0.45cm,0cm)};}]
+      table[x=f,y=r0]{figs/collective_screen_charge.dat};
+  \addlegendentry{$m_0$, charge \& spin (blind)}
 \end{axis}
 \end{tikzpicture}

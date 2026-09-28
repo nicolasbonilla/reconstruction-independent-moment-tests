@@ -7,27 +7,35 @@
 % support is the whole sector, hence A_hw == A_exact by COVERAGE (not a fidelity claim).
 % The graded coverage test on an incomplete, device-sampled support is the L=8 curve, Fig. device.
 % Labels sit between the y=0.2 and y=0.4 grid lines, clear of the curve (which is < 0.16 for omega > 5.6).
+% 2026-09-28 (review pass E: V17-09, V17-10): the box now carries the executability-only caveat (bit-order error: all
+% 300 retained determinants came from device errors), so it survives reuse without the caption; the twirling / DD /
+% no-readout-mitigation line moved out of the box (it is in the caption) to keep the box clear of the data; each curve
+% label has a line sample (solid indigo / dashed oxblood); x axis in units of t (data/heron_spectral.json: U = 4.0,
+% eta = 0.15 for U/t = 4, eta = 0.15 t), starting at the first grid point omega - E_0 = 2.3138 of heron_exact.dat (the
+% shaded spectrum no longer begins with a floating vertical edge).
 \begin{tikzpicture}
 \begin{axis}[
   paperaxis, width=8.4cm, height=6.0cm,
-  xlabel={$\omega-E_0$ \; (energy above ground state)},
+  xlabel={$(\omega-E_0)/t$ \; (energy above ground state)},
   ylabel={spectral weight $A(\omega)$},
-  xmin=2, xmax=12, ymin=0, ymax=0.66,
+  xmin=2.3138, xmax=12, ymin=0, ymax=0.66,
   clip=true,
   axis on top=false,   % grid below the opaque text box (with axis on top the x=10 grid line crossed the box text)
 ]
   \addplot[draw=pIndigo, thick, fill=pIndigo, fill opacity=0.14]
       table[x=w,y=A]{figs/heron_exact.dat} \closedcycle;
   \addplot[pOx, densely dashed, line width=0.9pt] table[x=w,y=Ahw]{figs/heron_hw.dat};
-  \node[pIndigo, font=\small, anchor=east] at (axis cs:11.7,0.292) {exact $A(\omega)$};
-  \node[pOx, font=\small, anchor=east] at (axis cs:11.7,0.238) {reconstruction on retained $\mathcal S$};
+  \node[pIndigo, font=\small, anchor=east] at (axis cs:11.7,0.292)
+      {\tikz[baseline=-0.6ex]\draw[pIndigo, thick] (0,0) -- (0.5,0);\ exact $A(\omega)$};
+  \node[pOx, font=\small, anchor=east] at (axis cs:11.7,0.238)
+      {\tikz[baseline=-0.6ex]\draw[pOx, densely dashed, line width=0.9pt] (0,0) -- (0.5,0);\ reconstruction on retained $\mathcal S$};
   \node[draw=pIndigo, rounded corners=2pt, fill=pIndigo!7, inner sep=3pt, anchor=north east,
         align=left, font=\scriptsize] at (axis cs:11.85,0.645)
       {\textbf{IBM Heron} \texttt{ibm\_fez}, 12 qubits\\
        $3.5{\times}10^{5}$ shots ($5{\times}10^{4}$ per circuit)\\
-       meas.\ + Pauli twirling, DD;\\
-       no readout-error mitigation\\
        retained $|\mathcal S|{=}300/300$ (whole sector)\\
-       $\Rightarrow$ reconstruction exact \emph{by coverage}};
+       $\Rightarrow$ exact \emph{by coverage}; executability only\\
+       (bit-order error: all $300$ retained\\
+       \phantom{(}determinants came from device errors)};
 \end{axis}
 \end{tikzpicture}

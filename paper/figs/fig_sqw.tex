@@ -1,11 +1,16 @@
 % fig_sqw.tex -- native pgfplots (figure*, full width). Charge S(q,w) + spin S^zz(q,w) heatmaps.
 % L=12 sector-Lanczos/Haydock (spectral_lanczos.py). Data field = rasterized PNG (paperhot + gamma);
-% axes/colorbar/guides = native. Each panel on its OWN frequency window (charge ~U up to 10t; spin ~J up
+% axes/colorbar/guides = native. Each panel on its OWN frequency window (charge ~U up to 10t; spin ~J_ex up
 % to 2.4t) so neither channel is crushed -- the different windows ARE the spin-charge-separation signature.
 % 2026-09-27 (B9): the PNG rasters span the FULL computed grids (charge omega in [0, 11]t, spin [0, 2.6]t, q/pi in
 % [qmin, qmax]; src/export_sqw_dat.py -> sqw_extent.dat). They used to be placed at ymax=10 / 2.4, which drew every
 % feature at 10/11 = 0.909x and 2.4/2.6 = 0.923x of its true frequency. The extents are now read from
 % sqw_extent.dat; the axis windows (ymax=10, 2.4) are unchanged and clip the excess.
+% 2026-09-28 (review pass E: V2, V8, notation N2): the charge colorbar is removed (the two bars were identical: both
+% rasters are cmap((S/S_p)^0.62) with S_p the 99.5th percentile of each channel, src/export_sqw_dat.py GAMMA = 0.62,
+% np.percentile(Sd, 99.5)), so the spin panel's y label no longer sits on the charge bar's tick labels; the remaining
+% bar is labelled at TRUE values (S/S_p = 0.1 and 0.5 at 0.1^0.62 = 0.2399 and 0.5^0.62 = 0.6507 of the bar); the
+% exchange scale is written J_ex (J is the probe operator elsewhere in the paper).
 \pgfplotstableread{figs/sqw_extent.dat}\sqwextent
 \pgfplotstablegetelem{0}{qmin}\of\sqwextent\edef\sqwQmin{\pgfplotsretval}
 \pgfplotstablegetelem{0}{qmax}\of\sqwextent\edef\sqwQmax{\pgfplotsretval}
@@ -22,8 +27,7 @@
   xticklabels={$\tfrac13$,$\tfrac23$,$1$,$\tfrac43$,$\tfrac53$},
   xlabel={momentum transfer $q/\pi$}, ylabel={frequency $\omega/t$},
   title={\small charge $S(q,\omega)$ \, (gapped, scale $\sim U$)},
-  colormap name=paperhot, colorbar, point meta min=0, point meta max=1,
-  colorbar style={width=0.22cm, ytick={0,0.5,1}, title={\scriptsize norm.}, tick label style={font=\scriptsize}},
+  colormap name=paperhot, point meta min=0, point meta max=1,   % shares the spin panel's colorbar (same gamma)
 ]
   \addplot graphics[xmin=\sqwQmin, xmax=\sqwQmax, ymin=0, ymax=\sqwWCmax] {figs/sqw_charge.png};
   % the charge gap = the forbidden band from omega=0 up to the onset Delta_c: brace it and name it
@@ -36,19 +40,20 @@
       {charge gap\\ $\Delta_c\!\approx\!5.7\,t$\\ (broadening\\ tail only)};
   \node[white, font=\scriptsize\itshape, anchor=west] at (axis cs:0.22,6.05) {onset};
 \end{axis}
-% ---- spin S^zz(q,omega): gapless spinon continuum, scale ~ J, fills the panel ----
+% ---- spin S^zz(q,omega): gapless spinon continuum, scale ~ J_ex, fills the panel ----
 \begin{axis}[
   name=spin, paperaxis,
-  at={(charge.east)}, anchor=west, xshift=2.35cm,
+  at={(charge.east)}, anchor=west, xshift=1.75cm,
   width=7.7cm, height=6.6cm,
   grid=none, enlargelimits=false, axis on top,
   xmin=0.1667, xmax=1.8333, ymin=0, ymax=2.4,
   ytick={0,0.5,1,1.5,2}, xtick={0.3333,0.6667,1,1.3333,1.6667},
   xticklabels={$\tfrac13$,$\tfrac23$,$1$,$\tfrac43$,$\tfrac53$},
   xlabel={momentum transfer $q/\pi$}, ylabel={frequency $\omega/t$},
-  title={\small spin $S^{zz}(q,\omega)$ \, (gapless, scale $\sim J$)},
+  title={\small spin $S^{zz}(q,\omega)$ \, (gapless, scale $\sim J_{\mathrm{ex}}$)},
   colormap name=paperhot, colorbar, point meta min=0, point meta max=1,
-  colorbar style={width=0.22cm, ytick={0,0.5,1}, title={\scriptsize norm.}, tick label style={font=\scriptsize}},
+  colorbar style={width=0.22cm, ytick={0,0.2399,0.6507,1}, yticklabels={$0$,$0.1$,$0.5$,$1$},
+                  title={\scriptsize norm.}, tick label style={font=\scriptsize}},
 ]
   \addplot graphics[xmin=\sqwQmin, xmax=\sqwQmax, ymin=0, ymax=\sqwWSmax] {figs/sqw_spin.png};
   % des Cloizeaux--Pearson two-spinon edges -- thin DOTTED guide (Paper-2 style), subtle not dominant

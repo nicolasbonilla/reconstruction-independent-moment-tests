@@ -8,6 +8,10 @@
 % The dashed 5% line is a common relative guide, not the deployed threshold; the dotted oxblood line is the deployed
 % tau_{-1}/m_{-1} = 0.6094 (data/2026-09-27_theory_numerics.json, R8_inverse_moment_sensitivity.ring.
 % tau_full_rule_over_m), which the m_{-1} curve crosses at f = 0.198 (f_star_full_rule).
+% 2026-09-28 (review pass E: V3, V4, V5, V6, R3-19): (a) the two curve labels in footnotesize and pulled apart; (b) the
+% m_{-1} label hangs below the top frame; m_1 and m_2 are labelled at their right ends, outside the frame; m_1 is drawn
+% in ink, not in the grey reserved for blind quantities (m_1 rejects at f ~ 0.057); the y label is shortened to fit the
+% axis; the m_0 label sits in a widened strip below its line; blind markers are drawn solid (not dashed).
 \begin{tikzpicture}
 \begin{groupplot}[
   group style={group size=2 by 1, horizontal sep=2.7cm},
@@ -31,17 +35,18 @@
       table[x=omega,y=Atrue]{figs/inverse_falsifier_spectrum.dat} \closedcycle;
   % wrong reconstruction: a spurious low-omega (Drude-like) peak that steals mid-IR weight (equal m_0)
   \addplot[pOx, very thick] table[x=omega,y=Awrong]{figs/inverse_falsifier_spectrum.dat};
-  \node[pIndigo, font=\small, anchor=north east, align=right] at (axis cs:14.6,1.41)
+  \node[pIndigo, font=\footnotesize, anchor=north east, align=right] at (axis cs:14.9,1.41)
       {true $A_J(\omega)$\\ (mid-IR band)};
-  \node[pOx, font=\small, anchor=west, align=left] at (axis cs:3.35,1.20) {spurious low-$\omega$\\ (Drude-like) peak};
-  \draw[pOx, -{Stealth[length=1.4mm]}, line width=0.5pt] (axis cs:3.20,1.12) -- (axis cs:2.75,1.20);
+  \node[pOx, font=\footnotesize, anchor=west, align=left] at (axis cs:3.1,1.22) {spurious low-$\omega$\\ (Drude-like) peak};
+  \draw[pOx, -{Stealth[length=1.4mm]}, line width=0.5pt] (axis cs:3.05,1.13) -- (axis cs:2.75,1.20);
   \node[pTeal, font=\scriptsize, anchor=west, align=left] at (axis cs:4.2,0.66) {kernel\\ $1/\omega$};
   \draw[pTeal, -{Stealth[length=1.2mm]}, line width=0.4pt] (axis cs:4.3,0.50) -- (axis cs:4.3,0.13);
 % ---- panel (b): relative discrepancies vs misplaced weight fraction ----
 \nextgroupplot[
   xlabel={weight moved to the spurious peak, $f$ (\%)},
-  ylabel={relative moment discrepancy $\Delta_k/m_k$ (\%)},
-  xmin=0, xmax=50, ymin=-20, ymax=165,
+  ylabel={$\Delta_k/m_k$ (\%)},
+  ytick pos=left,   % no right-side ticks: the m_1 / m_2 end labels sit there
+  xmin=0, xmax=50, ymin=-26, ymax=165,
   ytick={0,50,100,150},
   title={\small\textbf{(b)} relative shifts (not detection power)},
   clip=false,
@@ -55,23 +60,24 @@
   % positive moments
   \addplot[pIndigo, very thick, mark=triangle*, mark options={fill=pIndigo}]
       table[x=f,y=d2]{figs/inverse_falsifier_sweep.dat};
-  \addplot[pMuted, thick, mark=diamond*, mark options={fill=white, draw=pMuted}]
+  \addplot[pInk, thick, mark=diamond*, mark options={fill=white, draw=pInk}]
       table[x=f,y=d1]{figs/inverse_falsifier_sweep.dat};
-  % zeroth moment: blind (flat on zero)
-  \addplot[blindline] table[x=f,y=d0]{figs/inverse_falsifier_sweep.dat};
-  % inverse-moment label: upper-left empty wedge, above the steep inverse line
-  \node[pOx, font=\small, anchor=south west, align=left] at (axis cs:2,132)
+  % zeroth moment: blind (flat on zero); markers solid, not dashed
+  \addplot[blindline, mark options={fill=white, draw=pBlind, solid}] table[x=f,y=d0]{figs/inverse_falsifier_sweep.dat};
+  % inverse-moment label: upper-left empty wedge, hanging below the top frame (the m_{-1} curve is < 83 for f <= 27)
+  \node[pOx, font=\small, anchor=north west, align=left] at (axis cs:2,158)
       {inverse moment $m_{-1}$\\ ($\Delta_{-1}/m_{-1}$)};
   % deployed-threshold label for m_{-1}: left end of its dotted line, where the m_{-1} curve is still far below
   \node[pOx, font=\scriptsize, anchor=south west, inner sep=1.5pt] at (axis cs:0.6,61.5)
       {deployed $\tau_{-1}/m_{-1}$};
-  % positive-moment labels: m_2 above its line at f=36%, m_1 below its line at the right end
-  \node[pIndigo, font=\scriptsize, anchor=south] at (axis cs:36,38) {$m_2$};
-  \node[pMuted, font=\scriptsize, anchor=north west] at (axis cs:44,30) {$m_1$};
+  % positive-moment labels: at the right ends of their lines (47.2 and 38.1 at f = 50%), outside the frame, spread
+  % apart just enough not to touch
+  \node[pIndigo, font=\footnotesize, anchor=west] at (axis cs:50.8,50.5) {$m_2$};
+  \node[pInk, font=\footnotesize, anchor=west] at (axis cs:50.8,35.5) {$m_1$};
   % guide label: right end, in the gap between the y=5 line and the m_1 line
   \node[pCrimson, font=\scriptsize, anchor=south east, inner sep=1.5pt] at (axis cs:49.5,6.5) {$5\%$ relative guide};
   % blind label: centered in the widened empty strip below the m_0 line, clear of the x-axis
-  \node[pBlind, font=\small] at (axis cs:25,-11)
+  \node[pBlind, font=\small] at (axis cs:25,-14.5)
       {total weight $m_0=\langle J^2\rangle$ (blind)};
 \end{groupplot}
 \end{tikzpicture}

@@ -1,8 +1,14 @@
 % fig_momentcone.tex -- NEW native pgfplots (single column). The moment-problem geometry: a moment
 % SEQUENCE is itself falsifiable, with no reference to A(omega). Valid moment body on [-1,1] m1^2<=m2<=1.
+% 2026-09-28 (review pass E: V1-03, V1-06, m12, R3-15): grid drawn below the content (axis on top=false), so it no
+% longer erases box edges or notches the parabola; both schematic boxes moved off the grid lines and away from the
+% parabola (rejected box: top 0.18 < 0.29 = parabola at m1 = 0.54; passing box: bottom 0.62 > 0.21 = parabola at
+% m1 = 0.46); box labels say what is rejected or passed (the ESTIMATE, not a reconstruction); the teal point is the
+% exact-diagonalization L=6 current measure (src/export_momentcone_dat.py), so it is labelled "exact", not "computed".
 \begin{tikzpicture}
 \begin{axis}[
   paperaxis, width=\columnwidth, height=6.6cm,
+  axis on top=false,   % grid below the fill, boxes and curve (on top, it cut the box edges and the parabola)
   xmin=-1.12, xmax=1.12, ymin=-0.03, ymax=1.08,
   xlabel={first moment $m_1$}, ylabel={second moment $m_2$},
 ]
@@ -11,21 +17,21 @@
   \addplot[name path=top, draw=none, forget plot] coordinates {(-1,1) (1,1)};
   \addplot[pAmber, fill opacity=0.16, forget plot] fill between[of=para and top];
 
-  % schematic shot-budget interval boxes, each labelled INSIDE
-  \draw[pTeal, thick, fill=pTeal, fill opacity=0.10] (axis cs:0.14,0.58) rectangle (axis cs:0.52,0.78);
-  \node[pTeal!60!black, font=\scriptsize] at (axis cs:0.33,0.68) {survives};
-  \draw[pOx, thick, fill=pOx, fill opacity=0.10] (axis cs:0.50,0.04) rectangle (axis cs:0.86,0.22);
-  \node[pOx, font=\scriptsize] at (axis cs:0.68,0.13) {falsified};
+  % schematic shot-budget interval boxes, each labelled INSIDE, clear of grid lines and of the parabola
+  \draw[pTeal, thick, fill=pTeal, fill opacity=0.10] (axis cs:0.10,0.62) rectangle (axis cs:0.46,0.78);
+  \node[pTeal!60!black, font=\scriptsize, align=center] at (axis cs:0.28,0.70) {estimate\\ passes};
+  \draw[pOx, thick, fill=pOx, fill opacity=0.10] (axis cs:0.54,0.025) rectangle (axis cs:0.94,0.18);
+  \node[pOx, font=\scriptsize, align=center] at (axis cs:0.74,0.1025) {estimate\\ rejected};
 
-  % the real computed moment point (nearly rank-1: sits on the parabola)
+  % the exact moment point of the L=6 current measure (nearly rank-1: sits on the parabola)
   \addplot[only marks, mark=*, mark size=3pt, mark options={fill=pTeal, draw=white, line width=1pt}]
       table[x=m1,y=m2]{figs/momentcone_point.dat};
 
   % labels in verified-empty regions (never on the parabola / boxes / frame)
   \node[pInk, font=\small, align=center] at (axis cs:0.02,0.94) {valid $\{m_k\}$ on $[-1,1]$};
-  \node[pTeal, font=\scriptsize, anchor=west, align=left] at (axis cs:-1.09,0.30)
-      {computed\\ $(m_1,m_2)$};
-  \draw[pTeal, line width=0.5pt] (axis cs:-0.71,0.315) -- (axis cs:-0.60,0.338);
+  \node[pTeal, font=\scriptsize, anchor=west, align=left] at (axis cs:-1.09,0.235)
+      {$L{=}6$ current\\ (exact)};
+  \draw[pTeal, line width=0.5pt] (axis cs:-0.645,0.292) -- (axis cs:-0.600,0.325);
   \node[pInk, font=\scriptsize, anchor=west] at (axis cs:-1.09,0.05)
       {rank-1: $m_2{=}m_1^2$};
 \end{axis}

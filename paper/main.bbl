@@ -9,85 +9,85 @@
 
 \bibitem{Damascelli2003}
 A.~Damascelli, Z.~Hussain and Z.-X. Shen,
-\newblock \emph{Angle-resolved photoemission studies of the cuprate
-  superconductors},
+\newblock \emph{{Angle-resolved photoemission studies of the cuprate
+  superconductors}},
 \newblock Rev. Mod. Phys. \textbf{75}, 473 (2003),
 \newblock \doi{10.1103/RevModPhys.75.473}.
 
 \bibitem{Basov2011}
 D.~N. Basov, R.~D. Averitt, D.~van~der Marel, M.~Dressel and K.~Haule,
-\newblock \emph{Electrodynamics of correlated electron materials},
+\newblock \emph{{Electrodynamics of correlated electron materials}},
 \newblock Rev. Mod. Phys. \textbf{83}(2), 471 (2011),
 \newblock \doi{10.1103/RevModPhys.83.471},
 \newblock \eprint{1106.2309}.
 
 \bibitem{Benthien2004}
 H.~Benthien, F.~Gebhard and E.~Jeckelmann,
-\newblock \emph{Spectral function of the one-dimensional hubbard model away
-  from half filling},
+\newblock \emph{{Spectral Function of the One-Dimensional Hubbard Model away
+  from Half Filling}},
 \newblock Phys. Rev. Lett. \textbf{92}(25), 256401 (2004),
 \newblock \doi{10.1103/PhysRevLett.92.256401},
 \newblock \eprint{cond-mat/0402664}.
 
 \bibitem{Qin2022}
 M.~Qin, T.~Sch{\"a}fer, S.~Andergassen, P.~Corboz and E.~Gull,
-\newblock \emph{The hubbard model: A computational perspective},
+\newblock \emph{{The Hubbard Model: A Computational Perspective}},
 \newblock Annu. Rev. Condens. Matter Phys. \textbf{13}, 275 (2022),
 \newblock \doi{10.1146/annurev-conmatphys-090921-033948},
 \newblock \eprint{2104.00064}.
 
 \bibitem{AspuruGuzik2005}
 A.~Aspuru-Guzik, A.~D. Dutoi, P.~J. Love and M.~Head-Gordon,
-\newblock \emph{Simulated quantum computation of molecular energies},
+\newblock \emph{{Simulated Quantum Computation of Molecular Energies}},
 \newblock Science \textbf{309}(5741), 1704 (2005),
 \newblock \doi{10.1126/science.1113479}.
 
 \bibitem{Peruzzo2014}
 A.~Peruzzo, J.~McClean, P.~Shadbolt, M.-H. Yung, X.-Q. Zhou, P.~J. Love,
   A.~Aspuru-Guzik and J.~L. O'Brien,
-\newblock \emph{A variational eigenvalue solver on a photonic quantum
-  processor},
+\newblock \emph{{A variational eigenvalue solver on a photonic quantum
+  processor}},
 \newblock Nat. Commun. \textbf{5}, 4213 (2014),
 \newblock \doi{10.1038/ncomms5213},
 \newblock \eprint{1304.3061}.
 
 \bibitem{McArdle2020}
 S.~McArdle, S.~Endo, A.~Aspuru-Guzik, S.~C. Benjamin and X.~Yuan,
-\newblock \emph{Quantum computational chemistry},
+\newblock \emph{{Quantum computational chemistry}},
 \newblock Rev. Mod. Phys. \textbf{92}(1), 015003 (2020),
 \newblock \doi{10.1103/RevModPhys.92.015003},
 \newblock \eprint{1808.10402}.
 
 \bibitem{Bauer2020}
 B.~Bauer, S.~Bravyi, M.~Motta and G.~K.-L. Chan,
-\newblock \emph{Quantum algorithms for quantum chemistry and quantum materials
-  science},
+\newblock \emph{{Quantum Algorithms for Quantum Chemistry and Quantum Materials
+  Science}},
 \newblock Chem. Rev. \textbf{120}(22), 12685 (2020),
 \newblock \doi{10.1021/acs.chemrev.9b00829},
 \newblock \eprint{2001.03685}.
 
 \bibitem{Bravyi2022}
 S.~Bravyi, O.~Dial, J.~M. Gambetta, D.~Gil and Z.~Nazario,
-\newblock \emph{The future of quantum computing with superconducting qubits},
+\newblock \emph{{The future of quantum computing with superconducting qubits}},
 \newblock J. Appl. Phys. \textbf{132}(16), 160902 (2022),
 \newblock \doi{10.1063/5.0082975},
 \newblock \eprint{2209.06841}.
 
 \bibitem{GranetDSF2026}
 E.~Granet, K.~Murota, H.~Dreyer, K.~Yamamoto, J.~Pedersen and H.~Suwa,
-\newblock \emph{Dynamical structure factor with a pumping approach on a
-  trapped-ion quantum computer} (2026), \eprint{2607.07138}.
+\newblock \emph{{Dynamical structure factor with a pumping approach on a
+  trapped-ion quantum computer}} (2026), \eprint{2607.07138}.
 
 \bibitem{GranetARPES2026}
 E.~Granet, R.~Nigmatullin, D.~T. Stephen and H.~Dreyer,
-\newblock \emph{Spectral functions on a quantum computer through
-  system--environment interaction} (2026), \eprint{2605.01440}.
+\newblock \emph{{Spectral functions on a quantum computer through
+  system--environment interaction}} (2026), \eprint{2605.01440}.
 
 \bibitem{GreeneDiniz2024}
 G.~Greene-Diniz, D.~Z. Manrique, K.~Yamamoto, E.~Plekhanov, N.~Fitzpatrick,
   M.~Krompiec, R.~Sakuma and D.~Mu{\~n}oz~Ramo,
-\newblock \emph{Quantum computed green's functions using a cumulant expansion
-  of the lanczos method},
+\newblock \emph{{Quantum Computed Green's Functions using a Cumulant Expansion
+  of the Lanczos Method}},
 \newblock Quantum \textbf{8}, 1383 (2024),
 \newblock \doi{10.22331/q-2024-06-20-1383},
 \newblock \eprint{2309.09685}.
@@ -95,8 +95,8 @@ G.~Greene-Diniz, D.~Z. Manrique, K.~Yamamoto, E.~Plekhanov, N.~Fitzpatrick,
 \bibitem{Selisko2025}
 J.~Selisko, M.~Amsler, C.~Wever, Y.~Kawashima, G.~Samsonidze, R.~Ul~Haq,
   F.~Tacchino, I.~Tavernelli and T.~Eckl,
-\newblock \emph{Dynamical mean-field theory for real materials on a quantum
-  computer},
+\newblock \emph{{Dynamical mean-field theory for real materials on a quantum
+  computer}},
 \newblock npj Comput. Mater. \textbf{11}, 325 (2025),
 \newblock \doi{10.1038/s41524-025-01772-6},
 \newblock \eprint{2404.09527}.
@@ -104,14 +104,14 @@ J.~Selisko, M.~Amsler, C.~Wever, Y.~Kawashima, G.~Samsonidze, R.~Ul~Haq,
 \bibitem{Lee2026}
 Y.-T. Lee, K.~Kumaran, B.~Pokharel, A.~Scheie, C.~L. Sarkis, S.~E. Nagler,
   D.~A. Tennant, T.~S. Humble, A.~Schleife, A.~Kandala and A.~Banerjee,
-\newblock \emph{Benchmarking quantum simulation with neutron-scattering
-  experiments} (2026), \eprint{2603.15608}.
+\newblock \emph{{Benchmarking quantum simulation with neutron-scattering
+  experiments}} (2026), \eprint{2603.15608}.
 
 \bibitem{QSCI2023}
 K.~Kanno, M.~Kohda, R.~Imai, S.~Koh, K.~Mitarai, W.~Mizukami and Y.~O.
   Nakagawa,
-\newblock \emph{Quantum-selected configuration interaction: Classical
-  diagonalization of hamiltonians in subspaces selected by quantum computers},
+\newblock \emph{{Quantum-Selected Configuration Interaction: Classical
+  Diagonalization of Hamiltonians in Subspaces Selected by Quantum Computers}},
 \newblock Phys. Rev. Research \textbf{8}, 023268 (2026),
 \newblock \doi{10.1103/dmn4-snfx},
 \newblock \eprint{2302.11320}.
@@ -120,8 +120,8 @@ K.~Kanno, M.~Kohda, R.~Imai, S.~Koh, K.~Mitarai, W.~Mizukami and Y.~O.
 J.~Robledo-Moreno, M.~Motta, H.~Haas, A.~Javadi-Abhari, P.~Jurcevic, W.~Kirby,
   S.~Martiel, K.~Sharma, S.~Sharma, T.~Shirakawa, I.~Sitdikov, R.-Y. Sun
   \emph{et~al.},
-\newblock \emph{Chemistry beyond the scale of exact diagonalization on a
-  quantum-centric supercomputer},
+\newblock \emph{{Chemistry Beyond the Scale of Exact Diagonalization on a
+  Quantum-Centric Supercomputer}},
 \newblock Science Advances \textbf{11}(25), eadu9991 (2025),
 \newblock \doi{10.1126/sciadv.adu9991},
 \newblock \eprint{2405.05068}.
@@ -130,13 +130,13 @@ J.~Robledo-Moreno, M.~Motta, H.~Haas, A.~Javadi-Abhari, P.~Jurcevic, W.~Kirby,
 J.~Yu, J.~Robledo~Moreno, J.~T. Iosue, L.~Bertels, D.~Claudino, B.~Fuller,
   P.~Groszkowski, T.~S. Humble, P.~Jurcevic, W.~Kirby, T.~A. Maier, M.~Motta
   \emph{et~al.},
-\newblock \emph{Quantum-centric algorithm for sample-based krylov
-  diagonalization} (2025), \eprint{2501.09702}.
+\newblock \emph{{Quantum-Centric Algorithm for Sample-Based Krylov
+  Diagonalization}} (2025), \eprint{2501.09702}.
 
 \bibitem{Yoshioka2025}
 N.~Yoshioka, M.~Amico, W.~Kirby \emph{et~al.},
-\newblock \emph{Krylov diagonalization of large many-body hamiltonians on a
-  quantum processor},
+\newblock \emph{{Krylov diagonalization of large many-body Hamiltonians on a
+  quantum processor}},
 \newblock Nat. Commun. \textbf{16}, 5014 (2025),
 \newblock \doi{10.1038/s41467-025-59716-z},
 \newblock \eprint{2407.14431}.
@@ -144,34 +144,78 @@ N.~Yoshioka, M.~Amico, W.~Kirby \emph{et~al.},
 \bibitem{Motta2020}
 M.~Motta, C.~Sun, A.~T.~K. Tan, M.~J. O'Rourke, E.~Ye, A.~J. Minnich, F.~G.
   S.~L. Brand{\~a}o and G.~K.-L. Chan,
-\newblock \emph{Determining eigenstates and thermal states on a quantum
-  computer using quantum imaginary time evolution},
+\newblock \emph{{Determining eigenstates and thermal states on a quantum
+  computer using quantum imaginary time evolution}},
 \newblock Nat. Phys. \textbf{16}(2), 205 (2020),
 \newblock \doi{10.1038/s41567-019-0704-4},
 \newblock \eprint{1901.07653}.
 
 \bibitem{SQDspec2608}
 N.~Bonilla~Vargas,
-\newblock \emph{Captured weight and boundary leakage bound the error of
-  sample-based spectral functions} (2026), \eprint{2608.16436v3}.
+\newblock \emph{{Captured weight and boundary leakage bound the error of
+  sample-based spectral functions}} (2026), \eprint{2608.16436v3}.
 
 \bibitem{Patel2026}
 J.~Patel, C.~Rangi and K.-M. Tam,
-\newblock \emph{{Green's} functions from sample-based {Krylov} quantum
-  diagonalization: An impurity solver for dynamical mean-field theory} (2026),
+\newblock \emph{{{Green's} Functions from Sample-based {Krylov} Quantum
+  Diagonalization: An Impurity Solver for Dynamical Mean-Field Theory}} (2026),
   \eprint{2609.09147}.
 
 \bibitem{Alexeev2024}
 Y.~Alexeev \emph{et~al.},
-\newblock \emph{Quantum-centric supercomputing for materials science: A
-  perspective on challenges and future directions},
+\newblock \emph{{Quantum-centric supercomputing for materials science: A
+  perspective on challenges and future directions}},
 \newblock Future Gener. Comput. Syst. \textbf{160}, 666 (2024),
 \newblock \doi{10.1016/j.future.2024.04.060},
 \newblock \eprint{2312.09733}.
 
+\bibitem{Reinholdt2025}
+P.~Reinholdt, K.~M. Ziems, E.~R. Kjellgren, S.~Coriani, S.~P.~A. Sauer and
+  J.~Kongsted,
+\newblock \emph{{Critical Limitations in Quantum-Selected Configuration
+  Interaction Methods}},
+\newblock J. Chem. Theory Comput. \textbf{21}(14), 6811 (2025),
+\newblock \doi{10.1021/acs.jctc.5c00375},
+\newblock \eprint{2501.07231}.
+
+\bibitem{Epperly2022}
+E.~N. Epperly, L.~Lin and Y.~Nakatsukasa,
+\newblock \emph{{A Theory of Quantum Subspace Diagonalization}},
+\newblock SIAM J. Matrix Anal. Appl. \textbf{43}(3), 1263 (2022),
+\newblock \doi{10.1137/21M145954X},
+\newblock \eprint{2110.07492}.
+
+\bibitem{Kirby2024}
+W.~Kirby,
+\newblock \emph{{Analysis of quantum Krylov algorithms with errors}},
+\newblock Quantum \textbf{8}, 1457 (2024),
+\newblock \doi{10.22331/q-2024-08-29-1457},
+\newblock \eprint{2401.01246}.
+
+\bibitem{GaberleJattana2026}
+C.~Gaberle and M.~S. Jattana,
+\newblock \emph{{A Critical Assessment of the Sample-Based Quantum
+  Diagonalization for Heisenberg and Hubbard Models}} (2026),
+  \eprint{2605.02494}.
+
+\bibitem{VaqueroSabater2026}
+N.~Vaquero-Sabater, A.~Carreras, L.~Broers, T.~Shirakawa, S.~Yunoki and
+  D.~Casanova,
+\newblock \emph{{Noise and Configuration Recovery Impact on Quantum Selected
+  Configuration Interaction}},
+\newblock Noiseless LUCJ sampling yields compact, biased configurational spaces
+  (2026), \eprint{2605.23697}.
+
+\bibitem{LRSCI2025}
+P.~Reinholdt, E.~R. Kjellgren and J.~Kongsted,
+\newblock \emph{{Linear Response Selected Configuration Interaction}},
+\newblock J. Chem. Theory Comput. \textbf{22}(1), 358 (2026),
+\newblock \doi{10.1021/acs.jctc.5c01676},
+\newblock \eprint{2510.02949}.
+
 \bibitem{Preskill2018}
 J.~Preskill,
-\newblock \emph{Quantum computing in the {NISQ} era and beyond},
+\newblock \emph{{Quantum Computing in the {NISQ} era and beyond}},
 \newblock Quantum \textbf{2}, 79 (2018),
 \newblock \doi{10.22331/q-2018-08-06-79},
 \newblock \eprint{1801.00862}.
@@ -179,59 +223,59 @@ J.~Preskill,
 \bibitem{Daley2022}
 A.~J. Daley, I.~Bloch, C.~Kokail, S.~Flannigan, N.~Pearson, M.~Troyer and
   P.~Zoller,
-\newblock \emph{Practical quantum advantage in quantum simulation},
+\newblock \emph{{Practical quantum advantage in quantum simulation}},
 \newblock Nature \textbf{607}(7920), 667 (2022),
 \newblock \doi{10.1038/s41586-022-04940-6}.
 
 \bibitem{Kim2023}
 Y.~Kim, A.~Eddins, S.~Anand, K.~X. Wei, E.~van~den Berg, S.~Rosenblatt,
   H.~Nayfeh, Y.~Wu, M.~Zaletel, K.~Temme and A.~Kandala,
-\newblock \emph{Evidence for the utility of quantum computing before fault
-  tolerance},
+\newblock \emph{{Evidence for the utility of quantum computing before fault
+  tolerance}},
 \newblock Nature \textbf{618}(7965), 500 (2023),
 \newblock \doi{10.1038/s41586-023-06096-3}.
 
 \bibitem{Tindall2024}
 J.~Tindall, M.~Fishman, E.~M. Stoudenmire and D.~Sels,
-\newblock \emph{Efficient tensor network simulation of {IBM}'s eagle kicked
-  ising experiment},
+\newblock \emph{{Efficient Tensor Network Simulation of {IBM}'s Eagle Kicked
+  Ising Experiment}},
 \newblock PRX Quantum \textbf{5}(1), 010308 (2024),
 \newblock \doi{10.1103/PRXQuantum.5.010308},
 \newblock \eprint{2306.14887}.
 
 \bibitem{Tang2019}
 E.~Tang,
-\newblock \emph{A quantum-inspired classical algorithm for recommendation
-  systems},
+\newblock \emph{{A quantum-inspired classical algorithm for recommendation
+  systems}},
 \newblock In \emph{Proceedings of the 51st Annual ACM SIGACT Symposium on
   Theory of Computing (STOC 2019)}, pp. 217--228,
 \newblock \doi{10.1145/3313276.3316310} (2019), \eprint{1807.04271}.
 
 \bibitem{Hangleiter2023}
 D.~Hangleiter and J.~Eisert,
-\newblock \emph{Computational advantage of quantum random sampling},
+\newblock \emph{{Computational advantage of quantum random sampling}},
 \newblock Rev. Mod. Phys. \textbf{95}(3), 035001 (2023),
 \newblock \doi{10.1103/RevModPhys.95.035001},
 \newblock \eprint{2206.04079}.
 
 \bibitem{BonillaReviewSQD2026}
 N.~Bonilla~Vargas,
-\newblock \emph{Machine learning for sample-based quantum diagonalization: a
+\newblock \emph{{Machine learning for sample-based quantum diagonalization: a
   review of generative configuration recovery and the classical-simulability
-  frontier} (2026), \eprint{2608.05314}.
+  frontier}} (2026), \eprint{2608.05314}.
 
 \bibitem{Eisert2020}
 J.~Eisert, D.~Hangleiter, N.~Walk, I.~Roth, D.~Markham, R.~Parekh, U.~Chabaud
   and E.~Kashefi,
-\newblock \emph{Quantum certification and benchmarking},
+\newblock \emph{{Quantum certification and benchmarking}},
 \newblock Nat. Rev. Phys. \textbf{2}(7), 382 (2020),
 \newblock \doi{10.1038/s42254-020-0186-4},
 \newblock \eprint{1910.06343}.
 
 \bibitem{Carrasco2021}
 J.~Carrasco, A.~Elben, C.~Kokail, B.~Kraus and P.~Zoller,
-\newblock \emph{Theoretical and experimental perspectives of quantum
-  verification},
+\newblock \emph{{Theoretical and Experimental Perspectives of Quantum
+  Verification}},
 \newblock PRX Quantum \textbf{2}(1), 010102 (2021),
 \newblock \doi{10.1103/PRXQuantum.2.010102},
 \newblock \eprint{2102.05927}.
@@ -239,8 +283,8 @@ J.~Carrasco, A.~Elben, C.~Kokail, B.~Kraus and P.~Zoller,
 \bibitem{Elben2020}
 A.~Elben, B.~Vermersch, R.~van Bijnen, C.~Kokail, T.~Brydges, C.~Maier, M.~K.
   Joshi, R.~Blatt, C.~F. Roos and P.~Zoller,
-\newblock \emph{Cross-platform verification of intermediate scale quantum
-  devices},
+\newblock \emph{{Cross-Platform Verification of Intermediate Scale Quantum
+  Devices}},
 \newblock Phys. Rev. Lett. \textbf{124}(1), 010504 (2020),
 \newblock \doi{10.1103/PhysRevLett.124.010504},
 \newblock \eprint{1909.01282}.
@@ -248,74 +292,105 @@ A.~Elben, B.~Vermersch, R.~van Bijnen, C.~Kokail, T.~Brydges, C.~Maier, M.~K.
 \bibitem{Lubinski2023}
 T.~Lubinski, S.~Johri, P.~Varosy, J.~Coleman, L.~Zhao, J.~Necaise, C.~H.
   Baldwin, K.~Mayer and T.~Proctor,
-\newblock \emph{Application-oriented performance benchmarks for quantum
-  computing},
+\newblock \emph{{Application-Oriented Performance Benchmarks for Quantum
+  Computing}},
 \newblock IEEE Transactions on Quantum Engineering \textbf{4}, 1 (2023),
 \newblock \doi{10.1109/TQE.2023.3253761},
 \newblock \eprint{2110.03137}.
 
 \bibitem{Flammia2011}
 S.~T. Flammia and Y.-K. Liu,
-\newblock \emph{Direct fidelity estimation from few pauli measurements},
+\newblock \emph{{Direct Fidelity Estimation from Few Pauli Measurements}},
 \newblock Phys. Rev. Lett. \textbf{106}(23), 230501 (2011),
 \newblock \doi{10.1103/PhysRevLett.106.230501},
 \newblock \eprint{1104.4695}.
 
 \bibitem{HohenbergMartin1965}
 P.~C. Hohenberg and P.~C. Martin,
-\newblock \emph{Microscopic theory of superfluid helium},
+\newblock \emph{{Microscopic theory of superfluid helium}},
 \newblock Ann. Phys. (N.Y.) \textbf{34}, 291 (1965),
 \newblock \doi{10.1016/0003-4916(65)90280-0}.
 
 \bibitem{Kohn1964}
 W.~Kohn,
-\newblock \emph{Theory of the insulating state},
+\newblock \emph{{Theory of the Insulating State}},
 \newblock Phys. Rev. \textbf{133}, A171 (1964),
 \newblock \doi{10.1103/PhysRev.133.A171}.
 
 \bibitem{Maldague1977}
 P.~F. Maldague,
-\newblock \emph{Optical spectrum of a hubbard chain},
+\newblock \emph{{Optical spectrum of a Hubbard chain}},
 \newblock Phys. Rev. B \textbf{16}, 2437 (1977),
 \newblock \doi{10.1103/PhysRevB.16.2437}.
 
 \bibitem{Lehmann1954}
 H.~Lehmann,
-\newblock \emph{\"uber eigenschaften von ausbreitungsfunktionen und
-  renormierungskonstanten quantisierter felder},
+\newblock \emph{{\"Uber Eigenschaften von Ausbreitungsfunktionen und
+  Renormierungskonstanten quantisierter Felder}},
 \newblock Nuovo Cimento \textbf{11}, 342 (1954),
 \newblock \doi{10.1007/BF02783624}.
 
 \bibitem{Gauss2020}
 B.~Yang, H.~Sun, R.~Ott, H.-Y. Wang, T.~V. Zache, J.~C. Halimeh, Z.-S. Yuan,
   P.~Hauke and J.-W. Pan,
-\newblock \emph{Observation of gauge invariance in a 71-site bose--hubbard
-  quantum simulator},
+\newblock \emph{{Observation of gauge invariance in a 71-site Bose--Hubbard
+  quantum simulator}},
 \newblock Nature \textbf{587}, 392 (2020),
 \newblock \doi{10.1038/s41586-020-2910-8},
 \newblock \eprint{2003.08945}.
+
+\bibitem{Kubo1957}
+R.~Kubo,
+\newblock \emph{{Statistical-Mechanical Theory of Irreversible Processes. I.
+  General Theory and Simple Applications to Magnetic and Conduction Problems}},
+\newblock J. Phys. Soc. Jpn. \textbf{12}(6), 570 (1957),
+\newblock \doi{10.1143/JPSJ.12.570}.
+
+\bibitem{Kokail2019}
+C.~Kokail, C.~Maier, R.~van Bijnen, T.~Brydges, M.~K. Joshi, P.~Jurcevic, C.~A.
+  Muschik, P.~Silvi, R.~Blatt, C.~F. Roos and P.~Zoller,
+\newblock \emph{{Self-verifying variational quantum simulation of lattice
+  models}},
+\newblock Nature \textbf{569}, 355 (2019),
+\newblock \doi{10.1038/s41586-019-1177-4},
+\newblock \eprint{1810.03421}.
+
+\bibitem{GM2010}
+G.~H. Golub and G.~Meurant,
+\newblock \emph{{Matrices, Moments and Quadrature with Applications}},
+\newblock Princeton University Press,
+\newblock ISBN 9780691143415 (2010).
+
+\bibitem{Akhiezer1965}
+N.~I. Akhiezer,
+\newblock \emph{{The Classical Moment Problem and Some Related Questions in
+  Analysis}},
+\newblock Oliver and Boyd (1965).
+
+\bibitem{KreinNudelman1977}
+M.~G. Krein and A.~A. Nudelman,
+\newblock \emph{{The Markov Moment Problem and Extremal Problems}}, vol.~50 of
+  \emph{Translations of Mathematical Monographs},
+\newblock American Mathematical Society (1977).
+
+\bibitem{KarlinStudden1966}
+S.~Karlin and W.~J. Studden,
+\newblock \emph{{Tchebycheff Systems: With Applications in Analysis and
+  Statistics}}, vol.~15 of \emph{Pure and Applied Mathematics},
+\newblock Interscience (Wiley), New York (1966).
 
 \bibitem{Buchs2026}
 G.~Buchs, E.~Wong, A.~Baul, K.~E. Hamilton, A.~Banerjee, S.~Eidenbenz, G.~B.
   Hal\'asz, K.~Kumaran, T.~Maier, T.~{Naughton III}, E.~Pelofske, V.~Russo
   \emph{et~al.},
-\newblock \emph{A validation framework for quantum simulation of spin dynamics
-  against inelastic neutron scattering and classical simulation} (2026),
+\newblock \emph{{A Validation Framework for Quantum Simulation of Spin Dynamics
+  against Inelastic Neutron Scattering and Classical Simulation}} (2026),
   \eprint{2607.01568}.
-
-\bibitem{Kokail2019}
-C.~Kokail, C.~Maier, R.~van Bijnen, T.~Brydges, M.~K. Joshi, P.~Jurcevic, C.~A.
-  Muschik, P.~Silvi, R.~Blatt, C.~F. Roos and P.~Zoller,
-\newblock \emph{Self-verifying variational quantum simulation of lattice
-  models},
-\newblock Nature \textbf{569}, 355 (2019),
-\newblock \doi{10.1038/s41586-019-1177-4},
-\newblock \eprint{1810.03421}.
 
 \bibitem{Cerezo2021}
 M.~Cerezo, A.~Arrasmith, R.~Babbush, S.~C. Benjamin, S.~Endo, K.~Fujii, J.~R.
   McClean, K.~Mitarai, X.~Yuan, L.~Cincio and P.~J. Coles,
-\newblock \emph{Variational quantum algorithms},
+\newblock \emph{{Variational quantum algorithms}},
 \newblock Nat. Rev. Phys. \textbf{3}(9), 625 (2021),
 \newblock \doi{10.1038/s42254-021-00348-9},
 \newblock \eprint{2012.09265}.
@@ -324,22 +399,22 @@ M.~Cerezo, A.~Arrasmith, R.~Babbush, S.~C. Benjamin, S.~Endo, K.~Fujii, J.~R.
 K.~Bharti, A.~Cervera-Lierta, T.~H. Kyaw, T.~Haug, S.~Alperin-Lea, A.~Anand,
   M.~Degroote, H.~Heimonen, J.~S. Kottmann, T.~Menke, W.-K. Mok, S.~Sim
   \emph{et~al.},
-\newblock \emph{Noisy intermediate-scale quantum algorithms},
+\newblock \emph{{Noisy intermediate-scale quantum algorithms}},
 \newblock Rev. Mod. Phys. \textbf{94}(1), 015004 (2022),
 \newblock \doi{10.1103/RevModPhys.94.015004},
 \newblock \eprint{2101.08448}.
 
 \bibitem{HuangPreskillSoleimanifar2024}
 H.-Y. Huang, J.~Preskill and M.~Soleimanifar,
-\newblock \emph{Certifying almost all quantum states with few single-qubit
-  measurements},
+\newblock \emph{{Certifying almost all quantum states with few single-qubit
+  measurements}},
 \newblock Nat. Phys. \textbf{21}(11), 1834 (2025),
 \newblock \doi{10.1038/s41567-025-03025-1},
 \newblock \eprint{2404.07281}.
 
 \bibitem{TemmeBravyi2017}
 K.~Temme, S.~Bravyi and J.~M. Gambetta,
-\newblock \emph{Error mitigation for short-depth quantum circuits},
+\newblock \emph{{Error Mitigation for Short-Depth Quantum Circuits}},
 \newblock Phys. Rev. Lett. \textbf{119}(18), 180509 (2017),
 \newblock \doi{10.1103/PhysRevLett.119.180509},
 \newblock \eprint{1612.02058}.
@@ -347,24 +422,24 @@ K.~Temme, S.~Bravyi and J.~M. Gambetta,
 \bibitem{Kandala2019}
 A.~Kandala, K.~Temme, A.~D. C{\'o}rcoles, A.~Mezzacapo, J.~M. Chow and J.~M.
   Gambetta,
-\newblock \emph{Error mitigation extends the computational reach of a noisy
-  quantum processor},
+\newblock \emph{{Error mitigation extends the computational reach of a noisy
+  quantum processor}},
 \newblock Nature \textbf{567}(7749), 491 (2019),
 \newblock \doi{10.1038/s41586-019-1040-7},
 \newblock \eprint{1805.04492}.
 
 \bibitem{EndoBenjaminLi2018}
 S.~Endo, S.~C. Benjamin and Y.~Li,
-\newblock \emph{Practical quantum error mitigation for near-future
-  applications},
+\newblock \emph{{Practical Quantum Error Mitigation for Near-Future
+  Applications}},
 \newblock Phys. Rev. X \textbf{8}(3), 031027 (2018),
 \newblock \doi{10.1103/PhysRevX.8.031027},
 \newblock \eprint{1712.09271}.
 
 \bibitem{vandenBerg2023}
 E.~van~den Berg, Z.~K. Minev, A.~Kandala and K.~Temme,
-\newblock \emph{Probabilistic error cancellation with sparse pauli--lindblad
-  models on noisy quantum processors},
+\newblock \emph{{Probabilistic error cancellation with sparse Pauli--Lindblad
+  models on noisy quantum processors}},
 \newblock Nat. Phys. \textbf{19}(8), 1116 (2023),
 \newblock \doi{10.1038/s41567-023-02042-2},
 \newblock \eprint{2201.09866}.
@@ -372,15 +447,15 @@ E.~van~den Berg, Z.~K. Minev, A.~Kandala and K.~Temme,
 \bibitem{Cai2023}
 Z.~Cai, R.~Babbush, S.~C. Benjamin, S.~Endo, W.~J. Huggins, Y.~Li, J.~R.
   McClean and T.~E. O'Brien,
-\newblock \emph{Quantum error mitigation},
+\newblock \emph{{Quantum error mitigation}},
 \newblock Rev. Mod. Phys. \textbf{95}(4), 045005 (2023),
 \newblock \doi{10.1103/RevModPhys.95.045005},
 \newblock \eprint{2210.00921}.
 
 \bibitem{HuangKuengPreskill2020}
 H.-Y. Huang, R.~Kueng and J.~Preskill,
-\newblock \emph{Predicting many properties of a quantum system from very few
-  measurements},
+\newblock \emph{{Predicting many properties of a quantum system from very few
+  measurements}},
 \newblock Nat. Phys. \textbf{16}(10), 1050 (2020),
 \newblock \doi{10.1038/s41567-020-0932-7},
 \newblock \eprint{2002.08953}.
@@ -388,204 +463,136 @@ H.-Y. Huang, R.~Kueng and J.~Preskill,
 \bibitem{Elben2023}
 A.~Elben, S.~T. Flammia, H.-Y. Huang, R.~Kueng, J.~Preskill, B.~Vermersch and
   P.~Zoller,
-\newblock \emph{The randomized measurement toolbox},
+\newblock \emph{{The randomized measurement toolbox}},
 \newblock Nat. Rev. Phys. \textbf{5}(1), 9 (2023),
 \newblock \doi{10.1038/s42254-022-00535-2},
 \newblock \eprint{2203.11374}.
 
 \bibitem{OEACV2026}
 S.~V. Barron, B.~Mitchell, V.~Tripathi, F.~Grieco, I.~Rosen \emph{et~al.},
-\newblock \emph{Observable estimation in the absence of classical verification}
-  (2026), \eprint{2607.25998}.
+\newblock \emph{{Observable Estimation in the Absence of Classical
+  Verification}} (2026), \eprint{2607.25998}.
 
 \bibitem{Kraft2026}
 T.~Kraft, M.~K. Joshi, W.~T. Lam, T.~Olsacher, F.~Kranzl, J.~Franke, L.~K.
   Joshi, R.~Blatt, A.~Smerzi, D.~Stilck~Fran{\c{c}}a, B.~Vermersch, B.~Kraus
   \emph{et~al.},
-\newblock \emph{Bounded-error quantum simulation via {Hamiltonian} and
-  {Lindbladian} learning},
+\newblock \emph{{Bounded-Error Quantum Simulation via {Hamiltonian} and
+  {Lindbladian} Learning}},
 \newblock Phys. Rev. X \textbf{16}(3), 031037 (2026),
 \newblock \doi{10.1103/s96t-n8tx},
 \newblock \eprint{2511.23392}.
 
-\bibitem{Reinholdt2025}
-P.~Reinholdt, K.~M. Ziems, E.~R. Kjellgren, S.~Coriani, S.~P.~A. Sauer and
-  J.~Kongsted,
-\newblock \emph{Critical limitations in quantum-selected configuration
-  interaction methods},
-\newblock J. Chem. Theory Comput. \textbf{21}(14), 6811 (2025),
-\newblock \doi{10.1021/acs.jctc.5c00375},
-\newblock \eprint{2501.07231}.
-
-\bibitem{Epperly2022}
-E.~N. Epperly, L.~Lin and Y.~Nakatsukasa,
-\newblock \emph{A theory of quantum subspace diagonalization},
-\newblock SIAM J. Matrix Anal. Appl. \textbf{43}(3), 1263 (2022),
-\newblock \doi{10.1137/21M145954X},
-\newblock \eprint{2110.07492}.
-
-\bibitem{Kirby2024}
-W.~Kirby,
-\newblock \emph{Analysis of quantum krylov algorithms with errors},
-\newblock Quantum \textbf{8}, 1457 (2024),
-\newblock \doi{10.22331/q-2024-08-29-1457},
-\newblock \eprint{2401.01246}.
-
-\bibitem{GaberleJattana2026}
-C.~Gaberle and M.~S. Jattana,
-\newblock \emph{A critical assessment of the sample-based quantum
-  diagonalization for heisenberg and hubbard models} (2026),
-  \eprint{2605.02494}.
-
-\bibitem{VaqueroSabater2026}
-N.~Vaquero-Sabater, A.~Carreras, L.~Broers, T.~Shirakawa, S.~Yunoki and
-  D.~Casanova,
-\newblock \emph{Noise and configuration recovery impact on quantum selected
-  configuration interaction},
-\newblock Noiseless LUCJ sampling yields compact, biased configurational spaces
-  (2026), \eprint{2605.23697}.
-
-\bibitem{LRSCI2025}
-P.~Reinholdt, E.~R. Kjellgren and J.~Kongsted,
-\newblock \emph{Linear response selected configuration interaction},
-\newblock J. Chem. Theory Comput. \textbf{22}(1), 358 (2026),
-\newblock \doi{10.1021/acs.jctc.5c01676},
-\newblock \eprint{2510.02949}.
-
-\bibitem{Kubo1957}
-R.~Kubo,
-\newblock \emph{Statistical-mechanical theory of irreversible processes. i.
-  general theory and simple applications to magnetic and conduction problems},
-\newblock J. Phys. Soc. Jpn. \textbf{12}(6), 570 (1957),
-\newblock \doi{10.1143/JPSJ.12.570}.
-
 \bibitem{TurkowskiFreericks2006}
 V.~M. Turkowski and J.~K. Freericks,
-\newblock \emph{Spectral moment sum rules for strongly correlated electrons in
-  time-dependent electric fields},
+\newblock \emph{{Spectral moment sum rules for strongly correlated electrons in
+  time-dependent electric fields}},
 \newblock Phys. Rev. B \textbf{73}(7), 075108 (2006),
 \newblock \doi{10.1103/PhysRevB.73.075108},
 \newblock Erratum: Phys. Rev. B \textbf{73}, 209902 (2006).
 
 \bibitem{Freericks2009}
 J.~K. Freericks and V.~Turkowski,
-\newblock \emph{Inhomogeneous spectral moment sum rules for the retarded green
+\newblock \emph{{Inhomogeneous spectral moment sum rules for the retarded Green
   function and self-energy of strongly correlated electrons or ultracold
-  fermionic atoms in optical lattices},
+  fermionic atoms in optical lattices}},
 \newblock Phys. Rev. B \textbf{80}(11), 115119 (2009),
 \newblock \doi{10.1103/PhysRevB.80.115119},
 \newblock Erratum: Phys. Rev. B \textbf{82}, 129902 (2010).
 
 \bibitem{Jarrell1996}
 M.~Jarrell and J.~E. Gubernatis,
-\newblock \emph{Bayesian inference and the analytic continuation of
-  imaginary-time quantum monte carlo data},
+\newblock \emph{{Bayesian inference and the analytic continuation of
+  imaginary-time quantum Monte Carlo data}},
 \newblock Phys. Rep. \textbf{269}(3), 133 (1996),
 \newblock \doi{10.1016/0370-1573(95)00074-7}.
 
 \bibitem{Sandvik1998}
 A.~W. Sandvik,
-\newblock \emph{Stochastic method for analytic continuation of quantum monte
-  carlo data},
+\newblock \emph{{Stochastic method for analytic continuation of quantum Monte
+  Carlo data}},
 \newblock Phys. Rev. B \textbf{57}(17), 10287 (1998),
 \newblock \doi{10.1103/PhysRevB.57.10287}.
 
 \bibitem{ShohatTamarkin1943}
 J.~A. Shohat and J.~D. Tamarkin,
-\newblock \emph{The Problem of Moments}, vol.~1 of \emph{Mathematical Surveys},
+\newblock \emph{{The Problem of Moments}}, vol.~1 of \emph{Mathematical
+  Surveys},
 \newblock American Mathematical Society (1943).
-
-\bibitem{Akhiezer1965}
-N.~I. Akhiezer,
-\newblock \emph{The Classical Moment Problem and Some Related Questions in
-  Analysis},
-\newblock Oliver and Boyd (1965).
-
-\bibitem{KreinNudelman1977}
-M.~G. Krein and A.~A. Nudelman,
-\newblock \emph{The Markov Moment Problem and Extremal Problems}, vol.~50 of
-  \emph{Translations of Mathematical Monographs},
-\newblock American Mathematical Society (1977).
 
 \bibitem{Simon1998}
 B.~Simon,
-\newblock \emph{The classical moment problem as a self-adjoint finite
-  difference operator},
+\newblock \emph{{The Classical Moment Problem as a Self-Adjoint Finite
+  Difference Operator}},
 \newblock Adv. Math. \textbf{137}(1), 82 (1998),
 \newblock \doi{10.1006/aima.1998.1728},
 \newblock \eprint{math-ph/9906008}.
 
-\bibitem{GM2010}
-G.~H. Golub and G.~Meurant,
-\newblock \emph{Matrices, Moments and Quadrature with Applications},
-\newblock Princeton University Press,
-\newblock ISBN 9780691143415 (2010).
-
 \bibitem{Szego1975}
 G.~Szeg\H{o},
-\newblock \emph{Orthogonal Polynomials}, vol.~23 of \emph{AMS Colloquium
+\newblock \emph{{Orthogonal Polynomials}}, vol.~23 of \emph{AMS Colloquium
   Publications},
 \newblock American Mathematical Society, 4th edn.,
 \newblock See \S 3.41. (1975).
 
 \bibitem{GolubWelsch1969}
 G.~H. Golub and J.~H. Welsch,
-\newblock \emph{Calculation of gauss quadrature rules},
+\newblock \emph{{Calculation of Gauss quadrature rules}},
 \newblock Math. Comp. \textbf{23}(106), 221 (1969),
 \newblock \doi{10.1090/S0025-5718-69-99647-1}.
 
 \bibitem{Nevai1986}
 P.~Nevai,
-\newblock \emph{G{\'e}za freud, orthogonal polynomials and christoffel
-  functions. a case study},
+\newblock \emph{{G{\'e}za Freud, orthogonal polynomials and Christoffel
+  functions. A case study}},
 \newblock J. Approx. Theory \textbf{48}(1), 3 (1986),
 \newblock \doi{10.1016/0021-9045(86)90016-X}.
 
 \bibitem{Lanczos1950}
 C.~Lanczos,
-\newblock \emph{An iteration method for the solution of the eigenvalue problem
-  of linear differential and integral operators},
+\newblock \emph{{An iteration method for the solution of the eigenvalue problem
+  of linear differential and integral operators}},
 \newblock J. Res. Natl. Bur. Stand. \textbf{45}(4), 255 (1950),
 \newblock \doi{10.6028/jres.045.026}.
 
 \bibitem{KPM2006}
 A.~Wei\ss{}e, G.~Wellein, A.~Alvermann and H.~Fehske,
-\newblock \emph{The kernel polynomial method},
+\newblock \emph{{The kernel polynomial method}},
 \newblock Rev. Mod. Phys. \textbf{78}, 275 (2006),
 \newblock \doi{10.1103/RevModPhys.78.275}.
 
 \bibitem{Haydock1972}
 R.~Haydock, V.~Heine and M.~J. Kelly,
-\newblock \emph{Electronic structure based on the local atomic environment for
-  tight-binding bands},
+\newblock \emph{{Electronic structure based on the local atomic environment for
+  tight-binding bands}},
 \newblock J. Phys. C: Solid State Phys. \textbf{5}, 2845 (1972),
 \newblock \doi{10.1088/0022-3719/5/20/004}.
 
 \bibitem{Silver1996}
 R.~N. Silver, H.~R{\"o}der, A.~F. Voter and J.~D. Kress,
-\newblock \emph{Kernel polynomial approximations for densities of states and
-  spectral functions},
+\newblock \emph{{Kernel Polynomial Approximations for Densities of States and
+  Spectral Functions}},
 \newblock J. Comput. Phys. \textbf{124}(1), 115 (1996),
 \newblock \doi{10.1006/jcph.1996.0048}.
 
 \bibitem{Holzner2011}
 A.~Holzner, A.~Weichselbaum, I.~P. McCulloch, U.~Schollw{\"o}ck and J.~von
   Delft,
-\newblock \emph{Chebyshev matrix product state approach for spectral
-  functions},
+\newblock \emph{{Chebyshev matrix product state approach for spectral
+  functions}},
 \newblock Phys. Rev. B \textbf{83}(19), 195115 (2011),
 \newblock \doi{10.1103/PhysRevB.83.195115},
 \newblock \eprint{1101.5895}.
 
 \bibitem{AbbottJayOare2025}
 R.~Abbott, W.~I. Jay and P.~R. Oare,
-\newblock \emph{Moment problems and bounds for matrix-valued smeared spectral
-  functions} (2025), \eprint{2508.01377}.
+\newblock \emph{{Moment problems and bounds for matrix-valued smeared spectral
+  functions}} (2025), \eprint{2508.01377}.
 
 \bibitem{CausalBootstrap2026}
 R.~Abbott, S.~Fields, W.~I. Jay, P.~Oare and M.~Saccardi,
-\newblock \emph{Causal bootstrap: Bounding smeared spectral functions from
-  nonperturbative {Euclidean} data},
+\newblock \emph{{Causal bootstrap: Bounding smeared spectral functions from
+  nonperturbative {Euclidean} data}},
 \newblock Phys. Rev. D  (2026),
 \newblock \doi{10.1103/m9kj-y6t3},
 \newblock Accepted,
@@ -593,245 +600,240 @@ R.~Abbott, S.~Fields, W.~I. Jay, P.~Oare and M.~Saccardi,
 
 \bibitem{CertifiedSpectral2026}
 S.~Mutzel and A.~Tilloy,
-\newblock \emph{Certified spectral functions from lattice monte carlo data}
+\newblock \emph{{Certified spectral functions from lattice Monte Carlo data}}
   (2026), \eprint{2606.09791}.
 
 \bibitem{WangAcin2024}
 J.~Wang, J.~Surace, I.~Fr\'erot, B.~Legat, M.-O. Renou, V.~Magron and
   A.~Ac\'in,
-\newblock \emph{Certifying ground-state properties of many-body systems},
+\newblock \emph{{Certifying Ground-State Properties of Many-Body Systems}},
 \newblock Phys. Rev. X \textbf{14}(3), 031006 (2024),
 \newblock \doi{10.1103/PhysRevX.14.031006},
 \newblock \eprint{2310.05844}.
 
 \bibitem{Mortimer2026}
 L.~Mortimer, L.~Zambrano, A.~Ac\'in and D.~Farina,
-\newblock \emph{Bounding many-body properties under partial information and
-  finite measurement statistics} (2026), \eprint{2601.10408}.
-
-\bibitem{Totik2000}
-V.~Totik,
-\newblock \emph{Asymptotics for christoffel functions for general measures on
-  the real line},
-\newblock J. Anal. Math. \textbf{81}, 283 (2000),
-\newblock \doi{10.1007/BF02788993}.
+\newblock \emph{{Bounding many-body properties under partial information and
+  finite measurement statistics}} (2026), \eprint{2601.10408}.
 
 \bibitem{Mikkelsen2024}
 M.~Mikkelsen and Y.~O. Nakagawa,
-\newblock \emph{Quantum-selected configuration interaction with time-evolved
-  state},
+\newblock \emph{{Quantum-selected configuration interaction with time-evolved
+  state}},
 \newblock Phys. Rev. Research \textbf{7}(4), 043043 (2025),
 \newblock \doi{10.1103/75pv-hbrx},
 \newblock \eprint{2412.13839}.
 
 \bibitem{Hubbard1963}
 J.~Hubbard,
-\newblock \emph{Electron correlations in narrow energy bands},
+\newblock \emph{{Electron correlations in narrow energy bands}},
 \newblock Proc. R. Soc. Lond. A \textbf{276}(1365), 238 (1963),
 \newblock \doi{10.1098/rspa.1963.0204}.
 
 \bibitem{LiebWu1968}
 E.~H. Lieb and F.~Y. Wu,
-\newblock \emph{Absence of mott transition in an exact solution of the
-  short-range, one-band model in one dimension},
+\newblock \emph{{Absence of Mott Transition in an Exact Solution of the
+  Short-Range, One-Band Model in One Dimension}},
 \newblock Phys. Rev. Lett. \textbf{20}(25), 1445 (1968),
 \newblock \doi{10.1103/PhysRevLett.20.1445}.
 
 \bibitem{Dagotto1994}
 E.~Dagotto,
-\newblock \emph{Correlated electrons in high-temperature superconductors},
+\newblock \emph{{Correlated electrons in high-temperature superconductors}},
 \newblock Rev. Mod. Phys. \textbf{66}(3), 763 (1994),
 \newblock \doi{10.1103/RevModPhys.66.763}.
 
 \bibitem{Preuss1995}
 R.~Preuss, W.~Hanke and W.~von~der Linden,
-\newblock \emph{Quasiparticle dispersion of the 2d hubbard model: From an
-  insulator to a metal},
+\newblock \emph{{Quasiparticle Dispersion of the 2D Hubbard Model: From an
+  Insulator to a Metal}},
 \newblock Phys. Rev. Lett. \textbf{75}(7), 1344 (1995),
 \newblock \doi{10.1103/PhysRevLett.75.1344},
 \newblock \eprint{cond-mat/9412089}.
 
 \bibitem{Voit1995}
 J.~Voit,
-\newblock \emph{One-dimensional fermi liquids},
+\newblock \emph{{One-dimensional Fermi liquids}},
 \newblock Rep. Prog. Phys. \textbf{58}, 977 (1995),
 \newblock \doi{10.1088/0034-4885/58/9/002}.
 
 \bibitem{White1992}
 S.~R. White,
-\newblock \emph{Density matrix formulation for quantum renormalization groups},
+\newblock \emph{{Density matrix formulation for quantum renormalization
+  groups}},
 \newblock Phys. Rev. Lett. \textbf{69}(19), 2863 (1992),
 \newblock \doi{10.1103/PhysRevLett.69.2863}.
 
 \bibitem{Schollwock2011}
 U.~Schollw{\"o}ck,
-\newblock \emph{The density-matrix renormalization group in the age of matrix
-  product states},
+\newblock \emph{{The density-matrix renormalization group in the age of matrix
+  product states}},
 \newblock Ann. Phys. \textbf{326}(1), 96 (2011),
 \newblock \doi{10.1016/j.aop.2010.09.012},
 \newblock \eprint{1008.3477}.
 
 \bibitem{Georges1996}
 A.~Georges, G.~Kotliar, W.~Krauth and M.~J. Rozenberg,
-\newblock \emph{Dynamical mean-field theory of strongly correlated fermion
-  systems and the limit of infinite dimensions},
+\newblock \emph{{Dynamical mean-field theory of strongly correlated fermion
+  systems and the limit of infinite dimensions}},
 \newblock Rev. Mod. Phys. \textbf{68}(1), 13 (1996),
 \newblock \doi{10.1103/RevModPhys.68.13}.
 
 \bibitem{Gull2011}
 E.~Gull, A.~J. Millis, A.~I. Lichtenstein, A.~N. Rubtsov, M.~Troyer and
   P.~Werner,
-\newblock \emph{Continuous-time monte carlo methods for quantum impurity
-  models},
+\newblock \emph{{Continuous-time Monte Carlo methods for quantum impurity
+  models}},
 \newblock Rev. Mod. Phys. \textbf{83}(2), 349 (2011),
 \newblock \doi{10.1103/RevModPhys.83.349},
 \newblock \eprint{1012.4474}.
 
 \bibitem{desCloizeauxPearson1962}
 J.~des Cloizeaux and J.~J. Pearson,
-\newblock \emph{Spin-wave spectrum of the antiferromagnetic linear chain},
+\newblock \emph{{Spin-Wave Spectrum of the Antiferromagnetic Linear Chain}},
 \newblock Phys. Rev. \textbf{128}, 2131 (1962),
 \newblock \doi{10.1103/PhysRev.128.2131}.
 
 \bibitem{Muller1981}
 G.~M{\"u}ller, H.~Thomas, H.~Beck and J.~C. Bonner,
-\newblock \emph{Quantum spin dynamics of the antiferromagnetic linear chain in
-  zero and nonzero magnetic field},
+\newblock \emph{{Quantum spin dynamics of the antiferromagnetic linear chain in
+  zero and nonzero magnetic field}},
 \newblock Phys. Rev. B \textbf{24}, 1429 (1981),
 \newblock \doi{10.1103/PhysRevB.24.1429}.
 
 \bibitem{Eskes1991}
 H.~Eskes, M.~B.~J. Meinders and G.~A. Sawatzky,
-\newblock \emph{Anomalous transfer of spectral weight in doped strongly
-  correlated systems},
+\newblock \emph{{Anomalous Transfer of Spectral Weight in Doped Strongly
+  Correlated Systems}},
 \newblock Phys. Rev. Lett. \textbf{67}(8), 1035 (1991),
 \newblock \doi{10.1103/PhysRevLett.67.1035}.
 
+\bibitem{Totik2000}
+V.~Totik,
+\newblock \emph{{Asymptotics for Christoffel functions for general measures on
+  the real line}},
+\newblock J. Anal. Math. \textbf{81}, 283 (2000),
+\newblock \doi{10.1007/BF02788993}.
+
 \bibitem{MNT1991}
 A.~M\'at\'e, P.~Nevai and V.~Totik,
-\newblock \emph{{Szeg\H{o}}'s extremum problem on the unit circle},
+\newblock \emph{{{Szeg\H{o}}'s extremum problem on the unit circle}},
 \newblock Ann. of Math. \textbf{134}, 433 (1991),
 \newblock \doi{10.2307/2944352}.
 
 \bibitem{PauwelsLasserre2019}
 J.~B. Lasserre and E.~Pauwels,
-\newblock \emph{The empirical {Christoffel} function with applications in data
-  analysis},
+\newblock \emph{{The empirical {Christoffel} function with applications in data
+  analysis}},
 \newblock Adv. Comput. Math. \textbf{45}(3), 1439 (2019),
 \newblock \doi{10.1007/s10444-019-09673-1},
 \newblock \eprint{1701.02886}.
 
 \bibitem{LasserrePauwelsPutinar2022}
 J.~B. Lasserre, E.~Pauwels and M.~Putinar,
-\newblock \emph{The {Christoffel--Darboux} Kernel for Data Analysis},
+\newblock \emph{{The {Christoffel--Darboux} Kernel for Data Analysis}},
 \newblock Cambridge Monographs on Applied and Computational Mathematics.
   Cambridge University Press,
 \newblock ISBN 9781108838061 (2022).
 
-\bibitem{KarlinStudden1966}
-S.~Karlin and W.~J. Studden,
-\newblock \emph{Tchebycheff Systems: With Applications in Analysis and
-  Statistics}, vol.~15 of \emph{Pure and Applied Mathematics},
-\newblock Interscience (Wiley), New York (1966).
-
 \bibitem{DetteStudden1997}
 H.~Dette and W.~J. Studden,
-\newblock \emph{The Theory of Canonical Moments with Applications in
-  Statistics, Probability, and Analysis},
+\newblock \emph{{The Theory of Canonical Moments with Applications in
+  Statistics, Probability, and Analysis}},
 \newblock Wiley Series in Probability and Statistics. Wiley, New York,
 \newblock ISBN 9780471109914 (1997).
 
 \bibitem{PottsTasche2013}
 D.~Potts and M.~Tasche,
-\newblock \emph{Parameter estimation for nonincreasing exponential sums by
-  {Prony}-like methods},
+\newblock \emph{{Parameter Estimation for Nonincreasing Exponential Sums by
+  {Prony}-like Methods}},
 \newblock Linear Algebra Appl. \textbf{439}(4), 1024 (2013),
 \newblock \doi{10.1016/j.laa.2012.10.036}.
 
 \bibitem{Moitra2015}
 A.~Moitra,
-\newblock \emph{Super-resolution, extremal functions and the condition number
-  of {Vandermonde} matrices},
+\newblock \emph{{Super-resolution, Extremal Functions and the Condition Number
+  of {Vandermonde} Matrices}},
 \newblock In \emph{Proceedings of the Forty-Seventh Annual ACM Symposium on
   Theory of Computing (STOC 2015)}, pp. 821--830,
 \newblock \doi{10.1145/2746539.2746561} (2015), \eprint{1408.1681}.
 
 \bibitem{BatenkovClustered2020}
 D.~Batenkov, L.~Demanet, G.~Goldman and Y.~Yomdin,
-\newblock \emph{Conditioning of partial nonuniform {Fourier} matrices with
-  clustered nodes},
+\newblock \emph{{Conditioning of Partial Nonuniform {Fourier} Matrices with
+  Clustered Nodes}},
 \newblock SIAM J. Matrix Anal. Appl. \textbf{41}(1), 199 (2020),
 \newblock \doi{10.1137/18M1212197},
 \newblock \eprint{1809.00658}.
 
 \bibitem{KunisNagel2021}
 S.~Kunis and D.~Nagel,
-\newblock \emph{On the smallest singular value of multivariate {Vandermonde}
-  matrices with clustered nodes},
+\newblock \emph{{On the smallest singular value of multivariate {Vandermonde}
+  matrices with clustered nodes}},
 \newblock Linear Algebra Appl. \textbf{604}, 1 (2020),
 \newblock \doi{10.1016/j.laa.2020.06.003},
 \newblock \eprint{1907.07119}.
 
 \bibitem{Donoho1992}
 D.~L. Donoho,
-\newblock \emph{Superresolution via sparsity constraints},
+\newblock \emph{{Superresolution via Sparsity Constraints}},
 \newblock SIAM J. Math. Anal. \textbf{23}(5), 1309 (1992),
 \newblock \doi{10.1137/0523074}.
 
 \bibitem{Gautschi1962}
 W.~Gautschi,
-\newblock \emph{On inverses of {Vandermonde} and confluent {Vandermonde}
-  matrices},
+\newblock \emph{{On inverses of {Vandermonde} and confluent {Vandermonde}
+  matrices}},
 \newblock Numer. Math. \textbf{4}(1), 117 (1962),
 \newblock \doi{10.1007/BF01386302}.
 
 \bibitem{Gautschi1963}
 W.~Gautschi,
-\newblock \emph{On inverses of {Vandermonde} and confluent {Vandermonde}
-  matrices. {II}},
+\newblock \emph{{On inverses of {Vandermonde} and confluent {Vandermonde}
+  matrices. {II}}},
 \newblock Numer. Math. \textbf{5}(1), 425 (1963),
 \newblock \doi{10.1007/BF01385906}.
 
 \bibitem{CertifyED2026}
 S.~Vehale and R.~Goel,
-\newblock \emph{{CERTIFY-ED}: A multi-layer verification framework for exact
-  diagonalization of quantum many-body systems} (2026), \eprint{2605.11787}.
+\newblock \emph{{{CERTIFY-ED}: A Multi-Layer Verification Framework for Exact
+  Diagonalization of Quantum Many-Body Systems}} (2026), \eprint{2605.11787}.
 
 \bibitem{Fei2021}
 J.~Fei, C.-N. Yeh and E.~Gull,
-\newblock \emph{Nevanlinna analytical continuation},
+\newblock \emph{{Nevanlinna Analytical Continuation}},
 \newblock Phys. Rev. Lett. \textbf{126}(5), 056402 (2021),
 \newblock \doi{10.1103/PhysRevLett.126.056402},
 \newblock \eprint{2010.04572}.
 
 \bibitem{ZhangGull2024}
 L.~Zhang and E.~Gull,
-\newblock \emph{Minimal pole representation and controlled analytic
-  continuation of {Matsubara} response functions},
+\newblock \emph{{Minimal pole representation and controlled analytic
+  continuation of {Matsubara} response functions}},
 \newblock Phys. Rev. B \textbf{110}(3), 035154 (2024),
 \newblock \doi{10.1103/PhysRevB.110.035154},
 \newblock \eprint{2312.10576}.
 
 \bibitem{HuangLiang2023}
 L.~Huang and S.~Liang,
-\newblock \emph{Stochastic pole expansion method for analytic continuation of
-  the {Green's} function},
+\newblock \emph{{Stochastic pole expansion method for analytic continuation of
+  the {Green's} function}},
 \newblock Phys. Rev. B \textbf{108}(23), 235143 (2023),
 \newblock \doi{10.1103/PhysRevB.108.235143},
 \newblock \eprint{2307.11324}.
 
 \bibitem{IrmejsSantos2025}
 R.~Irmejs and R.~A. Santos,
-\newblock \emph{Approximating dynamical correlation functions with constant
-  depth quantum circuits},
+\newblock \emph{{Approximating dynamical correlation functions with constant
+  depth quantum circuits}},
 \newblock Quantum \textbf{9}, 1639 (2025),
 \newblock \doi{10.22331/q-2025-02-19-1639},
 \newblock \eprint{2406.03204}.
 
 \bibitem{Piccinelli2026}
 S.~Piccinelli, F.~Tacchino, I.~Tavernelli and G.~Carleo,
-\newblock \emph{A circuit-differentiation framework for {Green's} functions on
-  quantum computers},
+\newblock \emph{{A circuit-differentiation framework for {Green's} functions on
+  quantum computers}},
 \newblock Quantum \textbf{10}, 2060 (2026),
 \newblock \doi{10.22331/q-2026-04-13-2060},
 \newblock \eprint{2505.05563}.
@@ -839,16 +841,36 @@ S.~Piccinelli, F.~Tacchino, I.~Tavernelli and G.~Carleo,
 \bibitem{TeNPy2024}
 J.~Hauschild, J.~Unfried, S.~Anand, B.~Andrews, M.~Bintz, U.~Borla, S.~Divic,
   M.~Drescher, J.~Geiger, M.~Hefel, K.~H\'emery, W.~Kadow \emph{et~al.},
-\newblock \emph{Tensor network {Python} ({TeNPy}) version 1},
+\newblock \emph{{Tensor network {Python} ({TeNPy}) version 1}},
 \newblock SciPost Phys. Codebases \textbf{41} (2024),
 \newblock \doi{10.21468/SciPostPhysCodeb.41},
 \newblock \eprint{2408.02010}.
 
+\bibitem{HuangScience2022}
+H.-Y. Huang, R.~Kueng, G.~Torlai, V.~V. Albert and J.~Preskill,
+\newblock \emph{{Provably efficient machine learning for quantum many-body
+  problems}},
+\newblock Science \textbf{377}(6613), eabk3333 (2022),
+\newblock \doi{10.1126/science.abk3333},
+\newblock \eprint{2106.12627}.
+
+\bibitem{ShadowSpec2025}
+H.~H.~S. Chan, R.~Meister, M.~L. Goh and B.~Koczor,
+\newblock \emph{{Algorithmic Shadow Spectroscopy}},
+\newblock PRX Quantum \textbf{6}, 010352 (2025),
+\newblock \doi{10.1103/PRXQuantum.6.010352},
+\newblock \eprint{2212.11036}.
+
+\bibitem{FAST2025}
+T.~Ko, M.~Han, H.~Park and S.~Choi,
+\newblock \emph{{Fermionic-Adapted Shadow Tomography for dynamical correlation
+  functions}} (2025), \eprint{2508.03192}.
+
 \bibitem{Govia2025}
 L.~C.~G. Govia, S.~Majumder, S.~V. Barron, B.~Mitchell, A.~Seif, Y.~Kim, C.~J.
   Wood, E.~J. Pritchett, S.~T. Merkel and D.~C. McKay,
-\newblock \emph{Bounding the systematic error in quantum error mitigation due
-  to model violation},
+\newblock \emph{{Bounding the systematic error in quantum error mitigation due
+  to model violation}},
 \newblock PRX Quantum \textbf{6}, 010354 (2025),
 \newblock \doi{10.1103/PRXQuantum.6.010354},
 \newblock \eprint{2408.10985}.
@@ -857,58 +879,38 @@ L.~C.~G. Govia, S.~Majumder, S.~V. Barron, B.~Mitchell, A.~Seif, Y.~Kim, C.~J.
 S.~Piccinelli, A.~Baiardi, S.~Barison, M.~Rossmannek, A.~Carrera~Vazquez,
   F.~Tacchino, S.~Mensa, E.~Altamura, A.~Alavi, M.~Motta, J.~Robledo-Moreno,
   W.~Kirby \emph{et~al.},
-\newblock \emph{Quantum chemistry with provable convergence via randomized
-  sample-based krylov quantum diagonalization} (2025), \eprint{2508.02578}.
+\newblock \emph{{Quantum chemistry with provable convergence via randomized
+  sample-based Krylov quantum diagonalization}} (2025), \eprint{2508.02578}.
 
 \bibitem{QKDHub2607}
 M.~Mirzakhani, H.~Kwon and K.~Moon,
-\newblock \emph{Performance and stability of quantum krylov diagonalization for
-  the hubbard model} (2026), \eprint{2607.23604}.
-
-\bibitem{HuangScience2022}
-H.-Y. Huang, R.~Kueng, G.~Torlai, V.~V. Albert and J.~Preskill,
-\newblock \emph{Provably efficient machine learning for quantum many-body
-  problems},
-\newblock Science \textbf{377}(6613), eabk3333 (2022),
-\newblock \doi{10.1126/science.abk3333},
-\newblock \eprint{2106.12627}.
-
-\bibitem{ShadowSpec2025}
-H.~H.~S. Chan, R.~Meister, M.~L. Goh and B.~Koczor,
-\newblock \emph{Algorithmic shadow spectroscopy},
-\newblock PRX Quantum \textbf{6}, 010352 (2025),
-\newblock \doi{10.1103/PRXQuantum.6.010352},
-\newblock \eprint{2212.11036}.
-
-\bibitem{FAST2025}
-T.~Ko, M.~Han, H.~Park and S.~Choi,
-\newblock \emph{Fermionic-adapted shadow tomography for dynamical correlation
-  functions} (2025), \eprint{2508.03192}.
+\newblock \emph{{Performance and Stability of Quantum Krylov Diagonalization
+  for the Hubbard Model}} (2026), \eprint{2607.23604}.
 
 \bibitem{Qiskit2024}
 A.~Javadi-Abhari, M.~Treinish, K.~Krsulich, C.~J. Wood, J.~Lishman, J.~Gacon,
   S.~Martiel, P.~D. Nation, L.~S. Bishop, A.~W. Cross, B.~R. Johnson and J.~M.
   Gambetta,
-\newblock \emph{Quantum computing with {Qiskit}},
+\newblock \emph{{Quantum computing with {Qiskit}}},
 \newblock \doi{10.48550/arXiv.2405.08810} (2024), \eprint{2405.08810}.
 
 \bibitem{CarleoTroyer2017}
 G.~Carleo and M.~Troyer,
-\newblock \emph{Solving the quantum many-body problem with artificial neural
-  networks},
+\newblock \emph{{Solving the quantum many-body problem with artificial neural
+  networks}},
 \newblock Science \textbf{355}(6325), 602 (2017),
 \newblock \doi{10.1126/science.aag2302},
 \newblock \eprint{1606.02318}.
 
 \bibitem{Hausman1978}
 J.~A. Hausman,
-\newblock \emph{Specification tests in econometrics},
+\newblock \emph{{Specification Tests in Econometrics}},
 \newblock Econometrica \textbf{46}(6), 1251 (1978),
 \newblock \doi{10.2307/1913827}.
 
 \bibitem{HalimehHauke2020}
 J.~C. Halimeh and P.~Hauke,
-\newblock \emph{Reliability of lattice gauge theories},
+\newblock \emph{{Reliability of Lattice Gauge Theories}},
 \newblock Phys. Rev. Lett. \textbf{125}(3), 030503 (2020),
 \newblock \doi{10.1103/PhysRevLett.125.030503},
 \newblock \eprint{2001.00024}.
@@ -916,8 +918,8 @@ J.~C. Halimeh and P.~Hauke,
 \bibitem{Martinez2016}
 E.~A. Martinez, C.~A. Muschik, P.~Schindler, D.~Nigg, A.~Erhard, M.~Heyl,
   P.~Hauke, M.~Dalmonte, T.~Monz, P.~Zoller and R.~Blatt,
-\newblock \emph{Real-time dynamics of lattice gauge theories with a few-qubit
-  quantum computer},
+\newblock \emph{{Real-time dynamics of lattice gauge theories with a few-qubit
+  quantum computer}},
 \newblock Nature \textbf{534}(7608), 516 (2016),
 \newblock \doi{10.1038/nature18318},
 \newblock \eprint{1605.04570}.
@@ -925,8 +927,8 @@ E.~A. Martinez, C.~A. Muschik, P.~Schindler, D.~Nigg, A.~Erhard, M.~Heyl,
 \bibitem{Klco2018}
 N.~Klco, E.~F. Dumitrescu, A.~J. McCaskey, T.~D. Morris, R.~C. Pooser, M.~Sanz,
   E.~Solano, P.~Lougovski and M.~J. Savage,
-\newblock \emph{Quantum-classical computation of schwinger model dynamics using
-  quantum computers},
+\newblock \emph{{Quantum-classical computation of Schwinger model dynamics
+  using quantum computers}},
 \newblock Phys. Rev. A \textbf{98}(3), 032331 (2018),
 \newblock \doi{10.1103/PhysRevA.98.032331},
 \newblock \eprint{1803.03326}.

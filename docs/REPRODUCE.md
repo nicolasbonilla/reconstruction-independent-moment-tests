@@ -205,7 +205,7 @@ the five `nk_*` scripts among them still write to `./06_results/` (gitignored), 
 
 ## Hardware
 
-**The `L=8` jobs of this work** (`ibm_fez`, 2026-08-29; `src/hardware_matched_job_L8.py`;
+**The `L=8` jobs of this work** (`ibm_fez`, 2026-08-28; `src/hardware_matched_job_L8.py`;
 `data/heron_counts_matched_L8_*.json` at 50k/30k/16k/4k shots per circuit):
 - Seven circuits prepare a product determinant with X gates (5 up electrons on even qubits, 4 down on odd
   qubits) and apply three layers of RZZ on-site terms and R_xx·R_yy nearest-neighbour hopping (periodic

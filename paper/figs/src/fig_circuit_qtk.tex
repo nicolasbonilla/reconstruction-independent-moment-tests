@@ -1,5 +1,8 @@
-\documentclass[12pt,border=9pt]{standalone}
-\usepackage[T1]{fontenc}\usepackage{lmodern}\usepackage{amsmath,amssymb}
+\documentclass[10pt,border=4pt]{standalone}
+% 2026-09-28 (review pass E: V17-08): set in Charter (mathdesign), the paper's body and figure font, at 10pt, instead
+% of 12pt Latin Modern; wider row/column spacing gives a natural width of about 270pt, close to the \columnwidth
+% (0.65\textwidth, about 277pt) at which main.tex includes it, so the labels come out near 10pt instead of 13.4pt.
+\usepackage[T1]{fontenc}\usepackage{amsmath}\usepackage[bitstream-charter]{mathdesign}
 \usepackage{tikz}\usepackage{quantikz}
 \usetikzlibrary{arrows.meta,positioning,fit,calc}
 
@@ -11,7 +14,7 @@
 \begin{document}
 \begin{tikzpicture}[font=\rmfamily]
 \node[inner sep=1pt] (circ) at (0,0) {%
-\begin{quantikz}[row sep=0.5cm,column sep=0.6cm]
+\begin{quantikz}[row sep=0.6cm,column sep=0.9cm]
   \lstick{$1{\uparrow}$} & \gate[4]{\lvert\Psi_0\rangle} & \gate[2]{\text{Giv}} & \ctrl{2} &            & \gate{R_b} & \meter{} \\
   \lstick{$2{\uparrow}$} & & &            & \ctrl{2}   & \gate{R_b} & \meter{} \\
   \lstick{$1{\downarrow}$} & & \gate[2]{\text{Giv}} & \control{} &          & \gate{R_b} & \meter{} \\

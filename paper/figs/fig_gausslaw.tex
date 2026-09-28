@@ -1,5 +1,5 @@
 % fig_gausslaw.tex -- native pgfplots. HONEST state-level Gauss-law diagnostic: the exact constraint
-% <sum_x G_x^2> = 0 fires on gauge-symmetry-breaking contamination of the PREPARED STATE (a different error class
+% <sum_x G_x^2> = 0 is violated by gauge-symmetry-breaking contamination of the PREPARED STATE (a different error class
 % and a different mechanism from the reconstruction moment screen). NOT a moment screen on a spectrum.
 % It is estimable from computational-basis samples in principle; HERE it is evaluated exactly on the state vector
 % and no sampling is simulated (hence the y label "(exact)").
@@ -7,6 +7,10 @@
 % |psi~> ~ (1-eps)|psi0> + eps|phi_u>, unphysical weight f_u = eps^2/((1-eps)^2+eps^2) (0.155 at eps=0.3), and
 % the plotted <sum G^2> = 2 f_u for a minimal (sum G^2 = 2) charge-conserving violation phi_u.
 % (f_u, not w: w=1 is the Schwinger-model link coupling in the caption.)
+% 2026-09-28 (review pass E: V49-07): the in-plot heading no longer says "violation flags" in bold (the curve is the
+% exact expectation value, 2 f_u by construction, not a detection result); the closed form 2 f_u(eps) is drawn as a
+% smooth line (no polyline kinks between the 7 computed points) with the computed points as markers only; ticks on
+% the left and bottom only, as in the other single-panel figures.
 \begin{tikzpicture}
 \begin{axis}[
   paperaxis,
@@ -16,17 +20,21 @@
   xmin=0, xmax=0.31, ymin=-0.02, ymax=0.34,
   xtick={0,0.1,0.2,0.3},
   ytick={0,0.1,0.2,0.3},
+  ytick pos=left, xtick pos=bottom,
   clip=false,
   axis on top=false,   % grid below data and labels (on top, grid lines cut the curve and the title)
 ]
   \addplot[pMuted, line width=0.5pt, forget plot] coordinates {(0,0) (0.31,0)};
-  \addplot[firesline] table[x=eps, y=g2] {figs/gauss_state.dat};
+  % closed form 2 f_u(eps) = 2 eps^2 / ((1-eps)^2 + eps^2)
+  \addplot[pOx, very thick, domain=0:0.3, samples=61, forget plot] {2*x^2/((1-x)^2+x^2)};
+  % computed values (exact state-vector expectation values, gauss_state.dat)
+  \addplot[only marks, mark=*, mark options={fill=pAmber, draw=pOx, line width=0.6pt}, forget plot]
+      table[x=eps, y=g2] {figs/gauss_state.dat};
 
-  % (2026-09-27) title moved off the y=0.3 grid line; subtitle wrapped so it clears the curve near eps=0.28
   \node[pOx, font=\small, anchor=west, align=left] at (axis cs:0.015,0.283)
-      {Gauss-law violation \textbf{flags}};
-  \node[pOx, font=\scriptsize, anchor=north west, align=left] at (axis cs:0.015,0.268)
-      {(exact operator identity\\ on the prepared state)};
+      {$\langle\textstyle\sum_x G_x^2\rangle=2f_u$ (exact, by construction)};
+  \node[pOx, font=\scriptsize, anchor=north west, align=left] at (axis cs:0.015,0.262)
+      {line: closed form; dots: computed on the\\ prepared state vector (no sampling)};
   \node[pInk, font=\scriptsize, anchor=west, align=left] at (axis cs:0.035,0.155)
       {physical state ($\epsilon{=}0$):\\ $\langle\sum_x G_x^2\rangle=0$};
   \draw[pInk, -{Stealth[length=1.4mm]}, line width=0.4pt] (axis cs:0.03,0.13) -- (axis cs:0.004,0.006);

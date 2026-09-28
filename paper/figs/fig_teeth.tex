@@ -3,11 +3,14 @@
 % y = relative first-moment discrepancy |mhat_1 - mbar_1| / mhat_1 in % (Delta_1^rel of the caption).
 % x = determinants kept d (log, REVERSED: full support left where curves ~0, truncation right where the
 % independent estimator saturates ~100% while the circular control stays flat at 0).
-% Layout matching fig_teeth_shared: legend upper-left (curves ~0 there); one crossing dot on the threshold
+% Layout matching fig_teeth_shared: legend upper-left (curves ~0 there); the crossing of the threshold is marked
 % (the crossing value is stated in the caption). The 5% line is an illustrative fixed threshold, not the deployed rule.
+% 2026-09-28 (review pass E: V1, V3, V9, R3-15): the threshold crossing, log-linearly interpolated between computed
+% d values (src/export_teeth_dat.py), is an open crimson ring, not a data-style dot; circular-control markers drawn
+% solid; legend word "(flags)" dropped; height lowered from 6.8 cm to 5.6 cm.
 \begin{tikzpicture}
 \begin{axis}[
-  paperaxis, width=\columnwidth, height=6.8cm,
+  paperaxis, width=\columnwidth, height=5.6cm,
   xmode=log, x dir=reverse,
   xlabel={determinants kept $d$ \; (truncation $\rightarrow$)},
   ylabel={relative discrepancy $\Delta_1/\widehat m_1$ (\%)},
@@ -23,15 +26,15 @@
   % illustrative fixed threshold (not the deployed tau_1 rule)
   \addplot[threshold] coordinates {(260000,5) (180,5)};
   \addlegendentry{illustrative $5\%$ threshold}
-  % independent estimator: fires
+  % independent estimator
   \addplot[firesline] table[x=d,y=rind]{figs/teeth.dat};
-  \addlegendentry{independent $\widehat m_1$ (flags)}
-  % back-computed circular control: blind (identically zero)
-  \addplot[blindline] table[x=d,y=rcirc]{figs/teeth.dat};
+  \addlegendentry{independent $\widehat m_1$}
+  % back-computed circular control: blind (identically zero); markers solid
+  \addplot[blindline, mark options={fill=white, draw=pBlind, solid}] table[x=d,y=rcirc]{figs/teeth.dat};
   \addlegendentry{circular control (blind)}
 
-  % crossing dot on the threshold line (the crossing value and message are stated in the caption)
-  \addplot[only marks, mark=*, mark size=2.1pt, pOx, mark options={fill=pAmber, draw=pOx}, forget plot]
+  % interpolated threshold crossing: open crimson ring (value in the caption)
+  \addplot[only marks, mark=o, mark size=3pt, pCrimson, line width=0.8pt, forget plot]
       coordinates {(16000,5)};
 \end{axis}
 \end{tikzpicture}

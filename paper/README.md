@@ -11,8 +11,18 @@ words, abstract 9 lines, captions about 120 words; no result removed: derivation
 to the appendices, including a new Appendix F on the device run, and every distinct number of the text is still
 present). `main.pdf` is built from this text.
 
+Phases E-F (2026-09-28): a page-by-page visual check and three strict referee reads, each referee finding
+attacked by a skeptic (70 confirmed, 2 refuted), then the confirmed findings applied range by range and checked:
+abstract and introduction caveats (oracle estimator, synthetic errors of known truth, 0/71 Krylov, n_k test not run),
+a "Deviations from the sealed protocol" paragraph, the pre-seal revision history of the n_k Stage-0 gate, a corrected
+Proposition 1, the zeroth-order residual beside m_1 in Fig. 8, one notation (x for the rescaled frequency, J_ex, O_k/C_k),
+and float placement (no float after the references). 65 pp, 0 errors, 0 overfull boxes.
+
 **Not done yet (before submission):**
-- a visual check of every page at single-column width and a strict referee read of the shortened text;
+- the abstract is about 180 words (15 lines) against SciPost's "about 8 lines": every sentence carries a caveat,
+  so shortening it is an author decision (drop a claim together with its caveat, never the caveat alone);
+- facts the committed record does not state, and the text says so: why the n_k test was not run at its sealed
+  floors; why Sec. 7 uses the U/t=8 measure; why the generator used a delta atom instead of the sealed Gaussian;
 - the companion (arXiv:2608.16436) is cited with its v3 title and v3-only content, and v3 is announced on
   2026-09-28; if it is not public at submission, the title, the version pin and the two sentences that
   rely on it (Introduction; Sec. role) must be softened;

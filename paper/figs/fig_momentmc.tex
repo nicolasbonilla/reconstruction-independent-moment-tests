@@ -8,64 +8,82 @@
 % the SHOT-ONLY +/- z sigma_shot = +/- 0.158 (thr in momentmc_scalars.dat), narrower than the deployed tau_1 = 0.229 that
 % adds the 2% bias budget (caption). (b) x axis is d/186, the retained fraction of the ground state's 186-determinant
 % support (was d/|S|, which clashed with the sampled set S of App. B).
+% 2026-09-28 (review pass E: V49-05, V49-06, V49-15, R3-19): shorter axis labels (the two x labels read as one line);
+% bold panel letters as in the other figures; the undefined superscript "op" is gone from the legend. The drawn curve
+% (column gauss of momentmc_hist.dat) is a Gaussian with the EMPIRICAL mean and s.d. of the M = 4000 draws
+% (src/interval_moment_mc.py l.99-100 and l.207: mu = mhat.mean(), sd = std_emp = 0.0799), not N(m_1, sigma_shot^2)
+% (m1op = 4.22709, sigma_shot = 0.0806 in momentmc_scalars.dat), so the legend says "Gaussian fit" (a moment fit to the draws) [checker]; the full-reconstruction marker is
+% opaque (white fill), so the log-grid dot at d = 186 no longer shows through it; (b) runs in the direction of
+% truncation, like Figs. teeth and teethshared (full support on the left, truncation to the right).
 \pgfplotstableread[header=false]{figs/momentmc_scalars.dat}\mcscalars
 \pgfplotstablegetelem{0}{[index]1}\of\mcscalars\edef\mcMop{\pgfplotsretval}
 \pgfplotstablegetelem{2}{[index]1}\of\mcscalars\edef\mcThr{\pgfplotsretval}
 \pgfmathsetmacro\mcLo{\mcMop-\mcThr}
 \pgfmathsetmacro\mcHi{\mcMop+\mcThr}
+% compact legend images for panel (b), whose legend sits in the narrow strip right of the 46% window
+\pgfplotsset{
+  mcshortline/.style={legend image code/.code={\draw[##1] (0cm,0cm) -- (0.4cm,0cm);}},
+  mcshortmark/.style={legend image code/.code={\draw[##1] plot coordinates {(0.2cm,0cm)};}},
+}
 \begin{tikzpicture}
 \begin{groupplot}[
-  group style={group size=2 by 1, horizontal sep=2.05cm},
-  paperaxis, width=0.48\textwidth, height=5.4cm,
+  group style={group size=2 by 1, horizontal sep=1.9cm},
+  paperaxis, width=0.44\textwidth, height=5.0cm,
   ytick pos=left,   % no right-side ticks: they pointed into the gap and touched panel (b)'s y label
   axis on top=false]   % grid below data and labels (on top, grid lines cut the histogram bars and the power line)
 
 % ---------- (a) realized estimator is Gaussian; FP matches nominal ----------
 \nextgroupplot[
-  xlabel={realized estimator $\widehat m_1$ over $N_s{=}5{\times}10^4$ shots},
-  ylabel={Monte-Carlo count ($M{=}4000$)},
-  title={(a) realized $\widehat m_1$ vs.\ Gaussian model},
-  xmin=3.95, xmax=4.51, ymin=0, ymax=460,
+  xlabel={$\widehat m_1$ \; ($N_s{=}5{\times}10^4$ shots)},
+  ylabel={count ($M{=}4000$)},
+  title={\small\textbf{(a)} realized $\widehat m_1$ vs.\ Gaussian model},
+  xmin=3.95, xmax=4.51, ymin=0, ymax=500,
   ytick={0,100,200,300,400},
   legend style={at={(0.985,0.97)},anchor=north east,font=\scriptsize,draw=none,fill=none},
   clip=false]
 \addplot[ybar, bar width=1.7pt, fill=pTeal!30, draw=pTeal!70, forget plot]
   table[x=x,y=count]{figs/momentmc_hist.dat};
 \addplot[pInk, line width=1pt, smooth] table[x=x,y=gauss]{figs/momentmc_hist.dat};
-\addlegendentry{$\mathcal{N}(\widehat m_1^{\rm op},\sigma^2)$}
+\addlegendentry{Gaussian fit}
 % +/- z*sigma band (m1op -/+ thr): dashes stopped just above the peak so the upper corners stay clear for labels
 \addplot[pCrimson, line width=0.9pt, dashed, forget plot] coordinates {(\mcLo,0)(\mcLo,300)};
 \addplot[pCrimson, line width=0.9pt, dashed, forget plot] coordinates {(\mcHi,0)(\mcHi,300)};
 \node[pCrimson, font=\scriptsize, anchor=south, align=center] at (axis cs:\mcMop,306)
   {shot-only $\pm z\sigma_{\mathrm{shot}}$ band};
-\node[pOx, font=\scriptsize, anchor=north west, align=left] at (axis cs:3.965,440)
+\node[pOx, font=\scriptsize, anchor=north west, align=left] at (axis cs:3.965,482)
   {realized FP\\ $4.5\%$ vs $5\%$};
 
-% ---------- (b) detection power vs determinant coverage ----------
+% ---------- (b) detection power vs determinant coverage (truncation to the right) ----------
 \nextgroupplot[
-  xlabel={coverage $d/186$ of the ground-state support (\%)},
+  xlabel={coverage $d/186$ (\%) \; (truncation $\rightarrow$)},
   ylabel={detection power $P(\mathrm{reject})$},
-  title={(b) power vs coverage},
+  title={\small\textbf{(b)} power vs coverage},
+  x dir=reverse,
   xmin=0, xmax=102, ymin=-0.03, ymax=1.12,
   ytick={0,0.25,0.5,0.75,1},
-  legend style={at={(0.02,0.86)}, anchor=north west, font=\scriptsize, draw=none, fill=none,
-                row sep=-1pt},
+  legend style={at={(0.99,0.40)}, anchor=north east, font=\scriptsize, draw=none, fill=none,
+                row sep=-1pt, inner xsep=1pt},
   legend cell align=left]
 \addplot[threshold, forget plot] coordinates {(0,0.05)(102,0.05)};
-\node[pCrimson, font=\scriptsize, anchor=west] at (axis cs:2,0.13) {$\alpha=5\%$};
+% alpha label between the 87% and 51% windows
+\node[pCrimson, font=\scriptsize, anchor=west] at (axis cs:80,0.13) {$\alpha=5\%$};
 % every truncation d = 1..n_sup on the deterministic order
-\addplot[pTeal!55, line width=0.7pt] table[x=cov,y=power]{figs/momentmc_power_scan.dat};
+\addplot[pTeal!55, line width=0.7pt, mcshortline]
+  table[x=cov,y=power]{figs/momentmc_power_scan.dat};
 \addlegendentry{every $d$}
 % the 22-point log grid of d (the sampling of the earlier version of this panel)
-\addplot[only marks, pTeal, mark=*, mark size=1.3pt, error bars/.cd, y dir=both, y explicit]
+\addplot[only marks, pTeal, mark=*, mark size=1.3pt, mcshortmark,
+         error bars/.cd, y dir=both, y explicit]
   table[x=cov,y=power,y error plus expr=\thisrow{hi}-\thisrow{power},
         y error minus expr=\thisrow{power}-\thisrow{lo}]{figs/momentmc_power.dat};
 \addlegendentry{log grid}
-% full reconstruction: its rejection rate is the realized false-positive rate
-\addplot[only marks, mark=o, pInk, mark size=2.1pt, line width=0.7pt, restrict x to domain=99.9:100.1]
+% full reconstruction: its rejection rate is the realized false-positive rate (opaque marker over the grid dot)
+\addplot[only marks, mark=*, mark size=2.1pt, mark options={fill=white, draw=pInk, line width=0.7pt},
+         mcshortmark, restrict x to domain=99.9:100.1]
   table[x=cov,y=power]{figs/momentmc_power.dat};
 \addlegendentry{full recon.}
-\node[pOx, font=\scriptsize, anchor=north west, align=left] at (axis cs:3,0.60)
+% right of the 46% window, below the power = 1 plateau (every d below 44% coverage has power 1)
+\node[pOx, font=\scriptsize, anchor=north east, align=left] at (axis cs:1,0.93)
   {blind windows:\\ power falls\\ to $\alpha$ near\\ $46,\,51,\,87\%$};
 \end{groupplot}
 \end{tikzpicture}

@@ -1,9 +1,12 @@
 % fig_hero.tex -- the reconstruction-independent moment loop, native TikZ (no PNG).
 % 2026-09-27 revision: outcome boxes read "reject: Delta_k > tau_k" / "pass: Delta_k <= tau_k" (tau_k = z delta_k,
-% the preset threshold of the Method; a pass is not a certificate). The strapline states the one-sample-set DESIGN;
-% in this paper both branches share shots only in simulation, and on hardware the device supplies the support S alone
-% (caption). The footer prints the double-commutator form O_k = J ad_H^k(J), which the caption identifies as the
-% exact-eigenstate form of the deployed estimator <J (H-e0)^k J>.
+% the preset threshold of the Method; a pass is not a certificate). In this paper both branches share shots only in
+% simulation, and on hardware the device supplies the support S alone (caption).
+% 2026-09-28 (review pass E: V1-08, V1-11, m13, R1-12, R3-08; notation N3): the bold in-figure strapline, which
+% repeated the caption title, is removed; the grey caveat "shared shots realized in simulation only" stays at the top
+% left. The footer prints the operator actually used, O_k = J^dagger (H-e_0)^k J with e_0 = <H> on the prepared state,
+% and m_0 = <J^dagger J>. The commutator form C_k = J^dagger ad_H^k(J), equal in expectation only on an exact
+% eigenstate (App. A), is no longer drawn.
 \begin{tikzpicture}[font=\small]
   % --- nodes ---
   \node[pbox, fill=pGrid!40, minimum height=10mm] (S)
@@ -35,11 +38,9 @@
   \node[font=\scriptsize\itshape, pMuted, align=center, anchor=east] at ($(X)+(-0.45,0)$)
       {never read\\ back off $A(\omega)$};
 
-  % --- strapline + footer ---
-  \node[font=\normalsize\bfseries, pInk, anchor=west] (STRAP) at (0.4,4.55)
-      {Two moment branches from one sample set (design)};
-  \node[font=\scriptsize\itshape, pMuted, anchor=base west] at ($(STRAP.base east)+(0.15,0)$)
+  % --- caveat + footer (no strapline: the caption carries the title) ---
+  \node[font=\scriptsize\itshape, pMuted, anchor=west] at (0.4,4.55)
       {shared shots realized in simulation only};
   \node[font=\scriptsize, pMuted, anchor=west] at (0.4,-0.15)
-      {$O_k=J\,\mathrm{ad}_H^{k}(J)$, \; $m_0=\langle J^2\rangle$, \; $m_1=\tfrac12\langle[J,[H,J]]\rangle$ \;\textemdash\; the estimator never uses $A(\omega)$, so agreement is not preordained};
+      {$O_k\equiv J^\dagger(H-e_0)^kJ$, \; $e_0=\langle H\rangle$ on the prepared state, \; $m_0=\langle J^\dagger J\rangle$ \;\textemdash\; the estimator never uses $A(\omega)$, so agreement is not preordained};
 \end{tikzpicture}

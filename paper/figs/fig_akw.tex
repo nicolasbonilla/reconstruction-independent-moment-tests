@@ -1,5 +1,10 @@
 % fig_akw.tex -- native pgfplots (figure*, full width). Single-particle A(k,omega) heatmaps + screen.
 % Data field = rasterized PNG (paperhot); axes/labels/guides/colorbar = native. E_F at mid-gap (omega=0).
+% 2026-09-28 (review pass E: V7, V8, V17, R3-19): (i) mu^+/mu^- labels moved into the dark gap next to their dots
+% (white on the cream band edge was unreadable); (ii) the colorbar is labelled at TRUE values: the raster is
+% cmap((A/A_p)^0.80) with A_p the 99.6th percentile (src/export_akw_dat.py: GAMMA = 0.80, np.percentile(A, 99.6)),
+% so A/A_p = 0.1 and 0.5 sit at 0.1^0.8 = 0.1585 and 0.5^0.8 = 0.5743 of the bar; (iii) the Delta_1 panel ends at
+% 0.6 t (max Delta_1 = 0.50 t in akw_screen.dat), its x label is in units of t, and its grid is drawn below the curve.
 \begin{tikzpicture}
 % ---- panel 1: true A(k,omega) ----
 \begin{axis}[
@@ -17,8 +22,8 @@
   \addplot[only marks, mark=*, mark size=1.5pt, forget plot, mark options={fill=pCream, draw=pInk, line width=0.4pt}] coordinates {(0.5,2.484) (0.5,-2.484)};
   \node[white, font=\scriptsize, anchor=west] at (axis cs:0.045,0.62) {$E_F$};
   \node[white, font=\scriptsize, anchor=west] at (axis cs:0.58,0.85) {Mott gap $\Delta$};
-  \node[white, font=\scriptsize, anchor=east] at (axis cs:0.43,2.62) {$\mu^+$};
-  \node[white, font=\scriptsize, anchor=east] at (axis cs:0.43,-2.62) {$\mu^-$};
+  \node[white, font=\scriptsize, anchor=east] at (axis cs:0.43,1.85) {$\mu^+$};
+  \node[white, font=\scriptsize, anchor=east] at (axis cs:0.43,-1.85) {$\mu^-$};
   \node[white, font=\scriptsize\itshape, anchor=north west] at (axis cs:0.05,7.7) {upper Hubbard band};
   \node[white, font=\scriptsize\itshape, anchor=south west] at (axis cs:0.05,-7.7) {lower Hubbard band};
 \end{axis}
@@ -30,7 +35,8 @@
   xlabel={momentum $k/\pi$}, yticklabels={},
   title={\small wrong reconstruction},
   colormap name=paperhot, point meta min=0, point meta max=1,
-  colorbar, colorbar style={width=0.22cm, ytick={0,0.5,1}, title={\scriptsize norm.}, tick label style={font=\scriptsize}},
+  colorbar, colorbar style={width=0.22cm, ytick={0,0.1585,0.5743,1}, yticklabels={$0$,$0.1$,$0.5$,$1$},
+                            title={\scriptsize norm.}, tick label style={font=\scriptsize}},
 ]
   \addplot graphics[xmin=0, xmax=2, ymin=-9, ymax=9] {figs/akw_wrong.png};
   \addplot[white, opacity=0.5, densely dashed, line width=0.5pt, forget plot] coordinates {(0,0) (2,0)};
@@ -42,9 +48,10 @@
 \begin{axis}[
   name=p3, paperaxis, at={(p2.east)}, anchor=west, xshift=2.3cm,
   width=3.7cm, height=6.9cm,
-  xmin=0, xmax=0.9, ymin=0, ymax=2,
-  xtick={0,0.3,0.6,0.9},
-  xlabel={$\Delta_1=|\widehat m_1-\bar m_1|$ ($t$)}, ylabel={$k/\pi$},
+  axis on top=false,   % grid below the curve
+  xmin=0, xmax=0.6, ymin=0, ymax=2,
+  xtick={0,0.25,0.5},
+  xlabel={$\Delta_1/t=|\widehat m_1-\bar m_1|/t$}, ylabel={$k/\pi$},
   y label style={at={(axis description cs:1.18,0.5)}, rotate=180}, ytick={0,0.5,1,1.5,2},
   yticklabel pos=right, xlabel style={align=center},
   title={\small moment discrepancy per $k$},
