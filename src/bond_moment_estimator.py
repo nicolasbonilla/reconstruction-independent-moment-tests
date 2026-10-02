@@ -13,7 +13,7 @@ estimators and checks, by finite-shot sampling of the EXACT ground state (noisel
 the counts-based m_0, m_1, m_2 recover the exact operator moments within shot noise. That is all it
 shows. It has not been run on hardware; on a device the state preparation and the noise would change
 the outcome, and at ibm_fez depth the off-diagonal moments are forecast to carry a depolarizing bias of
-about 37-116% of the signal (offdiag_noise_forecast.py, offdiag_gsurface.py). These rotated-basis
+about 38-116% of the signal (offdiag_noise_forecast.py, offdiag_gsurface.py). These rotated-basis
 circuits are a separate measurement campaign on a prepared ground state; they are not the samples from
 which a spectrum is reconstructed.
 
@@ -249,7 +249,7 @@ def main():
     print("=> m0 is estimable from computational-basis counts, and m1, m2 (off-diagonal hopping) from QWC")
     print("   rotated-basis ('bond-basis') counts, on the exact state in noiseless simulation. Not run on")
     print("   hardware; at ibm_fez depth the off-diagonal moments are forecast to carry a depolarizing bias")
-    print("   of ~37-116% of the signal (offdiag_noise_forecast.py, offdiag_gsurface.py).")
+    print("   of ~38-116% of the signal (offdiag_noise_forecast.py, offdiag_gsurface.py).")
     res = {'_provenance': {'script': 'bond_moment_estimator.py', 'sim_only': True,
                            'model': f'Hubbard L={L} chain OBC, {NQ} qubits, U/t={U}, density probe rho_q q=pi',
                            'claim': 'noiseless simulation: counts-based m0 (computational basis) and m1, m2 '

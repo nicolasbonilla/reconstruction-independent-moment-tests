@@ -46,6 +46,9 @@ import scipy.sparse as sp
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RES = os.path.normpath(os.path.join(HERE, '..', 'data'))
+# DATE is a script constant copied into the output 'date' field; it is NOT the run date. The four ibm_fez
+# jobs of this script were created on 2026-08-29 UTC (06:53:31, 07:12:19, 07:24:35, 07:28:04; decoded from
+# the job IDs). The constant is left unchanged so that the deposited JSONs stay byte-identical.
 DATE = '2026-08-28'
 
 _trapz = getattr(np, 'trapezoid', None) or np.trapz
@@ -78,6 +81,7 @@ dim = 1 << M
 log(f"L={L}  M={M} spin-orbitals  Fock dim=2^{M}={dim}  building c-operators + H ...")
 C = [c_op(p, dim) for p in range(M)]; Cd = [c.T.conj() for c in C]
 Nocc = np.array([bin(s).count('1') for s in range(dim)])
+# Szocc = N_up - N_down (integer); the physical S_z is Szocc/2.
 Szocc = np.array([sum(((s >> (2 * i)) & 1) - ((s >> (2 * i + 1)) & 1) for i in range(L)) for s in range(dim)])
 H = sp.csr_matrix((dim, dim))
 for i in range(L):                                     # periodic chain
@@ -94,7 +98,7 @@ w, v = np.linalg.eigh(H[gi][:, gi].toarray()); E0 = w[0]
 psi0 = np.zeros(dim, complex); psi0[gi] = v[:, 0]
 p_orb = 0
 phi = Cd[2 * p_orb] @ psi0                             # |phi> = c^dagger_{site0,up} |0>
-si = np.where((Nocc == L + 1) & (Szocc == 1))[0]       # ADDITION sector (N+1, Sz=+1)
+si = np.where((Nocc == L + 1) & (Szocc == 1))[0]       # ADDITION sector (N+1, N_up-N_down=+1, i.e. S_z=+1/2)
 log(f"GS sector dim={len(gi)}  E0={E0:.6f};  addition sector |si|={len(si)}; diagonalizing H_si ({len(si)}x{len(si)}) ...")
 En, Vn = np.linalg.eigh(H[si][:, si].toarray()); coef = Vn.conj().T @ phi[si]
 grid = np.linspace((En - E0).min() - 1, (En - E0).max() + 1, 600)

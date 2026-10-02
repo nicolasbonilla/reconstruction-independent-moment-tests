@@ -19,9 +19,20 @@ the deterministic order gives the manuscript's |g1| = 0.186, |g2| = 2.729. The m
 verdict at d=97 holds for every tie choice tested (300 random shell choices, interval_battery.py ->
 data/2026-09-27_interval_battery.json, tie_break_sensitivity).
 
+Record check (record_check below, JSON reads only): every number paper/main.tex prints from the records
+data/2026-08-28_inverse_moment_falsifier.json, data/heron_spectral.json, data/2026-09-27_theory_numerics.json
+(keys R8_inverse_moment_sensitivity, R9_christoffel_max_Wn, m2_rescaled_frame), data/2026-08-31_offdiag_gsurface.json
+(forecast percentages at 100 and 295 CZ) and paper/figs/bracket_maxW.dat is matched against its key, at the precision the paper prints it. Each check is anchored on the sentence that
+prints the number; a sentence absent from main.tex is reported as ABSENT (not a failure), a key missing from its
+record or a printed number that differs from its key is a failure. All other numbers: docs/REPRODUCE.md, Key
+numbers.
+
 Run:  python src/verify.py    (or `make verify`)
 """
+import os
+import re
 import sys
+import json
 import numpy as np
 import scipy.sparse as sp
 import spectral_lanczos as sl
@@ -141,11 +152,240 @@ def main():
         print(f"\n  [{'PASS' if battery_reject else 'FAIL'}] the joint (m0,m1,m2)+Hankel battery rejects, via m2, a "
               f"truncation the lone first moment passes (one catch, not a guarantee of power)")
 
+    record_check()
+
     print("\n" + ("=" * 62))
     if FAIL:
         print(f"RESULT: {len(FAIL)} CHECK(S) FAILED: {', '.join(FAIL)}")
         sys.exit(1)
-    print("RESULT: ALL CHECKS PASS -- the screen's headline numbers reproduce from source.")
+    print("RESULT: ALL CHECKS PASS -- the L=6 moments, thresholds and the d=97 catch reproduce from source, and the\n"
+          "numbers main.tex prints from the records listed in record_check match their JSON keys (other numbers:\n"
+          "docs/REPRODUCE.md, Key numbers).")
+
+
+# =====================================================================================================
+# record_check: numbers printed in paper/main.tex against their JSON keys (no recomputation, seconds)
+# =====================================================================================================
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.normpath(os.path.join(HERE, ".."))
+
+
+def _load(rel):
+    with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
+        return json.load(f) if rel.endswith(".json") else f.read()
+
+
+def _same_as_printed(printed, value):
+    """True if `value` rounds to the printed decimal string at the printed number of decimals."""
+    nd = len(printed.split(".")[1]) if "." in printed else 0
+    return f"{value:.{nd}f}" == printed
+
+
+def _sci_as_printed(mant, expo, value):
+    """True if `value` written to one significant figure is mant x 10^expo (printed as $m\\times10^{e}$)."""
+    m, e = f"{value:.0e}".split("e")
+    return int(m) == int(mant) and int(e) == int(expo)
+
+
+def _maxW_dat():
+    rows = [r.split() for r in _load("paper/figs/bracket_maxW.dat").strip().splitlines()[1:]]
+    return {int(n): float(w) for n, w in rows}
+
+
+def _records():
+    """(id, record/key, regex on main.tex, function(match groups) -> list of (printed, value, kind))."""
+    inv = _load("data/2026-08-28_inverse_moment_falsifier.json")
+    dep, summ = inv["deployment"], inv["summary"]
+    tn = _load("data/2026-09-27_theory_numerics.json")
+    r8, r9, m2f = tn["R8_inverse_moment_sensitivity"], tn["R9_christoffel_max_Wn"], tn["m2_rescaled_frame"]
+    ring, opn = r8["ring"], r8["open_chain"]
+    her = _load("data/heron_spectral.json")
+    last = dep["sweep"][-1]
+    exmax = {int(n): v["max_W"] for n, v in r9["exact_max"].items()}
+    obc = [c for c in inv["identity_checks"] if not c["pbc"]]
+    obc_rel = max(c["resid_identity_halfnegT"] / abs(c["m_minus1"]) for c in obc)
+
+    def first_poles(geo):   # spurious-pole positions at which m_-1 crosses its threshold first (full rule)
+        return [s["om_spur"] for s in geo["om_spur_scan"]
+                if s["f_star_full_rule"]["m_-1"] < min(s["f_star_full_rule"]["m1"], s["f_star_full_rule"]["m2"])]
+
+    P, X = "p", "sci"
+    INV = "2026-08-28_inverse_moment_falsifier.json"
+    R8 = "2026-09-27_theory_numerics.json:R8_inverse_moment_sensitivity"
+    R9 = "2026-09-27_theory_numerics.json:R9_christoffel_max_Wn"
+    HER = "heron_spectral.json"
+    gs = {r["G"]: r for r in _load("data/2026-08-31_offdiag_gsurface.json")["gsurface"]}
+    GS = "2026-08-31_offdiag_gsurface.json:gsurface[G]"
+    return [
+        ("inv-relshift-text", INV + ":summary.max_Delta_{-1,1}_over_m",
+         r"moves most in relative terms \(\$(\d+)\\%\$ against \$(\d+)\\%\$ for \$m_1\$",
+         lambda g: [(g[0], 100 * summ["max_Delta_minus1_over_m"], P), (g[1], 100 * summ["max_Delta_1_over_m"], P)]),
+        ("inv-relshift-caption", INV + ":deployment.sweep[-1].{d1,d2,dm1}",
+         r"move by up to \$(\d+)\\%\$, \$(\d+)\\%\$ and \$(\d+)\\%\$",
+         lambda g: [(g[0], 100 * last["d1"], P), (g[1], 100 * last["d2"], P), (g[2], 100 * last["dm1"], P)]),
+        ("inv-m-1-caption", INV + ":deployment.m_minus1_poles",
+         r"m_\{-1\}=\\tfrac12\\langle-\\hat T\\rangle-\\mathcal D=([\d.]+)",
+         lambda g: [(g[0], dep["m_minus1_poles"], P)]),
+        ("inv-m0-blind", INV + ":deployment.sweep[*].d0",
+         r"\\Delta_0/m_0<10\^\{(-?\d+)\}",
+         lambda g: [(g[0], max(abs(r["d0"]) for r in dep["sweep"]) < 10.0 ** int(g[0]), "bool")]),
+        ("inv-cancellation", INV + ":deployment.{m_minus1_poles,half_negT,kohn_stiffness_D}",
+         r"\$m_\{-1\}=([\d.]+)\$ is the small difference of \$\\tfrac12\\langle-\\hat T\\rangle=([\d.]+)\$ and "
+         r"\$\\mathcal D=([\d.]+)\$: the stiffness cancels \$(\d+)\\%\$",
+         lambda g: [(g[0], dep["m_minus1_poles"], P), (g[1], dep["half_negT"], P), (g[2], dep["kohn_stiffness_D"], P),
+                    (g[3], 100 * dep["kohn_stiffness_D"] / dep["half_negT"], P)]),
+        ("inv-cancellation-caption", INV + ":deployment.{kohn_stiffness_D,half_negT}",
+         r"cancels \$(\d+)\\%\$ of \$\\tfrac12\\langle-\\hat T\\rangle\$",
+         lambda g: [(g[0], 100 * dep["kohn_stiffness_D"] / dep["half_negT"], P)]),
+        ("inv-ring-identity", INV + ":deployment.resid_fsum_vs_poles",
+         r"verified at \$L=12\$ to a relative \$(\d)\\times10\^\{(-\d+)\}\$",
+         lambda g: [((g[0], g[1]), dep["resid_fsum_vs_poles"], X)]),
+        ("inv-obc-identity", INV + ":identity_checks[OBC] + " + R8 + ".open_chain.resid_poles_vs_fsum_rel",
+         r"to a relative \$(\d)\\times10\^\{(-\d+)\}\$ at \$L=6\$ and \$8\$ and \$(\d)\\times10\^\{(-\d+)\}\$ at \$L=12\$",
+         lambda g: [((g[0], g[1]), obc_rel, X), ((g[2], g[3]), opn["resid_poles_vs_fsum_rel"], X)]),
+        ("r8-thresholds", R8 + ".ring.{tau_full_rule,tau_full_rule_over_m}",
+         r"\\tau_\{-1\}=([\d.]+)\$, which is \$(\d+)\\%\$ of \$m_\{-1\}\$, whereas \$\\tau_1\$ and \$\\tau_2\$ are "
+         r"\$([\d.]+)\\%\$",
+         lambda g: [(g[0], ring["tau_full_rule"]["m_-1"], P), (g[1], 100 * ring["tau_full_rule_over_m"]["m_-1"], P),
+                    (g[2], 100 * ring["tau_full_rule_over_m"]["m1"], P),
+                    (g[2], 100 * ring["tau_full_rule_over_m"]["m2"], P)]),
+        ("r8-thresholds-caption", R8 + ".ring.tau_full_rule_over_m",
+         r"(?:Deployed|Default) thresholds: \$([\d.]+)\\%\$ of \$m_1\$ and \$m_2\$ but \$(\d+)\\%\$ of \$m_\{-1\}\$",
+         lambda g: [(g[0], 100 * ring["tau_full_rule_over_m"]["m1"], P),
+                    (g[0], 100 * ring["tau_full_rule_over_m"]["m2"], P),
+                    (g[1], 100 * ring["tau_full_rule_over_m"]["m_-1"], P)]),
+        ("r8-ring-order", R8 + ".ring.f_star_full_rule",
+         r"So \$m_2\$ rejects first \(\$f\\approx([\d.]+)\$\), then \$m_1\$ \(\$([\d.]+)\$\), and \$m_\{-1\}\$ only at "
+         r"\$f\\approx([\d.]+)\$",
+         lambda g: [(g[0], ring["f_star_full_rule"]["m2"], P), (g[1], ring["f_star_full_rule"]["m1"], P),
+                    (g[2], ring["f_star_full_rule"]["m_-1"], P)]),
+        ("r8-ring-order-caption", R8 + ".ring.f_star_full_rule",
+         r"rejection at \$f\\approx([\d.]+)\$ \(\$m_2\$\), \$([\d.]+)\$ \(\$m_1\$\), \$([\d.]+)\$ \(\$m_\{-1\}\$\)",
+         lambda g: [(g[0], ring["f_star_full_rule"]["m2"], P), (g[1], ring["f_star_full_rule"]["m1"], P),
+                    (g[2], ring["f_star_full_rule"]["m_-1"], P)]),
+        ("r8-open-chain", R8 + ".open_chain.{frac_below_split,m_minus1_poles}",
+         r"\$(\d+)\\%\$ of its regular weight already lies below \$6\\,t\$ and \$m_\{-1\}=([\d.]+)\$",
+         lambda g: [(g[0], 100 * opn["frac_below_split"], P), (g[1], opn["m_minus1_poles"], P)]),
+        ("r8-open-order", R8 + ".open_chain.f_star_full_rule",
+         r"crossed at \$f\\approx([\d.]+)\$ for \$m_\{-1\}\$, \$([\d.]+)\$ for \$m_1\$ and \$([\d.]+)\$ for \$m_2\$",
+         lambda g: [(g[0], opn["f_star_full_rule"]["m_-1"], P), (g[1], opn["f_star_full_rule"]["m1"], P),
+                    (g[2], opn["f_star_full_rule"]["m2"], P)]),
+        ("r8-low-pole", R8 + ".ring.om_spur_scan[om_spur=0.25].f_star_full_rule",
+         r"at \$0\.25\\,t\$ on the ring, \$f\\approx([\d.]+)\$ against \$([\d.]+)\$ for \$m_1\$ and \$([\d.]+)\$ for \$m_2\$",
+         lambda g: [(g[0], ring["om_spur_scan"][0]["f_star_full_rule"]["m_-1"], P),
+                    (g[1], ring["om_spur_scan"][0]["f_star_full_rule"]["m1"], P),
+                    (g[2], ring["om_spur_scan"][0]["f_star_full_rule"]["m2"], P),
+                    ("0.25", ring["om_spur_scan"][0]["om_spur"], P)]),
+        ("r8-first-poles", R8 + ".{ring,open_chain}.om_spur_scan",
+         r"rejects first only for poles at \$([\d.]+)\\,t\$ and \$([\d.]+)\\,t\$, on both geometries",
+         lambda g: [(f"{float(g[0])}/{float(g[1])}", first_poles(ring) == first_poles(opn) == [float(g[0]), float(g[1])],
+                     "bool")]),
+        ("r8-open-slopes", R8 + ".open_chain.slope_relative_per_unit_f",
+         r"relative slopes? \$([\d.]+)\$ for \$m_\{-1\}\$ (?:vs|against) \$([\d.]+)\$ for \$m_1\$",
+         lambda g: [(g[0], opn["slope_relative_per_unit_f"]["m_-1"], P), (g[1], opn["slope_relative_per_unit_f"]["m1"], P)]),
+        ("r9-maxW-caption", R9 + ".exact_max + paper/figs/bracket_maxW.dat",
+         r"\\max_xW_n=([\d.]+)\$, \$([\d.]+)\$, \$([\d.]+)\$, \$([\d.]+)\$ for \$n=1,\\dots,4\$",
+         lambda g: [(g[i], exmax[i + 1], P) for i in range(4)]),
+        ("r9-maxW-appendix", R9 + ".exact_max",
+         r"\\max_xW_n=([\d.]+),\\ ([\d.]+),\\ ([\d.]+),\\ ([\d.]+)\$ for \$n=1,\\dots,4\$",
+         lambda g: [(g[i], exmax[i + 1], P) for i in range(4)]),
+        ("r9-maxW4", R9 + ".exact_max.4.max_W",
+         r"\\max_xW_4=([\d.]+)",
+         lambda g: [(g[0], exmax[4], P)]),
+        ("r9-dominant-atom", R9 + ".{dominant_atom_omega,dominant_residue}",
+         r"dominant atom \(\$\\omega=([\d.]+)\\,t\$, residue \$([\d.]+)\$\)",
+         lambda g: [(g[0], r9["dominant_atom_omega"], P), (g[1], r9["dominant_residue"], P)]),
+        ("r9-residue-floor", R9 + ".dominant_residue",
+         r"equals its residue \$([\d.]+)\$, below which",
+         lambda g: [(g[0], r9["dominant_residue"], P)]),
+        ("r9-one-pole", R9 + ".dominant_residue",
+         r"one pole carries \$(\d+)\\%\$ of its weight",
+         lambda g: [(g[0], 100 * r9["dominant_residue"], P)]),
+        ("r9-mean-variance", R9 + ".omega_mean + m2_rescaled_frame.variance",
+         r"mean \$\\bar\\omega=([\d.]+)\\,t\$ and variance \$\\sigma\^2=([\d.]+)\\,t\^2\$",
+         lambda g: [(g[0], r9["omega_mean"], P), (g[1], m2f["variance"], P)]),
+        ("r9-mean-offset", R9 + ".{omega_mean,dominant_atom_omega}",
+         r"lies at the mean, \$([\d.]+)\\,t\$ from the dominant atom \(\$([\d.]+)\\,t\$\)",
+         lambda g: [(g[0], abs(r9["omega_mean"] - r9["dominant_atom_omega"]), P), (g[1], r9["dominant_atom_omega"], P)]),
+        ("r9-mean-appendix", R9 + ".omega_mean",
+         r"mean frequency \$\\bar\\omega=([\d.]+)\\,t\$",
+         lambda g: [(g[0], r9["omega_mean"], P)]),
+        ("offdiag-forecast-app", GS + ".{pct_exact,pct_folklore,pct_coherent} at G=100, 295",
+         r"bias at \$(\d+)\\%\$ of the signal at \$100\$ controlled-\$Z\$ \(CZ\) gates and \$(\d+)\\%\$ at \$295\$ CZ; "
+         r"global depolarizing noise at the same depths gives \$(\d+)\\%\$ and \$(\d+)\\%\$, and a coherent-\$ZZ\$ model "
+         r"\$(\d+)\\%\$ at \$295\$ CZ",
+         lambda g: [(g[0], gs[100]["pct_exact"], P), (g[1], gs[295]["pct_exact"], P),
+                    (g[2], gs[100]["pct_folklore"], P), (g[3], gs[295]["pct_folklore"], P),
+                    (g[4], gs[295]["pct_coherent"], P)]),
+        ("offdiag-forecast-limits", GS + ".{pct_exact,pct_folklore} at G=295",
+         r"at \$295\$ CZ and two-qubit error \$2\.5\\times10\^\{-3\}\$ is \$(\d+)\\%\$ of the signal under a static "
+         r"local noise model and \$(\d+)\\%\$ under global",
+         lambda g: [(g[0], gs[295]["pct_exact"], P), (g[1], gs[295]["pct_folklore"], P)]),
+        ("offdiag-forecast-range", GS + ".{pct_exact,pct_folklore} at G=295 (Table scope, Conclusions)",
+         r"bias (?:for a surrogate probe is )?\$(\d+)\$--\$(\d+)\\%\$",
+         lambda g: [(g[0], gs[295]["pct_exact"], P), (g[1], gs[295]["pct_folklore"], P)]),
+        ("heron-coverage", HER + ":{hw_S,nsector}",
+         r"\|\\mathcal S\|=(\d+)/(\d+)",
+         lambda g: [(g[0], her["hw_S"], P), (g[1], her["nsector"], P)]),
+        ("heron-sector", HER + ":{nsector,eta}",
+         r"\$4\\!\\uparrow,3\\!\\downarrow\$ \(\$(\d+)\$ configurations\), \$\\eta=([\d.]+)\\,t\$",
+         lambda g: [(g[0], her["nsector"], P), (g[1], her["eta"], P)]),
+        ("heron-model", HER + ":{L,U}",
+         r"\$L=(\d+)\$ Hubbard model, \$U/t=([\d.]+)\$, addition sector",
+         lambda g: [(g[0], her["L"], P), (g[1], her["U"], P)]),
+        ("heron-shots-job", HER + ":{shots,job_id,backend} (7 circuits: the companion's K=7)",
+         r"\\texttt\{ibm\\_fez\}, \$(\d+)\$ qubits, \$([\d.]+)\\times10\^\{5\}\$ shots \(\$(\d+)\\times10\^\{4\}\$ on each "
+         r"of seven circuits; job \\texttt\{([a-z0-9]+)\}",
+         lambda g: [(g[0], 2 * her["L"], P), (g[1], 7 * her["shots"] / 1e5, P), (g[2], her["shots"] / 1e4, P),
+                    (g[3], g[3] == her["job_id"] and her["backend"] == "ibm_fez", "bool")]),
+        ("heron-retained", HER + ":hw_S",
+         r"all \$(\d+)\$ retained determinants",
+         lambda g: [(g[0], her["hw_S"], P)]),
+    ], exmax
+
+
+def record_check():
+    print("\nRecord check: numbers printed in paper/main.tex against their JSON keys:")
+    tex_path = os.path.join(ROOT, "paper", "main.tex")
+    if not os.path.exists(tex_path):
+        print("  [SKIP] paper/main.tex not found")
+        return
+    tex = _load("paper/main.tex")
+    try:
+        records, exmax = _records()
+    except (KeyError, IndexError, OSError, ValueError) as e:
+        print(f"  [FAIL] a record or key is missing: {e!r}")
+        FAIL.append("record_check:keys")
+        return
+    # data-file consistency: bracket_maxW.dat (export_bracketing_dat.py) = R9 exact maxima (export_christoffel_dat.py)
+    dat = _maxW_dat()
+    ok = all(abs(dat[n] - exmax[n]) < 5e-7 for n in (1, 2, 3, 4))
+    print(f"  [{'PASS' if ok else 'FAIL'}] {'bracket_maxW.dat = R9 exact max_x W_n':<40} = "
+          f"{[dat[n] for n in (1, 2, 3, 4)]}")
+    if not ok:
+        FAIL.append("record_check:bracket_maxW")
+    n_pass = n_abs = 0
+    for rid, key, pat, fn in records:
+        hits = re.findall(pat, tex)
+        if not hits:
+            n_abs += 1
+            print(f"  [ABSENT] {rid:<26} (sentence not in main.tex; key {key})")
+            continue
+        for h in hits:
+            g = h if isinstance(h, tuple) else (h,)
+            for printed, value, kind in fn(g):
+                if kind == "bool":
+                    good, shown = bool(value), f"{printed}: {bool(value)}"
+                elif kind == "sci":
+                    good, shown = _sci_as_printed(printed[0], printed[1], value), \
+                        f"{printed[0]}e{printed[1]} vs {value:.3e}"
+                else:
+                    good, shown = _same_as_printed(printed, value), f"{printed} vs {value:.6g}"
+                n_pass += good
+                print(f"  [{'PASS' if good else 'FAIL'}] {rid:<26} {shown}   ({key})")
+                if not good:
+                    FAIL.append(f"record_check:{rid}")
+    print(f"  {n_pass} printed numbers match their keys; {n_abs} anchored sentences absent from main.tex")
 
 
 if __name__ == "__main__":

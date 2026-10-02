@@ -55,12 +55,32 @@ part (c), which is validated against the sealed record before use.
     is exact in m0 and m1 by construction and misses m2.
 (e) Calibrated scope of the sealed test: the retained ground-state support and weight in the
     truncations, the spurious-atom weights and frequencies, the U/t values and the probe.
+(f) Noise-model sensitivity (added 2026-10-02). The sealed generator drew m_hat = m_exact +
+    Normal(0, SE) (blind_generate.py:137-138), while the prereg shot_model reads sigma_k = z x SE.
+    The SEALED draws eps = m_hat - m_exact are rescored with the frozen rule, run verbatim:
+    (i) literal sealed model, m_hat -> m_exact + 1.96 eps, threshold unchanged;
+    (ii) variance inflation f = 1, 2, 4, 10: m_hat -> m_exact + sqrt(f) eps with var_loc -> f var_loc
+    (device variance f times the amplitude-based local-estimator variance, threshold recalibrated);
+    f = 1 must reproduce the sealed 101/188 and 1/112 (asserted);
+    supplementary: the same scaling with the threshold left at f = 1.
+    Each with TPR/FPR (Wilson 95%), per-class and per-subclass counts, and a fresh-noise Monte-Carlo
+    expectation of the clean-control FPR.
+(g) Faithful-control identity (added 2026-10-02). For the 112 clean instances the reconstruction is
+    the exact ground state, so the shared-state estimate equals the sealed one and its verdicts and
+    FPR are the sealed ones. Asserted (unique ground state, moments equal to m_exact to 1e-10,
+    300-instance frozen classifier verdicts identical).
+Part (c) also reports the deterministic shared-state estimator as a leak score Delta_k/m_k with a
+stated numerical tolerance LEAK_TOL (added 2026-10-02).
+
+File hashes recorded in the output (inputs_sha256, code_sha256) are taken over LF-normalised bytes
+(CRLF -> LF), so they do not depend on the checkout's line endings; the stored tie order is identified
+by the hash of its canonical JSON serialisation, not by the hash of the file that held it.
 
 Everything here is a post hoc addendum written after unblinding: only the quantities of part (a)
 that the sealed score file already holds (TPR/FPR, per-class rates) are sealed endpoints, and they
 are recomputed, not changed.
 
-Run from src/:  python blind_addenda.py      (about 10-20 s on one core; a fresh process is needed
+Run from src/:  python blind_addenda.py      (about 40 s on one core; a fresh process is needed
 only for the ARPACK diagnostic in part (c), not for the result)
 """
 import contextlib
@@ -103,7 +123,20 @@ CODE_INPUTS = ['blind_classify.py', 'blind_generate.py', 'spectral_lanczos.py',
 # helpers
 # ---------------------------------------------------------------------------------------------
 def sha256(path):
-    return hashlib.sha256(open(path, 'rb').read()).hexdigest()
+    """SHA-256 of the file's bytes with CRLF normalised to LF, so the recorded hashes do not depend
+    on the line endings of the checkout (Windows working trees are CRLF, the repository is LF).
+    The seal itself (prereg.json vs prereg.sha256, in load_sealed) is checked on the raw bytes;
+    prereg.json has no line breaks, so both conventions give the same hash for it."""
+    return hashlib.sha256(open(path, 'rb').read().replace(b'\r\n', b'\n')).hexdigest()
+
+
+def sha256_tie_order(orders):
+    """SHA-256 of a tie order {U: index array}, over its canonical JSON serialisation
+    ({"U=3": [...], ...}, keys sorted, no whitespace). This identifies the order itself, not the
+    file it was read from, so it is the same on every rerun."""
+    canon = {f'U={float(U):g}': [int(a) for a in np.asarray(v)] for U, v in orders.items()}
+    blob = json.dumps(canon, sort_keys=True, separators=(',', ':')).encode()
+    return hashlib.sha256(blob).hexdigest()
 
 
 def wilson(k, n, z=1.96):
@@ -363,7 +396,8 @@ def argsort_order(psi, nsup):
 def load_stored_tie_order():
     """The recovered tie order of the sealed run, as stored by an earlier run of this script in
     OUT_JSON (the committed data/2026-09-27_blind_addenda.json). Returns ({U: order}, sha256 of the
-    file read) or (None, reason). It is validated against the sealed record before any use."""
+    stored order, see sha256_tie_order) or (None, reason). It is validated against the sealed
+    record before any use."""
     if not os.path.isfile(OUT_JSON):
         return None, f'{os.path.basename(OUT_JSON)} not present'
     try:
@@ -373,7 +407,7 @@ def load_stored_tie_order():
         orders = {float(k.split('=')[1]): np.array(v, dtype=int) for k, v in stored.items()}
     except (KeyError, ValueError, TypeError, json.JSONDecodeError) as exc:
         return None, f'stored tie order unreadable ({exc!r})'
-    return orders, sha256(OUT_JSON)
+    return orders, sha256_tie_order(orders)
 
 
 def rebuild_check(pr, P, Lb, GS, orders):
@@ -481,8 +515,8 @@ def choose_tie_order(pr, P, Lb, GS):
         res_s, sum_s = rebuild_check(pr, P, Lb, GS, stored)
     if sum_s is not None and sum_s['all_56_match']:
         source = (f'stored: recovered_tie_order_top_nsup_basis_indices of the previous '
-                  f'{os.path.basename(OUT_JSON)} (sha256 of the file read {stored_info}), validated '
-                  f'against the sealed record in this run')
+                  f'{os.path.basename(OUT_JSON)} (sha256 of the stored order, canonical JSON: '
+                  f'{stored_info}), validated against the sealed record in this run')
         used, res, summ = stored, res_s, sum_s
     elif sum_a['all_56_match']:
         source = ('ARPACK default start of this process (first v0-less eigsh calls, U in prereg '
@@ -558,7 +592,9 @@ def part_c(pr, sha, P, V, Lb, GS):
                      'rebuild_rel_err': {'m_bar': e_mbar, 'var_loc': e_var, 'm_hat': e_hat},
                      'naive_regeneration_matches_sealed': naive_same,
                      'e0_subspace': T['e0'], 'm_exact': m_ex.tolist(), 'm_bar': sb.tolist(),
-                     'm_shared_mean': T['m_shared'].tolist(), 'm_hat_shared': m_hat_sh.tolist()})
+                     'm_shared_mean': T['m_shared'].tolist(), 'm_hat_shared': m_hat_sh.tolist(),
+                     'leak_Delta_[m0,m1,m2]': (T['m_shared'] - sb).tolist(),
+                     'leak_score_Delta_over_m_[m0,m1,m2]': ((T['m_shared'] - sb) / T['m_shared']).tolist()})
     Vsh = frozen_classify(insts_sh, sha)
     Vnv = frozen_classify(insts_naive, sha)
     # fresh-noise redraws of the shared-state estimator (vectorised rule, validated in part b)
@@ -611,6 +647,9 @@ def part_c(pr, sha, P, V, Lb, GS):
                               'on ARPACK state.',
             'recovered_tie_order_top_nsup_basis_indices': {f'U={U:g}': [int(a) for a in used[float(U)]]
                                                            for U in GS},
+            'recovered_tie_order_sha256': sha256_tie_order(used),
+            'recovered_tie_order_sha256_convention': 'sha256 of json.dumps({"U=3": [...], ...}, '
+                                                     'sort_keys=True, separators=(",", ":"))',
             'basis': 'index = iu*Dd + id over sorted up/down bit-strings (spectral_lanczos.strings, L=6, n=2)',
         },
         'shared_state_rescoring': {
@@ -640,7 +679,209 @@ def part_c(pr, sha, P, V, Lb, GS):
             'cross_check_naive_regeneration_shared_state':
                 f"{sum(Vnv[i]['reject'] for i in ids)}/{len(ids)} rejected (not the sealed instances)",
         },
+        'leak_score': leak_score_summary(rows),
         'per_instance': rows,
+    }
+
+
+LEAK_TOL = 1e-6     # stated numerical tolerance on |Delta_k|/m_k for the deterministic estimator
+
+
+def leak_score_summary(rows):
+    """D4: the shared-state estimator is deterministic (no shot noise), so it is reported as a leak
+    score Delta_k/m_k, Delta_k = m_k(shared state) - m_bar_k, flagged when |Delta_k|/m_k > LEAK_TOL.
+    LEAK_TOL is a numerical tolerance, not a statistical threshold: it sits far above the floor set
+    by rounding and by the rebuild (worst relative error of the rebuilt m_bar, part c) and by the
+    faithful controls (part g, where Delta_k vanishes to rounding)."""
+    ls = np.array([r['leak_score_Delta_over_m_[m0,m1,m2]'] for r in rows])
+    above = np.abs(ls) > LEAK_TOL
+    return {
+        'status': 'POST HOC (2026-10-02); deterministic, no shot noise: Delta_k = <J g|(H - e0)^k|J g> '
+                  '- m_bar_k with full operators on the truncated-subspace ground state g; score '
+                  'Delta_k / m_k with m_k = <J g|(H - e0)^k|J g>',
+        'tolerance_abs_Delta_over_m': LEAK_TOL,
+        'tolerance_note': 'numerical tolerance; the faithful-control floor is in '
+                          'g_shared_state_faithful_controls.max_abs_leak_score',
+        'n_instances': len(rows),
+        'above_tolerance_per_moment_[m0,m1,m2]': above.sum(axis=0).tolist(),
+        'above_tolerance_any_moment': int(above.any(axis=1).sum()),
+        'min_leak_score_[m0,m1,m2]': ls.min(axis=0).tolist(),
+        'max_leak_score_[m0,m1,m2]': ls.max(axis=0).tolist(),
+        'min_abs_leak_score_[m0,m1,m2]': np.abs(ls).min(axis=0).tolist(),
+        'median_leak_score_[m0,m1,m2]': np.median(ls, axis=0).tolist(),
+        'reading': 'Delta_0 = <g|J Q_S J|g> >= 0 is the weight of J g outside the kept subspace S '
+                   '(m0 leak); Delta_0/m_0 = 1 for the truncations with zero reconstructed weight',
+    }
+
+
+# ---------------------------------------------------------------------------------------------
+# (f) noise-model sensitivity of the sealed record: literal sealed model, variance inflation
+# ---------------------------------------------------------------------------------------------
+LITERAL_SCALE = 1.96            # prereg battery.shot_model: sigma_k = z * (local-estimator SE), z = 1.96
+INFLATION_F = (1, 2, 4, 10)     # device variance = f * amplitude-based local-estimator variance
+R_FRESH = 20000                 # fresh-noise redraws of the 112 clean instances per scenario, part (f)
+
+
+def confusion_block(rej, Lb, ids):
+    """TPR/FPR with Wilson 95% intervals, confusion, per-class and per-subclass counts."""
+    tp = fn = fp = tn = 0
+    cls = defaultdict(lambda: [0, 0])
+    sub = defaultdict(lambda: [0, 0])
+    for i in ids:
+        lab, r = Lb[i], bool(rej[i])
+        c = lab['corrupted']
+        tp += c and r
+        fn += c and not r
+        fp += (not c) and r
+        tn += (not c) and not r
+        cls[lab['mode']][0] += r
+        cls[lab['mode']][1] += 1
+        sub[subclass(lab)][0] += r
+        sub[subclass(lab)][1] += 1
+    k2 = [f'krylov nl={n}' for n in (2, 3, 4)]
+    return {'confusion': {'TP': tp, 'FN': fn, 'FP': fp, 'TN': tn},
+            'TPR': rate(tp, tp + fn), 'FPR': rate(fp, fp + tn),
+            'per_class': {m: rate(*cls[m]) for m in sorted(cls)},
+            'per_subclass': {s: rate(*sub[s]) for s in sorted(sub)},
+            'krylov_nl>=2': rate(sum(sub[s][0] for s in k2), sum(sub[s][1] for s in k2))}
+
+
+def part_f(pr, sha, P, V, Lb):
+    """Rescore the SEALED noise draws under other noise models, with the frozen rule run verbatim.
+    The sealed draw of instance i is eps_i = m_hat_i - m_exact_i (blind_generate.py:137-138:
+    m_hat = m_exact + Normal(0, se), se = sqrt(var_loc/Ns)).
+      literal:   m_hat -> m_exact + 1.96 eps (noise SD z*SE, the wording of prereg shot_model);
+                 the classifier's input var_loc, hence its threshold, is unchanged.
+      inflation: m_hat -> m_exact + sqrt(f) eps and var_loc -> f var_loc (a device whose estimator
+                 variance is f times the amplitude-based local-estimator variance, with the
+                 threshold's shot term calibrated to it); f = 1 is the sealed test.
+      supplementary: the same sqrt(f) eps with var_loc NOT rescaled (threshold left at f = 1);
+                 the literal model is the point f = 1.96^2 of this family."""
+    b = pr['battery']
+    ids = sorted(P)
+    m_ex = {i: np.array(Lb[i]['m_exact']) for i in ids}
+    eps = {i: np.array(P[i]['m_hat']) - m_ex[i] for i in ids}
+
+    def score(noise_scale, var_scale):
+        insts = [{'id': i, 'm_hat': (m_ex[i] + noise_scale * eps[i]).tolist(),
+                  'm_bar': P[i]['m_bar'], 'var_loc': (var_scale * np.array(P[i]['var_loc'])).tolist()}
+                 for i in ids]
+        Vv = frozen_classify(insts, sha)
+        rej = {i: Vv[i]['reject'] for i in ids}
+        same_as_sealed = sum(rej[i] == V[i]['reject'] for i in ids)
+        out = confusion_block(rej, Lb, ids)
+        out['verdicts_identical_to_sealed'] = f'{same_as_sealed}/{len(ids)}'
+        out['hankel_fired'] = int(sum(Vv[i]['hankel_fire'] for i in ids))
+        return out, rej
+
+    # fresh-noise expectation of the clean-control FPR under each model (vectorised rule)
+    clean = sorted(i for i in ids if Lb[i]['mode'] == 'clean')
+    mex_c = np.array([m_ex[i] for i in clean])
+    mbar_c = np.array([P[i]['m_bar'] for i in clean])
+    var_c = np.array([P[i]['var_loc'] for i in clean])
+    se_c = np.sqrt(var_c / b['Ns'])
+    Z = np.random.default_rng([SEED, 4]).standard_normal((R_FRESH, len(clean), 3))
+
+    def fresh(noise_scale, var_scale):
+        rej = rule_vectorised(mex_c[None] + noise_scale * se_c[None] * Z, mbar_c[None],
+                              var_scale * var_c[None], b)[0]
+        nfp = rej.sum(axis=1)
+        return {'FPR_mean': float(rej.mean()),
+                'FPR_mc_se': float(nfp.std(ddof=1) / len(clean) / math.sqrt(R_FRESH)),
+                'FP_count_of_112_p2.5_median_p97.5': [float(np.percentile(nfp, q)) for q in (2.5, 50, 97.5)]}
+
+    # identity: unit scaling reproduces the sealed verdicts and endpoint exactly
+    unit, _ = score(1.0, 1.0)
+    assert unit['verdicts_identical_to_sealed'] == f'{len(ids)}/{len(ids)}', unit['verdicts_identical_to_sealed']
+    assert (unit['TPR']['k'], unit['TPR']['n'], unit['FPR']['k'], unit['FPR']['n']) == (101, 188, 1, 112), \
+        'unit-scale rescoring does not reproduce the sealed 101/188, 1/112'
+
+    lit, _ = score(LITERAL_SCALE, 1.0)
+    lit['fresh_noise_expectation_clean'] = fresh(LITERAL_SCALE, 1.0)
+    infl, noth = {}, {}
+    for f in INFLATION_F:
+        r, _ = score(math.sqrt(f), float(f))
+        r['fresh_noise_expectation_clean'] = fresh(math.sqrt(f), float(f))
+        infl[f'f={f}'] = r
+        r2, _ = score(math.sqrt(f), 1.0)
+        r2['fresh_noise_expectation_clean'] = fresh(math.sqrt(f), 1.0)
+        noth[f'f={f}'] = r2
+    a1 = infl['f=1']
+    assert (a1['TPR']['k'], a1['FPR']['k']) == (101, 1) and a1['verdicts_identical_to_sealed'] == '300/300'
+    return {
+        'status': 'POST HOC (2026-10-02, after unblinding): the sealed noise draws rescored under other '
+                  'noise models with the frozen rule run verbatim; the sealed endpoint stays the one in '
+                  '2026-08-24_blind_harness_score.json',
+        'sealed_noise_draw': 'eps = m_hat - m_exact (blind_generate.py: m_hat = m_exact + Normal(0, se), '
+                             'se = sqrt(var_loc/Ns)), i.e. noise SD = 1 x SE as implemented',
+        'prereg_shot_model_text': b['shot_model'],
+        'nominal_joint_FPR_target_1_minus_0.95^3': 1 - 0.95 ** 3,
+        'identity_check_unit_scale': {'verdicts_identical_to_sealed': unit['verdicts_identical_to_sealed'],
+                                      'TPR': unit['TPR'], 'FPR': unit['FPR']},
+        'literal_sealed_model': dict(
+            {'model': 'm_hat = m_exact + 1.96 eps (noise SD = z x SE, prereg shot_model wording); '
+                      'classifier input var_loc and frozen threshold unchanged'}, **lit),
+        'variance_inflation': {
+            'model': 'm_hat = m_exact + sqrt(f) eps, var_loc -> f var_loc (threshold shot term '
+                     'recalibrated to the inflated variance); f = 1 reproduces the sealed test',
+            'rng_fresh_noise': f'default_rng([{SEED}, 4]), {R_FRESH} redraws of the 112 clean '
+                               'instances, common random numbers across scenarios',
+            'by_f': infl},
+        'supplementary_inflation_threshold_not_recalibrated': {
+            'model': 'm_hat = m_exact + sqrt(f) eps, var_loc unchanged (threshold calibrated for f = 1); '
+                     'the literal model is f = 1.96^2 = 3.84 of this family',
+            'by_f': noth},
+    }
+
+
+# ---------------------------------------------------------------------------------------------
+# (g) shared-state estimator on the faithful controls: an identity
+# ---------------------------------------------------------------------------------------------
+def part_g(pr, sha, P, V, Lb, GS):
+    """For the 112 faithful controls the reconstruction IS the exact ground state psi0, so the
+    shared-state estimate <J psi0|(H - E0)^k|J psi0> + (sealed noise) equals the sealed oracle-centred
+    m_hat up to rounding, and its verdicts and FPR are the sealed ones. Asserted here."""
+    import blind_generate as bg
+    clean = sorted(i for i, l in Lb.items() if l['mode'] == 'clean')
+    gaps, floor = {}, 0.0
+    m_sh = {}
+    for U, C in GS.items():
+        Ev = np.linalg.eigvalsh(C['Hs'].toarray())
+        gaps[f'U={U:g}'] = float(Ev[1] - Ev[0])
+        m_sh[U] = bg.moments_of_state(C['psi_fixed'], C['Js'], C['Hc'])
+    insts, worst_rel = [], 0.0
+    for i in clean:
+        lab = Lb[i]
+        U = lab['params']['U']
+        m_ex, mb = np.array(lab['m_exact']), np.array(P[i]['m_bar'])
+        ms = m_sh[U]
+        worst_rel = max(worst_rel, float(np.max(np.abs(ms - m_ex) / np.abs(m_ex))))
+        floor = max(floor, float(np.max(np.abs(ms - mb) / np.abs(ms))))
+        insts.append({'id': i, 'm_hat': (ms + (np.array(P[i]['m_hat']) - m_ex)).tolist(),
+                      'm_bar': P[i]['m_bar'], 'var_loc': P[i]['var_loc']})
+    assert min(gaps.values()) > 1e-6, f'ground state not unique: gaps {gaps}'
+    assert worst_rel < 1e-10, f'shared-state moments differ from m_exact on a clean control: {worst_rel}'
+    assert floor < LEAK_TOL * 1e-3, f'faithful-control leak score {floor} not far below LEAK_TOL'
+    Vv = frozen_classify(insts, sha)
+    same = sum(Vv[i]['reject'] == V[i]['reject'] for i in clean)
+    nfp = sum(Vv[i]['reject'] for i in clean)
+    assert same == len(clean) and nfp == sum(V[i]['reject'] for i in clean) == 1, (same, nfp)
+    lit = [dict(x, m_hat=(m_sh[Lb[x['id']]['params']['U']] + LITERAL_SCALE * (
+        np.array(P[x['id']]['m_hat']) - np.array(Lb[x['id']]['m_exact']))).tolist()) for x in insts]
+    nfp_lit = sum(v['reject'] for v in frozen_classify(lit, sha).values())
+    return {
+        'status': 'identity check (2026-10-02, audit H8): for faithful controls the shared state is the '
+                  'exact ground state, so the shared-state estimate equals the sealed one',
+        'n_clean': len(clean),
+        'ground_state_gap_per_U_(unique_ground_state)': gaps,
+        'max_rel_diff_shared_state_moments_vs_m_exact': worst_rel,
+        'max_abs_leak_score': floor,
+        'verdicts_identical_to_sealed': f'{same}/{len(clean)}',
+        'shared_state_FPR': rate(nfp, len(clean)),
+        'shared_state_FPR_literal_model_(part_f_scaling)': rate(nfp_lit, len(clean)),
+        'reading': 'the shared-state FPR on the faithful controls is the sealed one, because the shared '
+                   'state of a faithful control is the exact ground state; the same holds under the '
+                   'literal noise model of part (f)',
     }
 
 
@@ -745,14 +986,24 @@ def main():
     res['c_truncations_rebuild_and_shared_state'] = c
     res['d_krylov'] = part_d(pr, P, V, Lb)
     res['e_calibrated_scope'] = part_e(pr, Lb, GS, c['per_instance'])
+    res['f_noise_model_sensitivity'] = part_f(pr, sha, P, V, Lb)
+    res['g_shared_state_faithful_controls'] = part_g(pr, sha, P, V, Lb, GS)
+    assert (res['g_shared_state_faithful_controls']['shared_state_FPR_literal_model_(part_f_scaling)']['k']
+            == res['f_noise_model_sensitivity']['literal_sealed_model']['FPR']['k'])
     sha_after = {f: sha256(os.path.join(DATA, f)) for f in SEALED_INPUTS}
     if sha_after != sha_before:
         raise SystemExit('a sealed input changed during the run')
     runtime = time.time() - t0
     res = {'provenance': {
         'script': 'src/blind_addenda.py', 'date': '2026-09-27',
+        'revised': '2026-10-02: parts (f) noise-model sensitivity and (g) faithful-control identity, '
+                   'leak score in part (c), LF-normalised file hashes, tie order hashed as an array; '
+                   'parts (0)-(e) unchanged',
         'seed': SEED, 'seeds_used': {'b': f'default_rng([{SEED}, 2])', 'c': f'default_rng([{SEED}, 3, id])',
+                                     'f': f'default_rng([{SEED}, 4])',
                                      'sealed_generator_replay': 'default_rng(master_seed + 1000 + id)'},
+        'hash_convention': 'inputs_sha256 and code_sha256 are SHA-256 of the file bytes with CRLF -> LF '
+                           '(line-ending independent); the prereg seal is checked on the raw bytes',
         'runtime_s': round(runtime, 2),
         'python': platform.python_version(), 'numpy': np.__version__, 'scipy': scipy.__version__,
         'platform': platform.platform(),
@@ -793,6 +1044,23 @@ def main():
     print('krylov nl=1 m2 rel err', np.round([k1['rel_err_m_bar_vs_m_exact_min_[m0,m1,m2]'][2],
                                               k1['rel_err_m_bar_vs_m_exact_max_[m0,m1,m2]'][2]], 4),
           ' max r2', round(k1['max_residual_over_frozen_threshold_[r0,r1,r2]'][2], 4))
+    lk = cc['leak_score']
+    print('  leak score (deterministic) above tol', lk['tolerance_abs_Delta_over_m'], ':',
+          lk['above_tolerance_per_moment_[m0,m1,m2]'], ' min Delta0/m0', round(lk['min_leak_score_[m0,m1,m2]'][0], 4))
+    ff = res['f_noise_model_sensitivity']
+    for name, r in [('literal 1.96 x SE', ff['literal_sealed_model'])] + \
+                   [(f'inflation {k}', v) for k, v in ff['variance_inflation']['by_f'].items()]:
+        t, f = r['TPR'], r['FPR']
+        ps = r['per_subclass']
+        print(f"(f) {name:18s} TPR {t['k']}/{t['n']}  FPR {f['k']}/{f['n']} = {f['rate']:.3f} "
+              f"{np.round(f['wilson95'], 3)}  trunc {ps['trunc']['k']}/{ps['trunc']['n']}  "
+              f"ac raw {ps['ac raw']['k']}/{ps['ac raw']['n']}  ac m0-pres {ps['ac preserve_m0']['k']}/"
+              f"{ps['ac preserve_m0']['n']}  krylov nl>=2 {r['krylov_nl>=2']['k']}/{r['krylov_nl>=2']['n']}  "
+              f"E[FPR] {r['fresh_noise_expectation_clean']['FPR_mean']:.3f}")
+    gg = res['g_shared_state_faithful_controls']
+    print('(g) shared-state on faithful controls: verdicts', gg['verdicts_identical_to_sealed'],
+          ' FPR', f"{gg['shared_state_FPR']['k']}/{gg['shared_state_FPR']['n']}",
+          ' max leak score', f"{gg['max_abs_leak_score']:.1e}")
     print(f'wrote {OUT_JSON}  ({runtime:.1f} s)')
 
 

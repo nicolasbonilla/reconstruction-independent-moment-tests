@@ -70,6 +70,8 @@ import scipy.sparse as sp
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RES = os.path.normpath(os.path.join(HERE, '..', 'data'))
+# DATE is a script constant copied into the output 'date' field. Only the Aer dry run of this script was
+# executed (data/heron_counts_matched_DRYRUN.json); no ibm_fez job was submitted from it.
 DATE = '2026-08-28'
 
 # numpy 1.26 (dry-run venv) has np.trapz; numpy>=2 has np.trapezoid. Support both.
@@ -100,6 +102,7 @@ def c_op(p, dim):
 dim = 1 << M
 C = [c_op(p, dim) for p in range(M)]; Cd = [c.T.conj() for c in C]
 Nocc = np.array([bin(s).count('1') for s in range(dim)])
+# Szocc = N_up - N_down (integer); the physical S_z is Szocc/2.
 Szocc = np.array([sum(((s >> (2 * i)) & 1) - ((s >> (2 * i + 1)) & 1) for i in range(L)) for s in range(dim)])
 H = sp.csr_matrix((dim, dim))
 for i in range(L):                                     # periodic chain
@@ -115,7 +118,7 @@ w, v = np.linalg.eigh(H[gi][:, gi].toarray()); E0 = w[0]
 psi0 = np.zeros(dim, complex); psi0[gi] = v[:, 0]
 p_orb = 0
 phi = Cd[2 * p_orb] @ psi0                             # |phi> = c^dagger_{site0,up} |0>
-si = np.where((Nocc == L + 1) & (Szocc == 1))[0]       # ADDITION sector (N+1, Sz=+1)
+si = np.where((Nocc == L + 1) & (Szocc == 1))[0]       # ADDITION sector (N+1, N_up-N_down=+1, i.e. S_z=+1/2)
 En, Vn = np.linalg.eigh(H[si][:, si].toarray()); coef = Vn.conj().T @ phi[si]
 grid = np.linspace((En - E0).min() - 1, (En - E0).max() + 1, 600)
 
@@ -174,12 +177,13 @@ def bitstring_to_config(bs):
     CORRECTNESS NOTE (verified, load-bearing):  the companion notebook's HARDWARE cell uses
     int(bs[::-1], 2), but that REVERSES the 12-bit string and lands on the wrong Fock integer. On the
     interleaved p=2*site+spin layout, reversal maps even<->odd bits, i.e. it FLIPS the spin label of
-    every orbital, so a physically Sz=+1 shot is read as Sz=-1. The companion's own LOCAL validation
+    every orbital, so a physical (4 up, 3 down) shot (N_up-N_down=+1, S_z=+1/2) is read as (3 up, 4 down)
+    (N_up-N_down=-1, S_z=-1/2). The companion's own LOCAL validation
     (cell 9) never hits this: it samples statevector INDICES directly (t = basis index), which are
     already in the operator convention. Reproducing that local path on real hardware counts requires
     int(bs, 2) (rightmost char = qubit 0), NOT int(bs[::-1], 2). Empirically, on the k=0 reference
-    prep (basis state |0..6>, index 127, Sz=+1): int(bs,2)=127 (Sz=+1, KEPT) vs
-    int(bs[::-1],2)=4064 (Sz=-1, REJECTED). Using the reversed map would post-select to the empty set
+    prep (basis state |0..6>, index 127, N_up-N_down=+1): int(bs,2)=127 (N_up-N_down=+1, KEPT) vs
+    int(bs[::-1],2)=4064 (N_up-N_down=-1, REJECTED). Using the reversed map would post-select to the empty set
     (|S|=0) and waste 100% of the QPU shots. We therefore use the physically correct map and
     self-check it against the number-conserving prep in falsifier_from_pooled_configs()."""
     return int(bs.replace(' ', ''), 2)

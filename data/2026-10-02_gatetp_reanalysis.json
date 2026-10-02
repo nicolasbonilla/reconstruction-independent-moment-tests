@@ -1,0 +1,1992 @@
+{
+ "generator": "src/gate_tp_analysis.py",
+ "date": "2026-10-02",
+ "qpu_spent": 0,
+ "provenance": {
+  "notebook": "work/notebooks/GATE_TP_on_Heron.ipynb (saved without outputs; save cell 23 never executed)",
+  "raw_dir": "data/heron_gatetp_2026-08-21/",
+  "raw_sha256": {
+   "da44t8u1vhnc73fkie30_job.json": "a1d8df160b3588d76095f39bd7ea44fae203daee77d4bc65d64be49d39806a73",
+   "da44t8u1vhnc73fkie30_results.json": "febf16777b488e5152d089d08837e6d532c046acd131d137fc919b8b2c0f5e44",
+   "da44t8u1vhnc73fkie30_metrics.json": "1269b2a574bfbe8b7ac34e17f994f9cfb58192d2e0eb8f1a1dc8a5a22e8474b2",
+   "da459juaa69c739jcb80_job.json": "ae148241a88bfead099125f695d0eb7f7363b2d47d7cac539f4817c0164a4950",
+   "da459juaa69c739jcb80_results.json": "e91c8cfac11899a13be06446897c322c119d0357a9f3c25f64f052ed60ebcb16",
+   "da459juaa69c739jcb80_metrics.json": "1312e655742f53c63fe4d0e6679bfe0083ba85f5ae5bfd78ec7104465248e0c0"
+  },
+  "credentials_check": "no token, API key, CRN or instance field; job JSON carries user_id (an IBMid account id)",
+  "environment": {
+   "python": "3.11.4",
+   "numpy": "2.4.6",
+   "qiskit": "2.5.2"
+  }
+ },
+ "jobs": {
+  "correct": {
+   "job_id": "da44t8u1vhnc73fkie30",
+   "backend": "ibm_fez",
+   "program": "sampler",
+   "status": "Completed",
+   "options": {
+    "dynamical_decoupling": {
+     "enable": true
+    },
+    "twirling": {
+     "enable_gates": true,
+     "enable_measure": true
+    }
+   },
+   "n_pubs": 7,
+   "shots_per_pub": [
+    35000,
+    35000,
+    35000,
+    35000,
+    35000,
+    35000,
+    35000
+   ]
+  },
+  "detuned": {
+   "job_id": "da459juaa69c739jcb80",
+   "backend": "ibm_fez",
+   "program": "sampler",
+   "status": "Completed",
+   "options": {
+    "dynamical_decoupling": {
+     "enable": true
+    },
+    "twirling": {
+     "enable_measure": true,
+     "enable_gates": true
+    }
+   },
+   "n_pubs": 7,
+   "shots_per_pub": [
+    35000,
+    35000,
+    35000,
+    35000,
+    35000,
+    35000,
+    35000
+   ]
+  }
+ },
+ "metrics": {
+  "correct": {
+   "quantum_seconds": 69,
+   "created": "2026-08-21T13:12:03.063578Z",
+   "running": "2026-08-21T13:36:17.582674Z",
+   "finished": "2026-08-21T13:38:21.371137Z",
+   "caller_versions": "qiskit_ibm_runtime-0.49.0,qiskit-2.5.2*"
+  },
+  "detuned": {
+   "quantum_seconds": 69,
+   "created": "2026-08-21T13:38:23.667627Z",
+   "running": "2026-08-21T13:38:38.066496Z",
+   "finished": "2026-08-21T13:40:09.317714Z",
+   "caller_versions": "qiskit_ibm_runtime-0.49.0,qiskit-2.5.2*"
+  }
+ },
+ "model": {
+  "L": 6,
+  "t": 1.0,
+  "U_true": 4.0,
+  "U_detuned": 3.5,
+  "sector": "N=7, Sz=+1 (4 up, 3 down)",
+  "sector_dim": 300,
+  "K": 7,
+  "n_trot": 3,
+  "dt_total": 0.5,
+  "shots_per_circuit": 35000,
+  "m_exact_U4": [
+   0.4999999999999995,
+   2.083593681585929,
+   9.334374726343711
+  ],
+  "m_exact_U3p5": [
+   0.5,
+   1.8628168595230041,
+   7.519859008330514
+  ],
+  "E0_U4": -3.668706178872956,
+  "E0_U3p5": -4.025796251422897
+ },
+ "decode": {
+  "method": "numpy: base64 -> zlib -> .npy BitArray (shots x 2 bytes, big-endian), format(x,'012b')",
+  "runtime_crosscheck": {
+   "available": true,
+   "numpy_decode_identical_to_RuntimeDecoder_get_counts_incl_order": true
+  }
+ },
+ "bitorder": {
+  "noiseless": {
+   "correct": {
+    "insector_mass_correct_map": [
+     1.0,
+     1.0000000000000007,
+     0.9999999999999961,
+     0.999999999999995,
+     1.0000000000000024,
+     0.9999999999999928,
+     1.000000000000004
+    ],
+    "insector_mass_as_run_map": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support_size_per_circuit": [
+     1,
+     297,
+     300,
+     300,
+     300,
+     300,
+     300
+    ],
+    "union_support_size": 300
+   },
+   "detuned": {
+    "insector_mass_correct_map": [
+     1.0,
+     0.9999999999999984,
+     0.9999999999999982,
+     0.9999999999999943,
+     1.0000000000000022,
+     0.999999999999995,
+     1.000000000000005
+    ],
+    "insector_mass_as_run_map": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "support_size_per_circuit": [
+     1,
+     297,
+     300,
+     300,
+     300,
+     300,
+     300
+    ],
+    "union_support_size": 300
+   }
+  },
+  "submitted_isa_circuits": {
+   "available": true,
+   "per_arm": {
+    "correct": {
+     "rows": [
+      {
+       "k": 0,
+       "n_active_qubits": 12,
+       "physical_qubits_by_clbit": [
+        90,
+        142,
+        2,
+        70,
+        84,
+        22,
+        124,
+        97,
+        134,
+        110,
+        137,
+        58
+       ],
+       "tv_vs_notebook_U4": 0.0,
+       "tv_vs_notebook_U3p5": 0.0,
+       "insector_mass_correct_map": 1.0,
+       "insector_mass_as_run_map": 0.0
+      },
+      {
+       "k": 1,
+       "n_active_qubits": 12,
+       "physical_qubits_by_clbit": [
+        133,
+        135,
+        139,
+        155,
+        154,
+        153,
+        152,
+        151,
+        138,
+        131,
+        132,
+        134
+       ],
+       "tv_vs_notebook_U4": 7.298089901148158e-15,
+       "tv_vs_notebook_U3p5": 0.020630760799506095,
+       "insector_mass_correct_map": 1.0000000000000153,
+       "insector_mass_as_run_map": 3.831635924162636e-31
+      },
+      {
+       "k": 2,
+       "n_active_qubits": 12,
+       "physical_qubits_by_clbit": [
+        138,
+        133,
+        134,
+        135,
+        139,
+        155,
+        154,
+        153,
+        152,
+        131,
+        151,
+        132
+       ],
+       "tv_vs_notebook_U4": 7.77395483454584e-15,
+       "tv_vs_notebook_U3p5": 0.35306836026287275,
+       "insector_mass_correct_map": 1.0000000000000115,
+       "insector_mass_as_run_map": 2.8174515362679014e-31
+      },
+      {
+       "k": 3,
+       "n_active_qubits": 12,
+       "physical_qubits_by_clbit": [
+        132,
+        135,
+        155,
+        139,
+        154,
+        153,
+        151,
+        152,
+        138,
+        133,
+        131,
+        134
+       ],
+       "tv_vs_notebook_U4": 9.622830029148044e-15,
+       "tv_vs_notebook_U3p5": 0.4972118238711584,
+       "insector_mass_correct_map": 1.0000000000000142,
+       "insector_mass_as_run_map": 3.922218563150224e-31
+      },
+      {
+       "k": 4,
+       "n_active_qubits": 12,
+       "physical_qubits_by_clbit": [
+        133,
+        135,
+        139,
+        155,
+        154,
+        153,
+        152,
+        151,
+        138,
+        131,
+        132,
+        134
+       ],
+       "tv_vs_notebook_U4": 4.8257883166559825e-15,
+       "tv_vs_notebook_U3p5": 0.4749738838585478,
+       "insector_mass_correct_map": 1.000000000000012,
+       "insector_mass_as_run_map": 3.268179769533539e-31
+      },
+      {
+       "k": 5,
+       "n_active_qubits": 12,
+       "physical_qubits_by_clbit": [
+        132,
+        134,
+        131,
+        138,
+        152,
+        151,
+        154,
+        153,
+        139,
+        155,
+        133,
+        135
+       ],
+       "tv_vs_notebook_U4": 1.3533693715976307e-14,
+       "tv_vs_notebook_U3p5": 0.09366314570067083,
+       "insector_mass_correct_map": 1.00000000000002,
+       "insector_mass_as_run_map": 2.6802736551148185e-31
+      },
+      {
+       "k": 6,
+       "n_active_qubits": 12,
+       "physical_qubits_by_clbit": [
+        138,
+        152,
+        154,
+        153,
+        139,
+        155,
+        134,
+        135,
+        133,
+        132,
+        131,
+        151
+       ],
+       "tv_vs_notebook_U4": 4.2212434321460315e-15,
+       "tv_vs_notebook_U3p5": 0.5428607130083288,
+       "insector_mass_correct_map": 1.0000000000000124,
+       "insector_mass_as_run_map": 2.5268042362294188e-31
+      }
+     ],
+     "max_tv_vs_own_schedule": 1.3533693715976307e-14,
+     "min_tv_vs_other_schedule_k_ge_1": 0.020630760799506095
+    },
+    "detuned": {
+     "rows": [
+      {
+       "k": 0,
+       "n_active_qubits": 12,
+       "physical_qubits_by_clbit": [
+        90,
+        142,
+        2,
+        70,
+        84,
+        22,
+        124,
+        97,
+        134,
+        110,
+        137,
+        58
+       ],
+       "tv_vs_notebook_U4": 0.0,
+       "tv_vs_notebook_U3p5": 0.0,
+       "insector_mass_correct_map": 1.0,
+       "insector_mass_as_run_map": 0.0
+      },
+      {
+       "k": 1,
+       "n_active_qubits": 12,
+       "physical_qubits_by_clbit": [
+        132,
+        134,
+        138,
+        131,
+        152,
+        151,
+        154,
+        153,
+        139,
+        155,
+        133,
+        135
+       ],
+       "tv_vs_notebook_U4": 0.020630760799520916,
+       "tv_vs_notebook_U3p5": 9.033062028832208e-15,
+       "insector_mass_correct_map": 1.000000000000016,
+       "insector_mass_as_run_map": 3.055103947806485e-31
+      },
+      {
+       "k": 2,
+       "n_active_qubits": 12,
+       "physical_qubits_by_clbit": [
+        132,
+        135,
+        138,
+        131,
+        151,
+        152,
+        154,
+        153,
+        134,
+        155,
+        133,
+        139
+       ],
+       "tv_vs_notebook_U4": 0.3530683602628776,
+       "tv_vs_notebook_U3p5": 7.838687395245856e-15,
+       "insector_mass_correct_map": 1.0000000000000135,
+       "insector_mass_as_run_map": 2.7963362028525057e-31
+      },
+      {
+       "k": 3,
+       "n_active_qubits": 12,
+       "physical_qubits_by_clbit": [
+        132,
+        135,
+        138,
+        131,
+        151,
+        152,
+        154,
+        153,
+        134,
+        155,
+        133,
+        139
+       ],
+       "tv_vs_notebook_U4": 0.4972118238711596,
+       "tv_vs_notebook_U3p5": 1.1247553783187884e-14,
+       "insector_mass_correct_map": 1.0000000000000169,
+       "insector_mass_as_run_map": 2.583167484507006e-31
+      },
+      {
+       "k": 4,
+       "n_active_qubits": 12,
+       "physical_qubits_by_clbit": [
+        133,
+        135,
+        155,
+        139,
+        154,
+        153,
+        152,
+        151,
+        131,
+        138,
+        132,
+        134
+       ],
+       "tv_vs_notebook_U4": 0.4749738838585503,
+       "tv_vs_notebook_U3p5": 6.1267902395873235e-15,
+       "insector_mass_correct_map": 1.0000000000000144,
+       "insector_mass_as_run_map": 3.57334932163122e-31
+      },
+      {
+       "k": 5,
+       "n_active_qubits": 12,
+       "physical_qubits_by_clbit": [
+        133,
+        135,
+        139,
+        155,
+        153,
+        154,
+        152,
+        151,
+        138,
+        131,
+        132,
+        134
+       ],
+       "tv_vs_notebook_U4": 0.09366314570066675,
+       "tv_vs_notebook_U3p5": 1.0839554532946661e-14,
+       "insector_mass_correct_map": 1.0000000000000162,
+       "insector_mass_as_run_map": 2.635462768361325e-31
+      },
+      {
+       "k": 6,
+       "n_active_qubits": 12,
+       "physical_qubits_by_clbit": [
+        132,
+        135,
+        138,
+        131,
+        152,
+        151,
+        154,
+        153,
+        134,
+        155,
+        133,
+        139
+       ],
+       "tv_vs_notebook_U4": 0.542860713008328,
+       "tv_vs_notebook_U3p5": 3.20981287771402e-15,
+       "insector_mass_correct_map": 1.0000000000000115,
+       "insector_mass_as_run_map": 2.4898239590441376e-31
+      }
+     ],
+     "max_tv_vs_own_schedule": 1.1247553783187884e-14,
+     "min_tv_vs_other_schedule_k_ge_1": 0.020630760799520916
+    }
+   },
+   "note": "the transpiled circuits decoded from each job JSON, reduced to their 12 active physical qubits and read through their measure instructions, reproduce the notebook circuits of their own schedule (TV below 1e-13) and differ from the other schedule for k >= 1; k = 0 is the bare determinant (no U dependence)"
+  },
+  "device": {
+   "correct": {
+    "per_circuit": [
+     {
+      "k": 0,
+      "raw": 35000,
+      "retained_correct": 32390,
+      "retained_as_run": 9,
+      "shots_with_N7_Szm1_correct_reading": 9,
+      "retained_correct_on_noiseless_support": 32354
+     },
+     {
+      "k": 1,
+      "raw": 35000,
+      "retained_correct": 6785,
+      "retained_as_run": 2165,
+      "shots_with_N7_Szm1_correct_reading": 2165,
+      "retained_correct_on_noiseless_support": 6785
+     },
+     {
+      "k": 2,
+      "raw": 35000,
+      "retained_correct": 6951,
+      "retained_as_run": 2325,
+      "shots_with_N7_Szm1_correct_reading": 2325,
+      "retained_correct_on_noiseless_support": 6951
+     },
+     {
+      "k": 3,
+      "raw": 35000,
+      "retained_correct": 6829,
+      "retained_as_run": 2109,
+      "shots_with_N7_Szm1_correct_reading": 2109,
+      "retained_correct_on_noiseless_support": 6829
+     },
+     {
+      "k": 4,
+      "raw": 35000,
+      "retained_correct": 6864,
+      "retained_as_run": 2399,
+      "shots_with_N7_Szm1_correct_reading": 2399,
+      "retained_correct_on_noiseless_support": 6864
+     },
+     {
+      "k": 5,
+      "raw": 35000,
+      "retained_correct": 6617,
+      "retained_as_run": 2242,
+      "shots_with_N7_Szm1_correct_reading": 2242,
+      "retained_correct_on_noiseless_support": 6617
+     },
+     {
+      "k": 6,
+      "raw": 35000,
+      "retained_correct": 6928,
+      "retained_as_run": 2278,
+      "shots_with_N7_Szm1_correct_reading": 2278,
+      "retained_correct_on_noiseless_support": 6928
+     }
+    ],
+    "raw": 245000,
+    "retained_correct": 73364,
+    "retained_as_run": 13527,
+    "retention_correct": 0.29944489795918366,
+    "retention_as_run": 0.05521224489795919,
+    "retained_correct_on_noiseless_support": 73328
+   },
+   "detuned": {
+    "per_circuit": [
+     {
+      "k": 0,
+      "raw": 35000,
+      "retained_correct": 32680,
+      "retained_as_run": 10,
+      "shots_with_N7_Szm1_correct_reading": 10,
+      "retained_correct_on_noiseless_support": 32655
+     },
+     {
+      "k": 1,
+      "raw": 35000,
+      "retained_correct": 6645,
+      "retained_as_run": 2226,
+      "shots_with_N7_Szm1_correct_reading": 2226,
+      "retained_correct_on_noiseless_support": 6644
+     },
+     {
+      "k": 2,
+      "raw": 35000,
+      "retained_correct": 6935,
+      "retained_as_run": 2126,
+      "shots_with_N7_Szm1_correct_reading": 2126,
+      "retained_correct_on_noiseless_support": 6935
+     },
+     {
+      "k": 3,
+      "raw": 35000,
+      "retained_correct": 6876,
+      "retained_as_run": 2238,
+      "shots_with_N7_Szm1_correct_reading": 2238,
+      "retained_correct_on_noiseless_support": 6876
+     },
+     {
+      "k": 4,
+      "raw": 35000,
+      "retained_correct": 7039,
+      "retained_as_run": 1985,
+      "shots_with_N7_Szm1_correct_reading": 1985,
+      "retained_correct_on_noiseless_support": 7039
+     },
+     {
+      "k": 5,
+      "raw": 35000,
+      "retained_correct": 6776,
+      "retained_as_run": 2129,
+      "shots_with_N7_Szm1_correct_reading": 2129,
+      "retained_correct_on_noiseless_support": 6776
+     },
+     {
+      "k": 6,
+      "raw": 35000,
+      "retained_correct": 6524,
+      "retained_as_run": 2255,
+      "shots_with_N7_Szm1_correct_reading": 2255,
+      "retained_correct_on_noiseless_support": 6524
+     }
+    ],
+    "raw": 245000,
+    "retained_correct": 73475,
+    "retained_as_run": 12969,
+    "retention_correct": 0.29989795918367346,
+    "retention_as_run": 0.05293469387755102,
+    "retained_correct_on_noiseless_support": 73449
+   }
+  },
+  "mirror_note": "int(bs[::-1],2) maps the (N=7,Sz=+1) sector onto (N=7,Sz=-1); verified set-equal"
+ },
+ "notebook_pipeline": {
+  "as_run": {
+   "cell6_preflight_gate": [
+    {
+     "U_det": 3.0,
+     "resid_pct": [
+      0.0,
+      20.689508019152328,
+      36.176494153063196
+     ]
+    },
+    {
+     "U_det": 3.5,
+     "resid_pct": [
+      9.992007221626419e-14,
+      10.595963311564685,
+      19.439070866656166
+     ]
+    },
+    {
+     "U_det": 4.5,
+     "resid_pct": [
+      8.881784197001262e-14,
+      10.992205210178751,
+      22.20228907740496
+     ]
+    },
+    {
+     "U_det": 5.0,
+     "resid_pct": [
+      3.219646771412957e-13,
+      22.27754702479247,
+      47.18539400673627
+     ]
+    }
+   ],
+   "cell8_local_rehearsal": {
+    "correct": {
+     "retained": 245000,
+     "nS": 300,
+     "spectral_dist": 0.0,
+     "screen_pct": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "detuned": {
+     "retained": 245000,
+     "nS": 300,
+     "spectral_dist": 0.8177158569453364,
+     "screen_pct": [
+      9.992007221606435e-14,
+      10.595963311559597,
+      19.439070866654085
+     ]
+    }
+   },
+   "cell13_retention": {
+    "correct": {
+     "total": 245000,
+     "cleaned_sector": 13527,
+     "unique": 300,
+     "sector_dim": 300
+    },
+    "detuned": {
+     "total": 245000,
+     "cleaned_sector": 12969,
+     "unique": 300,
+     "sector_dim": 300
+    }
+   },
+   "cell15_result1": {
+    "nS": 300,
+    "spectral_dist": 0.0,
+    "screen_pct": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "verdict": "PASS",
+    "m2_hw": 9.334374726343711,
+    "m2_ED": 9.334374726343711,
+    "m2_bias": 0.0,
+    "band16_84": [
+     9.334374726343711,
+     9.334374726343711
+    ],
+    "ED_inside_band": true
+   },
+   "cell17_roc": {
+    "auc_m0": 1.0,
+    "auc_m1": 1.0,
+    "auc_m2": 1.0,
+    "auc_unique_count": 0.5,
+    "n_points": 400,
+    "n_wrong": 200,
+    "label_wrong_equals_arm_detuned": true,
+    "distinct_values": {
+     "m0": 1,
+     "m1": 2,
+     "m2": 2,
+     "unique_count": 1,
+     "spectral_dist": 2
+    }
+   },
+   "cell19_battery": {
+    "full_coverage": [
+     {
+      "name": "correct (U=4)",
+      "U_rec": 4.0,
+      "nS": 300,
+      "screen_pct": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "caught_by": []
+     },
+     {
+      "name": "wrong U=3.5",
+      "U_rec": 3.5,
+      "nS": 300,
+      "screen_pct": [
+       9.992007221606435e-14,
+       10.595963311559597,
+       19.439070866654085
+      ],
+      "caught_by": [
+       "m1",
+       "m2"
+      ]
+     },
+     {
+      "name": "wrong U=3.0",
+      "U_rec": 3.0,
+      "nS": 300,
+      "screen_pct": [
+       0.0,
+       20.689508019142398,
+       36.17649415305932
+      ],
+      "caught_by": [
+       "m1",
+       "m2"
+      ]
+     },
+     {
+      "name": "wrong U=4.5",
+      "U_rec": 4.5,
+      "nS": 300,
+      "screen_pct": [
+       8.881784196983497e-14,
+       10.992205210173475,
+       22.202289077402583
+      ],
+      "caught_by": [
+       "m1",
+       "m2"
+      ]
+     }
+    ],
+    "partial40_n_shots": 5410,
+    "partial40_nS_good": 300,
+    "partial40_nS_swapped": 300,
+    "partial40_good_pct": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "partial40_swapped_pct": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "partial40_caught": []
+   },
+   "cell20_transport": {
+    "m2_resid_lehmann_grid_pct": 16.620901297676355,
+    "m2_resid_haydock_grid_pct": 16.62090129767647,
+    "max_abs_A_lehmann_minus_haydock": 1.6209256159527285e-14,
+    "exact_m2_resid_pct": 19.439070866656166,
+    "grid_m2_of_exact_A_over_exact_m2": {
+     "U4": 1.0231900630422093,
+     "U3p5": 1.0349818404442084
+    },
+    "note": "full support: Lehmann and Haydock evaluate the same 300-dim resolvent, hence identical A; the grid value differs from the exact 19.44% because omega^2 A is integrated over the finite window [-1, 12] of a Lorentzian-broadened A, with omega measured from E0(U_rec)"
+   },
+   "cell22_noise_survival": {
+    "correct": {
+     "m2_resid_mean_pct": 0.0,
+     "band16_84_pct": [
+      0.0,
+      0.0
+     ],
+     "readout_pert_mean_pct": 0.0,
+     "clears_5pct": false
+    },
+    "detuned": {
+     "m2_resid_mean_pct": 19.439070866654085,
+     "band16_84_pct": [
+      19.439070866654085,
+      19.439070866654085
+     ],
+     "readout_pert_mean_pct": 19.439070866654085,
+     "clears_5pct": true
+    }
+   }
+  },
+  "correct": {
+   "cell6_preflight_gate": [
+    {
+     "U_det": 3.0,
+     "resid_pct": [
+      0.0,
+      20.689508019152328,
+      36.176494153063196
+     ]
+    },
+    {
+     "U_det": 3.5,
+     "resid_pct": [
+      9.992007221626419e-14,
+      10.595963311564685,
+      19.439070866656166
+     ]
+    },
+    {
+     "U_det": 4.5,
+     "resid_pct": [
+      8.881784197001262e-14,
+      10.992205210178751,
+      22.20228907740496
+     ]
+    },
+    {
+     "U_det": 5.0,
+     "resid_pct": [
+      3.219646771412957e-13,
+      22.27754702479247,
+      47.18539400673627
+     ]
+    }
+   ],
+   "cell8_local_rehearsal": {
+    "correct": {
+     "retained": 245000,
+     "nS": 300,
+     "spectral_dist": 0.0,
+     "screen_pct": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "detuned": {
+     "retained": 245000,
+     "nS": 300,
+     "spectral_dist": 0.8177158569453364,
+     "screen_pct": [
+      9.992007221606435e-14,
+      10.595963311559597,
+      19.439070866654085
+     ]
+    }
+   },
+   "cell13_retention": {
+    "correct": {
+     "total": 245000,
+     "cleaned_sector": 73364,
+     "unique": 300,
+     "sector_dim": 300
+    },
+    "detuned": {
+     "total": 245000,
+     "cleaned_sector": 73475,
+     "unique": 300,
+     "sector_dim": 300
+    }
+   },
+   "cell15_result1": {
+    "nS": 300,
+    "spectral_dist": 0.0,
+    "screen_pct": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "verdict": "PASS",
+    "m2_hw": 9.334374726343711,
+    "m2_ED": 9.334374726343711,
+    "m2_bias": 0.0,
+    "band16_84": [
+     9.334374726343711,
+     9.334374726343711
+    ],
+    "ED_inside_band": true
+   },
+   "cell17_roc": {
+    "auc_m0": 1.0,
+    "auc_m1": 1.0,
+    "auc_m2": 1.0,
+    "auc_unique_count": 0.5,
+    "n_points": 400,
+    "n_wrong": 200,
+    "label_wrong_equals_arm_detuned": true,
+    "distinct_values": {
+     "m0": 1,
+     "m1": 2,
+     "m2": 2,
+     "unique_count": 1,
+     "spectral_dist": 2
+    }
+   },
+   "cell19_battery": {
+    "full_coverage": [
+     {
+      "name": "correct (U=4)",
+      "U_rec": 4.0,
+      "nS": 300,
+      "screen_pct": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "caught_by": []
+     },
+     {
+      "name": "wrong U=3.5",
+      "U_rec": 3.5,
+      "nS": 300,
+      "screen_pct": [
+       9.992007221606435e-14,
+       10.595963311559597,
+       19.439070866654085
+      ],
+      "caught_by": [
+       "m1",
+       "m2"
+      ]
+     },
+     {
+      "name": "wrong U=3.0",
+      "U_rec": 3.0,
+      "nS": 300,
+      "screen_pct": [
+       0.0,
+       20.689508019142398,
+       36.17649415305932
+      ],
+      "caught_by": [
+       "m1",
+       "m2"
+      ]
+     },
+     {
+      "name": "wrong U=4.5",
+      "U_rec": 4.5,
+      "nS": 300,
+      "screen_pct": [
+       8.881784196983497e-14,
+       10.992205210173475,
+       22.202289077402583
+      ],
+      "caught_by": [
+       "m1",
+       "m2"
+      ]
+     }
+    ],
+    "partial40_n_shots": 29345,
+    "partial40_nS_good": 300,
+    "partial40_nS_swapped": 300,
+    "partial40_good_pct": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "partial40_swapped_pct": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "partial40_caught": []
+   },
+   "cell20_transport": {
+    "m2_resid_lehmann_grid_pct": 16.620901297676355,
+    "m2_resid_haydock_grid_pct": 16.62090129767647,
+    "max_abs_A_lehmann_minus_haydock": 1.6209256159527285e-14,
+    "exact_m2_resid_pct": 19.439070866656166,
+    "grid_m2_of_exact_A_over_exact_m2": {
+     "U4": 1.0231900630422093,
+     "U3p5": 1.0349818404442084
+    },
+    "note": "full support: Lehmann and Haydock evaluate the same 300-dim resolvent, hence identical A; the grid value differs from the exact 19.44% because omega^2 A is integrated over the finite window [-1, 12] of a Lorentzian-broadened A, with omega measured from E0(U_rec)"
+   },
+   "cell22_noise_survival": {
+    "correct": {
+     "m2_resid_mean_pct": 0.0,
+     "band16_84_pct": [
+      0.0,
+      0.0
+     ],
+     "readout_pert_mean_pct": 0.0,
+     "clears_5pct": false
+    },
+    "detuned": {
+     "m2_resid_mean_pct": 19.439070866654085,
+     "band16_84_pct": [
+      19.439070866654085,
+      19.439070866654085
+     ],
+     "readout_pert_mean_pct": 19.439070866654085,
+     "clears_5pct": true
+    }
+   }
+  }
+ },
+ "reported_2026_08_21": {
+  "m_ind": [
+   0.5,
+   2.0836,
+   9.3344
+  ],
+  "cleaned_sector": {
+   "correct": 13527,
+   "detuned": 12969
+  },
+  "unique": 300,
+  "result1_screen_pct": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "m2_hw": 9.334,
+  "band": [
+   9.334,
+   9.334
+  ],
+  "detuned_screen_pct": [
+   0.0,
+   10.6,
+   19.44
+  ],
+  "auc": {
+   "m0": 1.0,
+   "m1": 1.0,
+   "m2": 1.0,
+   "unique_count": 0.5
+  },
+  "transport_pct": 16.62,
+  "noise_survival_detuned_pct": 19.44
+ },
+ "as_run_reproduces_reported": {
+  "cleaned_sector": true,
+  "unique_300": true,
+  "result1": true,
+  "detuned_screen": true,
+  "auc": true,
+  "transport": true
+ },
+ "screen_dependence": {
+  "data_free_control": {
+   "U_rec=4.0": {
+    "nS": 300,
+    "mbar": [
+     0.4999999999999995,
+     2.083593681585929,
+     9.334374726343711
+    ],
+    "screen_pct": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "spectral_dist": 0.0,
+    "max_abs_mbar_minus_exact_moments_of_H_Urec": 0.0
+   },
+   "U_rec=3.5": {
+    "nS": 300,
+    "mbar": [
+     0.5,
+     1.8628168595230041,
+     7.519859008330514
+    ],
+    "screen_pct": [
+     9.992007221606435e-14,
+     10.595963311559597,
+     19.439070866654085
+    ],
+    "spectral_dist": 0.8177158569453364,
+    "max_abs_mbar_minus_exact_moments_of_H_Urec": 0.0
+   }
+  },
+  "cross_assignment": {
+   "as_run|arm=correct|U_rec=4.0": {
+    "nS": 300,
+    "screen_pct": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "spectral_dist": 0.0,
+    "max_abs_diff_vs_data_free_pct": 0.0
+   },
+   "as_run|arm=correct|U_rec=3.5": {
+    "nS": 300,
+    "screen_pct": [
+     9.992007221606435e-14,
+     10.595963311559597,
+     19.439070866654085
+    ],
+    "spectral_dist": 0.8177158569453364,
+    "max_abs_diff_vs_data_free_pct": 0.0
+   },
+   "as_run|arm=detuned|U_rec=4.0": {
+    "nS": 300,
+    "screen_pct": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "spectral_dist": 0.0,
+    "max_abs_diff_vs_data_free_pct": 0.0
+   },
+   "as_run|arm=detuned|U_rec=3.5": {
+    "nS": 300,
+    "screen_pct": [
+     9.992007221606435e-14,
+     10.595963311559597,
+     19.439070866654085
+    ],
+    "spectral_dist": 0.8177158569453364,
+    "max_abs_diff_vs_data_free_pct": 0.0
+   },
+   "correct|arm=correct|U_rec=4.0": {
+    "nS": 300,
+    "screen_pct": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "spectral_dist": 0.0,
+    "max_abs_diff_vs_data_free_pct": 0.0
+   },
+   "correct|arm=correct|U_rec=3.5": {
+    "nS": 300,
+    "screen_pct": [
+     9.992007221606435e-14,
+     10.595963311559597,
+     19.439070866654085
+    ],
+    "spectral_dist": 0.8177158569453364,
+    "max_abs_diff_vs_data_free_pct": 0.0
+   },
+   "correct|arm=detuned|U_rec=4.0": {
+    "nS": 300,
+    "screen_pct": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "spectral_dist": 0.0,
+    "max_abs_diff_vs_data_free_pct": 0.0
+   },
+   "correct|arm=detuned|U_rec=3.5": {
+    "nS": 300,
+    "screen_pct": [
+     9.992007221606435e-14,
+     10.595963311559597,
+     19.439070866654085
+    ],
+    "spectral_dist": 0.8177158569453364,
+    "max_abs_diff_vs_data_free_pct": 0.0
+   }
+  },
+  "max_abs_diff_any_device_screen_vs_data_free_pct": 0.0,
+  "coverage_scan": {
+   "seed": 20261002,
+   "replicas": 200,
+   "rows": {
+    "as_run|arm=correct": {
+     "rows": [
+      {
+       "n_retained": 10,
+       "mean_nS": 9.825,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        97.51199097995368,
+        94.1396908238092,
+        86.42186042331389
+       ],
+       "median_screen_pct": [
+        98.53635343956235,
+        96.0085203434079,
+        90.1148619669588
+       ]
+      },
+      {
+       "n_retained": 20,
+       "mean_nS": 19.185,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        94.68520263892545,
+        87.9119982371123,
+        72.83353703511817
+       ],
+       "median_screen_pct": [
+        95.87513172953622,
+        89.68879934310559,
+        75.40768902502015
+       ]
+      },
+      {
+       "n_retained": 50,
+       "mean_nS": 44.68,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        86.94545379412965,
+        72.11286992051355,
+        41.67052723727179
+       ],
+       "median_screen_pct": [
+        89.16134747484122,
+        75.45589765084559,
+        44.7208069928499
+       ]
+      },
+      {
+       "n_retained": 100,
+       "mean_nS": 80.78,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        75.20868938919466,
+        50.984431137494745,
+        17.194055468495176
+       ],
+       "median_screen_pct": [
+        78.94931560800391,
+        55.49374275125093,
+        15.484488243138555
+       ]
+      },
+      {
+       "n_retained": 200,
+       "mean_nS": 135.15,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        54.48489325269744,
+        22.17153106612571,
+        33.2198757478894
+       ],
+       "median_screen_pct": [
+        52.36853573249368,
+        19.71551999236653,
+        34.61900010302706
+       ]
+      },
+      {
+       "n_retained": 400,
+       "mean_nS": 201.97,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        30.864260009067767,
+        6.248389578487933,
+        35.57875615161891
+       ],
+       "median_screen_pct": [
+        27.65529308748898,
+        3.517320317551883,
+        35.021317797712435
+       ]
+      },
+      {
+       "n_retained": 800,
+       "mean_nS": 262.53,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        10.460422141343646,
+        2.908326398748345,
+        16.02295290567171
+       ],
+       "median_screen_pct": [
+        9.322518203331308,
+        2.812982265954031,
+        15.041894485142123
+       ]
+      },
+      {
+       "n_retained": 1600,
+       "mean_nS": 292.94,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        1.4568630306473556,
+        0.8273482463468756,
+        2.686058204070472
+       ],
+       "median_screen_pct": [
+        0.9759599313748898,
+        0.7270682211962581,
+        2.1391166867937477
+       ]
+      },
+      {
+       "n_retained": 3200,
+       "mean_nS": 299.59,
+       "frac_full_support": 0.67,
+       "mean_screen_pct": [
+        0.05825617181595168,
+        0.045031590193278105,
+        0.12729553306037794
+       ],
+       "median_screen_pct": [
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     ],
+     "retained_shots_to_full_support_in_notebook_order": 2049
+    },
+    "as_run|arm=detuned": {
+     "rows": [
+      {
+       "n_retained": 10,
+       "mean_nS": 9.785,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        97.24604607928664,
+        93.73137550775529,
+        86.04834950991153
+       ],
+       "median_screen_pct": [
+        98.07281694448078,
+        95.0622531396833,
+        88.58901552220149
+       ]
+      },
+      {
+       "n_retained": 20,
+       "mean_nS": 19.005,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        94.07729890290285,
+        86.94841447410278,
+        71.8646195908247
+       ],
+       "median_screen_pct": [
+        95.0393125765341,
+        88.69869690166665,
+        75.56267579900742
+       ]
+      },
+      {
+       "n_retained": 50,
+       "mean_nS": 44.465,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        85.87365753853683,
+        70.69450660279989,
+        40.4033363151651
+       ],
+       "median_screen_pct": [
+        87.95800060912254,
+        72.93309169112396,
+        43.82253331828833
+       ]
+      },
+      {
+       "n_retained": 100,
+       "mean_nS": 79.905,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        74.9537386336146,
+        52.1669069962429,
+        16.118166870448764
+       ],
+       "median_screen_pct": [
+        77.33948459168349,
+        54.280862336136536,
+        14.24568625204709
+       ]
+      },
+      {
+       "n_retained": 200,
+       "mean_nS": 134.025,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        56.28316378438461,
+        27.769609322185435,
+        20.407952179926006
+       ],
+       "median_screen_pct": [
+        56.81776333765529,
+        26.623747399005204,
+        21.262664840463685
+       ]
+      },
+      {
+       "n_retained": 400,
+       "mean_nS": 201.14,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        33.424173890016384,
+        10.355775059208593,
+        22.1208041994068
+       ],
+       "median_screen_pct": [
+        31.21004169967546,
+        8.58581921816229,
+        21.923710824469154
+       ]
+      },
+      {
+       "n_retained": 800,
+       "mean_nS": 260.13,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        10.442538218725403,
+        6.95442184892001,
+        4.794128244129256
+       ],
+       "median_screen_pct": [
+        9.800152339107164,
+        6.783703005329671,
+        4.252065744819925
+       ]
+      },
+      {
+       "n_retained": 1600,
+       "mean_nS": 291.69,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        1.5997772757625637,
+        9.659345550261232,
+        16.53238162829296
+       ],
+       "median_screen_pct": [
+        1.0414665924471707,
+        9.753616925790881,
+        17.185590613076133
+       ]
+      },
+      {
+       "n_retained": 3200,
+       "mean_nS": 299.505,
+       "frac_full_support": 0.625,
+       "mean_screen_pct": [
+        0.06837335187110666,
+        10.532628813234428,
+        19.282315357118307
+       ],
+       "median_screen_pct": [
+        9.992007221606435e-14,
+        10.595963311559597,
+        19.439070866654085
+       ]
+      }
+     ],
+     "retained_shots_to_full_support_in_notebook_order": 4084
+    },
+    "correct|arm=correct": {
+     "rows": [
+      {
+       "n_retained": 10,
+       "mean_nS": 5.98,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        98.14722170545858,
+        95.7206451126444,
+        90.26565061076941
+       ],
+       "median_screen_pct": [
+        99.19322888652589,
+        97.72784629967724,
+        93.78403050247734
+       ]
+      },
+      {
+       "n_retained": 20,
+       "mean_nS": 11.44,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        97.06069997311941,
+        93.00020367324294,
+        83.57519395993407
+       ],
+       "median_screen_pct": [
+        98.00838055906699,
+        94.38974083807004,
+        86.06146114483376
+       ]
+      },
+      {
+       "n_retained": 50,
+       "mean_nS": 24.34,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        92.29070025324593,
+        82.55231428943667,
+        61.14829029610791
+       ],
+       "median_screen_pct": [
+        94.02071222205255,
+        85.6220300796308,
+        66.05370486221416
+       ]
+      },
+      {
+       "n_retained": 100,
+       "mean_nS": 45.065,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        83.84690310382749,
+        66.02563362701568,
+        31.70244163513296
+       ],
+       "median_screen_pct": [
+        86.77109688883226,
+        69.36642933294725,
+        32.32622371328181
+       ]
+      },
+      {
+       "n_retained": 200,
+       "mean_nS": 79.14,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        72.74253871253156,
+        46.93865821409682,
+        15.920852930379183
+       ],
+       "median_screen_pct": [
+        76.58860307520312,
+        51.25521443127088,
+        14.35735422122283
+       ]
+      },
+      {
+       "n_retained": 400,
+       "mean_nS": 128.175,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        53.137870650128825,
+        21.07723791917323,
+        32.88397575590646
+       ],
+       "median_screen_pct": [
+        52.015515846705064,
+        18.65165722550268,
+        33.44267064847155
+       ]
+      },
+      {
+       "n_retained": 800,
+       "mean_nS": 190.21,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        30.737004312411813,
+        5.4249703030834455,
+        32.67198923619765
+       ],
+       "median_screen_pct": [
+        28.55403602578922,
+        3.518836863754139,
+        32.00488424797199
+       ]
+      },
+      {
+       "n_retained": 1600,
+       "mean_nS": 248.325,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        11.137867347735229,
+        2.945047338264055,
+        16.366154451410466
+       ],
+       "median_screen_pct": [
+        10.120789167865254,
+        2.7755369562291885,
+        15.595339795211279
+       ]
+      },
+      {
+       "n_retained": 3200,
+       "mean_nS": 283.975,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        2.228227482514459,
+        1.210172538351378,
+        3.949821743055517
+       ],
+       "median_screen_pct": [
+        1.5758583078521489,
+        1.1112276220518056,
+        3.349818290364299
+       ]
+      }
+     ],
+     "retained_shots_to_full_support_in_notebook_order": 9037
+    },
+    "correct|arm=detuned": {
+     "rows": [
+      {
+       "n_retained": 10,
+       "mean_nS": 6.13,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        98.16058785263935,
+        95.8065529671446,
+        90.66585484422063
+       ],
+       "median_screen_pct": [
+        99.07835145872359,
+        97.54293800413154,
+        93.85556620816809
+       ]
+      },
+      {
+       "n_retained": 20,
+       "mean_nS": 11.065,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        96.44804003280751,
+        91.81279608540603,
+        81.57179692340736
+       ],
+       "median_screen_pct": [
+        97.37741880259331,
+        93.0717325261092,
+        83.46705731248689
+       ]
+      },
+      {
+       "n_retained": 50,
+       "mean_nS": 24.56,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        92.70556405567915,
+        83.61747876406648,
+        63.97657942713323
+       ],
+       "median_screen_pct": [
+        93.79612424394688,
+        85.05385317991099,
+        66.24237450971482
+       ]
+      },
+      {
+       "n_retained": 100,
+       "mean_nS": 44.23,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        86.7065059040241,
+        71.49074026805918,
+        40.40077143338226
+       ],
+       "median_screen_pct": [
+        87.94361838494535,
+        73.12867106071027,
+        42.98625939923883
+       ]
+      },
+      {
+       "n_retained": 200,
+       "mean_nS": 78.1,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        73.19294553793088,
+        49.27320215195361,
+        14.296387251547843
+       ],
+       "median_screen_pct": [
+        76.07095473827073,
+        51.91201015766811,
+        12.030909900022765
+       ]
+      },
+      {
+       "n_retained": 400,
+       "mean_nS": 126.79,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        55.880910379601936,
+        27.8174594163272,
+        18.915227549608193
+       ],
+       "median_screen_pct": [
+        58.076867384537756,
+        28.15852271189616,
+        18.750087919212458
+       ]
+      },
+      {
+       "n_retained": 800,
+       "mean_nS": 189.01,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        30.99690469787436,
+        10.483042444927364,
+        17.22271690772529
+       ],
+       "median_screen_pct": [
+        29.088122296596413,
+        9.341423880322177,
+        16.89667266310826
+       ]
+      },
+      {
+       "n_retained": 1600,
+       "mean_nS": 246.065,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        12.672092533106783,
+        7.4987267803536195,
+        4.716532673982269
+       ],
+       "median_screen_pct": [
+        11.319642843870877,
+        7.08863604254712,
+        4.03420567557327
+       ]
+      },
+      {
+       "n_retained": 3200,
+       "mean_nS": 282.605,
+       "frac_full_support": 0.0,
+       "mean_screen_pct": [
+        2.357615616511067,
+        9.195315028634058,
+        15.166260709109903
+       ],
+       "median_screen_pct": [
+        1.7797886485380947,
+        9.260445017042626,
+        15.867612544860426
+       ]
+      }
+     ],
+     "retained_shots_to_full_support_in_notebook_order": 6975
+    }
+   },
+   "note": "random subsets (without replacement) of the retained configs; U_rec = the arm's own U, as in the notebook"
+  }
+ },
+ "device_count_discrimination": {
+  "per_arm": {
+   "correct": {
+    "per_circuit": [
+     {
+      "k": 0,
+      "retained": 32390,
+      "tv_device_vs_own_schedule": 0.0011114541525162212,
+      "tv_device_vs_other_schedule": 0.0011114541525162212,
+      "tv_noiseless_U4_vs_U3p5": 0.0,
+      "llr_U4_vs_U3p5_per_shot": 0.0
+     },
+     {
+      "k": 1,
+      "retained": 6785,
+      "tv_device_vs_own_schedule": 0.33567618022406254,
+      "tv_device_vs_other_schedule": 0.3523068066246476,
+      "tv_noiseless_U4_vs_U3p5": 0.020630760799513453,
+      "llr_U4_vs_U3p5_per_shot": 0.023905381268541925
+     },
+     {
+      "k": 2,
+      "retained": 6951,
+      "tv_device_vs_own_schedule": 0.20441859438832796,
+      "tv_device_vs_other_schedule": 0.46776137840237897,
+      "tv_noiseless_U4_vs_U3p5": 0.3530683602628732,
+      "llr_U4_vs_U3p5_per_shot": 0.6511254000633683
+     },
+     {
+      "k": 3,
+      "retained": 6829,
+      "tv_device_vs_own_schedule": 0.252886059553607,
+      "tv_device_vs_other_schedule": 0.45256711995215204,
+      "tv_noiseless_U4_vs_U3p5": 0.49721182387115653,
+      "llr_U4_vs_U3p5_per_shot": 0.47430412303747627
+     },
+     {
+      "k": 4,
+      "retained": 6864,
+      "tv_device_vs_own_schedule": 0.24595913244112627,
+      "tv_device_vs_other_schedule": 0.4827084123186749,
+      "tv_noiseless_U4_vs_U3p5": 0.47497388385854533,
+      "llr_U4_vs_U3p5_per_shot": 0.8252821996360546
+     },
+     {
+      "k": 5,
+      "retained": 6617,
+      "tv_device_vs_own_schedule": 0.31120013348152864,
+      "tv_device_vs_other_schedule": 0.29103982477409046,
+      "tv_noiseless_U4_vs_U3p5": 0.09366314570066758,
+      "llr_U4_vs_U3p5_per_shot": -0.03979178557406128
+     },
+     {
+      "k": 6,
+      "retained": 6928,
+      "tv_device_vs_own_schedule": 0.2726038939123441,
+      "tv_device_vs_other_schedule": 0.4568067465270138,
+      "tv_noiseless_U4_vs_U3p5": 0.5428607130083238,
+      "llr_U4_vs_U3p5_per_shot": 0.3542836755574555
+     }
+    ],
+    "llr_U4_vs_U3p5_per_shot_pooled": 0.21513420207991418,
+    "n_circuits_closer_to_own_schedule": 5
+   },
+   "detuned": {
+    "per_circuit": [
+     {
+      "k": 0,
+      "retained": 32680,
+      "tv_device_vs_own_schedule": 0.0007649938800489368,
+      "tv_device_vs_other_schedule": 0.0007649938800489368,
+      "tv_noiseless_U4_vs_U3p5": 0.0,
+      "llr_U4_vs_U3p5_per_shot": 0.0
+     },
+     {
+      "k": 1,
+      "retained": 6645,
+      "tv_device_vs_own_schedule": 0.38692091040821536,
+      "tv_device_vs_other_schedule": 0.3696620285856702,
+      "tv_noiseless_U4_vs_U3p5": 0.020630760799513453,
+      "llr_U4_vs_U3p5_per_shot": 0.03164254622347119
+     },
+     {
+      "k": 2,
+      "retained": 6935,
+      "tv_device_vs_own_schedule": 0.3057316227668374,
+      "tv_device_vs_other_schedule": 0.24823327814222762,
+      "tv_noiseless_U4_vs_U3p5": 0.3530683602628732,
+      "llr_U4_vs_U3p5_per_shot": 0.2021967477067973
+     },
+     {
+      "k": 3,
+      "retained": 6876,
+      "tv_device_vs_own_schedule": 0.2265327343211203,
+      "tv_device_vs_other_schedule": 0.4911778847571608,
+      "tv_noiseless_U4_vs_U3p5": 0.49721182387115653,
+      "llr_U4_vs_U3p5_per_shot": -0.5788629221822744
+     },
+     {
+      "k": 4,
+      "retained": 7039,
+      "tv_device_vs_own_schedule": 0.2975089480178662,
+      "tv_device_vs_other_schedule": 0.38693835797777826,
+      "tv_noiseless_U4_vs_U3p5": 0.47497388385854533,
+      "llr_U4_vs_U3p5_per_shot": -0.07498140673660365
+     },
+     {
+      "k": 5,
+      "retained": 6776,
+      "tv_device_vs_own_schedule": 0.27236183071012343,
+      "tv_device_vs_other_schedule": 0.30153656817612645,
+      "tv_noiseless_U4_vs_U3p5": 0.09366314570066758,
+      "llr_U4_vs_U3p5_per_shot": -0.04835659766791839
+     },
+     {
+      "k": 6,
+      "retained": 6524,
+      "tv_device_vs_own_schedule": 0.2535890761572236,
+      "tv_device_vs_other_schedule": 0.4727914036771695,
+      "tv_noiseless_U4_vs_U3p5": 0.5428607130083238,
+      "llr_U4_vs_U3p5_per_shot": -0.5913219807836136
+     }
+    ],
+    "llr_U4_vs_U3p5_per_shot_pooled": -0.09637298834124229,
+    "n_circuits_closer_to_own_schedule": 4
+   }
+  },
+  "eps_floor": 1e-06,
+  "note": "correct bit order; retained in-sector counts vs the normalised in-sector noiseless distributions of U=4 and U=3.5; llr > 0 favours U=4"
+ },
+ "summary": {
+  "retention": {
+   "as_run": {
+    "correct": 13527,
+    "detuned": 12969
+   },
+   "correct_order": {
+    "correct": 73364,
+    "detuned": 73475
+   },
+   "raw_per_arm": 245000
+  },
+  "support": {
+   "as_run": {
+    "correct": 300,
+    "detuned": 300
+   },
+   "correct_order": {
+    "correct": 300,
+    "detuned": 300
+   }
+  },
+  "screen_pct": {
+   "as_run": {
+    "correct": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "detuned": [
+     9.992007221606435e-14,
+     10.595963311559597,
+     19.439070866654085
+    ]
+   },
+   "correct_order": {
+    "correct": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "detuned": [
+     9.992007221606435e-14,
+     10.595963311559597,
+     19.439070866654085
+    ]
+   }
+  },
+  "auc": {
+   "as_run": {
+    "auc_m0": 1.0,
+    "auc_m1": 1.0,
+    "auc_m2": 1.0,
+    "auc_unique_count": 0.5
+   },
+   "correct_order": {
+    "auc_m0": 1.0,
+    "auc_m1": 1.0,
+    "auc_m2": 1.0,
+    "auc_unique_count": 0.5
+   }
+  }
+ },
+ "verdict": {
+  "what_the_screen_tests": "Both arms have a complete support (|S| = 300/300) under both bit orders. The reconstruction diagonalises H(U_rec) on the whole sector, using the exact ED vector phi(U_rec) and E0(U_rec), so mbar equals the exact moments of H(U_rec) (difference 0.0, key data_free_control). The screen residual |mbar - m(U=4)|/m(U=4) is then a function of U_rec alone. Either arm's counts, read in either bit order, give the same screen as a data-free control (S = the full sector, no device data); the maximum difference is max_abs_diff_any_device_screen_vs_data_free_pct = 0.0. Reconstructing the correct arm with U_rec = 3.5 makes the screen fire, and reconstructing the detuned arm with U_rec = 4 makes it pass (key cross_assignment). The 'detuned arm caught' outcome therefore detects which Hamiltonian the analyst used, not the detuned device schedule. The ROC label (spectral distance > 0.05 from the U=4 ED spectrum) is also a function of U_rec, and it coincides with the arm label. All 200 bootstrap replicates of an arm give the same value (one distinct value per arm). AUC = 1 for m0 too, because its residuals are 0 and 1e-15 (rounding), not because m0 discriminates. The AUCs therefore carry no information about the device. Device data enter only through S, and only when S is incomplete (key coverage_scan): below a few thousand retained shots, the screen then responds to missing support.",
+  "bit_order": "The notebook read bitstrings with int(bs[::-1],2). That map sends qubit p to bit 11-p (up<->down, site i<->5-i), so it maps the (N=7, Sz=+1) sector onto (N=7, Sz=-1), and every noiseless shot is rejected: the noiseless in-sector mass is 0 for all 14 circuits. Every shot retained by the as-run analysis (13527 and 12969) is therefore a device error with (N=7, Sz=-1) in the true reading, a set equality checked shot by shot. With the correct map int(bs,2), retention is 73364/245000 = 29.9% and 73475/245000 = 30.0%. The support is again complete, so every screen and AUC output is unchanged.",
+  "device_data_carry_the_schedule": "This is not a moment test. Read in the correct order, the retained counts favour their own schedule in pooled log-likelihood: +0.215 per shot (towards U=4) in the correct arm and -0.096 (towards U=3.5) in the detuned arm. Among circuits k = 1..6, the counts are closer in TV to their own schedule in 5/6 (correct arm) and 4/6 (detuned arm). The device-vs-noiseless TV is 0.20-0.39 per circuit. The device output therefore carries a weak, noisy imprint of the detuning, and the moment screen as built does not use it.",
+  "paper": "Not as a result. The run is not a hardware true positive or true negative of the moment screen, because the verdict does not depend on device data at complete support, and the numbers printed on 2026-08-21 came from mis-ordered bitstrings. If the paper lists every device job, the run fits as one execution-record line: two ibm_fez Sampler jobs (ids), 2026-08-21, L=6, 7 circuits x 35 000 shots, 69 QPU-s each. One sentence of what it shows would accompany it: the support was complete in both arms (correct-order retention 29.9% / 30.0%), so a support-based reconstruction with exact amplitudes returns the exact moments of whichever Hamiltonian is assumed, and the screen cannot see the device. Otherwise the run belongs only in the repository (data/heron_gatetp_2026-08-21/, this script, this JSON). No AUC, true-positive or noise-survival claim from this run should appear anywhere."
+ },
+ "runtime_s": 635.2683987617493
+}

@@ -15,6 +15,23 @@ BRACKET; corruption size referenced to m1_EXACT (never the biased noisy estimate
 not a finding; L=6/12q is exactly diagonalizable => calibration/forecast, NOT beyond-classical;
 Aer cannot model leakage => reported floor is a LOWER bound on badness, eps* an UPPER bound on
 tolerable error.
+
+REFERENCE DEPTH G_headline: read from data/sampler_cz_count.json (generator src/sampler_cz_count.py),
+key headline.G_L8_deployed_median = median transpiled CZ count of the 24 deployed ISA circuits (k>=1)
+of our four L=8 Sampler jobs on ibm_fez. It is the depth of those sampler circuits, not of the
+ground-state preparation the bond-basis estimator needs. Override for checks: env P3_G_HEADLINE.
+
+CARRIERS: CZ unitaries in cancelling pairs (cz;cz = I), so only the noise acts. The depolarizing
+channel is unitarily covariant and RZZ commutes with CZ, so this equals G error channels; an odd G is
+completed by one extra error channel on the next pair (no unpaired CZ unitary). Even G is unchanged.
+
+CROSSING (exploratory, not used in the paper): eps*(Delta) is reported only for rungs that clear
+5x the shot CI noiselessly (fair_5x), at the FIRST sign change of Delta - |B(eps)| - z*sigma_shot on
+the eps grid (log-interpolated): crossing_CORRECTED.
+
+Environment of the deposited output: qiskit 1.4.6, qiskit-aer 0.17.2, numpy 2.4.6, scipy 1.17.1.
+Output: data/2026-08-30_offdiag_noise_forecast.json (fixed name; run_date inside; env P3_FORECAST_OUT
+overrides the path).
 """
 import os, json, time, hashlib
 import numpy as np
@@ -24,6 +41,10 @@ from qiskit_aer.noise import NoiseModel, depolarizing_error
 import bond_moment_estimator as bme
 
 # ----------------------------- FROZEN MANIFEST (pre-registered) -----------------------------
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_CZJ = os.path.normpath(os.path.join(_HERE, '..', 'data', 'sampler_cz_count.json'))
+_G_REF = int(round(json.load(open(_CZJ))['headline']['G_L8_deployed_median']))
+_G_HEAD = int(os.environ.get('P3_G_HEADLINE', _G_REF))
 MANIFEST = {
     'script': 'offdiag_noise_forecast.py', 'sim_only': True, 'qpu_used': False,
     'master_seed': 20260830, 'robustness_seeds': [1, 2, 3, 4, 5],
@@ -31,7 +52,10 @@ MANIFEST = {
     'estimand': 'm1 = <drho (H-E0) drho>  (PSD, biased toward Tr(M1)/dim under depolarizing)',
     'eps_grid': [0.0, 1e-5, 3e-5, 1e-4, 3e-4, 1e-3, 2e-3, 2.5e-3, 3e-3, 5e-3, 1e-2, 3e-2, 1e-1],
     'ibm_fez_2q_anchor': 2.5e-3, 'ibm_fez_readout': [0.008, 0.018], 'ibm_fez_1q': 2.5e-4,
-    'G_headline': 292, 'G_surface': [20, 60, 100, 200, 292],
+    'G_headline': _G_HEAD,
+    'G_headline_source': ('data/sampler_cz_count.json headline.G_L8_deployed_median (median CZ of the 24 '
+                          'deployed L=8 ISA circuits, k>=1)' if _G_HEAD == _G_REF else 'env P3_G_HEADLINE override'),
+    'G_surface': 'offdiag_gsurface.py',
     'corruption_coverages': [1.0, 0.9, 0.75, 0.5, 0.25, 0.1],
     'ns_shots': 50000, 'shot_reps': 32, 'z': 1.96,
     'fair_test_margin': 5.0,            # corruption must clear 5x shot-CI noiselessly
@@ -103,14 +127,21 @@ SIM_DM = AerSimulator(method='density_matrix'); SIM_DM.set_options(fusion_enable
 SIM_SV = AerSimulator(method='statevector'); SIM_SV.set_options(fusion_enable=False)
 PAIRS = [(i, i + 1) for i in range(NQ - 1)]
 
-def _carriers(qc, npairs, coherent_theta=0.0):
-    """npairs identity carriers cz;cz (= I). If coherent_theta>0: cz;RZZ(th);cz;RZZ(th) coherent edge."""
-    for k in range(npairs):
+def _carriers(qc, ncz, coherent_theta=0.0, eps=0.0):
+    """ncz//2 identity carriers cz;cz (= I). If coherent_theta>0: cz;RZZ(th);cz;RZZ(th) coherent edge.
+    Odd ncz: one extra error channel on the next pair (RZZ(th) if coherent, else depolarizing(eps))."""
+    for k in range(ncz // 2):
         a, b = PAIRS[k % len(PAIRS)]
         qc.cz(a, b)
         if coherent_theta: qc.rzz(coherent_theta, a, b)
         qc.cz(a, b)
         if coherent_theta: qc.rzz(coherent_theta, a, b)
+    if ncz % 2:
+        a, b = PAIRS[(ncz // 2) % len(PAIRS)]
+        if coherent_theta:
+            qc.rzz(coherent_theta, a, b)
+        elif eps > 0:
+            qc.append(depolarizing_error(eps, 2).to_instruction(), [a, b])
 
 def moment_on_rho(rho, Md):
     return float(np.real(np.tensordot(rho, Md.T, axes=([0, 1], [0, 1]))))
@@ -118,7 +149,7 @@ def moment_on_rho(rho, Md):
 def moments_depol(eps, ncz, Mds, seed=0):
     """DENSITY-MATRIX exact: depolarizing 2q noise on cz carriers. Returns [<Md>] for each Md in Mds."""
     qc = QuantumCircuit(NQ); qc.set_statevector(gs)
-    _carriers(qc, ncz // 2, coherent_theta=0.0)
+    _carriers(qc, ncz, coherent_theta=0.0, eps=eps)
     qc.save_density_matrix()
     nm = NoiseModel()
     if eps > 0:
@@ -130,7 +161,7 @@ def moment_coherent(eps, ncz, Md):
     """STATEVECTOR (fast): coherent ZZ over-rotation theta=sqrt(eps) per cz, NO decoherence -> pure state."""
     th = np.sqrt(eps)
     qc = QuantumCircuit(NQ); qc.set_statevector(gs)
-    _carriers(qc, ncz // 2, coherent_theta=th)
+    _carriers(qc, ncz, coherent_theta=th)
     qc.save_statevector()
     sv = np.asarray(SIM_SV.run(qc).result().data()['statevector'])
     return float(np.real(sv.conj() @ (Md @ sv)))
@@ -149,59 +180,58 @@ for eps in MANIFEST['eps_grid']:
     print(f"  eps={eps:.1e}  B_depol={m1_d-m1e:+.3f}  B_coher={m1_c-m1e:+.3f}  "
           f"B_folklore={B_gd:+.3f}  m0_bias={m0_d-m0e:+.4f}  [{time.time()-t0:.0f}s]")
 
-# ----------------------------- STEP 11: crossing eps*(Delta) per corruption -----------------------------
-def crossing(Bcurve):
-    """largest eps with Delta - |B(eps)| > z*sigma_shot, per ladder rung (bias-dominated)."""
+# ----------------------------- STEP 11: crossing eps*(Delta) per corruption (exploratory) -----------------------------
+def first_crossing(Bcurve, D):
+    """first eps-grid sign change of Delta - |B(eps)| - z*sigma_shot, log-interpolated (None if none)."""
     epsg = [s['eps'] for s in sweep]; Bg = [abs(s[Bcurve]) for s in sweep]
-    out = []
-    for L in ladder:
-        D = L['Delta']; thr = Z * sigma_shot
-        usable = [e for e, b in zip(epsg, Bg) if (D - b) > thr]
-        estar = max(usable) if usable else 0.0
-        # interpolate the bias=Delta-band crossing for a smooth number
-        cross = None
-        for i in range(len(epsg) - 1):
-            f0 = D - Bg[i] - thr; f1 = D - Bg[i + 1] - thr
-            if f0 > 0 >= f1:
-                lo, hi = epsg[i], epsg[i + 1]
-                if lo > 0:
-                    cross = float(np.exp(np.log(lo) + (np.log(hi) - np.log(lo)) * f0 / (f0 - f1)))
-                else:
-                    cross = float(hi * f0 / (f0 - f1))
-                break
-        out.append({'coverage': L['coverage'], 'Delta': D, 'eps_star_grid': estar,
-                    'eps_star_interp': cross, 'usable_at_ibmfez': bool(D - abs(
-                        next(s[Bcurve] for s in sweep if abs(s['eps'] - MANIFEST['ibm_fez_2q_anchor']) < 1e-9)) > thr)})
-    return out
+    thr = Z * sigma_shot
+    for i in range(len(epsg) - 1):
+        f0 = D - Bg[i] - thr; f1 = D - Bg[i + 1] - thr
+        if f0 > 0 >= f1:
+            lo, hi = epsg[i], epsg[i + 1]
+            if lo > 0:
+                return float(np.exp(np.log(lo) + (np.log(hi) - np.log(lo)) * f0 / (f0 - f1)))
+            return float(hi * f0 / (f0 - f1))
+    return None
 
-cross_depol = crossing('B_depol'); cross_coher = crossing('B_coherent')
-print("\n[crossing] eps*(Delta)  (largest 2q error where the corruption still clears floor+band):")
-for cd, cc in zip(cross_depol, cross_coher):
-    ed = cd['eps_star_interp']; ec = cc['eps_star_interp']
-    print(f"   cov={cd['coverage']:.2f} Delta={cd['Delta']:.3f}  eps*_depol="
-          f"{ed if ed else 0:.2e}  eps*_coherent={ec if ec else 0:.2e}  "
-          f"usable@ibm_fez(2.5e-3)={cd['usable_at_ibmfez']}")
+fair_thr = MANIFEST['fair_test_margin'] * Z * sigma_shot
+crossing_corr = []
+for L in ladder:
+    fair = bool(L['Delta'] > fair_thr)
+    crossing_corr.append({'coverage': L['coverage'], 'Delta': L['Delta'], 'fair_5x': fair,
+                          'eps_star_depol_firstcross': first_crossing('B_depol', L['Delta']) if fair else None,
+                          'eps_star_coherent_firstcross': first_crossing('B_coherent', L['Delta']) if fair else None,
+                          'note': f'only fair (Delta>5x shot-CI={fair_thr:.3f}) rungs get a crossing; '
+                                  'support-truncation class, not used in the paper'})
+print("\n[crossing] eps*(Delta), fair rungs only (exploratory):")
+for c in crossing_corr:
+    print(f"   cov={c['coverage']:.2f} Delta={c['Delta']:.3f} fair={c['fair_5x']}  "
+          f"eps*_depol={c['eps_star_depol_firstcross']}  eps*_coherent={c['eps_star_coherent_firstcross']}")
 
 # ----------------------------- non-folklore deviation test -----------------------------
 dev = [{'eps': s['eps'], 'B_depol': s['B_depol'], 'B_folklore': s['B_folklore'],
         'rel_dev': (s['B_depol'] - s['B_folklore']) / max(abs(s['B_folklore']), 1e-9)} for s in sweep if s['eps'] > 0]
 
 # ----------------------------- write results + manifest hash -----------------------------
-RES = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data'))
+RES = os.path.normpath(os.path.join(_HERE, '..', 'data'))
 os.makedirs(RES, exist_ok=True)
+sa = next(s_ for s_ in sweep if abs(s_['eps'] - MANIFEST['ibm_fez_2q_anchor']) < 1e-12)
+at_anchor = {'eps': sa['eps'], 'G': GH,
+             'pct_depol_local': 100 * sa['B_depol'] / m1e, 'pct_global_folklore': 100 * sa['B_folklore'] / m1e,
+             'pct_coherent': 100 * sa['B_coherent'] / m1e}
 out = {'_manifest': MANIFEST,
        '_manifest_hash': hashlib.sha256(json.dumps(MANIFEST, sort_keys=True).encode()).hexdigest()[:16],
        'anchors': {'E0': E0, 'm0_exact': m0e, 'm1_exact': m1e, 'm2_exact': m2e,
                    'TrM0_dim': trM0, 'TrM1_dim': trM1, 'ratio_m1': trM1 / m1e,
                    'Bmax': Bmax, 'sigma_shot': sigma_shot, 'n_groups_m0m1': ng},
        'ladder': ladder, 'sweep_G%d' % GH: sweep,
-       'crossing_depol': cross_depol, 'crossing_coherent': cross_coher,
+       'at_ibm_fez_anchor': at_anchor,
        'folklore_deviation': dev,
+       'crossing_CORRECTED': crossing_corr,
+       'generator': 'src/offdiag_noise_forecast.py', 'run_date': time.strftime('%Y-%m-%d'),
        'runtime_s': time.time() - t0}
-stamp = time.strftime('%Y-%m-%d')
-fn = os.path.join(RES, f'{stamp}_offdiag_noise_forecast.json')
+fn = os.environ.get('P3_FORECAST_OUT', os.path.join(RES, '2026-08-30_offdiag_noise_forecast.json'))
 json.dump(out, open(fn, 'w'), indent=2)
 print(f"\n[write] {fn}   manifest_hash={out['_manifest_hash']}   runtime={out['runtime_s']:.0f}s")
-print("[expectation check] honest negative-with-a-number:",
-      "off-diagonal UNUSABLE at ibm_fez" if not any(c['usable_at_ibmfez'] for c in cross_depol)
-      else "SOME corruptions usable at ibm_fez -- inspect")
+print(f"[at ibm_fez anchor eps={sa['eps']:.1e}, G={GH}] bias/m1: local depol {at_anchor['pct_depol_local']:.2f}%  "
+      f"global {at_anchor['pct_global_folklore']:.2f}%  coherent {at_anchor['pct_coherent']:.2f}%")

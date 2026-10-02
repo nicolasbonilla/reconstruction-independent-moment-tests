@@ -1,4 +1,7 @@
-% fig_teeth_shared.tex -- native pgfplots. The SHARED-STATE teeth: both branches evaluated classically on the SAME
+% fig_teeth_shared.tex -- native pgfplots.
+% 2026-10-02 (restructure: Fig. teeth merged here): the circular control of the former fig_teeth
+% (column rcirc of teeth.dat, identically zero: mbar_1 compared with itself) is drawn as a fourth curve, so that this
+% one figure carries the idealized, shared-state and circular comparisons. fig_teeth.tex is no longer input. The SHARED-STATE teeth: both branches evaluated classically on the SAME
 % subspace ground state |0_S> of H_S = Pi_S H Pi_S (Eq. app-leak, k=1), beside the idealized full-sector-GS curve.
 % No shots and no device: the estimator needs only the sampled support and is classical post-processing; it is not a
 % moment measured on a device. The support here is a deterministic truncation to the top-d configurations by |psi0|^2.
@@ -7,7 +10,7 @@
 % Delta_0 / mhat_0 (column leak).
 % x = determinants kept d (log, REVERSED: full support left where curves ~0, truncation right where they saturate ~100%).
 % The 5% line is an illustrative fixed threshold, not the deployed tau_1 rule.
-% 2026-09-28 (review pass E: R1-01, V1, V3, V9): (i) added the zeroth-order shared-state residual
+% 2026-09-28: (i) added the zeroth-order shared-state residual
 % Delta_0/mhat_0 = 1 - |Pi_S J|0_S>|^2 / |J|0_S>|^2 (column leak, run_teeth_shared.py l.104-107: the fraction of
 % |J|0_S>|^2 outside S, i.e. the captured-weight deficit 1 - w), drawn in ink (not teal, which figstyle reserves for agreement), dash-dotted, with open triangle markers. In
 % teeth_shared.dat it lies above the shared-state Delta_1 curve from d = 175758 down to d = 2200 (e.g. 4.02 vs 1.43 at
@@ -48,6 +51,10 @@
            mark options={fill=white, draw=pInk, line width=0.6pt, solid}]
       table[x=d,y=leak]{figs/teeth_shared.dat};
   \addlegendentry{shared-state $\Delta_0/\widehat m_0$}
+
+  % circular control (former fig_teeth): mbar_1 against itself, identically zero on every state
+  \addplot[blindline, mark options={fill=white, draw=pBlind, solid}] table[x=d,y=rcirc]{figs/teeth.dat};
+  \addlegendentry{circular control (zero)}
 
   % interpolated 5% crossings of the two Delta_1 curves: open crimson rings (values in the caption)
   \addplot[only marks, mark=o, mark size=3pt, pCrimson, line width=0.8pt, forget plot]

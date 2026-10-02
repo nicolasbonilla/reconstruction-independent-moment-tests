@@ -74,6 +74,7 @@
    0.22893655144803715,
    1.8475971101504203
   ],
+  "tau5_same_rule": 998.122284707246,
   "lp_ranges": [
    {
     "K": 1,
@@ -96,7 +97,25 @@
      -0.3927442186134419,
      -0.11577961872324935,
      0.34066543271244265
-    ]
+    ],
+    "next_order_at_optimum": {
+     "order": 3,
+     "tau_same_rule": 14.981135887799068,
+     "Delta_at_argmax": 151.55542163493402,
+     "Delta_at_argmax_over_tau": 10.116417257676952,
+     "Delta_range_over_optimal_face_argmax": [
+      151.55542147825145,
+      151.55542163493402
+     ],
+     "optimum_unique_in_Delta_next_argmax": true,
+     "Delta_at_argmin": -16.88877933339176,
+     "Delta_at_argmin_over_tau": -1.1273363688761622,
+     "Delta_range_over_optimal_face_argmin": [
+      -16.88877933339176,
+      -16.888779311239233
+     ],
+     "optimum_unique_in_Delta_next_argmin": true
+    }
    },
    {
     "K": 2,
@@ -119,7 +138,25 @@
      -0.0311840976271622,
      -0.11577961872324935,
      0.062339512103890944
-    ]
+    ],
+    "next_order_at_optimum": {
+     "order": 4,
+     "tau_same_rule": 121.99856609051274,
+     "Delta_at_argmax": 144.74023877102934,
+     "Delta_at_argmax_over_tau": 1.1864093440544554,
+     "Delta_range_over_optimal_face_argmax": [
+      144.74023859859278,
+      144.74023877103048
+     ],
+     "optimum_unique_in_Delta_next_argmax": true,
+     "Delta_at_argmin": -3.6910019958611198,
+     "Delta_at_argmin_over_tau": -0.03025447031174698,
+     "Delta_range_over_optimal_face_argmin": [
+      -3.691001995861118,
+      -3.69100199177841
+     ],
+     "optimum_unique_in_Delta_next_argmin": true
+    }
    },
    {
     "K": 3,
@@ -142,7 +179,25 @@
      0.013770337197999123,
      -0.012239491029449549,
      0.0017374199102707794
-    ]
+    ],
+    "next_order_at_optimum": {
+     "order": 5,
+     "tau_same_rule": 998.122284707246,
+     "Delta_at_argmax": 13.900840749354757,
+     "Delta_at_argmax_over_tau": 0.01392699167460422,
+     "Delta_range_over_optimal_face_argmax": [
+      13.900840735456045,
+      13.900840749354128
+     ],
+     "optimum_unique_in_Delta_next_argmax": true,
+     "Delta_at_argmin": -10.766096754425092,
+     "Delta_at_argmin_over_tau": -0.010786350449617343,
+     "Delta_range_over_optimal_face_argmin": [
+      -10.766096754425092,
+      -10.76609674365966
+     ],
+     "optimum_unique_in_Delta_next_argmin": true
+    }
    }
   ],
   "null_space_dims": {
@@ -447,8 +502,8 @@
    "script": "src/within_sector_lp.py",
    "command": "cd src && python within_sector_lp.py",
    "seed": null,
-   "runtime_s": 16.0,
-   "run_date": "2026-09-27",
+   "runtime_s": 61.34,
+   "run_date": "2026-10-02",
    "environment": {
     "python": "3.11.4",
     "numpy": "1.26.4",
@@ -460,7 +515,7 @@
  },
  "provenance": {
   "file": "data/2026-09-27_theory_numerics.json",
-  "what": "P3 revision (SciPost Physics Core), area A3 theory numerics: plan items R3 R4 R5 R6 R8 R9 R11 M1 M5 M6 m1 m2 m4 and critic items 5, 12 (PLAN_P3_2026-09-26.md). One key per item; each key has its own provenance (script, seed, runtime). Simulation/exact numerics only; no device data.",
+  "what": "P3 revision (SciPost Physics Core), area A3 theory numerics: plan items R3 R4 R5 R6 R8 R9 R11 M1 M5 M6 m1 m2 m4 and critic items 5, 12 (PLAN_P3_2026-09-26.md); audit 2026-10-02 items N3 (R3 next_order_at_optimum), MA-3/D6 (M1 sharp constant), MA-6, B2, SOTA1-02. One key per item; each key has its own provenance (script, seed, runtime). Simulation/exact numerics only; no device data.",
   "regenerate_all": "cd src && python small_checks.py --all",
   "key_owners": {
    "R3_within_sector_lp": "within_sector_lp.py",
@@ -475,12 +530,17 @@
    "R11_trace_over_dim": "small_checks.py",
    "m4_psd_and_symmetry": "small_checks.py",
    "M5_christoffel_claims": "small_checks.py (derived from R4, R9)",
-   "M6_inverse_moment_claim": "small_checks.py (derived from R8)"
+   "M6_inverse_moment_claim": "small_checks.py (derived from R8)",
+   "MA6_estimator_shape_by_order": "small_checks.py",
+   "B2_one_node_m2_deficit": "small_checks.py (derived from R8 and data/2026-10-02_full_support_rr.json)",
+   "SOTA1_02_W1_transport": "small_checks.py (derived from data/2026-10-02_full_support_rr.json)"
   },
   "keys_present": [
+   "B2_one_node_m2_deficit",
    "M1_shifted_power_bound",
    "M5_christoffel_claims",
    "M6_inverse_moment_claim",
+   "MA6_estimator_shape_by_order",
    "R11_trace_over_dim",
    "R3_within_sector_lp",
    "R4_tolerance_inflated_atom",
@@ -488,11 +548,12 @@
    "R6_estimator_forms_off_eigenstate",
    "R8_inverse_moment_sensitivity",
    "R9_christoffel_max_Wn",
+   "SOTA1_02_W1_transport",
    "m1_radau_outside_hull",
    "m2_rescaled_frame",
    "m4_psd_and_symmetry"
   ],
-  "last_write": "2026-09-27T17:38:06"
+  "last_write": "2026-10-02T14:41:07"
  },
  "M1_shifted_power_bound": {
   "bound": "if delta preserves m0..m_{s-2} and supp(delta) lies in a cluster of diameter D, midpoint c: Delta_{s-1} = sum_n delta_n (omega_n - c)^{s-1}, |Delta_{s-1}| <= rho (D/2)^{s-1}, rho=||delta||_1",
@@ -512,7 +573,10 @@
     "n_support": 5,
     "bound_rho_Dhalf_pow": 49.54682131661995,
     "ratio_abs_Delta_over_bound": 0.06970824085893709,
-    "bound_holds": true
+    "bound_holds": true,
+    "bound_sharp_2rho_Dquarter_pow": 12.386705329154987,
+    "ratio_abs_Delta_over_sharp": 0.27883296343574837,
+    "sharp_bound_holds": true
    },
    {
     "case": "CE2",
@@ -529,7 +593,10 @@
     "n_support": 5,
     "bound_rho_Dhalf_pow": 14.9762696032919,
     "ratio_abs_Delta_over_bound": 0.12336831260999098,
-    "bound_holds": true
+    "bound_holds": true,
+    "bound_sharp_2rho_Dquarter_pow": 7.48813480164595,
+    "ratio_abs_Delta_over_sharp": 0.24673662521998196,
+    "sharp_bound_holds": true
    },
    {
     "case": "LP_argmax_K1",
@@ -546,7 +613,10 @@
     "n_support": 5,
     "bound_rho_Dhalf_pow": 16.117368056651138,
     "ratio_abs_Delta_over_bound": 0.4399771997130149,
-    "bound_holds": true
+    "bound_holds": true,
+    "bound_sharp_2rho_Dquarter_pow": 8.058684028325569,
+    "ratio_abs_Delta_over_sharp": 0.8799543994260298,
+    "sharp_bound_holds": true
    },
    {
     "case": "LP_argmin_K1",
@@ -563,7 +633,10 @@
     "n_support": 5,
     "bound_rho_Dhalf_pow": 4.958032029606291,
     "ratio_abs_Delta_over_bound": 0.185695705431006,
-    "bound_holds": true
+    "bound_holds": true,
+    "bound_sharp_2rho_Dquarter_pow": 2.4790160148031455,
+    "ratio_abs_Delta_over_sharp": 0.371391410862012,
+    "sharp_bound_holds": true
    },
    {
     "case": "LP_argmax_K2",
@@ -580,7 +653,10 @@
     "n_support": 5,
     "bound_rho_Dhalf_pow": 23.385587912688564,
     "ratio_abs_Delta_over_bound": 0.22508748158479516,
-    "bound_holds": true
+    "bound_holds": true,
+    "bound_sharp_2rho_Dquarter_pow": 5.846396978172141,
+    "ratio_abs_Delta_over_sharp": 0.9003499263391807,
+    "sharp_bound_holds": true
    },
    {
     "case": "LP_argmin_K2",
@@ -597,7 +673,10 @@
     "n_support": 5,
     "bound_rho_Dhalf_pow": 0.6470293081424892,
     "ratio_abs_Delta_over_bound": 0.21088359929193282,
-    "bound_holds": true
+    "bound_holds": true,
+    "bound_sharp_2rho_Dquarter_pow": 0.1617573270356223,
+    "ratio_abs_Delta_over_sharp": 0.8435343971677313,
+    "sharp_bound_holds": true
    },
    {
     "case": "LP_argmax_K3",
@@ -614,7 +693,10 @@
     "n_support": 5,
     "bound_rho_Dhalf_pow": 7.955977158647186,
     "ratio_abs_Delta_over_bound": 0.049228863423363994,
-    "bound_holds": true
+    "bound_holds": true,
+    "bound_sharp_2rho_Dquarter_pow": 0.9944971448308982,
+    "ratio_abs_Delta_over_sharp": 0.39383090738691195,
+    "sharp_bound_holds": true
    },
    {
     "case": "LP_argmin_K3",
@@ -631,7 +713,10 @@
     "n_support": 5,
     "bound_rho_Dhalf_pow": 6.16184455389596,
     "ratio_abs_Delta_over_bound": 0.04922886342335788,
-    "bound_holds": true
+    "bound_holds": true,
+    "bound_sharp_2rho_Dquarter_pow": 0.770230569236995,
+    "ratio_abs_Delta_over_sharp": 0.39383090738686305,
+    "sharp_bound_holds": true
    },
    {
     "case": "committed_seed0_K1",
@@ -648,7 +733,10 @@
     "n_support": 5,
     "bound_rho_Dhalf_pow": 4.306570201862132,
     "ratio_abs_Delta_over_bound": 0.019050873981012295,
-    "bound_holds": true
+    "bound_holds": true,
+    "bound_sharp_2rho_Dquarter_pow": 2.153285100931066,
+    "ratio_abs_Delta_over_sharp": 0.03810174796202459,
+    "sharp_bound_holds": true
    },
    {
     "case": "committed_seed0_K2",
@@ -665,7 +753,10 @@
     "n_support": 5,
     "bound_rho_Dhalf_pow": 0.41867902980562194,
     "ratio_abs_Delta_over_bound": 0.18559293943733937,
-    "bound_holds": true
+    "bound_holds": true,
+    "bound_sharp_2rho_Dquarter_pow": 0.10466975745140548,
+    "ratio_abs_Delta_over_sharp": 0.7423717577493575,
+    "sharp_bound_holds": true
    },
    {
     "case": "committed_seed0_K3",
@@ -682,11 +773,98 @@
     "n_support": 5,
     "bound_rho_Dhalf_pow": 4.9294756431152305,
     "ratio_abs_Delta_over_bound": 0.0492288634234239,
-    "bound_holds": true
+    "bound_holds": true,
+    "bound_sharp_2rho_Dquarter_pow": 0.6161844553894038,
+    "ratio_abs_Delta_over_sharp": 0.3938309073873912,
+    "sharp_bound_holds": true
    }
   ],
   "all_cases_hold": true,
   "max_identity_rel_err": 1.542227518714383e-12,
+  "bound_sharp": "|Delta_{s-1}| <= 2 rho (D/4)^{s-1} = 2^{2-s} rho (D/2)^{s-1}: Delta_{s-1} = sum_n delta_n p(omega_n) for every monic p of degree s-1 (m_0..m_{s-2} preserved) and sum_n delta_n = 0 gives |Delta_{s-1}| <= rho (max p - min p)/2 on the cluster; the monic Chebyshev polynomial of the cluster has max - min = 4 (D/4)^{s-1}. Attained by alternating weights on its s extrema.",
+  "all_cases_hold_sharp": true,
+  "chebyshev_extrema_attainment": [
+   {
+    "s": 2,
+    "D": 1.0,
+    "rho": 1.0,
+    "max_abs_preserved_moment_shift_centered": 0.0,
+    "abs_Delta_s_minus_1": 0.5,
+    "sharp_bound": 0.5,
+    "ratio_to_sharp": 1.0,
+    "ratio_to_loose": 1.0
+   },
+   {
+    "s": 2,
+    "D": 0.1,
+    "rho": 1.0,
+    "max_abs_preserved_moment_shift_centered": 0.0,
+    "abs_Delta_s_minus_1": 0.04999999999999982,
+    "sharp_bound": 0.05,
+    "ratio_to_sharp": 0.9999999999999964,
+    "ratio_to_loose": 0.9999999999999964
+   },
+   {
+    "s": 3,
+    "D": 1.0,
+    "rho": 1.0,
+    "max_abs_preserved_moment_shift_centered": 0.0,
+    "abs_Delta_s_minus_1": 0.125,
+    "sharp_bound": 0.125,
+    "ratio_to_sharp": 1.0,
+    "ratio_to_loose": 0.5
+   },
+   {
+    "s": 3,
+    "D": 0.1,
+    "rho": 1.0,
+    "max_abs_preserved_moment_shift_centered": 0.0,
+    "abs_Delta_s_minus_1": 0.0012500000000006395,
+    "sharp_bound": 0.0012500000000000002,
+    "ratio_to_sharp": 1.0000000000005114,
+    "ratio_to_loose": 0.5000000000002557
+   },
+   {
+    "s": 4,
+    "D": 1.0,
+    "rho": 1.0,
+    "max_abs_preserved_moment_shift_centered": 0.0,
+    "abs_Delta_s_minus_1": 0.03125000000001421,
+    "sharp_bound": 0.03125,
+    "ratio_to_sharp": 1.0000000000004547,
+    "ratio_to_loose": 0.2500000000001137
+   },
+   {
+    "s": 4,
+    "D": 0.1,
+    "rho": 1.0,
+    "max_abs_preserved_moment_shift_centered": 2.949029909160572e-16,
+    "abs_Delta_s_minus_1": 3.1249999949523044e-05,
+    "sharp_bound": 3.125000000000001e-05,
+    "ratio_to_sharp": 0.9999999983847372,
+    "ratio_to_loose": 0.2499999995961843
+   },
+   {
+    "s": 5,
+    "D": 1.0,
+    "rho": 1.0,
+    "max_abs_preserved_moment_shift_centered": 6.938893903907228e-17,
+    "abs_Delta_s_minus_1": 0.0078125,
+    "sharp_bound": 0.0078125,
+    "ratio_to_sharp": 1.0,
+    "ratio_to_loose": 0.125
+   },
+   {
+    "s": 5,
+    "D": 0.1,
+    "rho": 1.0,
+    "max_abs_preserved_moment_shift_centered": 1.951563910473908e-18,
+    "abs_Delta_s_minus_1": 7.812499234205461e-07,
+    "sharp_bound": 7.812500000000001e-07,
+    "ratio_to_sharp": 0.9999999019782988,
+    "ratio_to_loose": 0.12499998774728735
+   }
+  ],
   "random_null_space_mc": {
    "n": 20000,
    "seed": 20260927,
@@ -708,6 +886,13 @@
     "3": 5518,
     "4": 2860,
     "5": 1226
+   },
+   "n_violations_sharp": 0,
+   "max_ratio_sharp_by_s": {
+    "2": 1.0000000000000016,
+    "3": 0.9976471428920011,
+    "4": 0.9238247551781557,
+    "5": 0.39383090738741494
    }
   },
   "synthetic_clusters": [
@@ -847,8 +1032,8 @@
    "script": "src/within_sector_lp.py",
    "command": "cd src && python within_sector_lp.py",
    "seed": 20260927,
-   "runtime_s": 16.0,
-   "run_date": "2026-09-27",
+   "runtime_s": 61.34,
+   "run_date": "2026-10-02",
    "environment": {
     "python": "3.11.4",
     "numpy": "1.26.4",
@@ -1366,8 +1551,10 @@
   "system": "L=6, U/t=4 (2,2) ring current, dim 225, 186 nonzero GS amplitudes",
   "m1_exact": 4.2270876335360175,
   "tau1_deployed": 0.22893655144803715,
+  "tau0_deployed": 0.02867668723024128,
   "n_support": 186,
   "dim": 225,
+  "zeroth_order_note": "O_0 = C_0 = J^dag J: the m_0 comparison (mhat_0 = ||J|x>||^2 against m_bar_0 = ||P_S J|x>||^2) is the same for both forms, so the battery verdict at a cut that m_0 rejects does not depend on the m_1 form",
   "forms": {
    "A": "<x|J(H-e0)J|x>, e0=<x|H|x>",
    "B": "1/2<x|[J,[H,J]]|x>",
@@ -1395,7 +1582,14 @@
      "exact_fires": false,
      "verdicts_A_B_disagree": false,
      "cut_inside_degenerate_shell": true,
-     "shell_size": 39
+     "shell_size": 39,
+     "mhat_0_shared_state": 0.5541988421957376,
+     "m_bar_0": 0.5541988421957376,
+     "Delta0_shared": 0.0,
+     "Delta0_over_tau0": 0.0,
+     "m0_fires": false,
+     "battery_m0_m1_rejects_with_A": false,
+     "battery_m0_m1_rejects_with_B": false
     },
     {
      "d": 186,
@@ -1416,7 +1610,14 @@
      "exact_fires": false,
      "verdicts_A_B_disagree": false,
      "cut_inside_degenerate_shell": false,
-     "shell_size": 0
+     "shell_size": 0,
+     "mhat_0_shared_state": 0.5541988421957375,
+     "m_bar_0": 0.5541988421957375,
+     "Delta0_shared": 0.0,
+     "Delta0_over_tau0": 0.0,
+     "m0_fires": false,
+     "battery_m0_m1_rejects_with_A": false,
+     "battery_m0_m1_rejects_with_B": false
     },
     {
      "d": 150,
@@ -1437,7 +1638,14 @@
      "exact_fires": true,
      "verdicts_A_B_disagree": false,
      "cut_inside_degenerate_shell": false,
-     "shell_size": 0
+     "shell_size": 0,
+     "mhat_0_shared_state": 0.5860924719956944,
+     "m_bar_0": 0.4254945871369012,
+     "Delta0_shared": 0.16059788485879317,
+     "Delta0_over_tau0": 5.600294189122135,
+     "m0_fires": true,
+     "battery_m0_m1_rejects_with_A": true,
+     "battery_m0_m1_rejects_with_B": true
     },
     {
      "d": 100,
@@ -1458,7 +1666,14 @@
      "exact_fires": true,
      "verdicts_A_B_disagree": true,
      "cut_inside_degenerate_shell": true,
-     "shell_size": 24
+     "shell_size": 24,
+     "mhat_0_shared_state": 0.8425089216726499,
+     "m_bar_0": 0.5007700890991287,
+     "Delta0_shared": 0.3417388325735212,
+     "Delta0_over_tau0": 11.916956440252179,
+     "m0_fires": true,
+     "battery_m0_m1_rejects_with_A": true,
+     "battery_m0_m1_rejects_with_B": true
     },
     {
      "d": 75,
@@ -1479,7 +1694,14 @@
      "exact_fires": true,
      "verdicts_A_B_disagree": false,
      "cut_inside_degenerate_shell": true,
-     "shell_size": 24
+     "shell_size": 24,
+     "mhat_0_shared_state": 1.1306237353467028,
+     "m_bar_0": 0.34891261920023164,
+     "Delta0_shared": 0.7817111161464712,
+     "Delta0_over_tau0": 27.259463754310858,
+     "m0_fires": true,
+     "battery_m0_m1_rejects_with_A": true,
+     "battery_m0_m1_rejects_with_B": true
     },
     {
      "d": 50,
@@ -1500,7 +1722,14 @@
      "exact_fires": true,
      "verdicts_A_B_disagree": false,
      "cut_inside_degenerate_shell": true,
-     "shell_size": 24
+     "shell_size": 24,
+     "mhat_0_shared_state": 1.5812829717180106,
+     "m_bar_0": 0.1774438775449339,
+     "Delta0_shared": 1.4038390941730767,
+     "Delta0_over_tau0": 48.95401909229754,
+     "m0_fires": true,
+     "battery_m0_m1_rejects_with_A": true,
+     "battery_m0_m1_rejects_with_B": true
     },
     {
      "d": 30,
@@ -1521,7 +1750,14 @@
      "exact_fires": true,
      "verdicts_A_B_disagree": false,
      "cut_inside_degenerate_shell": false,
-     "shell_size": 0
+     "shell_size": 0,
+     "mhat_0_shared_state": 1.9999999999999998,
+     "m_bar_0": 8.59735127174462e-31,
+     "Delta0_shared": 1.9999999999999998,
+     "Delta0_over_tau0": 69.74306285598011,
+     "m0_fires": true,
+     "battery_m0_m1_rejects_with_A": true,
+     "battery_m0_m1_rejects_with_B": true
     }
    ],
    "argsort_scratch_2026-09-26": [
@@ -1544,7 +1780,14 @@
      "exact_fires": false,
      "verdicts_A_B_disagree": false,
      "cut_inside_degenerate_shell": true,
-     "shell_size": 39
+     "shell_size": 39,
+     "mhat_0_shared_state": 0.5541988421957376,
+     "m_bar_0": 0.5541988421957376,
+     "Delta0_shared": 0.0,
+     "Delta0_over_tau0": 0.0,
+     "m0_fires": false,
+     "battery_m0_m1_rejects_with_A": false,
+     "battery_m0_m1_rejects_with_B": false
     },
     {
      "d": 186,
@@ -1565,7 +1808,14 @@
      "exact_fires": false,
      "verdicts_A_B_disagree": false,
      "cut_inside_degenerate_shell": false,
-     "shell_size": 0
+     "shell_size": 0,
+     "mhat_0_shared_state": 0.5541988421957367,
+     "m_bar_0": 0.5541988421957367,
+     "Delta0_shared": 0.0,
+     "Delta0_over_tau0": 0.0,
+     "m0_fires": false,
+     "battery_m0_m1_rejects_with_A": false,
+     "battery_m0_m1_rejects_with_B": false
     },
     {
      "d": 150,
@@ -1586,7 +1836,14 @@
      "exact_fires": true,
      "verdicts_A_B_disagree": false,
      "cut_inside_degenerate_shell": false,
-     "shell_size": 0
+     "shell_size": 0,
+     "mhat_0_shared_state": 0.5860924719956943,
+     "m_bar_0": 0.4254945871369006,
+     "Delta0_shared": 0.16059788485879367,
+     "Delta0_over_tau0": 5.6002941891221525,
+     "m0_fires": true,
+     "battery_m0_m1_rejects_with_A": true,
+     "battery_m0_m1_rejects_with_B": true
     },
     {
      "d": 100,
@@ -1607,7 +1864,14 @@
      "exact_fires": true,
      "verdicts_A_B_disagree": true,
      "cut_inside_degenerate_shell": true,
-     "shell_size": 24
+     "shell_size": 24,
+     "mhat_0_shared_state": 0.8915216358491667,
+     "m_bar_0": 0.5468102401406224,
+     "Delta0_shared": 0.34471139570854425,
+     "Delta0_over_tau0": 12.020614269036818,
+     "m0_fires": true,
+     "battery_m0_m1_rejects_with_A": true,
+     "battery_m0_m1_rejects_with_B": true
     },
     {
      "d": 75,
@@ -1628,7 +1892,14 @@
      "exact_fires": true,
      "verdicts_A_B_disagree": false,
      "cut_inside_degenerate_shell": true,
-     "shell_size": 24
+     "shell_size": 24,
+     "mhat_0_shared_state": 1.1760730832644584,
+     "m_bar_0": 0.4080956508619983,
+     "Delta0_shared": 0.7679774324024601,
+     "Delta0_over_tau0": 26.780549170009497,
+     "m0_fires": true,
+     "battery_m0_m1_rejects_with_A": true,
+     "battery_m0_m1_rejects_with_B": true
     },
     {
      "d": 50,
@@ -1649,7 +1920,14 @@
      "exact_fires": true,
      "verdicts_A_B_disagree": false,
      "cut_inside_degenerate_shell": true,
-     "shell_size": 24
+     "shell_size": 24,
+     "mhat_0_shared_state": 2.0548888786449795,
+     "m_bar_0": 0.6400363193033002,
+     "Delta0_shared": 1.4148525593416794,
+     "Delta0_over_tau0": 49.33807548905554,
+     "m0_fires": true,
+     "battery_m0_m1_rejects_with_A": true,
+     "battery_m0_m1_rejects_with_B": true
     },
     {
      "d": 30,
@@ -1670,7 +1948,14 @@
      "exact_fires": true,
      "verdicts_A_B_disagree": false,
      "cut_inside_degenerate_shell": false,
-     "shell_size": 0
+     "shell_size": 0,
+     "mhat_0_shared_state": 2.0,
+     "m_bar_0": 1.0823726287456265e-30,
+     "Delta0_shared": 2.0,
+     "Delta0_over_tau0": 69.74306285598011,
+     "m0_fires": true,
+     "battery_m0_m1_rejects_with_A": true,
+     "battery_m0_m1_rejects_with_B": true
     }
    ]
   },
@@ -1680,8 +1965,8 @@
    "script": "src/estimator_form_offeigenstate.py",
    "command": "cd src && python estimator_form_offeigenstate.py",
    "seed": null,
-   "runtime_s": 1.31,
-   "run_date": "2026-09-27",
+   "runtime_s": 0.37,
+   "run_date": "2026-10-02",
    "environment": {
     "python": "3.11.4",
     "numpy": "1.26.4",
@@ -2836,8 +3121,8 @@
    "script": "src/small_checks.py",
    "command": "cd src && python small_checks.py",
    "seed": null,
-   "runtime_s": 143.54,
-   "run_date": "2026-09-27",
+   "runtime_s": 213.35,
+   "run_date": "2026-10-02",
    "environment": {
     "python": "3.11.4",
     "numpy": "1.26.4",
@@ -3062,8 +3347,8 @@
    "script": "src/small_checks.py",
    "command": "cd src && python small_checks.py  (eigsh start vectors: default_rng(0/1))",
    "seed": 0,
-   "runtime_s": 166.86,
-   "run_date": "2026-09-27",
+   "runtime_s": 268.03,
+   "run_date": "2026-10-02",
    "environment": {
     "python": "3.11.4",
     "numpy": "1.26.4",
@@ -3132,8 +3417,8 @@
    "script": "src/small_checks.py",
    "command": "cd src && python small_checks.py",
    "seed": null,
-   "runtime_s": 0.03,
-   "run_date": "2026-09-27",
+   "runtime_s": 0.12,
+   "run_date": "2026-10-02",
    "environment": {
     "python": "3.11.4",
     "numpy": "1.26.4",
@@ -3278,8 +3563,206 @@
    "script": "src/small_checks.py",
    "command": "cd src && python small_checks.py",
    "seed": null,
-   "runtime_s": 0.07,
-   "run_date": "2026-09-27",
+   "runtime_s": 2.44,
+   "run_date": "2026-10-02",
+   "environment": {
+    "python": "3.11.4",
+    "numpy": "1.26.4",
+    "scipy": "1.13.1",
+    "mpmath": "1.3.0",
+    "platform": "Windows-10-10.0.26200-SP0"
+   }
+  }
+ },
+ "MA6_estimator_shape_by_order": {
+  "system": "L=6, U/t=4 doped (2,2) ring, current probe; O_k = J (H-E0)^k J; local estimator over |psi0|^2 (interval_moment_mc.py, interval_battery.py)",
+  "N_s": 50000,
+  "by_order": [
+   {
+    "k": 0,
+    "mean": 0.5541988421957371,
+    "var_per_shot": 4.5605265951072145,
+    "skew_per_shot": -3.2002250980930596,
+    "excess_kurtosis_per_shot": 22.75332676411672,
+    "skew_of_Ns_mean": -0.014311841725274027,
+    "excess_kurtosis_of_Ns_mean": 0.0004550665352823344,
+    "max_abs_imag_local_estimator": 0.0
+   },
+   {
+    "k": 1,
+    "mean": 4.227087633536013,
+    "var_per_shot": 324.7975633694459,
+    "skew_per_shot": -2.429813750911825,
+    "excess_kurtosis_per_shot": 17.471514931238772,
+    "skew_of_Ns_mean": -0.010866457439405165,
+    "excess_kurtosis_of_Ns_mean": 0.00034943029862477543,
+    "max_abs_imag_local_estimator": 0.0
+   },
+   {
+    "k": 2,
+    "mean": 33.38869160108358,
+    "var_per_shot": 22133.506169260687,
+    "skew_per_shot": -2.1837496505019236,
+    "excess_kurtosis_per_shot": 16.465836100712202,
+    "skew_of_Ns_mean": -0.009766025328727418,
+    "excess_kurtosis_of_Ns_mean": 0.00032931672201424404,
+    "max_abs_imag_local_estimator": 0.0
+   },
+   {
+    "k": 3,
+    "mean": 267.5675449753844,
+    "var_per_shot": 1489258.3896251542,
+    "skew_per_shot": -2.0999553044038075,
+    "excess_kurtosis_per_shot": 16.534013372514387,
+    "skew_of_Ns_mean": -0.009391285620716354,
+    "excess_kurtosis_of_Ns_mean": 0.00033068026745028774,
+    "max_abs_imag_local_estimator": 0.0
+   },
+   {
+    "k": 4,
+    "mean": 2159.382575937767,
+    "var_per_shot": 100458150.18641038,
+    "skew_per_shot": -2.0485470124644465,
+    "excess_kurtosis_per_shot": 16.72761706615334,
+    "skew_of_Ns_mean": -0.009161380749949223,
+    "excess_kurtosis_of_Ns_mean": 0.00033455234132306677,
+    "max_abs_imag_local_estimator": 0.0
+   }
+  ],
+  "mc_m1_fig_momentmc": {
+   "skew": -0.04444406173934223,
+   "excess_kurtosis": -0.05318631134751106,
+   "replicas": 4000,
+   "se_skew": 0.03872983346207417,
+   "se_excess_kurtosis": 0.07745966692414834,
+   "source": "data/2026-09-27_interval_moment_mc.json"
+  },
+  "note": "For N_s i.i.d. shots the mean has skewness g1/sqrt(N_s) and excess kurtosis g2/N_s exactly; compare the Monte-Carlo values of Fig. momentmc with these within their sampling errors.",
+  "provenance": {
+   "script": "src/small_checks.py",
+   "command": "cd src && python small_checks.py  (ground state: sl._sub_gs, eigsh start default_rng(0))",
+   "seed": 0,
+   "runtime_s": 0.28,
+   "run_date": "2026-10-02",
+   "environment": {
+    "python": "3.11.4",
+    "numpy": "1.26.4",
+    "scipy": "1.13.1",
+    "mpmath": "1.3.0",
+    "platform": "Windows-10-10.0.26200-SP0"
+   }
+  }
+ },
+ "B2_one_node_m2_deficit": {
+  "derived_from": [
+   "R8_inverse_moment_sensitivity",
+   "data/2026-10-02_full_support_rr.json"
+  ],
+  "definition": "one Lanczos node: one pole at m1/m0 with weight m0, so mbar_2 = m1^2/m0 and the m2 deficit is m0 Var_A = m2 - m1^2/m0; reported relative to m2",
+  "L12_U8_ring_rel": 0.016061786002474192,
+  "L12_U8_open_chain_rel": 0.3579649933611738,
+  "L12_moments": {
+   "ring": {
+    "m0": 3.3171291859542484,
+    "m1": 35.14516230804356,
+    "m2": 378.44336306024985
+   },
+   "open_chain": {
+    "m0": 6.308440851530576,
+    "m1": 40.315317812949566,
+    "m2": 401.29101113452157
+   }
+  },
+  "deployed_bias_budget": 0.02,
+  "L6_ring_rel_by_U": {
+   "U3": 0.04192326583560524,
+   "U4": 0.034355017918505884,
+   "U5": 0.028317406321097888,
+   "U6": 0.023543546895408093,
+   "U8": 0.01676515523257675
+  },
+  "L6_ring_U3_to_U6_range": [
+   0.023543546895408093,
+   0.04192326583560524
+  ],
+  "L6_ring_deficit_over_tau2_by_U": {
+   "U3": 0.6651052379612589,
+   "U4": 0.6208437391078769,
+   "U5": 0.551061454669262,
+   "U6": 0.47957707161159613,
+   "U8": 0.3593970442031864
+  },
+  "L6_ring_tau2_over_m2_by_U": {
+   "U3": 0.06303252995587924,
+   "U4": 0.055336014127922786,
+   "U5": 0.05138702059662933,
+   "U6": 0.049092311307317324,
+   "U8": 0.0466480053272183
+  },
+  "note": "the deficit exceeds the 2% bias budget b but stays below tau_2, which is 1.96 sqrt(shot^2 + (b m2)^2) >= 3.92% of m2",
+  "provenance": {
+   "script": "src/small_checks.py",
+   "command": "cd src && python small_checks.py",
+   "seed": null,
+   "runtime_s": 2.9,
+   "run_date": "2026-10-02",
+   "environment": {
+    "python": "3.11.4",
+    "numpy": "1.26.4",
+    "scipy": "1.13.1",
+    "mpmath": "1.3.0",
+    "platform": "Windows-10-10.0.26200-SP0"
+   }
+  }
+ },
+ "SOTA1_02_W1_transport": {
+  "derived_from": [
+   "data/2026-10-02_full_support_rr.json"
+  ],
+  "bound": "two normalized measures with the same mean and variance sigma^2: W_1 <= W_2 <= sqrt(E|X-Y|^2) = sqrt(2) sigma under the independent coupling; units of t",
+  "by_U": {
+   "U3": {
+    "sigma_exact": 1.4341311907242635,
+    "sqrt2_sigma": 2.0281677801445293,
+    "W1_full_support_rr": 0.5377354710552952,
+    "W1_bound_independent_coupling_rr": 1.7361375831787935,
+    "rel_L1_full_line": 0.9850141673597644
+   },
+   "U4": {
+    "sigma_exact": 1.438672635095847,
+    "sqrt2_sigma": 2.0345903523675855,
+    "W1_full_support_rr": 0.513007151486934,
+    "W1_bound_independent_coupling_rr": 1.7363450742243967,
+    "rel_L1_full_line": 0.9289372169149265
+   },
+   "U5": {
+    "sigma_exact": 1.442380235574105,
+    "sqrt2_sigma": 2.0398336912477992,
+    "W1_full_support_rr": 0.4687495122482827,
+    "W1_bound_independent_coupling_rr": 1.7363137164533382,
+    "rel_L1_full_line": 0.8625870676259073
+   },
+   "U6": {
+    "sigma_exact": 1.4454217374955334,
+    "sqrt2_sigma": 2.044135024515067,
+    "W1_full_support_rr": 0.42382666500284216,
+    "W1_bound_independent_coupling_rr": 1.7361596892765934,
+    "rel_L1_full_line": 0.7968344895127579
+   },
+   "U8": {
+    "sigma_exact": 1.450046081684628,
+    "sqrt2_sigma": 2.0506748347843655,
+    "W1_full_support_rr": 0.34840883714232695,
+    "W1_bound_independent_coupling_rr": 1.7357241394140874,
+    "rel_L1_full_line": 0.6801437031971069
+   }
+  },
+  "provenance": {
+   "script": "src/small_checks.py",
+   "command": "cd src && python small_checks.py",
+   "seed": null,
+   "runtime_s": 3.15,
+   "run_date": "2026-10-02",
    "environment": {
     "python": "3.11.4",
     "numpy": "1.26.4",

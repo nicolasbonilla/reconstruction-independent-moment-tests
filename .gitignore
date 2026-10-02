@@ -12,5 +12,6 @@ out/
 *.log
 *.out
 *.blg
+*.toc
 paper/*Notes.bib
 .DS_Store

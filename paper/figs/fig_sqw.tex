@@ -6,7 +6,7 @@
 % [qmin, qmax]; src/export_sqw_dat.py -> sqw_extent.dat). They used to be placed at ymax=10 / 2.4, which drew every
 % feature at 10/11 = 0.909x and 2.4/2.6 = 0.923x of its true frequency. The extents are now read from
 % sqw_extent.dat; the axis windows (ymax=10, 2.4) are unchanged and clip the excess.
-% 2026-09-28 (review pass E: V2, V8, notation N2): the charge colorbar is removed (the two bars were identical: both
+% 2026-09-28: the charge colorbar is removed (the two bars were identical: both
 % rasters are cmap((S/S_p)^0.62) with S_p the 99.5th percentile of each channel, src/export_sqw_dat.py GAMMA = 0.62,
 % np.percentile(Sd, 99.5)), so the spin panel's y label no longer sits on the charge bar's tick labels; the remaining
 % bar is labelled at TRUE values (S/S_p = 0.1 and 0.5 at 0.1^0.62 = 0.2399 and 0.5^0.62 = 0.6507 of the bar); the

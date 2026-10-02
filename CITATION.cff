@@ -1,44 +1,63 @@
 cff-version: 1.2.0
 message: "If you use this repository or its results, please cite the work below."
 type: software
-title: "Reconstruction-independent moment tests for quantum-computed dynamical spectra"
+title: "Reconstruction-independent moment tests for sample-based spectral functions"
 authors:
   - family-names: "Bonilla Vargas"
     given-names: "Nicolás"
     orcid: "https://orcid.org/0009-0006-6155-4391"
-    affiliation: "Universidad Nacional de Colombia"
+    affiliation: "Universidad Nacional de Colombia, Bogotá, Colombia; SRH University, Munich, Germany; Daita AI, Munich, Germany"
     email: "ngbonillav@unal.edu.co"
 repository-code: "https://github.com/nicolasbonilla/reconstruction-independent-moment-tests"
+url: "https://github.com/nicolasbonilla/reconstruction-independent-moment-tests"
+version: "2.0.0"
+date-released: "2026-10-02"
 abstract: >-
-  Code and data for a reconstruction-independent, necessary-condition screen for sample-based
-  quantum spectral functions. Low-order spectral moments (m0, m1, m2, and m-1 on open chains) are
-  evaluated as ground-state operator expectations, never read back off the reconstructed A(w), and
-  compared with the moments of A(w). In a blinded, hash-sealed simulation (300 instances) the sealed
-  primary endpoint was a detection rate of 53.7% (101/188; Wilson 95% [46.6, 60.7]%) at a
-  false-positive rate of 0.9% (1/112): all determinant truncations (56/56), 45/61 spurious features
-  and no under-converged Krylov reconstruction (0/71) were caught. On IBM Heron (ibm_fez) the device
-  supplies only the sampled support; no moment is estimated on hardware. The discriminating
-  off-diagonal moments are simulation-only, and a pre-registered on-device n_k experiment was
-  gate-negative in its sealed noisy-simulation gate (the single permitted amendment was denied)
-  and was not run. No quantum advantage is claimed.
+  Code and data for a necessary-condition test of sample-based spectral functions A(ω). The moments
+  of a reconstruction are compared with full-operator moments <J†(H-e0)^k J> evaluated on the same
+  subspace ground state; their difference is exactly the probe's leak out of the subspace at order k
+  (the missed spectral weight at k=0, zero through order 2K+1 on a subspace that contains the order-K
+  Krylov space). The repository holds the exact sector-Lanczos/Haydock engine, the leak-identity and
+  estimator-form checks, a pre-registered, hash-sealed blinded calibration in simulation (300 instances,
+  oracle estimator: all 56 truncations and 45 of 61 spurious features rejected, 0 of 71 under-converged
+  Krylov reconstructions as implemented, at a false-positive rate of 1/112; at the noise scale of the
+  sealed text the false-positive rate is 40/112 and noise also rejects 23 Krylov reconstructions, 17 of
+  them exact through m2), the exact limits of a pass at orders 0-2 (including full-support Rayleigh-Ritz, which
+  passes with relative L1 error 0.93), and the raw counts and reference samplers of an IBM Heron
+  (ibm_fez) run in which the device supplies only sampled supports. Every moment is evaluated
+  classically. The record of the sealed on-device n_k test (not run; no job submitted) is included.
 license:
   - "MIT"
   - "CC-BY-4.0"
 keywords:
   - quantum computing
-  - quantum verification
   - sample-based quantum diagonalization
   - spectral functions
+  - spectral moments
+  - sum rules
   - moment problem
   - Christoffel function
+  - pre-registration
   - reproducible research
 preferred-citation:
   type: unpublished
-  title: "Reconstruction-independent moment tests for quantum-computed dynamical spectra"
+  title: "Reconstruction-independent moment tests for sample-based spectral functions"
   authors:
     - family-names: "Bonilla Vargas"
       given-names: "Nicolás"
       orcid: "https://orcid.org/0009-0006-6155-4391"
-      affiliation: "Universidad Nacional de Colombia"
+      affiliation: "Universidad Nacional de Colombia, Bogotá, Colombia; SRH University, Munich, Germany; Daita AI, Munich, Germany"
   year: 2026
-  notes: "Manuscript in revision; not yet on arXiv."
+  url: "https://github.com/nicolasbonilla/reconstruction-independent-moment-tests"
+  notes: >-
+    Manuscript prepared for submission to SciPost Physics Core. Version 2.0.0 and the release date
+    above describe this repository deposit; the DOI is added when the archive is minted.
+references:
+  - type: unpublished
+    title: "Captured weight and boundary leakage bound the error of sample-based spectral functions"
+    authors:
+      - family-names: "Bonilla Vargas"
+        given-names: "Nicolás"
+    year: 2026
+    url: "https://arxiv.org/abs/2608.16436"
+    notes: "Companion study, arXiv:2608.16436."

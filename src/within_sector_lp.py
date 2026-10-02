@@ -17,11 +17,15 @@ R3  (a) LP min/max of Delta_{K+1} over redistributions delta preserving m_0..m_K
         with both weight conventions: ||delta||_1/m0 and the transferred weight ||delta||_1/2 (as a
         fraction of m0), the emptied poles and the dominant residue before/after;
     (e) tau_k from the deployed rule tau_k = z sqrt(Var(O_k^loc)/N_s + (b m_k)^2), z=1.96, N_s=5e4, b=2%
-        (the rule of interval_battery.py), recomputed here, plus tau_3, tau_4 by the same rule (context only:
-        m3, m4 are not deployed; the local-estimator variance is a LOWER bound on the per-shot variance).
+        (the rule of interval_battery.py), recomputed here, plus tau_3, tau_4 (and tau_5) by the same rule
+        (context only: m3..m5 are not deployed; the local-estimator variance is a LOWER bound on the per-shot
+        variance);
+    (f) at the LP optimisers of (a), the shift of the following moment, Delta_{K+2} (and /tau_{K+2}), with its
+        range over the optimal face (uniqueness check).
 M1  shifted-power bound: if delta preserves m_0..m_{s-2} and is supported in a cluster of diameter D and
     midpoint c, then Delta_{s-1} = sum_n delta_n (omega_n - c)^{s-1}, so |Delta_{s-1}| <= rho (D/2)^{s-1},
-    rho = ||delta||_1. Checked on CE1, CE2, the LP optimisers, the committed random cases of
+    rho = ||delta||_1, and the sharp form |Delta_{s-1}| <= 2 rho (D/4)^{s-1} (Chebyshev constant; attained by
+    alternating weights on Chebyshev extrema, checked). Checked on CE1, CE2, the LP optimisers, the committed random cases of
     within_sector_control.py (seed 0), 20000 random null-space redistributions on random pole subsets
     (seed 20260927), and synthetic clusters (tightness and D^{s-1} scaling). Also Theorem 2(a):
     max_j |Delta_j| >= sigma_min(V) ||delta||_2 / sqrt(N-1-K).
@@ -190,12 +194,15 @@ def shifted_power_check(om, d, tag):
     lhs = D[s - 1]
     shifted = float(np.sum(d * (om - c) ** (s - 1)))
     bound = rho * (Dm / 2) ** (s - 1)
+    sharp = 2.0 * rho * (Dm / 4) ** (s - 1)          # = 2^{2-s} * bound (Chebyshev constant, author decision D6)
     return dict(case=tag, preserved_through_order=kpres, s=s, order_tested=s - 1,
                 Delta_s_minus_1=lhs, shifted_form=shifted, identity_abs_err=abs(lhs - shifted),
                 identity_rel_err=abs(lhs - shifted) / max(abs(lhs), 1e-300),
                 rho_l1=rho, cluster_diameter_D=Dm, midpoint_c=c, n_support=int(supp.sum()),
                 bound_rho_Dhalf_pow=bound, ratio_abs_Delta_over_bound=abs(lhs) / bound,
-                bound_holds=bool(abs(lhs) <= bound * (1 + 1e-9)))
+                bound_holds=bool(abs(lhs) <= bound * (1 + 1e-9)),
+                bound_sharp_2rho_Dquarter_pow=sharp, ratio_abs_Delta_over_sharp=abs(lhs) / sharp,
+                sharp_bound_holds=bool(abs(lhs) <= sharp * (1 + 1e-9)))
 
 
 def theorem_a_check(om, d, K, sigma_min, tag):
@@ -235,13 +242,37 @@ def main():
     print(f"tau (2% bias, Ns=5e4) k=0..4: {[round(x, 4) for x in tau]}")
 
     # ---- (a) LP ranges ----
+    # tau_5 (same rule) is needed only for the order-(K+2) shift at K=3; the stored 'tau' list stays k = 0..4
+    tau5 = deployed_taus(S, kmax=5)[5]['tau_bias2pct']
+    tau_ext = tau + [tau5]
     lp = []
     for K in (1, 2, 3):
         lo, hi, xlo, xhi = lp_range(om, w, K)
+        nxt = dict(order=K + 2, tau_same_rule=tau_ext[K + 2])
+        for tag, x, val in (('argmax', xhi, hi), ('argmin', xlo, lo)):
+            dn = float(np.sum(x * om ** (K + 2)))
+            nxt[f'Delta_at_{tag}'] = dn
+            nxt[f'Delta_at_{tag}_over_tau'] = dn / tau_ext[K + 2]
+            # the LP optimum need not be unique: range of Delta_{K+2} over the optimal face
+            # {m_0..m_K preserved, Delta_{K+1} = optimum (relative slack 1e-9), delta >= -w}
+            Aeq = np.array([om ** j for j in range(K + 1)])
+            sgn = 1.0 if tag == 'argmax' else -1.0
+            Aub = np.array([-sgn * om ** (K + 1)]); bub = np.array([-sgn * val + 1e-9 * abs(val)])
+            bnds = [(-wi, None) for wi in w]
+            fmin = linprog(om ** (K + 2), A_ub=Aub, b_ub=bub, A_eq=Aeq, b_eq=np.zeros(K + 1), bounds=bnds,
+                           method='highs')
+            fmax = linprog(-om ** (K + 2), A_ub=Aub, b_ub=bub, A_eq=Aeq, b_eq=np.zeros(K + 1), bounds=bnds,
+                           method='highs')
+            nxt[f'Delta_range_over_optimal_face_{tag}'] = [float(fmin.fun), float(-fmax.fun)]
+            nxt[f'optimum_unique_in_Delta_next_{tag}'] = bool(abs(-fmax.fun - fmin.fun) <= 1e-6 * max(1.0, abs(dn)))
         lp.append(dict(K=K, order=K + 1, Delta_min=lo, Delta_max=hi, contains_zero=bool(lo < 0 < hi),
                        tau_same_rule=tau[K + 1], max_over_tau=hi / tau[K + 1],
-                       argmin_delta=xlo, argmax_delta=xhi))
-        print(f"K={K}: Delta_{K+1} in [{lo:.4f}, {hi:.4f}]  (tau_{K+1} = {tau[K+1]:.4f})")
+                       argmin_delta=xlo, argmax_delta=xhi, next_order_at_optimum=nxt))
+        print(f"K={K}: Delta_{K+1} in [{lo:.4f}, {hi:.4f}]  (tau_{K+1} = {tau[K+1]:.4f});  Delta_{K+2} at argmax "
+              f"{nxt['Delta_at_argmax']:.4f} = {nxt['Delta_at_argmax_over_tau']:.4f} tau_{K+2}, at argmin "
+              f"{nxt['Delta_at_argmin']:.4f} = {nxt['Delta_at_argmin_over_tau']:.4f} tau_{K+2}  "
+              f"(tau_{K+2} = {tau_ext[K+2]:.4g}; unique: {nxt['optimum_unique_in_Delta_next_argmax']}, "
+              f"{nxt['optimum_unique_in_Delta_next_argmin']})")
 
     # ---- (b) null spaces ----
     nulls = {f'rows_0..{K}': int(null_space(np.array([om ** j for j in range(K + 1)])).shape[1]) for K in range(N)}
@@ -305,7 +336,7 @@ def main():
         n_weighted_eigenstates=n_eig, N_distinct_poles=N, poles=om, weights=w, moments_m0_to_m5=mom,
         ground_state_sector_gap=S['gap'],
         tau_rule='tau_k = 1.96 sqrt(Var(O_k^loc)/5e4 + (0.02 m_k)^2), O_k = J(H-E0)^k J (interval_battery.py)',
-        tau=taus, tau_deployed_k0_to_2=tau[:3],
+        tau=taus, tau_deployed_k0_to_2=tau[:3], tau5_same_rule=tau5,
         lp_ranges=lp, null_space_dims=nulls, conditioning=cond,
         counterexamples=ces, blind_spot_vs_exactly_preserved_order=exact_pres,
         committed_random_cases_seed0=committed, guaranteed_power=guaranteed,
@@ -326,7 +357,7 @@ def main():
         checks.append(shifted_power_check(om, np.array(c['delta']), f"committed_seed0_K{c['K']}"))
     # random null-space redistributions on random pole subsets (clusters)
     rng = np.random.default_rng(SEED_MC)
-    worst = dict(ratio=0.0); nmc = 0; nviol = 0; per_s = {}
+    worst = dict(ratio=0.0); nmc = 0; nviol = 0; per_s = {}; nviol_sharp = 0; per_s_sharp = {}
     for _ in range(20000):
         msub = int(rng.integers(2, N + 1))
         sub = np.sort(rng.choice(N, size=msub, replace=False))
@@ -342,12 +373,17 @@ def main():
         if not r['bound_holds']:
             nviol += 1
         per_s.setdefault(r['s'], []).append(r['ratio_abs_Delta_over_bound'])
+        per_s_sharp.setdefault(r['s'], []).append(r['ratio_abs_Delta_over_sharp'])
+        if not r['sharp_bound_holds']:
+            nviol_sharp += 1
         if r['ratio_abs_Delta_over_bound'] > worst['ratio']:
             worst = dict(ratio=r['ratio_abs_Delta_over_bound'], s=r['s'], n_support=r['n_support'],
                          D=r['cluster_diameter_D'])
     mc = dict(n=nmc, seed=SEED_MC, n_violations=nviol, worst=worst,
               max_ratio_by_s={int(s): float(np.max(v)) for s, v in sorted(per_s.items())},
-              count_by_s={int(s): len(v) for s, v in sorted(per_s.items())})
+              count_by_s={int(s): len(v) for s, v in sorted(per_s.items())},
+              n_violations_sharp=nviol_sharp,
+              max_ratio_sharp_by_s={int(s): float(np.max(v)) for s, v in sorted(per_s_sharp.items())})
     # synthetic clusters: tightness and D^{s-1} scaling
     synth = []
     for s in (2, 3, 4):
@@ -358,6 +394,21 @@ def main():
             Dsm1 = float(np.sum(dd * nodes ** (s - 1)))
             synth.append(dict(s=s, D=Dm, rho=1.0, abs_Delta_s_minus_1=abs(Dsm1),
                               bound=(Dm / 2) ** (s - 1), ratio=abs(Dsm1) / (Dm / 2) ** (s - 1)))
+    # sharp constant (D6): alternating weights on the s Chebyshev-Lobatto extrema of [c-D/2, c+D/2] preserve
+    # m_0..m_{s-2} and attain |Delta_{s-1}| = 2 rho (D/4)^{s-1}
+    cheb = []
+    for s in (2, 3, 4, 5):
+        for Dm in (1.0, 0.1):
+            j = np.arange(s)
+            nodes = 7.0 + (Dm / 2) * np.cos(np.pi * j / (s - 1))
+            lam = np.where((j == 0) | (j == s - 1), 0.5, 1.0)
+            dd = (-1.0) ** j * lam; dd = dd / np.abs(dd).sum()          # rho = 1
+            pres = max(abs(float(np.sum(dd * (nodes - 7.0) ** q))) for q in range(s - 1))
+            Dsm1 = float(np.sum(dd * nodes ** (s - 1)))
+            cheb.append(dict(s=s, D=Dm, rho=1.0, max_abs_preserved_moment_shift_centered=pres,
+                             abs_Delta_s_minus_1=abs(Dsm1), sharp_bound=2.0 * (Dm / 4) ** (s - 1),
+                             ratio_to_sharp=abs(Dsm1) / (2.0 * (Dm / 4) ** (s - 1)),
+                             ratio_to_loose=abs(Dsm1) / (Dm / 2) ** (s - 1)))
     thA = [theorem_a_check(om, ces['CE1_m0_m1_m2_exact']['delta'], 2, float(sv[-1]), 'CE1 (K=2)'),
            theorem_a_check(om, ces['CE2_m0_m1_exact_absD2_le_tau2']['delta'], 1, float(sv[-1]), 'CE2 (K=1)')]
     for r in lp:
@@ -367,6 +418,12 @@ def main():
               'Delta_{s-1} = sum_n delta_n (omega_n - c)^{s-1}, |Delta_{s-1}| <= rho (D/2)^{s-1}, rho=||delta||_1',
         cases=checks, all_cases_hold=bool(all(c['bound_holds'] for c in checks)),
         max_identity_rel_err=float(max(c['identity_rel_err'] for c in checks)),
+        bound_sharp='|Delta_{s-1}| <= 2 rho (D/4)^{s-1} = 2^{2-s} rho (D/2)^{s-1}: Delta_{s-1} = sum_n delta_n p(omega_n) '
+                    'for every monic p of degree s-1 (m_0..m_{s-2} preserved) and sum_n delta_n = 0 gives '
+                    '|Delta_{s-1}| <= rho (max p - min p)/2 on the cluster; the monic Chebyshev polynomial of the '
+                    'cluster has max - min = 4 (D/4)^{s-1}. Attained by alternating weights on its s extrema.',
+        all_cases_hold_sharp=bool(all(c['sharp_bound_holds'] for c in checks)),
+        chebyshev_extrema_attainment=cheb,
         random_null_space_mc=mc, synthetic_clusters=synth,
         synthetic_note='ratio independent of D at fixed s => the bound captures the D^{s-1} scaling; '
                        'ratio = 1 at s=2 (bound tight)',
@@ -376,7 +433,11 @@ def main():
     for c in checks[:2]:
         print(f"M1 {c['case']}: |Delta_{c['order_tested']}| = {abs(c['Delta_s_minus_1']):.4f} <= "
               f"rho(D/2)^{c['s']-1} = {c['bound_rho_Dhalf_pow']:.4f}  (ratio {c['ratio_abs_Delta_over_bound']:.3f})")
-    print(f"M1 MC: {nmc} random cases, violations = {nviol}, worst ratio = {worst['ratio']:.4f}")
+    print(f"M1 MC: {nmc} random cases, violations = {nviol}, worst ratio = {worst['ratio']:.4f}; max ratio by s "
+          f"{mc['max_ratio_by_s']}; sharp-bound violations = {nviol_sharp}, max ratio to sharp by s "
+          f"{mc['max_ratio_sharp_by_s']}")
+    print("M1 Chebyshev extrema: ratio to sharp bound " + ", ".join(f"s={c['s']},D={c['D']}: {c['ratio_to_sharp']:.12f}"
+                                                                for c in cheb))
 
     rt = time.time() - t0
     record_theory_numerics('R3_within_sector_lp', R3, 'within_sector_lp.py', rt, seed=None)

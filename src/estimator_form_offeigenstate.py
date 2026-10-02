@@ -15,6 +15,7 @@ the np.argsort(-p) order used by the 2026-09-26 scratch (forms_check.py), which 
 arbitrarily. Degenerate |psi|^2 shells cut by d are reported.
 Verdicts use the deployed tau_1 (within_sector_lp.deployed_taus; 2% bias, Ns=5e4): a form 'fires' if
 |form - m_bar_1| > tau_1.
+Also records the zeroth-order (m_0) comparison at each cut, common to both forms.
 Writes key 'R6_estimator_forms_off_eigenstate' of data/2026-09-27_theory_numerics.json. Deterministic.
 Run: cd src && python estimator_form_offeigenstate.py
 """
@@ -41,14 +42,18 @@ def forms(H, J, S, D):
     P = np.zeros((D, D)); P[S, S] = 1.0
     mb = float(np.real(x.conj() @ J.conj().T @ P @ (H - e0 * I) @ P @ J @ x))
     e_x = float(np.real(x.conj() @ H @ x))
-    return A, B, C, mb, e0, e_x
+    phi = J @ x                                  # zeroth order: O_0 = C_0 = J^dag J, so both forms share it
+    mh0 = float(np.real(np.vdot(phi, phi)))
+    mb0 = float(np.real(np.vdot(P @ phi, P @ phi)))
+    return A, B, C, mb, e0, e_x, mh0, mb0
 
 
 def main():
     t0 = time.time()
     Sy = wsl.l6u4_system()
     H = Sy['H']; J = Sy['J']; psi = Sy['psi0']; E0 = Sy['E0']; D = Sy['dim']
-    tau1 = wsl.deployed_taus(Sy, kmax=1)[1]['tau_bias2pct']
+    taus = wsl.deployed_taus(Sy, kmax=1)
+    tau0 = taus[0]['tau_bias2pct']; tau1 = taus[1]['tau_bias2pct']
     m1_exact = float(np.real(psi.conj() @ J.conj().T @ (H - E0 * np.eye(D)) @ J @ psi))
     p = np.abs(psi) ** 2; nsup = int(np.sum(p > 1e-14))
     orders = {'lexsort_deterministic': np.lexsort((np.arange(D), -np.round(p, 12))),
@@ -58,7 +63,7 @@ def main():
         rows = []
         for d in DS:
             S = order[:d]
-            A, B, C, mb, e0, ex = forms(H, J, S, D)
+            A, B, C, mb, e0, ex, mh0, mb0 = forms(H, J, S, D)
             pc = np.round(p[order[d - 1]], 12); pn = np.round(p[order[d]], 12) if d < D else -1.0
             shell = int(np.sum(np.round(p, 12) == pc)) if pc == pn else 0
             rows.append(dict(d=d, coverage_d_over_dim=d / D, coverage_d_over_support=min(d, nsup) / nsup,
@@ -69,7 +74,11 @@ def main():
                              A_fires=bool(abs(A - mb) > tau1), B_fires=bool(abs(B - mb) > tau1),
                              exact_fires=bool(abs(m1_exact - mb) > tau1),
                              verdicts_A_B_disagree=bool((abs(A - mb) > tau1) != (abs(B - mb) > tau1)),
-                             cut_inside_degenerate_shell=bool(pc == pn), shell_size=shell))
+                             cut_inside_degenerate_shell=bool(pc == pn), shell_size=shell,
+                             mhat_0_shared_state=mh0, m_bar_0=mb0, Delta0_shared=mh0 - mb0,
+                             Delta0_over_tau0=abs(mh0 - mb0) / tau0, m0_fires=bool(abs(mh0 - mb0) > tau0),
+                             battery_m0_m1_rejects_with_A=bool(abs(mh0 - mb0) > tau0 or abs(A - mb) > tau1),
+                             battery_m0_m1_rejects_with_B=bool(abs(mh0 - mb0) > tau0 or abs(B - mb) > tau1)))
         res[oname] = rows
     same = all(abs(r1['A_J_Hme0_J'] - r2['A_J_Hme0_J']) < 1e-9 and abs(r1['B_half_double_comm'] - r2['B_half_double_comm']) < 1e-9
                for r1, r2 in zip(res['lexsort_deterministic'], res['argsort_scratch_2026-09-26']))
@@ -82,7 +91,10 @@ def main():
                   f"{r['m_bar_1']:8.4f} {str(r['A_fires']):>8} {str(r['B_fires']):>8} {r['shell_size']}")
     print(f"exact m1 = {m1_exact:.6f}; tau1 = {tau1:.4f}; orders agree: {same}")
     R6 = dict(system='L=6, U/t=4 (2,2) ring current, dim 225, 186 nonzero GS amplitudes',
-              m1_exact=m1_exact, tau1_deployed=tau1, n_support=nsup, dim=D,
+              m1_exact=m1_exact, tau1_deployed=tau1, tau0_deployed=tau0, n_support=nsup, dim=D,
+              zeroth_order_note='O_0 = C_0 = J^dag J: the m_0 comparison (mhat_0 = ||J|x>||^2 against '
+                                'm_bar_0 = ||P_S J|x>||^2) is the same for both forms, so the battery verdict '
+                                'at a cut that m_0 rejects does not depend on the m_1 form',
               forms={'A': '<x|J(H-e0)J|x>, e0=<x|H|x>', 'B': '1/2<x|[J,[H,J]]|x>', 'C': 'Re<x|J[H,J]|x>',
                      'm_bar_1': '<x|J P_S (H-e0) P_S J|x>'},
               rows_by_order=res, orders_give_identical_numbers=bool(same),

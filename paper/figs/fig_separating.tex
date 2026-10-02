@@ -10,7 +10,9 @@
 % id 184 (the last two ringed); m1 fires on 16 of the 26, m2 alone on 10.
 % Legend counts are numbers of plotted points (rejection rates are in the caption). The legend sits
 % above the axes; no text is placed inside the data area.
-% 2026-09-28 (review pass E: R3-15): the legend says "reject", the paper's verdict word, instead of "fire".
+% 2026-09-28: the legend says "reject", the paper's verdict word, instead of "fire".
+% 2026-10-02: the two shaded spurious entries say "shaded", and the unshaded ones are "other spurious",
+% so the legend counts no longer read as class totals.
 \pgfplotsset{layers/sepgridbelow/.define layer set={axis background,axis grid,pre main,main,axis ticks,axis lines,
   axis tick labels,axis descriptions,axis foreground}{}}
 \begin{tikzpicture}
@@ -52,14 +54,14 @@
   % spurious features outside the region
   \addplot[only marks, mark=triangle, mark size=2.0pt, pTeal, mark options={line width=0.6pt}]
       table[x=x,y=y]{figs/sep_ac_other.dat};
-  \addlegendentry{spurious, unshaded ($37$)}
+  \addlegendentry{other spurious ($37$)}
   % spurious features in the region: weight-preserving (20) and weight-changing (4)
   \addplot[only marks, mark=*, mark size=2.3pt, pOx, mark options={fill=pAmber, draw=pOx, line width=0.6pt}]
       table[x=x,y=y]{figs/sep_ac_pres_region.dat};
-  \addlegendentry{spurious, $m_0$-preserving ($20$)}
+  \addlegendentry{spurious, $m_0$-preserving, shaded ($20$)}
   \addplot[only marks, mark=diamond*, mark size=2.8pt, pOx, mark options={fill=pAmber, draw=pOx, line width=0.6pt}]
       table[x=x,y=y]{figs/sep_ac_chg_region.dat};
-  \addlegendentry{spurious, $m_0$-changing ($4$)}
+  \addlegendentry{spurious, $m_0$-changing, shaded ($4$)}
   % the two non-spurious instances in the region (truncation id 162, clean false positive id 184)
   \addplot[only marks, mark=o, mark size=4.2pt, pOx, mark options={line width=0.8pt}]
       table[x=x,y=y]{figs/sep_region_nonac.dat};

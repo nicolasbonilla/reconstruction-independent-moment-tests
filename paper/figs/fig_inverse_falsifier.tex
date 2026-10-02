@@ -2,13 +2,13 @@
 % The negative-order (inverse) f-sum moment m_{-1}=int A_J(omega)/omega domega beside m_1, m_2 under the same corruption.
 % Flagship doped L=12 Hubbard ring (PBC, 2/3 filling, U/t=8), sector-Lanczos current spectral function.
 % Data: run_inverse_moment_falsifier.py -> inverse_falsifier_spectrum.dat, inverse_falsifier_sweep.dat.
-% 2026-09-27 revision (R8/M6): panel (b) shows RELATIVE shifts Delta_k/m_k, which are not detection power. m_{-1} moves
+% 2026-09-27 revision: panel (b) shows RELATIVE shifts Delta_k/m_k, which are not detection power. m_{-1} moves
 % most (154% at f=0.5, vs 38% for m_1 and 47% for m_2) but rejects LAST under the deployed rule, because its threshold
 % is 61% of m_{-1} (a 94% cancellation between (1/2)<-T> and the Kohn stiffness D) while tau_1/m_1 = tau_2/m_2 = 4.3%.
 % The dashed 5% line is a common relative guide, not the deployed threshold; the dotted oxblood line is the deployed
 % tau_{-1}/m_{-1} = 0.6094 (data/2026-09-27_theory_numerics.json, R8_inverse_moment_sensitivity.ring.
 % tau_full_rule_over_m), which the m_{-1} curve crosses at f = 0.198 (f_star_full_rule).
-% 2026-09-28 (review pass E: V3, V4, V5, V6, R3-19): (a) the two curve labels in footnotesize and pulled apart; (b) the
+% 2026-09-28: (a) the two curve labels in footnotesize and pulled apart; (b) the
 % m_{-1} label hangs below the top frame; m_1 and m_2 are labelled at their right ends, outside the frame; m_1 is drawn
 % in ink, not in the grey reserved for blind quantities (m_1 rejects at f ~ 0.057); the y label is shortened to fit the
 % axis; the m_0 label sits in a widened strip below its line; blind markers are drawn solid (not dashed).
@@ -69,7 +69,7 @@
       {inverse moment $m_{-1}$\\ ($\Delta_{-1}/m_{-1}$)};
   % deployed-threshold label for m_{-1}: left end of its dotted line, where the m_{-1} curve is still far below
   \node[pOx, font=\scriptsize, anchor=south west, inner sep=1.5pt] at (axis cs:0.6,61.5)
-      {deployed $\tau_{-1}/m_{-1}$};
+      {default $\tau_{-1}/m_{-1}$};
   % positive-moment labels: at the right ends of their lines (47.2 and 38.1 at f = 50%), outside the frame, spread
   % apart just enough not to touch
   \node[pIndigo, font=\footnotesize, anchor=west] at (axis cs:50.8,50.5) {$m_2$};

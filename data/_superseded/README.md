@@ -1,8 +1,8 @@
 # Superseded data (kept as a record, not evidence)
 
-Moved here 2026-09-26 with `git mv`; nothing was deleted. The 2026-09-05 text still quotes the σ of
+Moved here 2026-09-26 with `git mv`; nothing was deleted. The 2026-09-05 text quoted the σ of
 `analytic_coverage_leak.json` (9.3×10⁻⁵ at 50k to 9.2×10⁻⁴ at 4k) as "shot noise is negligible"; the
-revision replaces it with the Monte Carlo spread. No other manuscript number rests on these files. One
+current text uses the Monte Carlo spread instead. No number of the current manuscript rests on these files. One
 live script reads one of them: `src/delta0_reference_mc.py` (2026-09-27) reads `analytic_coverage_leak.json`
 only to report how far its σ falls below the Monte Carlo spread. Records superseded later but kept in
 `data/` itself are listed in [`../README.md`](../README.md).

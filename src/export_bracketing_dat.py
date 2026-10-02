@@ -2,15 +2,26 @@
 """Export native-figure .dat for NEW fig_bracketing: the mechanism of Theorem 1. Finitely many moments
 do not pin a spectrum -- they BRACKET its cumulative weight F(t) between the extremal (Gauss-Radau
 principal-representation) measures, and the bracket width IS the Christoffel function W_n(t), which
-contracts as n grows. Measure = doped Hubbard L=6 U=8 current-operator Lehmann density (same as fig_christoffel)."""
+contracts as n grows. Measure = doped Hubbard L=6 U=8 current-operator Lehmann density (same as fig_christoffel).
+
+The bracket width Fhi - Flo at a grid point t is W_n(t). A uniform grid misses the peak of W_n (the 240-point
+grid alone gives 0.9476 for n=2 against the exact max_x W_2 = 0.9688), so the exact argmax of W_n for the two
+plotted orders n = 2, 4 is added to the grid. It is located as in export_christoffel_dat.py (roots of dK_n/dt,
+K_n = 1/W_n, mpmath 60 digits), and the script asserts that the grid maximum of the bracket width then equals
+the exact max_x W_n. Writes paper/figs/bracket_{F,env_n2,env_n4,maxW}.dat; bracket_maxW.dat (read by no figure)
+holds the exact maxima for n = 1..4, the values of christoffel_maxW.dat (checked against the bracket width at
+the argmax for n >= 2). Run: cd src && python export_bracketing_dat.py"""
 import os, sys
 import numpy as np
 import scipy.sparse as sp
 from scipy.sparse.linalg import eigsh
+import mpmath as mp
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)   # hubbard_ed.py is vendored in src/
 import hubbard_ed as H
 from run_sumrule_falsifier import current_operator
+import markov_krein_window as mkw
+from export_christoffel_dat import exact_max_W
 OUT = os.path.normpath(os.path.join(HERE, '..', 'paper', 'figs'))
 L, U = 6, 8.0
 
@@ -99,7 +110,16 @@ def main():
         f.write("t F\n"); [f.write(f"{t:.4f} {v:.6f}\n") for t, v in zip(tgridF, Ftrue)]
 
     alpha, beta, n2 = recurrence(xs, wn, 6)
-    tq = np.linspace(-0.985, 0.985, 240)
+    # exact argmax_x W_n (n = 1..4), added to the uniform grid so that the band reaches the true peak of W_n
+    mp.mp.dps = 60
+    exact = {}
+    for n in (1, 2, 3, 4):
+        a_mp, b_mp = mkw.recurrence(xs, wn, n)
+        targ, Wmax, _ = exact_max_W(a_mp, b_mp, n)
+        exact[n] = (targ, Wmax)
+    tq_uniform = np.linspace(-0.985, 0.985, 240)
+    t_arg = [exact[n][0] for n in (2, 4) if -0.985 <= exact[n][0] <= 0.985]   # the two plotted orders
+    tq = np.unique(np.concatenate([tq_uniform, t_arg]))
     for n, name in [(2, 'bracket_env_n2'), (4, 'bracket_env_n4')]:
         Flo, Fhi = radau_bracket(alpha, beta, n, tq)
         with open(os.path.join(OUT, name + '.dat'), 'w') as f:
@@ -108,13 +128,25 @@ def main():
                 if np.isfinite(lo):
                     f.write(f"{t:.4f} {max(lo,0):.6f} {min(hi,1):.6f}\n")
         width = np.nanmax(Fhi - Flo)
-        print(f"n={n}: max bracket width (=max W_n) = {width:.4f}")
-    # max W_n vs n for the inset
+        written = np.nanmax(np.minimum(Fhi, 1) - np.maximum(Flo, 0))
+        targ, Wmax = exact[n]
+        print(f"n={n}: max bracket width on the grid (incl. exact argmax x={targ:.6f}) = {width:.6f}; "
+              f"exact max_x W_n = {Wmax:.6f}; max width as written (clipped to [0,1]) = {written:.6f}")
+        assert abs(width - Wmax) < 1e-9, (n, width, Wmax)
+    # max_x W_n vs n (no figure reads this file): the exact maxima, as in christoffel_maxW.dat. For n >= 2 the
+    # bracket width at the exact argmax is checked against them. For n = 1 the argmax is the mean, the zero of
+    # p_1, where the Gauss-Radau rule with a node at x does not exist (W_1 = m0 there is the limit of its atom);
+    # there the check is only that the bracket width on the uniform grid stays below the exact maximum.
     with open(os.path.join(OUT, 'bracket_maxW.dat'), 'w') as f:
         f.write("n maxW\n")
         for n in [1, 2, 3, 4]:
-            Flo, Fhi = radau_bracket(alpha, beta, n, tq)
-            f.write(f"{n} {float(np.nanmax(Fhi - Flo)):.6f}\n")
+            targ, Wmax = exact[n]
+            Flo, Fhi = radau_bracket(alpha, beta, n, tq_uniform)
+            assert float(np.nanmax(Fhi - Flo)) <= Wmax + 1e-12, (n, float(np.nanmax(Fhi - Flo)), Wmax)
+            if n >= 2:
+                Flo, Fhi = radau_bracket(alpha, beta, n, np.array([targ]))
+                assert abs(float(Fhi[0] - Flo[0]) - Wmax) < 1e-9, (n, float(Fhi[0] - Flo[0]), Wmax)
+            f.write(f"{n} {Wmax:.6f}\n")
     print("wrote bracket_*.dat ->", OUT)
 
 

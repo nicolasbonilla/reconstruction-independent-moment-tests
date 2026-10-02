@@ -11,7 +11,7 @@ moments m0 (computational-basis counts only) and m1 (off-diagonal hopping, via q
 bars, so that Delta_k could be formed against a reconstruction. The estimator itself has been checked only
 in noiseless simulation (bond_moment_estimator.py); on hardware the state prep and the sampler backend
 change, and at ibm_fez depth the off-diagonal moments are forecast to carry a depolarizing bias of about
-37-116% of the signal (offdiag_noise_forecast.py, offdiag_gsurface.py).
+38-116% of the signal (offdiag_noise_forecast.py, offdiag_gsurface.py).
 
 ============================  READ BEFORE RUNNING  ============================
 0. ENVIRONMENT (blocking): this account is on the NEW IBM Quantum Platform (quantum.cloud.ibm.com,
@@ -158,7 +158,7 @@ def qpu_run():
               open(os.path.join(OUT, f'heron_counts_{jid}.json'), 'w'))
     print(f"counts-based moments m_hat = {[round(x,4) for x in m_hat]};  RETAINED counts -> heron_counts_{jid}.json")
     print("Next: compare m_hat with the reconstruction's back-moments to form a shot-noisy Delta_k (off-diagonal")
-    print("      moments carry a forecast depolarizing bias of ~37-116% at this depth); then unblind.")
+    print("      moments carry a forecast depolarizing bias of ~38-116% at this depth); then unblind.")
 
 
 def main():

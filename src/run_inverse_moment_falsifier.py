@@ -355,16 +355,19 @@ def main():
                            'date': DATE,
                            'claim': ('m_{-1}=int A_J/omega = (1/2)<-That> (optical f-sum, ground-state kinetic '
                                      'energy) on the open chain; = (1/2)<-That> - D_Kohn on the ring. For a spurious '
-                                     'low-omega (Drude) peak the RELATIVE shifts order as Delta_{-1}/m_{-1} > '
-                                     'Delta_1/m_1 > Delta_0/m_0 = 0 (exact simulation). Relative shift is not '
+                                     'low-omega (Drude) peak on the RING (the deployment recorded here) the RELATIVE '
+                                     'shifts order as Delta_{-1}/m_{-1} > Delta_1/m_1 > Delta_0/m_0 = 0 (exact '
+                                     'simulation); on the open chain the order reverses for m_{-1}, which moves least '
+                                     '(relative slopes 0.233 for m_{-1} vs 0.719 for m_1, key '
+                                     'R8_inverse_moment_sensitivity.open_chain). Relative shift is not '
                                      'detection power: under the deployed noise-normalized rule m_{-1} fires after '
                                      'm_1 and m_2 for this error (key R8_inverse_moment_sensitivity).'),
-                           'wording_note': '2026-09-27: script path and claim rescoped (relative shift vs detection '
-                                           'power); numbers reproduced bit for bit'},
+                           'wording_note': '2026-10-02: claim restricted to the ring (on the open chain m_{-1} moves '
+                                           'least); numbers reproduced bit for bit'},
            'identity_checks': checks,
            'deployment': dep,
            'summary': {'inverse_moment_more_sensitive': bool(verdict),
-                       'sensitivity_meaning': 'relative shift Delta_k/m_k at the largest misplaced fraction '
+                       'sensitivity_meaning': 'ring only: relative shift Delta_k/m_k at the largest misplaced fraction '
                                               '(Delta_{-1}/m_{-1} > 2 Delta_1/m_1, m_0 unchanged); not detection '
                                               'power, see key R8_inverse_moment_sensitivity',
                        'max_Delta_minus1_over_m': dep['sweep'][-1]['dm1'],

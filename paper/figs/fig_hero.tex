@@ -1,26 +1,24 @@
-% fig_hero.tex -- the reconstruction-independent moment loop, native TikZ (no PNG).
-% 2026-09-27 revision: outcome boxes read "reject: Delta_k > tau_k" / "pass: Delta_k <= tau_k" (tau_k = z delta_k,
-% the preset threshold of the Method; a pass is not a certificate). In this paper both branches share shots only in
-% simulation, and on hardware the device supplies the support S alone (caption).
-% 2026-09-28 (review pass E: V1-08, V1-11, m13, R1-12, R3-08; notation N3): the bold in-figure strapline, which
-% repeated the caption title, is removed; the grey caveat "shared shots realized in simulation only" stays at the top
-% left. The footer prints the operator actually used, O_k = J^dagger (H-e_0)^k J with e_0 = <H> on the prepared state,
-% and m_0 = <J^dagger J>. The commutator form C_k = J^dagger ad_H^k(J), equal in expectation only on an exact
-% eigenstate (App. A), is no longer drawn.
+% fig_hero.tex -- one subspace state, two operator evaluations (native TikZ, no PNG).
+% 2026-10-02 (restructure): redrawn as the shared-state test the paper realizes. The sampled support S
+% fixes the subspace ground state |0_S>; the reconstruction branch uses the operators restricted to S (A(omega) and
+% mbar_k), the estimator branch the full sparse operators (mhat_k = <0_S|O_k|0_S>). Their difference is the leak of
+% J|0_S> out of S (Proposition 1). Both branches are classical post-processing of the support; on hardware the device
+% supplies S only. The decision is a leak score against a numerical tolerance (shared-state estimator) or tau_k
+% (oracle calibration, Sec. 4); a pass is not a certificate.
 \begin{tikzpicture}[font=\small]
   % --- nodes ---
-  \node[pbox, fill=pGrid!40, minimum height=10mm] (S)
-      at (0.8,2.2) {computational-basis\\ samples $\mathcal{S}$};
+  \node[pbox, fill=pGrid!40, minimum height=12mm] (S)
+      at (0.9,2.2) {sampled support $\mathcal{S}$\\[1pt] subspace state $|0_\mathcal{S}\rangle$};
   \node[pbox, draw=pInk, fill=white, minimum height=10mm] (REC)
-      at (5.2,3.5) {reconstruction\\ $A(\omega)$};
+      at (5.6,3.5) {operators restricted to $\mathcal S$\\ $A(\omega)$, \ $\bar m_k=\int\omega^kA\,d\omega$};
   \node[pbox, draw=pIndigo, fill=pIndigo!8, minimum height=10mm] (MOM)
-      at (5.2,0.9) {independent moments\\ $\widehat m_k=\langle O_k\rangle$};
+      at (5.6,0.9) {full operators\\ $\widehat m_k=\langle 0_\mathcal{S}|O_k|0_\mathcal{S}\rangle$};
   \node[pbox, draw=pInk, fill=white, minimum height=10mm] (CMP)
-      at (9.9,2.2) {compare\\ $\Delta_k=\lvert\widehat m_k-\bar m_k\rvert$};
+      at (10.2,2.2) {$\Delta_k=\lvert\widehat m_k-\bar m_k\rvert$\\ $=$ leak out of $\mathcal S$};
   \node[pbox, draw=pTeal, fill=pTeal!10, minimum height=9mm] (CORR)
-      at (14.3,3.4) {\textbf{pass}\\ $\Delta_k\le\tau_k$\\[-1pt] {\scriptsize\itshape (not a certificate)}};
+      at (14.4,3.4) {\textbf{pass}\\ below threshold\\[-1pt] {\scriptsize\itshape (not a certificate)}};
   \node[pbox, draw=pOx, fill=pOx!8, minimum height=9mm] (FALS)
-      at (14.3,1.0) {\textbf{reject}\\ $\Delta_k>\tau_k$};
+      at (14.4,1.0) {\textbf{reject}\\ above threshold};
 
   % --- flow arrows ---
   \draw[pflow] (S) to[out=60,in=180]  (REC.west);
@@ -38,9 +36,6 @@
   \node[font=\scriptsize\itshape, pMuted, align=center, anchor=east] at ($(X)+(-0.45,0)$)
       {never read\\ back off $A(\omega)$};
 
-  % --- caveat + footer (no strapline: the caption carries the title) ---
-  \node[font=\scriptsize\itshape, pMuted, anchor=west] at (0.4,4.55)
-      {shared shots realized in simulation only};
-  \node[font=\scriptsize, pMuted, anchor=west] at (0.4,-0.15)
-      {$O_k\equiv J^\dagger(H-e_0)^kJ$, \; $e_0=\langle H\rangle$ on the prepared state, \; $m_0=\langle J^\dagger J\rangle$ \;\textemdash\; the estimator never uses $A(\omega)$, so agreement is not preordained};
+  % 2026-10-02: the header (classical evaluation) and footer (O_k, e0, threshold) lines, set at
+  % about 5 pt after scaling, are removed; the caption states all three.
 \end{tikzpicture}

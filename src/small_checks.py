@@ -14,6 +14,17 @@ Keys written by THIS script (the others are written by the scripts listed in KEY
                        (iii) main.tex:453 '<rho_pi> vanishes by half-filling symmetry' tested on the ground state
                        that bond_moment_estimator.py actually uses (open chain, global Fock-space ground state).
   M5_christoffel_claims, M6_inverse_moment_claim   derived summaries of keys R4/R9 and R8 (no new physics).
+  MA6_estimator_shape_by_order   (audit 2026-10-02, MA-6) skewness and excess kurtosis of the local estimator
+                       O_k^loc(x) = (O_k psi0)(x)/psi0(x), x ~ |psi0(x)|^2, for k = 0..4 on the L=6, U/t=4 ring
+                       (the state of interval_moment_mc.py), and of its N_s = 5e4-shot mean (exactly skew/sqrt(N_s)
+                       and kurt/N_s for i.i.d. shots), next to the Monte-Carlo values of Fig. momentmc (m1 only)
+                       and their sampling standard errors sqrt(6/M), sqrt(24/M).
+  B2_one_node_m2_deficit   (audit B2) derived: the m2 deficit of a one-node (one Lanczos step) reconstruction,
+                       m0 Var_A = m2 - m1^2/m0, relative to m2, from stored moments: L=12 ring and open chain
+                       (key R8) and the L=6 ring at U/t = 3..8 (data/2026-10-02_full_support_rr.json).
+  SOTA1_02_W1_transport   (audit SOTA1-02) derived: on the L=6 ring, the Wasserstein-1 bound sqrt(2) sigma for two
+                       normalized measures with equal m0, m1, m2 (independent coupling), and the W_1 of the
+                       full-support Rayleigh-Ritz reconstruction (data/2026-10-02_full_support_rr.json).
 
 Run the whole A3 set (writes every key; 14-15 min on the authors' laptop in the 2026-09-27 runs, of which
 christoffel_tolerance_lp.py, export_christoffel_dat.py, necessary_sufficient_composition.py,
@@ -48,10 +59,15 @@ KEY_OWNERS = {
     'm4_psd_and_symmetry': 'small_checks.py',
     'M5_christoffel_claims': 'small_checks.py (derived from R4, R9)',
     'M6_inverse_moment_claim': 'small_checks.py (derived from R8)',
+    'MA6_estimator_shape_by_order': 'small_checks.py',
+    'B2_one_node_m2_deficit': 'small_checks.py (derived from R8 and data/2026-10-02_full_support_rr.json)',
+    'SOTA1_02_W1_transport': 'small_checks.py (derived from data/2026-10-02_full_support_rr.json)',
 }
 RUN_ORDER = ['within_sector_lp.py', 'christoffel_tolerance_lp.py', 'necessary_sufficient_composition.py',
              'estimator_form_offeigenstate.py', 'run_inverse_moment_falsifier.py --r8',
-             'export_christoffel_dat.py']
+             'export_christoffel_dat.py', 'full_support_rr.py']
+FULL_SUPPORT_JSON = os.path.join(DATA, '2026-10-02_full_support_rr.json')
+MC_JSON = os.path.join(DATA, '2026-09-27_interval_moment_mc.json')
 
 
 # ------------------------------------------------------------------------------------------------
@@ -96,7 +112,9 @@ def record_theory_numerics(key, payload, script, runtime_s, seed=None, command=N
     doc['provenance'] = {
         'file': 'data/2026-09-27_theory_numerics.json',
         'what': 'P3 revision (SciPost Physics Core), area A3 theory numerics: plan items R3 R4 R5 R6 R8 R9 R11 '
-                'M1 M5 M6 m1 m2 m4 and critic items 5, 12 (PLAN_P3_2026-09-26.md). One key per item; each key '
+                'M1 M5 M6 m1 m2 m4 and critic items 5, 12 (PLAN_P3_2026-09-26.md); audit 2026-10-02 items N3 '
+                '(R3 next_order_at_optimum), MA-3/D6 (M1 sharp constant), MA-6, B2, SOTA1-02. One key per item; '
+                'each key '
                 'has its own provenance (script, seed, runtime). Simulation/exact numerics only; no device data.',
         'regenerate_all': 'cd src && python small_checks.py --all',
         'key_owners': KEY_OWNERS,
@@ -316,6 +334,49 @@ def check_m4_rho_shift():
 
 
 # ------------------------------------------------------------------------------------------------
+# MA-6: shape of the estimator distribution, per order (exact, from the local estimator)
+# ------------------------------------------------------------------------------------------------
+def check_MA6_estimator_shape(L=6, U=4.0, Ns=50000):
+    """Same sector, ground state (sl._sub_gs, fixed start) and local estimator as interval_moment_mc.py."""
+    t0 = time.time()
+    import spectral_lanczos as sl
+    nup = nd = L // 3
+    Tu, Su, _ = sl.hop(L, nup); Td, Sd, _ = sl.hop(L, nd)
+    Du, Dd = len(Su), len(Sd)
+    upocc = sl.occ_matrix(Su, L); dnocc = sl.occ_matrix(Sd, L)
+    Hs = (sp.kron(Tu, sp.identity(Dd)) + sp.kron(sp.identity(Du), Td)
+          + sp.diags(U * (upocc @ dnocc.T).ravel())).tocsr()
+    Ju = sl.current_string(L, nup); Jd = sl.current_string(L, nd)
+    Js = (sp.kron(Ju, sp.identity(Dd)) + sp.kron(sp.identity(Du), Jd)).tocsr()
+    E0, psi0 = sl._sub_gs(Hs)
+    p = np.abs(psi0) ** 2; p = p / p.sum(); mask = np.abs(psi0) > 1e-12
+    v = Js @ psi0; rows = []
+    for k in range(5):
+        Okpsi = Js @ v
+        loc = np.zeros(len(psi0), dtype=complex); loc[mask] = Okpsi[mask] / psi0[mask]
+        im = float(np.max(np.abs(loc.imag)))
+        loc = loc.real
+        mu = float(np.sum(p * loc)); var = float(np.sum(p * (loc - mu) ** 2)); sd = np.sqrt(var)
+        g1 = float(np.sum(p * (loc - mu) ** 3) / sd ** 3); g2 = float(np.sum(p * (loc - mu) ** 4) / sd ** 4 - 3)
+        rows.append(dict(k=k, mean=mu, var_per_shot=var, skew_per_shot=g1, excess_kurtosis_per_shot=g2,
+                         skew_of_Ns_mean=g1 / np.sqrt(Ns), excess_kurtosis_of_Ns_mean=g2 / Ns,
+                         max_abs_imag_local_estimator=im))
+        v = Hs @ v - E0 * v
+    mc = json.load(open(MC_JSON, encoding='utf-8'))
+    M = 4000                                              # interval_moment_mc.py: M = 4000 replicas, seed 1
+    out = dict(
+        system='L=6, U/t=4 doped (2,2) ring, current probe; O_k = J (H-E0)^k J; local estimator over |psi0|^2 '
+               '(interval_moment_mc.py, interval_battery.py)',
+        N_s=Ns, by_order=rows,
+        mc_m1_fig_momentmc=dict(skew=mc['skew'], excess_kurtosis=mc['excess_kurtosis'], replicas=M,
+                                se_skew=float(np.sqrt(6.0 / M)), se_excess_kurtosis=float(np.sqrt(24.0 / M)),
+                                source='data/2026-09-27_interval_moment_mc.json'),
+        note='For N_s i.i.d. shots the mean has skewness g1/sqrt(N_s) and excess kurtosis g2/N_s exactly; '
+             'compare the Monte-Carlo values of Fig. momentmc with these within their sampling errors.')
+    return out, time.time() - t0
+
+
+# ------------------------------------------------------------------------------------------------
 # derived summaries
 # ------------------------------------------------------------------------------------------------
 def summaries():
@@ -376,6 +437,41 @@ def summaries():
                 out['M6_inverse_moment_claim'][f'om_spur_scan_{tag}_f_star_full_rule'] = {
                     str(s['om_spur']): s['f_star_full_rule'] for s in rec['om_spur_scan']}
         out['M6_inverse_moment_claim']['noise_normalized_verdict'] = verdict
+    fs = json.load(open(FULL_SUPPORT_JSON, encoding='utf-8')) if os.path.exists(FULL_SUPPORT_JSON) else None
+    if 'R8_inverse_moment_sensitivity' in doc:
+        R8 = doc['R8_inverse_moment_sensitivity']
+
+        def rel(r):
+            return (r['m2'] - r['m1'] ** 2 / r['m0']) / r['m2']
+        b2 = dict(
+            derived_from=['R8_inverse_moment_sensitivity'] + (['data/2026-10-02_full_support_rr.json'] if fs else []),
+            definition='one Lanczos node: one pole at m1/m0 with weight m0, so mbar_2 = m1^2/m0 and the m2 deficit '
+                       'is m0 Var_A = m2 - m1^2/m0; reported relative to m2',
+            L12_U8_ring_rel=rel(R8['ring']), L12_U8_open_chain_rel=rel(R8['open_chain']),
+            L12_moments={'ring': {k: R8['ring'][k] for k in ('m0', 'm1', 'm2')},
+                         'open_chain': {k: R8['open_chain'][k] for k in ('m0', 'm1', 'm2')}},
+            deployed_bias_budget=0.02)
+        if fs:
+            b2['L6_ring_rel_by_U'] = fs['summary']['one_node_deficit_rel_m2_by_U']
+            b2['L6_ring_U3_to_U6_range'] = fs['summary']['catalog_U_3_to_6_one_node_deficit_range']
+            b2['L6_ring_deficit_over_tau2_by_U'] = fs['summary'].get('one_node_deficit_over_tau2_by_U')
+            b2['L6_ring_tau2_over_m2_by_U'] = fs['summary'].get('tau2_over_m2_by_U')
+            b2['note'] = ('the deficit exceeds the 2% bias budget b but stays below tau_2, which is '
+                          '1.96 sqrt(shot^2 + (b m2)^2) >= 3.92% of m2')
+        out['B2_one_node_m2_deficit'] = b2
+    if fs:
+        w = {}
+        for k, r in fs['by_U'].items():
+            w[k] = dict(sigma_exact=float(np.sqrt(r['var_exact'])),
+                        sqrt2_sigma=r['W1_bound_equal_first_two_moments_sqrt2_sigma'],
+                        W1_full_support_rr=r['W1_normalized_exact_vs_rr'],
+                        W1_bound_independent_coupling_rr=r['W1_bound_independent_coupling'],
+                        rel_L1_full_line=r['rel_L1_eta0p15_full_line'])
+        out['SOTA1_02_W1_transport'] = dict(
+            derived_from=['data/2026-10-02_full_support_rr.json'],
+            bound='two normalized measures with the same mean and variance sigma^2: W_1 <= W_2 <= sqrt(E|X-Y|^2) '
+                  '= sqrt(2) sigma under the independent coupling; units of t',
+            by_U=w)
     return out
 
 
@@ -403,6 +499,13 @@ def main():
     m4['iii_rho_pi_shift'] = rho
     record_theory_numerics('m4_psd_and_symmetry', m4, 'small_checks.py', rt + rt2, seed=0,
                            command='cd src && python small_checks.py  (eigsh start vectors: default_rng(0/1))')
+    ma6, rt3 = check_MA6_estimator_shape()
+    print("MA6: per-shot skew/exkurt by k: " + "; ".join(
+        f"k={r['k']}: {r['skew_per_shot']:.3f}/{r['excess_kurtosis_per_shot']:.3f} (mean: {r['skew_of_Ns_mean']:.4f}/"
+        f"{r['excess_kurtosis_of_Ns_mean']:.5f})" for r in ma6['by_order']))
+    record_theory_numerics('MA6_estimator_shape_by_order', ma6, 'small_checks.py', rt3, seed=0,
+                           command='cd src && python small_checks.py  (ground state: sl._sub_gs, eigsh start '
+                                   'default_rng(0))')
     t0 = time.time()
     for k, v in summaries().items():
         record_theory_numerics(k, v, 'small_checks.py', time.time() - t0)

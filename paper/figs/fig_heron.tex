@@ -1,13 +1,13 @@
-% fig_heron.tex -- native pgfplots (single column). Executability-only run of the companion study (arXiv:2608.16436v3,
+% fig_heron.tex -- native pgfplots (single column). Executability-only run of the companion study (arXiv:2608.16436,
 % sm_scope.tex): real IBM Heron L=6, U/t=4, addition sector 4up/3dn (300 configurations), eta=0.15t.
 % Data: heron_exact.dat / heron_hw.dat from data/heron_spectral.json (job d9s16avpemts73ct6g8g; shots=50000 per circuit).
-% Sampler (as stated in P2 v3): 3.5x10^5 shots = 5x10^4 on each of 7 circuits, measurement twirling, Pauli gate twirling
+% Sampler (as stated in P2, checked against its final text 2026-10-02): 3.5x10^5 shots = 5x10^4 on each of 7 circuits, measurement twirling, Pauli gate twirling
 % and dynamical decoupling, NO readout-error mitigation, no configuration recovery. The bitstrings were post-selected
 % after being read in reversed qubit order, so all 300 retained determinants came from device errors; the retained
 % support is the whole sector, hence A_hw == A_exact by COVERAGE (not a fidelity claim).
 % The graded coverage test on an incomplete, device-sampled support is the L=8 curve, Fig. device.
 % Labels sit between the y=0.2 and y=0.4 grid lines, clear of the curve (which is < 0.16 for omega > 5.6).
-% 2026-09-28 (review pass E: V17-09, V17-10): the box now carries the executability-only caveat (bit-order error: all
+% 2026-09-28: the box now carries the executability-only caveat (bit-order error: all
 % 300 retained determinants came from device errors), so it survives reuse without the caption; the twirling / DD /
 % no-readout-mitigation line moved out of the box (it is in the caption) to keep the box clear of the data; each curve
 % label has a line sample (solid indigo / dashed oxblood); x axis in units of t (data/heron_spectral.json: U = 4.0,

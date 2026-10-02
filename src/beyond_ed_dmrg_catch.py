@@ -1,37 +1,39 @@
 # -*- coding: utf-8 -*-
 r"""
-BEYOND-ED DMRG CATCH  --  the reconstruction-independent moment screen catching a NATURAL
-(finite-sampling) SQD undersampling error at a system size where FULL EXACT DIAGONALIZATION IS
-INFEASIBLE, with DMRG/MPS as the trusted independent validator.
+BEYOND-ED DMRG CHECK -- the shared-state moment test on a finite-sampling SQD subspace at sector
+dimensions where full exact diagonalization is infeasible, with DMRG/MPS as the independent reference.
 ================================================================================================
 
-Model: 1D Fermi-Hubbard chain, OPEN boundary (DMRG's home turf), U/t given, half filling
-(nup = ndn = L/2, Sz=0).  Probe O = total current  J = -i t sum_i (c^dag_{i+1} c_i - h.c.).
+Model: 1D Fermi-Hubbard chain, OPEN boundary, U/t given, half filling (nup = ndn = L/2, S_z=0).
+Probe O = total current  J = -i t sum_i (c^dag_{i+1} c_i - h.c.).
 
-Roles (kept clean and separate, per the make-or-break spec):
-  * DMRG (TeNPy) role (a): the ground state |0> we SAMPLE the SQD subspace S from (Born-rule
-    perfect sampling of occupation configs ~ |<config|0>|^2 at a finite shot budget).
-  * DMRG (TeNPy) role (b): the INDEPENDENT VALIDATOR.  True spectral moments of the SAME probe,
-    M_k = <0| J (H-E0)^k J |0>, computed with the current MPO applied to the MPS.  DMRG is NEVER
-    used to compute the screen.
+Roles (kept separate):
+  * DMRG (TeNPy) role (a): the ground state |0> from which the subspace S is SAMPLED (Born-rule
+    perfect sampling of occupation configurations ~ |<config|0>|^2 at a finite shot budget).
+  * DMRG (TeNPy) role (b): the independent reference.  Moments of the same probe,
+    M_k = <0| J (H-E0)^k J |0>, from the current MPO applied to the MPS.  DMRG is never used in the test.
 
-The screen (device-realizable classical post-processing of the SAMPLED subspace, using FULL
-sparse operators -- exactly run_teeth_shared.py / Eq.(app-leak)):
+The test (classical post-processing of the SAMPLED subspace with FULL sparse operators, as in
+run_teeth_shared.py / Eq.(app-leak)):
     |0_S>  = ground state of  H_S = Pi_S H Pi_S     (subspace Hamiltonian on the sampled configs)
     e0     = <0_S| H |0_S>                          (shared energy reference)
-    m_bar_k = <0_S| J_S (H_S - e0)^k J_S |0_S>      RECONSTRUCTION moment  (within-S Lehmann)
-    m_hat_k = <0_S| J   (H   - e0)^k J   |0_S>      INDEPENDENT moment     (FULL J,H reach OUTSIDE S)
-    Delta_k = |m_hat_k - m_bar_k|                   the screen (fires when S undersamples weight)
+    m_bar_k = <0_S| J_S (H_S - e0)^k J_S |0_S>      reconstruction moment (within-S Lehmann)
+    m_hat_k = <0_S| J   (H   - e0)^k J   |0_S>      full-operator moment (J, H reach outside S)
+    Delta_k = |m_hat_k - m_bar_k|                   (Delta_0 is the weight of J|0_S> outside S)
 
-m_hat is computed with on-the-fly config-basis operators acting on the SAMPLED subspace ground
-state -- classical, device-realizable, NO diagonalization of the (>1e12-dim) full sector and NO
-DMRG.  Config-basis operator conventions are locked to TeNPy to machine precision at L=6,8 (see
-probe; and the L=8 ED calibration block below reproduces it in-run).
+Degeneracy: if the lowest level of H_S is degenerate (gap < DEGEN_TOL), |0_S> is not unique and
+every moment above depends on the chosen vector.  The script then reports [min, max] of each quantity
+over the ground manifold and leaves such rows out of the monotonicity and correlation summaries.
 
-Honest scope: 1D Hubbard is DMRG-solvable, so this is a BEYOND-ED CALIBRATION of the screen at the
-SQD pipeline's actual >ED regime -- not beyond-all-classical.  The value: the screen is exercised
-on genuine finite-sampling undersampling at sector dimensions (L=20: 3.4e10, L=24: 7.3e12) where
-full ED is out of reach, and every firing is checked against DMRG ground truth.
+m_hat is computed with on-the-fly configuration-basis operators acting on the sampled-subspace ground
+state (no diagonalization of the full sector, no DMRG).  The configuration-basis operator conventions
+are checked in-run against full ED at L=8.
+
+Scope: 1D Hubbard is DMRG-solvable, so this checks the test code at sector dimensions beyond full ED
+(L=20: 3.4e10, L=24: 7.3e12) against DMRG references; it is not a beyond-classical claim.
+
+Run:  python src/beyond_ed_dmrg_catch.py   (needs physics-tenpy; set BEYOND_ED_CACHE to relocate the
+DMRG/sample cache, default src/cache) -> data/<DATE>_beyond_ed_dmrg_catch.json
 """
 import os, sys, json, time
 import numpy as np
@@ -44,8 +46,8 @@ t0 = time.time()
 log = lambda *a: print(f"[{time.time()-t0:8.1f}s]", *a, flush=True)
 HERE = os.path.dirname(os.path.abspath(__file__))
 RES = os.path.normpath(os.path.join(HERE, '..', 'data'))
-CACHE = os.path.join(HERE, 'cache')
-DATE = '2026-08-28'
+CACHE = os.environ.get('BEYOND_ED_CACHE', os.path.join(HERE, 'cache'))   # DMRG/sample cache
+DATE = '2026-10-02'
 
 
 # ============================ vectorized config-basis operators ============================
@@ -146,9 +148,97 @@ def apply_current_vec(up, dn, amp, L, t):
 
 
 # ================================ the moment screen on S ================================
+DEGEN_TOL = 1e-8      # two subspace eigenvalues closer than this are treated as one degenerate level
+MAX_MANIFOLD = 6      # cap on the number of degenerate ground states collected by deflation
+
+
+def _lowest(Hop, n, rng):
+    """Lowest eigenpair of a Hermitian operator/LinearOperator of size n (ARPACK, random start)."""
+    v0 = rng.standard_normal(n) + 0j
+    ev, V = eigsh(Hop, k=1, which='SA', v0=v0, tol=0, maxiter=20000)
+    return float(ev[0].real), V[:, 0]
+
+
+def subspace_ground_manifold(H_S, seed=12345):
+    """Ground level of H_S with an explicit degeneracy check.
+
+    Eigenpairs are found one at a time: after each one, the found vectors are shifted up by deflation
+    (H_S + sigma * sum_j g_j g_j^H) and the lowest eigenpair of the deflated operator is computed from a
+    fresh random start.  This finds a degenerate partner even when a single-vector Lanczos run would
+    see only one vector of the level.  Collection stops at the first eigenvalue more than DEGEN_TOL
+    above the lowest one; its distance is returned as the gap.
+    Returns (evals_in_manifold, G [n x d orthonormal], gap_to_next)."""
+    from scipy.sparse.linalg import LinearOperator
+    n = H_S.shape[0]
+    if n < 40:
+        ev, V = np.linalg.eigh(H_S.toarray())
+        ev = ev.real
+        d = int(np.sum(ev - ev[0] < DEGEN_TOL))
+        gap = float(ev[d] - ev[0]) if d < n else float('inf')
+        return ev[:d].copy(), V[:, :d].astype(complex), gap
+    rng = np.random.default_rng(seed)
+    e, g = _lowest(H_S, n, rng)
+    evs = [e]; G = [g / np.linalg.norm(g)]
+    sigma = 10.0 * (abs(e) + float(abs(H_S).sum(axis=1).max()) + 1.0)
+    gap = float('inf')
+    while len(G) < min(MAX_MANIFOLD + 1, n - 1):
+        Gm = np.column_stack(G)
+        op = LinearOperator((n, n), dtype=complex,
+                            matvec=lambda x, Gm=Gm: H_S @ x + sigma * (Gm @ (Gm.conj().T @ x)))
+        e2, g2 = _lowest(op, n, rng)
+        g2 = g2 - Gm @ (Gm.conj().T @ g2); g2 = g2 / np.linalg.norm(g2)
+        e2 = float(np.real(np.vdot(g2, H_S @ g2)))
+        if e2 - evs[0] < DEGEN_TOL:
+            evs.append(e2); G.append(g2)
+            if len(G) > MAX_MANIFOLD:
+                raise RuntimeError(f"ground manifold larger than {MAX_MANIFOLD}")
+        else:
+            gap = e2 - evs[0]
+            break
+    return np.array(evs), np.column_stack(G), float(gap)
+
+
+def _apply_J_columns(up_S, dn_S, G, L, t):
+    """J (full, reaches outside S) applied to each column of G; returned on the common support W
+    (union of the column supports) as a |W| x d matrix, with W's (up, dn, keys)."""
+    outs = [apply_current_vec(up_S, dn_S, G[:, j].astype(complex), L, t) for j in range(G.shape[1])]
+    keysW = np.unique(np.concatenate([o[3] for o in outs]))
+    VW = np.zeros((len(keysW), G.shape[1]), dtype=complex)
+    for j, (_, _, amp, uk) in enumerate(outs):
+        VW[np.searchsorted(keysW, uk), j] = amp
+    upW = (keysW >> L).astype(np.int64); dnW = (keysW & ((1 << L) - 1)).astype(np.int64)
+    return upW, dnW, keysW, VW
+
+
+def _herm_range(Q):
+    """[min, max] of x^H Q x over unit x (Q Hermitian d x d)."""
+    w = np.linalg.eigvalsh(0.5 * (Q + Q.conj().T))
+    return [float(w[0]), float(w[-1])]
+
+
+def _abs_range(r):
+    lo, hi = r
+    if lo <= 0.0 <= hi:
+        return [0.0, max(-lo, hi)]
+    return sorted([abs(lo), abs(hi)])
+
+
+def _relerr_range(r, ref):
+    lo, hi = r
+    if lo <= ref <= hi:
+        return [0.0, max(abs(lo - ref), abs(hi - ref)) / abs(ref)]
+    return sorted([abs(lo - ref) / abs(ref), abs(hi - ref) / abs(ref)])
+
+
 def screen_on_subspace(up_S, dn_S, L, t, U):
-    """Given the SAMPLED distinct configs S=(up_S,dn_S), compute the device-realizable screen:
-    |0_S>, e0, within-S moments m_bar_{0,1}, full-operator leak moments m_hat_{0,1}, Delta_{0,1}."""
+    """Given the SAMPLED distinct configs S=(up_S,dn_S), compute the shared-state test (classical
+    post-processing of the sampled subspace): subspace ground level of H_S, e0, within-S moments
+    m_bar_{0,1}, full-operator moments m_hat_{0,1}, Delta_{0,1}.
+
+    Every moment is a Hermitian quadratic form in the subspace ground state.  If the ground level is
+    degenerate (gap < DEGEN_TOL) the point values below refer to one arbitrary (seeded) vector of the
+    manifold and are NOT well defined; the '<name>_manifold' entries give [min, max] over all
+    normalized states of the ground manifold.  For a non-degenerate level min = max = point value."""
     n = len(up_S)
     keyS = _pack(up_S, dn_S, L)
     o = np.argsort(keyS); keyS_sorted = keyS[o]; orderS = np.arange(n)[o]
@@ -157,29 +247,43 @@ def screen_on_subspace(up_S, dn_S, L, t, U):
     J_S = build_op_on_set(up_S, dn_S, keyS_sorted, orderS, L, t, 0.0, 'cur')
     H_S = 0.5 * (H_S + H_S.getH()); J_S = 0.5 * (J_S + J_S.getH())     # symmetrize (numerical hygiene)
 
-    if n < 40:
-        ev, V = np.linalg.eigh(H_S.toarray()); e0 = float(ev[0].real); g = V[:, 0]
-    else:
-        ev, V = eigsh(H_S, k=1, which='SA', maxiter=5000); e0 = float(ev[0]); g = V[:, 0]
+    evs, G, gap = subspace_ground_manifold(H_S)
+    d = G.shape[1]
+    e0 = float(evs[0])
+    # connected components of the sampled-subspace hopping graph (diagnostic for degeneracy)
+    from scipy.sparse.csgraph import connected_components
+    ncomp = int(connected_components(abs(H_S) > 0, directed=False)[0])
 
-    # RECONSTRUCTION (within-S)
-    vsub = J_S @ g
-    m_bar_0 = float(np.real(np.vdot(vsub, vsub)))
-    m_bar_1 = float(np.real(np.vdot(vsub, H_S @ vsub)) - e0 * m_bar_0)
-
-    # INDEPENDENT (full J,H reach outside S) on the SAME |0_S>
-    ou, od, oa, okeys = apply_current_vec(up_S, dn_S, g.astype(complex), L, t)   # v = J|0_S>
-    m_hat_0 = float(np.real(np.vdot(oa, oa)))
-    # <v|H|v>: build H projected on W=supp(v) (only c,c' in supp(v) contribute) and take v^H H v
-    ow = np.argsort(okeys); okeys_sorted = okeys[ow]; orderW = np.arange(len(okeys))[ow]
-    H_W = build_op_on_set(ou, od, okeys_sorted, orderW, L, t, U, 'hop')
+    # RECONSTRUCTION (within-S), as d x d forms on the manifold
+    VS = J_S @ G
+    Qbar0 = VS.conj().T @ VS
+    Qbar1 = VS.conj().T @ (H_S @ VS) - e0 * Qbar0
+    # INDEPENDENT branch (full J,H reach OUTSIDE S) on the SAME states
+    upW, dnW, keysW, VW = _apply_J_columns(up_S, dn_S, G, L, t)
+    ow = np.argsort(keysW); orderW = np.arange(len(keysW))[ow]   # keysW already sorted
+    H_W = build_op_on_set(upW, dnW, keysW[ow], orderW, L, t, U, 'hop')
     H_W = 0.5 * (H_W + H_W.getH())
-    m_hat_1 = float(np.real(np.vdot(oa, H_W @ oa)) - e0 * m_hat_0)
+    Qhat0 = VW.conj().T @ VW
+    Qhat1 = VW.conj().T @ (H_W @ VW) - e0 * Qhat0
 
+    # point values on the first manifold vector (the unique ground state when d = 1)
+    m_bar_0 = float(Qbar0[0, 0].real); m_bar_1 = float(Qbar1[0, 0].real)
+    m_hat_0 = float(Qhat0[0, 0].real); m_hat_1 = float(Qhat1[0, 0].real)
     leak_frac = max(0.0, 1.0 - m_bar_0 / m_hat_0) if m_hat_0 > 0 else 0.0
+
+    # ranges over the ground manifold
+    import scipy.linalg as sla
+    ratio = sla.eigh(0.5 * (Qbar0 + Qbar0.conj().T), 0.5 * (Qhat0 + Qhat0.conj().T), eigvals_only=True)
+    man = dict(m_bar_0=_herm_range(Qbar0), m_hat_0=_herm_range(Qhat0),
+               m_bar_1=_herm_range(Qbar1), m_hat_1=_herm_range(Qhat1),
+               delta_0=_abs_range(_herm_range(Qhat0 - Qbar0)),
+               delta_1=_abs_range(_herm_range(Qhat1 - Qbar1)),
+               leak_frac=[max(0.0, 1.0 - float(ratio[-1])), max(0.0, 1.0 - float(ratio[0]))])
     return dict(n=n, e0=e0, m_bar_0=m_bar_0, m_bar_1=m_bar_1, m_hat_0=m_hat_0,
                 m_hat_1=m_hat_1, delta_0=abs(m_hat_0 - m_bar_0), delta_1=abs(m_hat_1 - m_bar_1),
-                leak_frac=leak_frac, W=len(okeys))
+                leak_frac=leak_frac, W=len(keysW), manifold_dim=d, gs_gap=gap,
+                degenerate=bool(d > 1), manifold_evals=[float(x) for x in evs],
+                n_components=ncomp, manifold=man)
 
 
 # ================================ exact-diagonalization truth (calibration L) ================
@@ -378,84 +482,121 @@ def run_L(L, U=8.0, t=1.0, budgets=None, n_max=None, chi=400, seed=0, ed_calib=F
         rec_err1 = abs(sc['m_bar_1'] - M1_true) / abs(M1_true)
         hat_err0 = abs(sc['m_hat_0'] - M0_true) / abs(M0_true)
         hat_err1 = abs(sc['m_hat_1'] - M1_true) / abs(M1_true)
+        man = dict(sc['manifold'])
+        man['recon_err_m0'] = _relerr_range(man['m_bar_0'], M0_true)
+        man['recon_err_m1'] = _relerr_range(man['m_bar_1'], M1_true)
+        man['hat_err_m0'] = _relerr_range(man['m_hat_0'], M0_true)
+        man['hat_err_m1'] = _relerr_range(man['m_hat_1'], M1_true)
         row = dict(N_shots=N, S=int(sc['n']), W=int(sc['W']), e0=sc['e0'],
+                   degenerate=sc['degenerate'], manifold_dim=sc['manifold_dim'],
+                   gs_gap=(sc['gs_gap'] if np.isfinite(sc['gs_gap']) else None),
+                   manifold_evals=sc['manifold_evals'], n_components=sc['n_components'],
                    m_bar_0=sc['m_bar_0'], m_hat_0=sc['m_hat_0'], delta_0=sc['delta_0'],
                    m_bar_1=sc['m_bar_1'], m_hat_1=sc['m_hat_1'], delta_1=sc['delta_1'],
                    leak_frac=sc['leak_frac'],
                    recon_err_m0=rec_err0, recon_err_m1=rec_err1,
-                   hat_err_m0=hat_err0, hat_err_m1=hat_err1)
+                   hat_err_m0=hat_err0, hat_err_m1=hat_err1,
+                   manifold=man)
         rows.append(row)
+        if sc['degenerate']:
+            log(f"  N={N:6d} DEGENERATE ground level of H_S: dim={sc['manifold_dim']} "
+                f"gap={sc['gs_gap']:.3e} components={sc['n_components']}  "
+                f"Delta0 in [{man['delta_0'][0]:.4f},{man['delta_0'][1]:.4f}]  "
+                f"m_hat0 in [{man['m_hat_0'][0]:.4f},{man['m_hat_0'][1]:.4f}]  "
+                f"m_bar0 in [{man['m_bar_0'][0]:.4f},{man['m_bar_0'][1]:.4f}]")
         log(f"  N={N:6d} |S|={sc['n']:6d} |W|={sc['W']:7d} e0={sc['e0']:8.4f} | "
             f"m_bar0={sc['m_bar_0']:7.3f} m_hat0={sc['m_hat_0']:7.3f} D0={sc['delta_0']:7.3f} "
             f"leak={100*sc['leak_frac']:5.1f}% | m_bar1={sc['m_bar_1']:7.2f} m_hat1={sc['m_hat_1']:7.2f} "
             f"D1={sc['delta_1']:7.2f} | reconErr(m0)={100*rec_err0:5.1f}% (m1)={100*rec_err1:5.1f}%")
-    return dict(L=L, U=U, sector_dim=float(sector), ed_calib=ed_calib,
-                E0_DMRG=d['E0'], maxchi=d['maxchi'], trunc=d['trunc'],
+    return dict(L=L, U=U, sector_dim=float(sector), ed_calib=ed_calib, chi_max=chi, seed=seed,
+                E0_DMRG=d['E0'], maxchi=d['maxchi'],
+                trunc=(d['trunc'] if np.isfinite(d['trunc']) else None),
                 M0_true=M0_true, M1_true=M1_true, truth_source=('ED' if ed_calib else 'DMRG'),
+                E0_ED=(truth['E0'] if ed_calib else None),
                 dmrg_M0=d['M0'], dmrg_M1=d['M1'], sweep=rows)
 
 
+def _fmt_verdict(r, sm):
+    """One factual block per run, formatted from the data."""
+    s = r['sweep']; nd = [w for w in s if not w['degenerate']]; dg = [w for w in s if w['degenerate']]
+    a, b = nd[0], nd[-1]
+    txt = (f"L={r['L']} (U/t={r['U']:g}, S_z=0 sector dim {r['sector_dim']:.3e}; "
+           f"truth from {r['truth_source']}: m0={r['M0_true']:.2f}, m1={r['M1_true']:.2f}; "
+           f"DMRG E0={r['E0_DMRG']:.4f}, max bond dim {r['maxchi']}"
+           + (f", truncation error {r['trunc']:.1e}" if r['trunc'] is not None else "") + "). "
+           f"Over the {len(nd)} non-degenerate budgets N={a['N_shots']}..{b['N_shots']} "
+           f"(|S|={a['S']}..{b['S']}): Delta_0 {a['delta_0']:.2f} -> {b['delta_0']:.2f} "
+           f"(monotone decreasing: {sm['delta0_monotonic_decreasing']}); "
+           f"relative error of m_bar_0 {a['recon_err_m0']:.2f} -> {b['recon_err_m0']:.2f}; "
+           f"relative error of m_hat_0 {a['hat_err_m0']:.3f} -> {b['hat_err_m0']:.3f}; "
+           f"leak fraction {a['leak_frac']:.2f} -> {b['leak_frac']:.2f}; "
+           f"subspace e0 {a['e0']:.3f} -> {b['e0']:.3f}; "
+           + (f"Pearson corr(Delta_0, rel. error of m_bar_0) = {sm['corr_delta0_reconErr']:.4f} "
+              f"over {sm['n_rows_nondegenerate']} rows." if sm['corr_delta0_reconErr'] is not None
+              else "too few rows for a correlation."))
+    for w in dg:
+        m = w['manifold']
+        txt += (f" At N={w['N_shots']} (|S|={w['S']}) the subspace ground level is {w['manifold_dim']}-fold "
+                f"degenerate (next gap {w['gs_gap']:.3g}); over it Delta_0 ranges "
+                f"{m['delta_0'][0]:.2f}-{m['delta_0'][1]:.2f}, m_hat_0 {m['m_hat_0'][0]:.2f}-{m['m_hat_0'][1]:.2f}, "
+                f"relative error of m_bar_0 {m['recon_err_m0'][0]:.3f}-{m['recon_err_m0'][1]:.3f}.")
+    return txt
+
+
 def main():
-    out = {'_provenance': {'script': 'A_payload_echoes/03_src/beyond_ed_dmrg_catch.py', 'date': DATE,
+    import tenpy, scipy
+    out = {'_provenance': {'script': 'src/beyond_ed_dmrg_catch.py', 'date': DATE,
                            'model': '1D Fermi-Hubbard OBC, half filling, U/t=8, probe=current J',
-                           'screen': 'Eq.(app-leak): Delta_k=|m_hat_k-m_bar_k| on subspace GS |0_S>',
-                           'validator': 'DMRG/MPS true moments M_k=<0|J(H-E0)^k J|0> (independent)'},
+                           'test': 'shared-state moment test (classical post-processing of the sampled '
+                                   'subspace): Delta_k=|m_hat_k-m_bar_k| on the subspace ground state |0_S>',
+                           'validator': 'DMRG/MPS moments M_k=<0|J(H-E0)^k J|0> (ED at L=8)',
+                           'degeneracy_rule': (f'ground level of H_S degenerate if next eigenvalue - E_min < {DEGEN_TOL:g}; '
+                                               'point values of a degenerate row refer to one arbitrary manifold vector; '
+                                               'the manifold entry gives [min,max] over the ground manifold; '
+                                               'monotonicity and correlations use non-degenerate rows only'),
+                           'versions': {'python': sys.version.split()[0], 'numpy': np.__version__,
+                                        'scipy': scipy.__version__, 'tenpy': tenpy.__version__}},
            'runs': []}
-    # (1) L=8 ED calibration: locks conventions in-run + shows no false positive at full coverage.
+    # (1) L=8 ED calibration: locks conventions in-run.
     out['runs'].append(run_L(8, U=8.0, budgets=[200, 500, 1000, 2000, 4000], n_max=4000,
                              chi=200, ed_calib=True))
-    # (2) L=20 beyond-ED (sector 3.4e10).
+    # (2) L=20 beyond ED (sector 3.4e10).
     out['runs'].append(run_L(20, U=8.0, budgets=[500, 1000, 2000, 5000, 10000, 15000],
                              n_max=15000, chi=160))
-    # (3) L=24 beyond-ED (sector 7.3e12) -- the flagship.
+    # (3) L=24 beyond ED (sector 7.3e12).
     out['runs'].append(run_L(24, U=8.0, budgets=[500, 1000, 2000, 5000, 10000, 15000],
                              n_max=15000, chi=160))
 
-    # ---- honest verdict + monotonicity / tracking diagnostics ----
     def _mono_dec(x):
         return all(x[i + 1] <= x[i] + 1e-9 for i in range(len(x) - 1))
     summ = []
     for r in out['runs']:
-        s = r['sweep']
+        s = [w for w in r['sweep'] if not w['degenerate']]
         d0 = [w['delta_0'] for w in s]; leak = [w['leak_frac'] for w in s]
         re0 = [w['recon_err_m0'] for w in s]
-        # Pearson corr between the screen Delta_0 and the DMRG-validated reconstruction error
-        import numpy as _np
-        cc = float(_np.corrcoef(d0, re0)[0, 1]) if len(d0) > 2 else float('nan')
+        cc = float(np.corrcoef(d0, re0)[0, 1]) if len(d0) > 2 else None
         summ.append(dict(L=r['L'], sector_dim=r['sector_dim'], truth_source=r['truth_source'],
+                         n_rows_nondegenerate=len(s),
+                         degenerate_budgets=[w['N_shots'] for w in r['sweep'] if w['degenerate']],
                          delta0_monotonic_decreasing=_mono_dec(d0),
                          leak_monotonic_decreasing=_mono_dec(leak),
                          reconErr_monotonic_decreasing=_mono_dec(re0),
                          corr_delta0_reconErr=cc,
                          delta0_range=[d0[-1], d0[0]], leak_range=[leak[-1], leak[0]],
-                         reconErr_m0_range=[re0[-1], re0[0]]))
+                         reconErr_m0_range=[re0[-1], re0[0]],
+                         hatErr_m0_range=[min(w['hat_err_m0'] for w in s), max(w['hat_err_m0'] for w in s)]))
     out['summary'] = summ
-    out['verdict'] = (
-        "YES -- the reconstruction-independent moment screen fires on GENUINE finite-sampling SQD "
-        "undersampling at beyond-ED scale, DMRG-validated. At L=24 (sector C(24,12)^2=7.31e12, full "
-        "ED impossible) the DMRG validator (E0=-7.6559, chi=159, trunc=1.0e-10) gives true weight "
-        "M0=55.03; the SQD reconstruction from Born-rule sampling of the DMRG GS undersamples it by "
-        "95%->55% as the shot budget grows 500->15000 (|S|=495->13235), and the device-realizable "
-        "screen Delta_0=|m_hat_0 - m_bar_0| (full sparse J,H on the SAMPLED |0_S>, no ED, no DMRG) "
-        "flags exactly this: Delta_0 falls monotonically 43.5->24.5 (operator leak 94%->50%), "
-        "tracking the DMRG-confirmed reconstruction error (corr>0.99). Same behavior at L=20 "
-        "(sector 3.41e10). No false positive: Delta and the true error fall together as coverage "
-        "grows; the independent estimator m_hat_0 (~46-49) stays near the DMRG truth while the "
-        "reconstruction m_bar_0 is the branch that is wrong. HONEST SCOPE: 1D Hubbard is "
-        "DMRG-solvable, so this is a beyond-ED CALIBRATION of the screen at the SQD pipeline's actual "
-        ">ED regime, not beyond-all-classical; and at these budgets the current probe's weight is "
-        "still 50-95% under-resolved, i.e. real SQD spectral reconstructions here are genuinely "
-        "unreliable and the screen correctly says so.")
+    out['verdict'] = ' '.join(_fmt_verdict(r, sm) for r, sm in zip(out['runs'], summ)) + (
+        " Scope: the open 1D Hubbard chain is DMRG-solvable, so this checks the shared-state test code at "
+        "sector dimensions beyond full ED against DMRG references; it is not a measure of detection power "
+        "and not a beyond-classical claim.")
 
     os.makedirs(RES, exist_ok=True)
     outpath = os.path.join(RES, f'{DATE}_beyond_ed_dmrg_catch.json')
     with open(outpath, 'w') as f:
-        json.dump(out, f, indent=2)
+        json.dump(out, f, indent=2, allow_nan=False)
     log(f"WROTE {outpath}")
-    for sm in summ:
-        log(f"[verdict] L={sm['L']}: Delta0 mono-dec={sm['delta0_monotonic_decreasing']} "
-            f"corr(Delta0,reconErr)={sm['corr_delta0_reconErr']:.4f} "
-            f"leak {100*sm['leak_range'][1]:.0f}%->{100*sm['leak_range'][0]:.0f}%")
+    log("[verdict] " + out['verdict'])
 
 
 if __name__ == '__main__':

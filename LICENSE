@@ -1,7 +1,8 @@
-This repository is dual-licensed.
+This repository is dual-licensed: code under the MIT License, everything else authored here under
+CC BY 4.0. Third-party files keep their own terms (last section).
 
 ================================================================================
-CODE  (all *.py, notebooks/, Makefile, .github/)  —  MIT License
+CODE  (all *.py, notebooks/, Makefile)  —  MIT License
 ================================================================================
 
 Copyright (c) 2026 Nicolás Bonilla Vargas
@@ -25,12 +26,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ================================================================================
-PAPER  (paper/ — text, figures, tables)  —  CC BY 4.0
+PAPER, DATA AND DOCUMENTATION  —  CC BY 4.0
 ================================================================================
 
-The manuscript, its figures and tables are licensed under the Creative Commons
-Attribution 4.0 International License (CC BY 4.0):
-https://creativecommons.org/licenses/by/4.0/
+Copyright (c) 2026 Nicolás Bonilla Vargas
+
+The following are licensed under the Creative Commons Attribution 4.0
+International License (CC BY 4.0), https://creativecommons.org/licenses/by/4.0/ :
+
+  - paper/: the manuscript text, its figures, figure data and tables
+    (except the SciPost template files listed below);
+  - data/: every data file and record, including the sealed records, the
+    IBM Quantum job records and counts, and the L=12 caches in src/cache/;
+  - docs/, the README files and CITATION.cff.
 
 You are free to share and adapt the material for any purpose, provided you give
-appropriate credit (cite the paper; see CITATION.cff).
+appropriate credit (cite the work; see CITATION.cff) and indicate if changes
+were made.
+
+================================================================================
+THIRD-PARTY FILES  —  not covered by the licences above
+================================================================================
+
+  - paper/SciPost.cls (SciPost LaTeX template, 2021-08) and
+    paper/SciPost_bibstyle.bst (SciPost bibliography style v1.1, generated with
+    Patrick W. Daly's custom-bib, copyright 1994-2011 Patrick W. Daly) are
+    distributed by SciPost for authors and are included, under their own
+    terms, only so that the manuscript compiles.

@@ -46,10 +46,18 @@ Comparator of the "sd / analytic sigma" ratio: the analytic sigma is sd_delta0 o
 data/_superseded/analytic_coverage_leak.json (draws from |phi|^2 at the device's pooled kept N, Poisson
 independence). Both Monte Carlo comparators are reported: sd(i) raw-matched and sd(ii) retained-matched.
 
-Output: data/2026-09-27_delta0_reference_mc.json  (new file; no existing data file is touched).
+Uniform-noise monotonicity: the flags exact_E_monotone_decreasing_in_p and mc_mean_monotone_decreasing_in_p
+are evaluated over ALL mixture rows (the grid P_MIX and the retention-matched p) sorted by p, with strict
+inequalities; monotonicity_detail adds the shape, the argmin, and the exact E[Delta_0](p) on a 0.01 grid with a
+refined minimiser (analytic, no draws).
+
+Output: data/2026-09-27_delta0_reference_mc.json  (no other data file is touched), written with LF line endings.
+Input and script hashes are SHA-256 of the bytes with CRLF normalised to LF, so they do not depend on the
+checkout's line endings.
 Figure data: src/export_device_dat.py reads that JSON and writes paper/figs/device_*.dat.
 
-USAGE (0 QPU):  python src/delta0_reference_mc.py        (7-20 min: 7.2 min on 2 BLAS threads, 19.3 min under load)
+USAGE (0 QPU):  python src/delta0_reference_mc.py        (7-30 min depending on load; each run records its own
+                wall time in provenance.runtime_s)
 Env overrides: SEED, R_RAW, R_KEPT, R_MIX, R_UNI, R_REL_RAW, R_REL_KEPT, R_REL_UNI, LANCZOS_M. (SEED is also read
 by the imported hardware_matched_job_L8.py, but only in its Aer dry run, which is behind a __main__ guard and
 is not executed here; it does not affect this script's draws.)
@@ -92,10 +100,10 @@ def rng_for(tag):
 
 
 def sha256(path):
-    h = hashlib.sha256()
+    """SHA-256 of the file's bytes with CRLF normalised to LF, so a Windows (autocrlf) checkout and a Unix
+    checkout of the same content give the same hash."""
     with open(path, "rb") as fh:
-        h.update(fh.read())
-    return h.hexdigest()
+        return hashlib.sha256(fh.read().replace(b"\r\n", b"\n")).hexdigest()
 
 
 # ---------------------------------------------------------------------------------------------
@@ -283,6 +291,75 @@ def run_block(tag, nk, Q, mass, R, R_rel):
     return d0, S, d1, kept, np.array(rels)
 
 
+def shape_of(p, y):
+    """Classify a sequence y(p) (p strictly increasing) by the signs of its consecutive differences."""
+    dy = np.diff(y)
+    i = int(np.argmin(y))
+    if np.all(dy < 0):
+        return "strictly decreasing"
+    if np.all(dy > 0):
+        return "strictly increasing"
+    if np.all(dy[:i] < 0) and np.all(dy[i:] > 0):
+        return f"strictly decreasing to a minimum at p={p[i]:.6g}, then strictly increasing"
+    return "neither monotone nor single-minimum"
+
+
+def mixture_monotonicity(mix, nk, p_step=0.01):
+    """Monotonicity of E[Delta_0](p) and of the MC mean over ALL mixture rows (grid plus retention-matched p),
+    sorted by p, plus the exact E[Delta_0](p) on a fine p grid with the minimiser refined (exact_E is analytic,
+    so the fine curve costs no draws)."""
+    from scipy.optimize import minimize_scalar
+    rows = sorted(mix, key=lambda m_: m_["p"])
+    p_all = np.array([m_["p"] for m_ in rows])
+    keep = np.concatenate([[True], np.diff(p_all) > 0])        # drop an exact duplicate p (same row twice)
+    rows = [m_ for m_, k_ in zip(rows, keep) if k_]
+    p = np.array([m_["p"] for m_ in rows])
+    E = np.array([m_["exact_E_delta0"] for m_ in rows])
+    mc = np.array([m_["delta0"]["mean"] for m_ in rows])
+    se = np.array([m_["delta0"]["sd"] / np.sqrt(m_["delta0"]["n"]) for m_ in rows])
+
+    def E_of(pp):
+        return exact_E(nk, (1 - pp) * Q0 + pp / DIM)[0]
+
+    pg = np.round(np.arange(0.0, 1.0 + 0.5 * p_step, p_step), 10)
+    Eg = np.array([E_of(x) for x in pg])
+    ig = int(np.argmin(Eg))
+    if 0 < ig < len(pg) - 1:
+        res = minimize_scalar(E_of, bounds=(pg[ig - 1], pg[ig + 1]), method="bounded",
+                              options=dict(xatol=1e-8))
+        p_star, E_star = float(res.x), float(res.fun)
+    else:
+        p_star, E_star = float(pg[ig]), float(Eg[ig])
+    low = pg <= 0.25 + 1e-12
+    return dict(
+        p_sorted=p.tolist(),
+        exact_E_delta0_sorted=E.tolist(),
+        exact_E_monotone_decreasing_in_p=bool(np.all(np.diff(E) < 0)),
+        exact_E_monotone_increasing_in_p=bool(np.all(np.diff(E) > 0)),
+        exact_E_shape=shape_of(p, E),
+        exact_E_argmin_row_p=float(p[int(np.argmin(E))]), exact_E_min_row=float(E.min()),
+        exact_E_at_p1_minus_min_row=float(E[-1] - E.min()) if p[-1] == 1.0 else None,
+        mc_mean_sorted=mc.tolist(),
+        mc_standard_error_sorted=se.tolist(),
+        mc_mean_monotone_decreasing_in_p=bool(np.all(np.diff(mc) < 0)),
+        mc_mean_monotone_increasing_in_p=bool(np.all(np.diff(mc) > 0)),
+        mc_mean_shape=shape_of(p, mc),
+        mc_mean_argmin_row_p=float(p[int(np.argmin(mc))]),
+        mc_mean_minus_exact_E_over_se=((mc - E) / np.where(se > 0, se, np.nan)).tolist(),
+        exact_E_fine_grid=dict(
+            p_step=p_step, p=pg.tolist(), exact_E_delta0=Eg.tolist(),
+            shape=shape_of(pg, Eg),
+            argmin_p_grid=float(pg[ig]), argmin_p_refined=p_star, min_exact_E_delta0=E_star,
+            exact_E_at_p0=float(Eg[0]), exact_E_at_p1=float(Eg[-1]),
+            relative_range_p_le_0p25=float((Eg[low].max() - Eg[low].min()) / Eg[0]),
+            note="exact E[Delta_0](p) for independent per-circuit multinomials of the device's raw shots; "
+                 "argmin refined by bounded scalar minimisation (xatol 1e-8) between the neighbouring grid "
+                 "points; relative_range_p_le_0p25 = (max - min of E over p <= 0.25) / E(p=0)"),
+        note="flags over all rows sorted by p; strict inequalities; the MC means carry the standard errors "
+             "listed (sd/sqrt(replicas)) and Delta_0 is heavy-tailed (phi_weight_stats), so the exact E is the "
+             "reference for the shape")
+
+
 # ---------------------------------------------------------------------------------------------
 # 4. Device rows, recomputed from the retained raw counts (per circuit raw and kept shots)
 # ---------------------------------------------------------------------------------------------
@@ -445,13 +522,18 @@ for NS in BUDGETS:
                         device_rank_delta0=rank(d0m, D["delta0"]), device_rank_S=rank(Sm, D["S"])))
         log(f"{NS} mix p={p:.3f}: Delta0 {d0m.mean():.5f}+-{d0m.std(ddof=1):.5f} (exact E {Em:.5f}) "
             f"ret={mix[-1]['expected_retention']:.4f}")
-    e_seq = [m_["exact_E_delta0"] for m_ in mix[:len(P_MIX)]]
+    mono = mixture_monotonicity(mix, raw_k)
     row["uniform_noise_mixture_raw_matched"] = dict(
         definition="per circuit (1-p) P_k + p/2^16, device raw shots per circuit, same post-selection",
         p_retention_matched=p_ret, rows=mix,
-        exact_E_monotone_decreasing_in_p=bool(all(np.diff(e_seq) < 0)),
-        mc_mean_monotone_decreasing_in_p=bool(all(np.diff([m_["delta0"]["mean"] for m_ in mix[:len(P_MIX)]]) < 0)),
+        monotonicity_rows="all rows, including the retention-matched p, sorted by p (rows themselves stay in "
+                          "draw order: the grid P_MIX, then the retention-matched p)",
+        exact_E_monotone_decreasing_in_p=mono["exact_E_monotone_decreasing_in_p"],
+        mc_mean_monotone_decreasing_in_p=mono["mc_mean_monotone_decreasing_in_p"],
+        monotonicity_detail=mono,
         runtime_s=time.time() - t0)
+    log(f"{NS} mix monotonicity: exact E {mono['exact_E_shape']}; fine-grid argmin p="
+        f"{mono['exact_E_fine_grid']['argmin_p_refined']:.4f} (E={mono['exact_E_fine_grid']['min_exact_E_delta0']:.6f})")
 
     # (iv) uniform in-sector sampler at the device's pooled kept count
     t0 = time.time()
@@ -495,6 +577,8 @@ out = dict(
         runtime_s=runtime, timing=timing,
         replicas=dict(R_RAW=R_RAW, R_KEPT=R_KEPT, R_MIX=R_MIX, R_UNI=R_UNI, R_REL_RAW=R_REL_RAW,
                       R_REL_KEPT=R_REL_KEPT, R_REL_UNI=R_REL_UNI, LANCZOS_M=LANCZOS_M),
+        hash_scheme="SHA-256 of the file bytes with CRLF normalised to LF (line-ending independent)",
+        script_sha256=sha256(os.path.abspath(__file__)),
         inputs={os.path.relpath(p, os.path.join(RES, "..")).replace("\\", "/"): sha256(p)
                 for p in [os.path.join(RES, f) for f in DEVICE_FILES.values()] + [DRYRUN, ANALYTIC,
                           os.path.join(RES, "2026-09-05_retention_matched_control.json"),
@@ -521,6 +605,6 @@ out = dict(
     device=device,
     budgets=budgets_out,
 )
-with open(OUT, "w", encoding="utf-8") as fh:
+with open(OUT, "w", encoding="utf-8", newline="\n") as fh:     # LF on every platform
     json.dump(out, fh, indent=1)
 log(f"wrote {OUT}  (runtime {runtime:.1f} s)")
