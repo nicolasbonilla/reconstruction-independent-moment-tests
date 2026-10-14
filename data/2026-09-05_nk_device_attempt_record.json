@@ -703,7 +703,7 @@
    "provenance": "verbatim (archived work copy; equals the Write of 2026-09-05T13:09:00Z)"
   },
   "src/nk_record/nk_logged_outputs.py": {
-   "sha256_lf": "e372a4c99a3f1bc47fd336155230bfeebe4d47beddc99a3d5ac1857d33498fa2",
+   "sha256_lf": "754740febd497944cdb4dfeb3ee1aa2e1bed38184264f89300547071e3871b47",
    "provenance": "logged outputs, transcribed verbatim (see its docstring)"
   }
  },
@@ -723,8 +723,8 @@
     "kind": "tool_use",
     "tool_use_id": "toolu_01Edp2Phz72HhnWEfqo4Pume",
     "transcript_byte_offset": 947409479,
-    "redacted": false,
-    "text": "cd \"C:/Users/Nicolas/Downloads/Proyecto_SQD_ML/Quantum_for_AI/A_payload_echoes/03_src\" && RUN=1 \"C:/tmp/ibmqpu/Scripts/python.exe\" nk_stage2_device_job.py 2>&1 | grep -vE \"stevedore|Deprecation\" | tail -40"
+    "redacted": true,
+    "text": "cd \"<project>/Quantum_for_AI/A_payload_echoes/03_src\" && RUN=1 \"<venv>/Scripts/python.exe\" nk_stage2_device_job.py 2>&1 | grep -vE \"stevedore|Deprecation\" | tail -40"
    },
    {
     "id": "L02",
@@ -733,8 +733,8 @@
     "kind": "tool_result",
     "tool_use_id": "toolu_01URFA51LZRLavEaqRnpmfYp",
     "transcript_byte_offset": 947421882,
-    "redacted": false,
-    "text": "1\t[manifest] 496203db536c8508d939295df3781727d4e07c285f0930451ff8919eca26ae80\n2\tTraceback (most recent call last):\n3\t  File \"C:\\tmp\\ibmqpu\\Lib\\site-packages\\qiskit_ibm_runtime\\models\\backend_properties.py\", line 411, in qubit_property\n4\t    result = result[name]  # type: ignore[assignment]\n5\t             ~~~~~~^^^^^^\n6\tKeyError: 'T2'\n7\t\n8\tThe above exception was the direct cause of the following exception:\n9\t\n10\tTraceback (most recent call last):\n11\t  File \"C:\\Users\\Nicolas\\Downloads\\Proyecto_SQD_ML\\Quantum_for_AI\\A_payload_echoes\\03_src\\nk_stage2_device_job.py\", line 168, in <module>\n12\t    main()\n13\t  File \"C:\\Users\\Nicolas\\Downloads\\Proyecto_SQD_ML\\Quantum_for_AI\\A_payload_echoes\\03_src\\nk_stage2_device_job.py\", line 123, in main\n14\t    best, med = pick_chain(backend)\n15\t                ^^^^^^^^^^^^^^^^^^^\n16\t  File \"C:\\Users\\Nicolas\\Downloads\\Proyecto_SQD_ML\\Quantum_for_AI\\A_payload_echoes\\03_src\\nk_stage2_device_job.py\", line 48, in pick_chain\n17\t    T2 = {q: props.t2(q) for q in range(backend.num_qubits)}\n18\t         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n19\t  File \"C:\\Users\\Nicolas\\Downloads\\Proyecto_SQD_ML\\Quantum_for_AI\\A_payload_echoes\\03_src\\nk_stage2_device_job.py\", line 48, in <dictcomp>\n20\t    T2 = {q: props.t2(q) for q in range(backend.num_qubits)}\n21\t             ^^^^^^^^^^^\n22\t  File \"C:\\tmp\\ibmqpu\\Lib\\site-packages\\qiskit_ibm_runtime\\models\\backend_properties.py\", line 441, in t2\n23\t    return self.qubit_property(qubit, \"T2\")[0]  # type: ignore[index, return-value]\n24\t           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n25\t  File \"C:\\tmp\\ibmqpu\\Lib\\site-packages\\qiskit_ibm_runtime\\models\\backend_properties.py\", line 414, in qubit_property\n26\t    raise BackendPropertyError(\n27\tqiskit_ibm_runtime.models.exceptions.BackendPropertyError: \"Couldn't find the property 'T2' for qubit 72.\"\n28\t\n29\t[exited with code 0]\n30\t"
+    "redacted": true,
+    "text": "1\t[manifest] 496203db536c8508d939295df3781727d4e07c285f0930451ff8919eca26ae80\n2\tTraceback (most recent call last):\n3\t  File \"<venv>\\Lib\\site-packages\\qiskit_ibm_runtime\\models\\backend_properties.py\", line 411, in qubit_property\n4\t    result = result[name]  # type: ignore[assignment]\n5\t             ~~~~~~^^^^^^\n6\tKeyError: 'T2'\n7\t\n8\tThe above exception was the direct cause of the following exception:\n9\t\n10\tTraceback (most recent call last):\n11\t  File \"<project>\\Quantum_for_AI\\A_payload_echoes\\03_src\\nk_stage2_device_job.py\", line 168, in <module>\n12\t    main()\n13\t  File \"<project>\\Quantum_for_AI\\A_payload_echoes\\03_src\\nk_stage2_device_job.py\", line 123, in main\n14\t    best, med = pick_chain(backend)\n15\t                ^^^^^^^^^^^^^^^^^^^\n16\t  File \"<project>\\Quantum_for_AI\\A_payload_echoes\\03_src\\nk_stage2_device_job.py\", line 48, in pick_chain\n17\t    T2 = {q: props.t2(q) for q in range(backend.num_qubits)}\n18\t         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n19\t  File \"<project>\\Quantum_for_AI\\A_payload_echoes\\03_src\\nk_stage2_device_job.py\", line 48, in <dictcomp>\n20\t    T2 = {q: props.t2(q) for q in range(backend.num_qubits)}\n21\t             ^^^^^^^^^^^\n22\t  File \"<venv>\\Lib\\site-packages\\qiskit_ibm_runtime\\models\\backend_properties.py\", line 441, in t2\n23\t    return self.qubit_property(qubit, \"T2\")[0]  # type: ignore[index, return-value]\n24\t           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n25\t  File \"<venv>\\Lib\\site-packages\\qiskit_ibm_runtime\\models\\backend_properties.py\", line 414, in qubit_property\n26\t    raise BackendPropertyError(\n27\tqiskit_ibm_runtime.models.exceptions.BackendPropertyError: \"Couldn't find the property 'T2' for qubit 72.\"\n28\t\n29\t[exited with code 0]\n30\t"
    },
    {
     "id": "L03",
@@ -743,8 +743,8 @@
     "kind": "tool_use",
     "tool_use_id": "toolu_01AuRVZ4oWngfBiFosRgq6RY",
     "transcript_byte_offset": 947458743,
-    "redacted": false,
-    "text": "cd \"C:/Users/Nicolas/Downloads/Proyecto_SQD_ML/Quantum_for_AI/A_payload_echoes/03_src\" && RUN=1 \"C:/tmp/ibmqpu/Scripts/python.exe\" nk_stage2_device_job.py 2>&1 | grep -vE \"stevedore|Deprecation\" | tail -45"
+    "redacted": true,
+    "text": "cd \"<project>/Quantum_for_AI/A_payload_echoes/03_src\" && RUN=1 \"<venv>/Scripts/python.exe\" nk_stage2_device_job.py 2>&1 | grep -vE \"stevedore|Deprecation\" | tail -45"
    },
    {
     "id": "L04",
@@ -803,8 +803,8 @@
     "kind": "tool_use",
     "tool_use_id": "toolu_01MYHxfQ9Mz6R2YRZr3G6op9",
     "transcript_byte_offset": 948294731,
-    "redacted": false,
-    "text": "cd \"C:/Users/Nicolas/Downloads/Proyecto_SQD_ML/Quantum_for_AI/A_payload_echoes/03_src\" && \"C:/tmp/ibmqpu/Scripts/python.exe\" green_light_watch.py 2>&1 | grep -vE \"stevedore|Deprecation\""
+    "redacted": true,
+    "text": "cd \"<project>/Quantum_for_AI/A_payload_echoes/03_src\" && \"<venv>/Scripts/python.exe\" green_light_watch.py 2>&1 | grep -vE \"stevedore|Deprecation\""
    },
    {
     "id": "L10",
@@ -813,8 +813,8 @@
     "kind": "tool_result",
     "tool_use_id": "toolu_01Qt6AEJ66YpP7VqX1tcMZ7m",
     "transcript_byte_offset": 948871928,
-    "redacted": false,
-    "text": "{\"message\":\"Successfully stopped task: bnlupfm60 (cd \\\"C:/Users/Nicolas/Downloads/Proyecto_SQD_ML/Quantum_for_AI/A_payload_echoes/03_src\\\" && \\\"C:/tmp/ibmqpu/Scripts/python.exe\\\" green_light_watch.py 2>&1 | grep -vE \\\"stevedore|Deprecation\\\")\",\"task_id\":\"bnlupfm60\",\"task_type\":\"local_bash\",\"command\":\"cd \\\"C:/Users/Nicolas/Downloads/Proyecto_SQD_ML/Quantum_for_AI/A_payload_echoes/03_src\\\" && \\\"C:/tmp/ibmqpu/Scripts/python.exe\\\" green_light_watch.py 2>&1 | grep -vE \\\"stevedore|Deprecation\\\"\"}"
+    "redacted": true,
+    "text": "{\"message\":\"Successfully stopped task: bnlupfm60 (cd \\\"<project>/Quantum_for_AI/A_payload_echoes/03_src\\\" && \\\"<venv>/Scripts/python.exe\\\" green_light_watch.py 2>&1 | grep -vE \\\"stevedore|Deprecation\\\")\",\"task_id\":\"bnlupfm60\",\"task_type\":\"local_bash\",\"command\":\"cd \\\"<project>/Quantum_for_AI/A_payload_echoes/03_src\\\" && \\\"<venv>/Scripts/python.exe\\\" green_light_watch.py 2>&1 | grep -vE \\\"stevedore|Deprecation\\\"\"}"
    },
    {
     "id": "L11",
@@ -823,8 +823,8 @@
     "kind": "tool_use",
     "tool_use_id": "toolu_013BNScdjG9Ycd66zL1ejaQ2",
     "transcript_byte_offset": 948880360,
-    "redacted": false,
-    "text": "cd \"C:/Users/Nicolas/Downloads/Proyecto_SQD_ML/Quantum_for_AI/A_payload_echoes/03_src\" && \"C:/tmp/ibmqpu/Scripts/python.exe\" green_light_watch_v2.py 2>&1 | grep -vE \"stevedore|Deprecation\""
+    "redacted": true,
+    "text": "cd \"<project>/Quantum_for_AI/A_payload_echoes/03_src\" && \"<venv>/Scripts/python.exe\" green_light_watch_v2.py 2>&1 | grep -vE \"stevedore|Deprecation\""
    },
    {
     "id": "L12",
@@ -853,8 +853,8 @@
     "kind": "tool_result",
     "tool_use_id": "toolu_01JUXAejsdyumf7D69naSB9W",
     "transcript_byte_offset": 950043185,
-    "redacted": false,
-    "text": "{\"message\":\"Successfully stopped task: brgne1mng (cd \\\"C:/Users/Nicolas/Downloads/Proyecto_SQD_ML/Quantum_for_AI/A_payload_echoes/03_src\\\" && \\\"C:/tmp/ibmqpu/Scripts/python.exe\\\" green_light_watch_v2.py 2>&1 | grep -vE \\\"stevedore|Deprecation\\\")\",\"task_id\":\"brgne1mng\",\"task_type\":\"local_bash\",\"command\":\"cd \\\"C:/Users/Nicolas/Downloads/Proyecto_SQD_ML/Quantum_for_AI/A_payload_echoes/03_src\\\" && \\\"C:/tmp/ibmqpu/Scripts/python.exe\\\" green_light_watch_v2.py 2>&1 | grep -vE \\\"stevedore|Deprecation\\\"\"}"
+    "redacted": true,
+    "text": "{\"message\":\"Successfully stopped task: brgne1mng (cd \\\"<project>/Quantum_for_AI/A_payload_echoes/03_src\\\" && \\\"<venv>/Scripts/python.exe\\\" green_light_watch_v2.py 2>&1 | grep -vE \\\"stevedore|Deprecation\\\")\",\"task_id\":\"brgne1mng\",\"task_type\":\"local_bash\",\"command\":\"cd \\\"<project>/Quantum_for_AI/A_payload_echoes/03_src\\\" && \\\"<venv>/Scripts/python.exe\\\" green_light_watch_v2.py 2>&1 | grep -vE \\\"stevedore|Deprecation\\\"\"}"
    },
    {
     "id": "L15",
@@ -883,8 +883,8 @@
     "kind": "tool_use",
     "tool_use_id": "toolu_015ooxWdCK3JgfjFmFX7uSq7",
     "transcript_byte_offset": 952984042,
-    "redacted": false,
-    "text": "cat > \"C:/Users/Nicolas/Downloads/Proyecto_SQD_ML/Quantum_for_AI/A_payload_echoes/03_src/green_light_watch_v3.py\" << 'EOF'\n# -*- coding: utf-8 -*-\n\"\"\"Green-light watcher v3 — implements day_of_rule_v2 (amended, wf_c07c723b-b96) as OBSERVER.\nBackends B={fez, marrakesh, kingston}; qualification CZmed<=3.5e-3; chain rule: 12-path with\nT1>=100us, T2>=70us, RO<=RO_CAP per qubit, edge CZ<=min(3.5e-3, 2*med). Polls calibration\ntimestamps every 15 min; full check on any NEW calibration. Exits GREEN when a chain exists\nAND budget >=130s. Reports both RO caps 0.030 and 0.025 (ladder-pending; firing uses the\nSEALED value only, after manifest v2). 0 QPU.\"\"\"\nimport sys, time, os, collections\nimport numpy as np\nHERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)\nfrom qiskit_ibm_runtime import QiskitRuntimeService\nB = ('ibm_fez', 'ibm_marrakesh', 'ibm_kingston')\ndef safe(fn,*a):\n    try: return fn(*a)\n    except Exception: return None\ndef chain(bk, props, ro_cap):\n    czd = {}\n    for (x,y) in bk.coupling_map:\n        e = safe(props.gate_error,'cz',[x,y])\n        if e is not None: czd[(x,y)] = e\n    med = float(np.median(list(czd.values())))\n    if med > 3.5e-3: return None, med\n    cap = min(3.5e-3, 2*med)\n    ok = {q for q in range(bk.num_qubits)\n          if (safe(props.t1,q) or 0)>=100e-6 and (safe(props.t2,q) or 0)>=70e-6\n          and (safe(props.readout_error,q) or 1)<=ro_cap}\n    adj = collections.defaultdict(set)\n    for (x,y),e in czd.items():\n        if x in ok and y in ok and e<=cap: adj[x].add(y); adj[y].add(x)\n    def dfs(n,vis,path):\n        if len(path)>=12: return list(path)\n        for m in sorted(adj[n]):\n            if m not in vis:\n                vis.add(m); path.append(m)\n                r = dfs(m,vis,path)\n                if r: return r\n                vis.remove(m); path.pop()\n        return None\n    for s in sorted(ok):\n        r = dfs(s,{s},[s])\n        if r: return r, med\n    return None, med\nsvc = QiskitRuntimeService()\nlast = {}\nfor i in range(144):\n    try:\n        found_any = False\n        for bn in B:\n            bk = svc.backend(bn)\n            props = bk.properties(refresh=True)\n            cal = str(props.last_update_date)\n            if cal == last.get(bn): continue\n            last[bn] = cal\n            c30, med = chain(bk, props, 0.030)\n            c25, _   = chain(bk, props, 0.025)\n            rem = svc.usage()['usage_remaining_seconds']\n            print(f\"[{time.strftime('%d %H:%M')}] {bn} NEW cal {cal[-8:]} CZmed={med*1e3:.2f} \"\n                  f\"chain@030={'YES' if c30 else 'no'} chain@025={'YES' if c25 else 'no'} rem={rem}s\", flush=True)\n            if c30 and rem >= 130:\n                print(f\"GREEN(ro030): {bn} chain={c30} rem={rem}s\", flush=True)\n                found_any = True\n        if found_any: sys.exit(0)\n        if i % 8 == 0: print(f\"[{time.strftime('%d %H:%M')}] pulse {i+1}/144 (no new/green)\", flush=True)\n    except Exception as e:\n        print(f\"[pulse {i+1}] err {str(e)[:120]}\", flush=True)\n        try: svc = QiskitRuntimeService()\n        except Exception: pass\n    time.sleep(900)\nprint(\"AMBER: 36h without green\", flush=True)\nEOF\ncd \"C:/Users/Nicolas/Downloads/Proyecto_SQD_ML/Quantum_for_AI/A_payload_echoes/03_src\" && \"C:/tmp/ibmqpu/Scripts/python.exe\" -u green_light_watch_v3.py 2>&1 | grep --line-buffered -vE \"stevedore|Deprecation\""
+    "redacted": true,
+    "text": "cat > \"<project>/Quantum_for_AI/A_payload_echoes/03_src/green_light_watch_v3.py\" << 'EOF'\n# -*- coding: utf-8 -*-\n\"\"\"Green-light watcher v3 — implements day_of_rule_v2 (amended, wf_c07c723b-b96) as OBSERVER.\nBackends B={fez, marrakesh, kingston}; qualification CZmed<=3.5e-3; chain rule: 12-path with\nT1>=100us, T2>=70us, RO<=RO_CAP per qubit, edge CZ<=min(3.5e-3, 2*med). Polls calibration\ntimestamps every 15 min; full check on any NEW calibration. Exits GREEN when a chain exists\nAND budget >=130s. Reports both RO caps 0.030 and 0.025 (ladder-pending; firing uses the\nSEALED value only, after manifest v2). 0 QPU.\"\"\"\nimport sys, time, os, collections\nimport numpy as np\nHERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)\nfrom qiskit_ibm_runtime import QiskitRuntimeService\nB = ('ibm_fez', 'ibm_marrakesh', 'ibm_kingston')\ndef safe(fn,*a):\n    try: return fn(*a)\n    except Exception: return None\ndef chain(bk, props, ro_cap):\n    czd = {}\n    for (x,y) in bk.coupling_map:\n        e = safe(props.gate_error,'cz',[x,y])\n        if e is not None: czd[(x,y)] = e\n    med = float(np.median(list(czd.values())))\n    if med > 3.5e-3: return None, med\n    cap = min(3.5e-3, 2*med)\n    ok = {q for q in range(bk.num_qubits)\n          if (safe(props.t1,q) or 0)>=100e-6 and (safe(props.t2,q) or 0)>=70e-6\n          and (safe(props.readout_error,q) or 1)<=ro_cap}\n    adj = collections.defaultdict(set)\n    for (x,y),e in czd.items():\n        if x in ok and y in ok and e<=cap: adj[x].add(y); adj[y].add(x)\n    def dfs(n,vis,path):\n        if len(path)>=12: return list(path)\n        for m in sorted(adj[n]):\n            if m not in vis:\n                vis.add(m); path.append(m)\n                r = dfs(m,vis,path)\n                if r: return r\n                vis.remove(m); path.pop()\n        return None\n    for s in sorted(ok):\n        r = dfs(s,{s},[s])\n        if r: return r, med\n    return None, med\nsvc = QiskitRuntimeService()\nlast = {}\nfor i in range(144):\n    try:\n        found_any = False\n        for bn in B:\n            bk = svc.backend(bn)\n            props = bk.properties(refresh=True)\n            cal = str(props.last_update_date)\n            if cal == last.get(bn): continue\n            last[bn] = cal\n            c30, med = chain(bk, props, 0.030)\n            c25, _   = chain(bk, props, 0.025)\n            rem = svc.usage()['usage_remaining_seconds']\n            print(f\"[{time.strftime('%d %H:%M')}] {bn} NEW cal {cal[-8:]} CZmed={med*1e3:.2f} \"\n                  f\"chain@030={'YES' if c30 else 'no'} chain@025={'YES' if c25 else 'no'} rem={rem}s\", flush=True)\n            if c30 and rem >= 130:\n                print(f\"GREEN(ro030): {bn} chain={c30} rem={rem}s\", flush=True)\n                found_any = True\n        if found_any: sys.exit(0)\n        if i % 8 == 0: print(f\"[{time.strftime('%d %H:%M')}] pulse {i+1}/144 (no new/green)\", flush=True)\n    except Exception as e:\n        print(f\"[pulse {i+1}] err {str(e)[:120]}\", flush=True)\n        try: svc = QiskitRuntimeService()\n        except Exception: pass\n    time.sleep(900)\nprint(\"AMBER: 36h without green\", flush=True)\nEOF\ncd \"<project>/Quantum_for_AI/A_payload_echoes/03_src\" && \"<venv>/Scripts/python.exe\" -u green_light_watch_v3.py 2>&1 | grep --line-buffered -vE \"stevedore|Deprecation\""
    },
    {
     "id": "L18",
@@ -903,8 +903,8 @@
     "kind": "tool_use",
     "tool_use_id": "toolu_01GugpLpm2DbN9vyhYhVZSVx",
     "transcript_byte_offset": 959117743,
-    "redacted": false,
-    "text": "cd \"C:/Users/Nicolas/Downloads/Proyecto_SQD_ML/Quantum_for_AI/A_payload_echoes/03_src\" && py - << 'PYEOF'\np = 'green_light_watch_v3.py'\ns = open(p, encoding='utf-8').read()\n# gate the GREEN exit on manifest v2 existing; otherwise just log the window\ns = s.replace(\n    \"            if c30 and rem >= 130:\\n\"\n    \"                print(f\\\"GREEN(ro030): {bn} chain={c30} rem={rem}s\\\", flush=True)\\n\"\n    \"                found_any = True\",\n    \"            if c30 and rem >= 130:\\n\"\n    \"                sealed = os.path.exists(os.path.join(HERE, '..', '06_results',\\n\"\n    \"                                                     'manifest_nk_device_v2.json'))\\n\"\n    \"                if sealed:\\n\"\n    \"                    print(f\\\"GREEN(ro030): {bn} chain={c30} rem={rem}s\\\", flush=True)\\n\"\n    \"                    found_any = True\\n\"\n    \"                else:\\n\"\n    \"                    print(f\\\"  [green window OPEN on {bn} but manifest v2 not sealed -> \\\"\\n\"\n    \"                          f\\\"cannot fire; chain={c30}]\\\", flush=True)\"\n)\n# also re-check every pulse (not only on new calibration) once sealed appears\ns = s.replace(\n    \"            if cal == last.get(bn): continue\",\n    \"            sealed_now = os.path.exists(os.path.join(HERE, '..', '06_results',\\n\"\n    \"                                                     'manifest_nk_device_v2.json'))\\n\"\n    \"            if cal == last.get(bn) and not sealed_now: continue\"\n)\nopen(p, 'w', encoding='utf-8').write(s)\nprint('watcher v3 patched: green exit now requires manifest v2')\nPYEOF\ncd \"C:/Users/Nicolas/Downloads/Proyecto_SQD_ML/Quantum_for_AI/A_payload_echoes/03_src\" && \"C:/tmp/ibmqpu/Scripts/python.exe\" -u green_light_watch_v3.py 2>&1 | grep --line-buffered -vE \"stevedore|Deprecation\""
+    "redacted": true,
+    "text": "cd \"<project>/Quantum_for_AI/A_payload_echoes/03_src\" && py - << 'PYEOF'\np = 'green_light_watch_v3.py'\ns = open(p, encoding='utf-8').read()\n# gate the GREEN exit on manifest v2 existing; otherwise just log the window\ns = s.replace(\n    \"            if c30 and rem >= 130:\\n\"\n    \"                print(f\\\"GREEN(ro030): {bn} chain={c30} rem={rem}s\\\", flush=True)\\n\"\n    \"                found_any = True\",\n    \"            if c30 and rem >= 130:\\n\"\n    \"                sealed = os.path.exists(os.path.join(HERE, '..', '06_results',\\n\"\n    \"                                                     'manifest_nk_device_v2.json'))\\n\"\n    \"                if sealed:\\n\"\n    \"                    print(f\\\"GREEN(ro030): {bn} chain={c30} rem={rem}s\\\", flush=True)\\n\"\n    \"                    found_any = True\\n\"\n    \"                else:\\n\"\n    \"                    print(f\\\"  [green window OPEN on {bn} but manifest v2 not sealed -> \\\"\\n\"\n    \"                          f\\\"cannot fire; chain={c30}]\\\", flush=True)\"\n)\n# also re-check every pulse (not only on new calibration) once sealed appears\ns = s.replace(\n    \"            if cal == last.get(bn): continue\",\n    \"            sealed_now = os.path.exists(os.path.join(HERE, '..', '06_results',\\n\"\n    \"                                                     'manifest_nk_device_v2.json'))\\n\"\n    \"            if cal == last.get(bn) and not sealed_now: continue\"\n)\nopen(p, 'w', encoding='utf-8').write(s)\nprint('watcher v3 patched: green exit now requires manifest v2')\nPYEOF\ncd \"<project>/Quantum_for_AI/A_payload_echoes/03_src\" && \"<venv>/Scripts/python.exe\" -u green_light_watch_v3.py 2>&1 | grep --line-buffered -vE \"stevedore|Deprecation\""
    },
    {
     "id": "L20",
