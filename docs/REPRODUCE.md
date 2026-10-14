@@ -302,4 +302,4 @@ amendment's job. Re-acquiring device data needs an IBM Quantum account of your o
   keep their internal workflow identifiers, because the records are sealed and five of the scripts are
   hashed in the manifest; the logged outputs in `src/nk_record/` keep the local paths of the machine that
   ran them.
-- **Archive:** the Zenodo DOI is added at submission.
+- **Archive:** Zenodo, concept DOI [10.5281/zenodo.23374014](https://doi.org/10.5281/zenodo.23374014).

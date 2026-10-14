@@ -10,6 +10,7 @@ Universidad Nacional de Colombia · SRH University, Munich · Daita AI, Munich
 [![License: MIT](https://img.shields.io/badge/code-MIT-green.svg)](LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/paper%2C%20data%2C%20docs-CC--BY--4.0-lightgrey.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](requirements.txt)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23374014.svg)](https://doi.org/10.5281/zenodo.23374014)
 
 </div>
 
@@ -129,7 +130,7 @@ Full list with numbers in [`docs/REPRODUCE.md`](docs/REPRODUCE.md#known-gaps). I
 - **`fig_sqw`** display windows clip 6.3% of the broadened charge weight and 0.25% of the spin weight.
 - **Not deposited:** the companion's raw `L=6` counts; the Colab notebook that submitted the 2026-08-21 jobs
   (its analysis is re-implemented and checked in `gate_tp_analysis.py`).
-- **Archive:** the Zenodo DOI is added at submission.
+- **Archive:** Zenodo, concept DOI [10.5281/zenodo.23374014](https://doi.org/10.5281/zenodo.23374014) (resolves to the latest version).
 
 ---
 

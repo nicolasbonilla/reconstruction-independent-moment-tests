@@ -10,8 +10,9 @@ authors:
     email: "ngbonillav@unal.edu.co"
 repository-code: "https://github.com/nicolasbonilla/reconstruction-independent-moment-tests"
 url: "https://github.com/nicolasbonilla/reconstruction-independent-moment-tests"
-version: "2.0.0"
-date-released: "2026-10-02"
+doi: "10.5281/zenodo.23374014"
+version: "2.0.1"
+date-released: "2026-10-14"
 abstract: >-
   Code and data for "Reconstruction-independent moment tests for sample-based spectral functions". How can
   a spectral function A(ω) from sample-based quantum diagonalization be tested without trusting it? Not
@@ -56,8 +57,8 @@ preferred-citation:
   year: 2026
   url: "https://github.com/nicolasbonilla/reconstruction-independent-moment-tests"
   notes: >-
-    Manuscript prepared for submission to SciPost Physics Core. Version 2.0.0 and the release date
-    above describe this repository deposit; the DOI is added when the archive is minted.
+    Manuscript prepared for submission to SciPost Physics Core. Version 2.0.1 and the release date
+    above describe this repository deposit; the concept DOI 10.5281/zenodo.23374014 resolves to the latest version.
 references:
   - type: unpublished
     title: "Captured weight and boundary leakage bound the error of sample-based spectral functions"
