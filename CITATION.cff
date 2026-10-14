@@ -11,7 +11,7 @@ authors:
 repository-code: "https://github.com/nicolasbonilla/reconstruction-independent-moment-tests"
 url: "https://github.com/nicolasbonilla/reconstruction-independent-moment-tests"
 doi: "10.5281/zenodo.23374014"
-version: "2.0.1"
+version: "2.0.2"
 date-released: "2026-10-14"
 abstract: >-
   Code and data for "Reconstruction-independent moment tests for sample-based spectral functions". How can
@@ -57,7 +57,7 @@ preferred-citation:
   year: 2026
   url: "https://github.com/nicolasbonilla/reconstruction-independent-moment-tests"
   notes: >-
-    Manuscript prepared for submission to SciPost Physics Core. Version 2.0.1 and the release date
+    Manuscript prepared for submission to SciPost Physics Core. Version 2.0.2 and the release date
     above describe this repository deposit; the concept DOI 10.5281/zenodo.23374014 resolves to the latest version.
 references:
   - type: unpublished
