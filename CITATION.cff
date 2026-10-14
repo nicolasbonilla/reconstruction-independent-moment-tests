@@ -13,19 +13,25 @@ url: "https://github.com/nicolasbonilla/reconstruction-independent-moment-tests"
 version: "2.0.0"
 date-released: "2026-10-02"
 abstract: >-
-  Code and data for a necessary-condition test of sample-based spectral functions A(ω). The moments
-  of a reconstruction are compared with full-operator moments <J†(H-e0)^k J> evaluated on the same
-  subspace ground state; their difference is exactly the probe's leak out of the subspace at order k
-  (the missed spectral weight at k=0, zero through order 2K+1 on a subspace that contains the order-K
-  Krylov space). The repository holds the exact sector-Lanczos/Haydock engine, the leak-identity and
-  estimator-form checks, a pre-registered, hash-sealed blinded calibration in simulation (300 instances,
-  oracle estimator: all 56 truncations and 45 of 61 spurious features rejected, 0 of 71 under-converged
-  Krylov reconstructions as implemented, at a false-positive rate of 1/112; at the noise scale of the
-  sealed text the false-positive rate is 40/112 and noise also rejects 23 Krylov reconstructions, 17 of
-  them exact through m2), the exact limits of a pass at orders 0-2 (including full-support Rayleigh-Ritz, which
-  passes with relative L1 error 0.93), and the raw counts and reference samplers of an IBM Heron
-  (ibm_fez) run in which the device supplies only sampled supports. Every moment is evaluated
-  classically. The record of the sealed on-device n_k test (not run; no job submitted) is included.
+  Code and data for "Reconstruction-independent moment tests for sample-based spectral functions". How can
+  a spectral function A(ω) from sample-based quantum diagonalization be tested without trusting it? Not
+  with its own moments, which agree with it by construction, but with full-operator moments <J†(H-e0)^k J>
+  of the probe J on the subspace ground state, of energy e0. We prove that the two differ exactly by the
+  probe state's leak out of the subspace: the missed weight at k=0, and zero through order 2K+1 when the
+  subspace holds the probe state's order-K Krylov space. Off an eigenstate the operator form matters: a
+  lone commutator-form m1 check can pass a first moment 11% low. The m1 and m2 checks detect weight moved
+  in frequency at fixed total weight, which captured weight cannot see. Scored against a numerical
+  tolerance, this deterministic leak flags almost every sampled support and does not track the error, so
+  detection and false-positive rates use exact moments plus shot noise. In a pre-registered, hash-sealed
+  blinded simulation (300 instances) on a doped Hubbard ring, the m0-m2 test rejected all 56 truncations,
+  20 of 34 weight-preserving spurious features and none of 71 under-converged Krylov spectra. Its
+  false-positive rate was 1/112, or 40/112 under the pre-registered 1.96-fold larger noise. No m0-m2 check
+  is guaranteed to detect weight moved among four or more fixed poles, and full-support Rayleigh-Ritz
+  passes the default thresholds with relative L1 error 0.93. On IBM Heron (ibm_fez) samples, with all
+  moments computed classically, captured weight rewards support spreading, not fidelity. The repository
+  holds the exact sector-Lanczos/Haydock engine, the generators behind the quoted numbers and figures, the
+  sealed records, the raw counts and reference samplers of the device run, and the record of the sealed
+  on-device n_k test (not run; no job submitted).
 license:
   - "MIT"
   - "CC-BY-4.0"

@@ -18,18 +18,29 @@ Universidad Nacional de Colombia · SRH University, Munich · Daita AI, Munich
 > and a data file in `data/` ([`docs/REPRODUCE.md`](docs/REPRODUCE.md)); the few that do not regenerate
 > exactly from source are listed under [Known gaps](#known-gaps).
 
-Sample-based quantum diagonalization reconstructs a dynamical spectral function `A(ω)` in a sampled
-determinant subspace, and checking it against moments read off `A(ω)` is circular. This work compares
-the reconstruction's moments `m̄ₖ` with full-operator moments `m̂ₖ = ⟨0_S|J†(H−e₀)ᵏJ|0_S⟩` evaluated on the
-same subspace ground state. Their difference is exactly the probe's leak out of the subspace at order `k`.
-The test is a **necessary condition**: failing it rejects a reconstruction, passing it does not certify one.
-Every moment in this work is evaluated classically; on IBM Heron the device supplies only sampled supports.
+How can a spectral function `A(ω)` from sample-based quantum diagonalization be tested without trusting it?
+Not with its own moments, which agree with it by construction, but with full-operator moments `⟨J†(H−e₀)ᵏJ⟩`
+of the probe `J` on the subspace ground state, of energy `e₀`. We prove that the two differ exactly by the
+probe state's leak out of the subspace: the missed weight at `k = 0`, and zero through order `2K+1` when the
+subspace holds the probe state's order-`K` Krylov space. Off an eigenstate the operator form matters: a lone
+commutator-form `m₁` check can pass a first moment 11% low. The `m₁` and `m₂` checks detect weight moved in
+frequency at fixed total weight, which captured weight cannot see. Scored against a numerical tolerance, this
+deterministic leak flags almost every sampled support and does not track the error, so detection and
+false-positive rates use exact moments plus shot noise. In a pre-registered blinded simulation, the `m₀`–`m₂`
+test rejected all 56 truncations, 20 of 34 weight-preserving spurious features and none of 71 under-converged
+Krylov spectra. Its false-positive rate was 1/112, or 40/112 under the pre-registered 1.96-fold larger noise.
+No `m₀`–`m₂` check is guaranteed to detect weight moved among four or more fixed poles, and full-support
+Rayleigh–Ritz passes the default thresholds with relative L1 error 0.93. On IBM Heron samples, with all
+moments computed classically, captured weight rewards support spreading, not fidelity. The test is a
+**necessary condition**: failing it rejects a reconstruction, passing it does not certify one.
 
 **Companion study.** N. Bonilla Vargas, *Captured weight and boundary leakage bound the error of
 sample-based spectral functions*, [arXiv:2608.16436](https://arxiv.org/abs/2608.16436). It bounds the
 reconstruction error at exact-diagonalization scale given the exact ground state; its captured weight `w`
-gives the coverage residual here, `Δ₀ = m₀(1 − w)`, the `k = 0` leak. This work adds tests computable from
-the subspace state alone. Review of the field: *Machine learning for sample-based quantum diagonalization:
+gives the coverage residual here, `Δ₀ = m₀(1 − w)`, the `k = 0` leak. This work adds the full leak
+hierarchy as a rejection test computed from the subspace state, its blinded calibration, the exact limits of a
+pass and a device evaluation of the coverage channel. Review of the field: *Machine learning for
+sample-based quantum diagonalization:
 a review of generative configuration recovery and the classical-simulability frontier*,
 [arXiv:2608.05314](https://arxiv.org/abs/2608.05314).
 

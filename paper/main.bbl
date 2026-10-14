@@ -7,6 +7,17 @@
   \urlstyle{rm}\Url}\fi
 \providecommand{\eprint}[2][]{\url{#2}}
 
+\bibitem{SQDspec2608}
+N.~Bonilla~Vargas,
+\newblock \emph{{Captured weight and boundary leakage bound the error of
+  sample-based spectral functions}} (2026), \eprint{2608.16436}.
+
+\bibitem{Patel2026}
+J.~Patel, C.~Rangi and K.-M. Tam,
+\newblock \emph{{{Green's} Functions from Sample-based {Krylov} Quantum
+  Diagonalization: An Impurity Solver for Dynamical Mean-Field Theory}} (2026),
+  \eprint{2609.09147}.
+
 \bibitem{Damascelli2003}
 A.~Damascelli, Z.~Hussain and Z.-X. Shen,
 \newblock \emph{{Angle-resolved photoemission studies of the cuprate
@@ -191,17 +202,6 @@ T.~Ohgoe, H.~Iwakiri, K.~Ichikawa, S.~Koh and M.~Kohda,
 \newblock J. Phys. Soc. Jpn. \textbf{94}(11), 114002 (2025),
 \newblock \doi{10.7566/JPSJ.94.114002},
 \newblock \eprint{2504.00309}.
-
-\bibitem{SQDspec2608}
-N.~Bonilla~Vargas,
-\newblock \emph{{Captured weight and boundary leakage bound the error of
-  sample-based spectral functions}} (2026), \eprint{2608.16436}.
-
-\bibitem{Patel2026}
-J.~Patel, C.~Rangi and K.-M. Tam,
-\newblock \emph{{{Green's} Functions from Sample-based {Krylov} Quantum
-  Diagonalization: An Impurity Solver for Dynamical Mean-Field Theory}} (2026),
-  \eprint{2609.09147}.
 
 \bibitem{Alexeev2024}
 Y.~Alexeev \emph{et~al.},
