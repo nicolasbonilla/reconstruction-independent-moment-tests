@@ -1,7 +1,12 @@
-# The manuscript
+# The earlier manuscript (October 2026)
+
+> This folder holds the manuscript as it stood in October 2026. The present manuscript, *What low-order sum
+> rules can and cannot detect in sample-based spectral functions*, is in [`../paper_2026-11/`](../paper_2026-11/);
+> its figures are the files of `figs/` here, which from deposit 2.0.3 also holds the files of its Fig. 5 and
+> Table SII.
 
 *Reconstruction-independent moment tests for sample-based spectral functions*, N. Bonilla Vargas,
-prepared for submission to SciPost Physics Core (not yet submitted). It is set in the SciPost submission
+as prepared in October 2026. It is set in the SciPost submission
 class (`SciPost.cls`, 2021-08 version with the PhysCore option; `SciPost_bibstyle.bst`). `main.pdf` is built
 from `main.tex` in this folder.
 

@@ -303,3 +303,16 @@ amendment's job. Re-acquiring device data needs an IBM Quantum account of your o
   hashed in the manifest; the logged outputs in `src/nk_record/` keep the local paths of the machine that
   ran them.
 - **Archive:** Zenodo, concept DOI [10.5281/zenodo.23374014](https://doi.org/10.5281/zenodo.23374014).
+
+## Added in deposit 2.0.3 (the present manuscript, `paper_2026-11/`)
+
+| What | Generator (run from `src/`) | Data | Plotted or tabulated files |
+|---|---|---|---|
+| Krylov detection order: the lowest moment at which an `n`-node Lanczos reconstruction is rejected, and the bound on its first residual (the manuscript's Sec. V B, Table III and Fig. 5; Table SII of its Supplemental Material) | `python krylov_detection_order.py` | `data/2026-11-08_krylov_detection_order.json` | `python export_krylov_order_dat.py` → `paper/figs/krylov_order_{bound,n1,n2,n3,n4,tau}.dat` (read by `paper/figs/fig_krylov_order.tex`); `python export_krylov_table_tex.py` → `paper/figs/krylov_table.tex` |
+| Tie-order scan of the operator-form example (the manuscript's Sec. II C) | `python operator_form_tie_scan.py` | `data/2026-11-08_operator_form_tie_scan.json` | none (numbers quoted in the text) |
+
+No `make` target runs the two generators of this table; run them from `src/` as shown. Printed numbers of the
+present manuscript are checked against these and the earlier records by the three scripts of
+[`../paper_2026-11/`](../paper_2026-11/) (`verify_prb.py`, which also runs `closing_records.py`, and
+`check_krylov_numbers.py`); the README of that folder says which numbers each of them covers. `python src/verify.py`
+keeps checking the earlier manuscript in `paper/`.

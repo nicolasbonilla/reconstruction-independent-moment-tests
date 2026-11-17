@@ -1,6 +1,7 @@
 # File index
 
-Every file in this repository, described (state of 2026-10-02). Build by-products that `.gitignore` excludes
+Every file in this repository, described (state of 2026-10-02; the files added in deposit 2.0.3 are in the last
+section). Build by-products that `.gitignore` excludes
 (`*.aux`, `*.log`, `*.out`, `*.blg`, `*.toc`, `__pycache__/`, `06_results/`, `out/`) are not listed. Dates in bold mark
 the day a script or record was added or changed.
 
@@ -172,3 +173,14 @@ its README).
 `README.md`, `CITATION.cff`, `.zenodo.json` (archive metadata), `LICENSE` (MIT code; CC BY 4.0 paper, data
 and documentation; SciPost template files excluded), `requirements.txt`, `Makefile`, `.gitattributes`
 (byte-exact sealed and raw records; LF for hashed inputs), `.gitignore`.
+
+## Added in deposit 2.0.3
+
+| File | Content |
+|---|---|
+| `src/krylov_detection_order.py` | **2026-11-08.** Krylov detection-order analysis → `data/2026-11-08_krylov_detection_order.json`. |
+| `src/operator_form_tie_scan.py` | **2026-11-08.** Tie-order scan of the operator-form example → `data/2026-11-08_operator_form_tie_scan.json`. |
+| `src/export_krylov_order_dat.py` | Writes `paper/figs/krylov_order_{bound,n1,n2,n3,n4,tau}.dat` from the Krylov record (Fig. 5 of the present manuscript). |
+| `src/export_krylov_table_tex.py` | Writes `paper/figs/krylov_table.tex` from the Krylov record (Table SII of the present manuscript's Supplemental Material). |
+| `paper/figs/fig_krylov_order.tex`, `paper/figs/krylov_order_*.dat`, `paper/figs/krylov_table.tex` | Figure fragment and data of Fig. 5, and the body of Table SII, of the present manuscript. |
+| `paper_2026-11/` | Sources of the present manuscript (`main.tex`, `main_jpcm.tex`, `supplement.tex`, `refs.bib`, `figstyle.tex`) and three scripts that check printed numbers of that text (`verify_prb.py`, `closing_records.py`, `check_krylov_numbers.py`); see its README. |

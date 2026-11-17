@@ -36,6 +36,8 @@ International License (CC BY 4.0), https://creativecommons.org/licenses/by/4.0/ 
 
   - paper/: the manuscript text, its figures, figure data and tables
     (except the SciPost template files listed below);
+  - paper_2026-11/: the LaTeX sources of the present manuscript (its three
+    *.py scripts are code, under the MIT License above);
   - data/: every data file and record, including the sealed records, the
     IBM Quantum job records and counts, and the L=12 caches in src/cache/;
   - docs/, the README files and CITATION.cff.

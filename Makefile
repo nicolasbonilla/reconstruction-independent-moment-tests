@@ -23,7 +23,7 @@ help:
 	@echo "make blind         - re-score the sealed blinded record, the post hoc addenda, and the fig_separating recount (~15 s)"
 	@echo "make theory        - all keys of data/2026-09-27_theory_numerics.json, incl. full_support_rr.py (small_checks.py --all, ~15 min)"
 	@echo "make gauss         - the fig_gausslaw data (export_gauss_state.py, ~25 s)"
-	@echo "make revision      - intervals + blind + theory + gauss: every step that needs only numpy/scipy/mpmath (~20 min)"
+	@echo "make revision      - intervals + blind + theory + gauss (numpy/scipy/mpmath only; ~20 min). No target runs the two generators added in 2.0.3: see docs/REPRODUCE.md"
 	@echo "make device        - reference Monte Carlo for the device coverage residual + fig_device data (needs qiskit; 7-30 min)"
 	@echo "make hardware      - CZ counts of the deployed sampler circuits, the 295-CZ noise forecast and G-surface, the 2026-08-21 job reanalysis (qiskit, qiskit-aer, qiskit-ibm-runtime; no QPU)"
 	@echo "make dmrg          - the L=24 DMRG code-scalability check (needs physics-tenpy; ~50 min)"
@@ -75,6 +75,8 @@ figures: cache
 	cd src && $(PYTHON) export_gauss_state.py
 	cd src && $(PYTHON) export_device_dat.py
 	cd src && $(PYTHON) export_heron_dat.py
+	cd src && $(PYTHON) export_krylov_order_dat.py
+	cd src && $(PYTHON) export_krylov_table_tex.py
 	@echo "OK: native pgfplots .dat fragments regenerated; 'git diff --ignore-cr-at-eol --stat paper/figs data' shows any change."
 
 # ---- recomputations with numpy/scipy/mpmath only: dated outputs, no sealed record overwritten ----

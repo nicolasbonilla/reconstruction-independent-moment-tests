@@ -11,28 +11,27 @@ authors:
 repository-code: "https://github.com/nicolasbonilla/reconstruction-independent-moment-tests"
 url: "https://github.com/nicolasbonilla/reconstruction-independent-moment-tests"
 doi: "10.5281/zenodo.23374014"
-version: "2.0.2"
-date-released: "2026-10-14"
+version: "2.0.3"
+date-released: "2026-11-17"
 abstract: >-
-  Code and data for "Reconstruction-independent moment tests for sample-based spectral functions". How can
-  a spectral function A(ω) from sample-based quantum diagonalization be tested without trusting it? Not
-  with its own moments, which agree with it by construction, but with full-operator moments <J†(H-e0)^k J>
-  of the probe J on the subspace ground state, of energy e0. We prove that the two differ exactly by the
-  probe state's leak out of the subspace: the missed weight at k=0, and zero through order 2K+1 when the
-  subspace holds the probe state's order-K Krylov space. Off an eigenstate the operator form matters: a
-  lone commutator-form m1 check can pass a first moment 11% low. The m1 and m2 checks detect weight moved
-  in frequency at fixed total weight, which captured weight cannot see. Scored against a numerical
-  tolerance, this deterministic leak flags almost every sampled support and does not track the error, so
-  detection and false-positive rates use exact moments plus shot noise. In a pre-registered, hash-sealed
-  blinded simulation (300 instances) on a doped Hubbard ring, the m0-m2 test rejected all 56 truncations,
-  20 of 34 weight-preserving spurious features and none of 71 under-converged Krylov spectra. Its
-  false-positive rate was 1/112, or 40/112 under the pre-registered 1.96-fold larger noise. No m0-m2 check
-  is guaranteed to detect weight moved among four or more fixed poles, and full-support Rayleigh-Ritz
-  passes the default thresholds with relative L1 error 0.93. On IBM Heron (ibm_fez) samples, with all
-  moments computed classically, captured weight rewards support spreading, not fidelity. The repository
-  holds the exact sector-Lanczos/Haydock engine, the generators behind the quoted numbers and figures, the
-  sealed records, the raw counts and reference samplers of the device run, and the record of the sealed
-  on-device n_k test (not run; no job submitted).
+  Code and data for "What low-order sum rules can and cannot detect in sample-based spectral functions"
+  (earlier title: "Reconstruction-independent moment tests for sample-based spectral functions"). Full-operator
+  moments <J†(H-e0)^k J> of the probe J, evaluated on the subspace ground state of energy e0, differ from the
+  reconstruction's moments exactly by the leak of the probe state out of the subspace, order by order, so a
+  pipeline can test the closure of its own output; the textbook double-commutator form lacks this property and,
+  on a truncated Hubbard-ring subspace, passes a reconstruction whose first moment is 11% low. With exact
+  moments plus shot noise, the m1 and m2 checks detect weight moved in frequency at fixed total weight. In a
+  sealed blinded simulation (300 instances) on a doped Hubbard ring, the sealed primary endpoint was a
+  detection rate of 101/188 at one false positive in 112 (40/112 at the 1.96-fold noise scale the sealed text
+  specified); the battery rejected all 56 sampled truncations and none of 71 under-converged Krylov
+  reconstructions. Through m2 no check has guaranteed power against weight moved among four or more fixed
+  poles; by the classical Gauss-quadrature property of the Lanczos recursion an n-node reconstruction is
+  invisible below order 2n, and its first residual, relative to m_2n, is at most 4[D/(4w)]^(2n) for a probe
+  spectrum of width D and mean excitation energy w. On IBM Heron (ibm_fez) samples, with all moments computed
+  classically, captured weight rewards support spreading, not fidelity. The repository holds the exact
+  sector-Lanczos/Haydock engine, the generators behind the quoted numbers and figures, the sealed records, the
+  raw counts and reference samplers of the device run, and the record of the sealed on-device n_k test (not
+  run; no job submitted).
 license:
   - "MIT"
   - "CC-BY-4.0"
@@ -57,7 +56,7 @@ preferred-citation:
   year: 2026
   url: "https://github.com/nicolasbonilla/reconstruction-independent-moment-tests"
   notes: >-
-    Manuscript prepared for submission to SciPost Physics Core. Version 2.0.2 and the release date
+    Manuscript title from version 2.0.3: "What low-order sum rules can and cannot detect in sample-based spectral functions". Version 2.0.3 and the release date
     above describe this repository deposit; the concept DOI 10.5281/zenodo.23374014 resolves to the latest version.
 references:
   - type: unpublished

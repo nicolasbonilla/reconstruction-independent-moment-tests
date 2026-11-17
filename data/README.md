@@ -45,6 +45,13 @@ strings. `heron_spectral.json` was replaced by the companion's corrected deposit
 and the provenance now says that `A_hw` and `A_exact` agree to 7.9×10⁻¹⁵ (not byte for byte) and that the
 support was retained by post-selection, not recovered.
 
+## Records of 2026-11-08 (added in deposit 2.0.3)
+
+| File | Generator | Content |
+|---|---|---|
+| `2026-11-08_krylov_detection_order.json` | `src/krylov_detection_order.py` | post hoc, not sealed: `n`-node Lanczos reconstructions (`n` = 1–4) of the current spectrum of the doped `L=6` ring at U/t = 3–6, with exact moments: relative residuals and default-rule thresholds at moment orders 0–10, the Gauss remainder at order `2n`, its Chebyshev–Jensen bound, and the shot counts at which order `2n` would be exposed |
+| `2026-11-08_operator_form_tie_scan.json` | `src/operator_form_tie_scan.py` | post hoc: the operator-form example at the `d = 100` truncation of the doped `L=6`, U/t = 4 ring: the two first-moment forms and the reconstruction moment for the deterministic cut and for 300 random choices (seed 20261108) of the members kept from the degenerate shell |
+
 ## Earlier records kept in place, and what supersedes them
 
 | Record (kept) | Superseded by | Why |

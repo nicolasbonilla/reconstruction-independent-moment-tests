@@ -1,0 +1,407 @@
+% One source, two layouts:
+%   main.tex       -> two columns (REVTeX reprint)
+%   main_jpcm.tex  -> one column, 12 pt (defines \JPCM, then inputs this file)
+% Both share figs/, refs.bib and one Supplemental Material (supplement.tex, sections S1--S13); equation, figure,
+% table and section numbers are identical in the two layouts.
+\ifdefined\JPCM
+\documentclass[aps,prb,reprint,onecolumn,12pt,superscriptaddress,longbibliography,floatfix]{revtex4-2}
+\else
+\documentclass[aps,prb,reprint,superscriptaddress,longbibliography,floatfix]{revtex4-2}
+\fi
+\pdfoutput=1
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing,decorations.markings,fit,backgrounds}
+\usepgfplotslibrary{groupplots,fillbetween}
+\input{figstyle}
+\usepackage{placeins}
+\usepackage{xurl}
+\usepackage{xr-hyper}
+\usepackage[colorlinks=true,linkcolor={red!50!black},citecolor={blue!50!black},urlcolor={blue!70!black}]{hyperref}
+\externaldocument[S-]{supplement}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\setlength{\emergencystretch}{2em}
+\raggedbottom
+\ifdefined\JPCM
+\newcommand{\SMname}{supplementary material}
+\newcommand{\colfig}{\setlength{\columnwidth}{0.62\textwidth}}% single-column figures keep the size they have in the two-column layout
+\else
+\newcommand{\SMname}{Supplemental Material}
+\newcommand{\colfig}{}
+\fi
+
+\begin{document}
+
+\title{What low-order sum rules can and cannot detect in sample-based spectral functions}
+
+\author{Nicol\'as Bonilla Vargas}
+\ifdefined\JPCM\email{ngbonillav@unal.edu.co}\else\email[Contact author: ]{ngbonillav@unal.edu.co}\fi
+\affiliation{Universidad Nacional de Colombia, Bogot\'a, Colombia}
+\affiliation{SRH University, Munich, Germany}
+\affiliation{Daita AI, Munich, Germany}
+
+\date{\today}
+
+\begin{abstract}
+Sample-based quantum diagonalization reconstructs dynamical spectral functions in sampled determinant subspaces, and moments read off such a reconstruction agree with it by construction. We determine what low-order sum-rule checks can and cannot detect in these spectra. Full-operator moments $\langle J^\dagger(H-e_0)^kJ\rangle$ of the probe $J$, evaluated on the subspace ground state of energy $e_0$, differ from the reconstruction's moments exactly by the leak of the probe state out of the subspace, order by order. A pipeline can therefore test the closure of its own output with sparse matrix--vector products. The textbook double-commutator form lacks this property: on a truncated Hubbard-ring subspace it passes a reconstruction whose first moment is $11\%$ low. The leak identity extends the captured-weight and boundary-coupling results of a companion study to the state the pipeline holds. With exact moments plus shot noise, the first and second moments detect weight moved in frequency at fixed total weight, which captured weight cannot see. Their limits are structural. Through $m_2$ no check has guaranteed power against weight redistributed among four or more fixed poles. By the classical Gauss-quadrature property of the Lanczos recursion, an $n$-node reconstruction is invisible below order $2n$; combining the known Chebyshev bound on its first residual with Jensen's inequality, we show that this residual, relative to $m_{2n}$, is at most $4[D/(4\bar\omega)]^{2n}$ for a probe spectrum of width $D$ and mean excitation energy $\bar\omega$. Lanczos depth must therefore be checked by convergence in the number of nodes, not by sum rules.
+\end{abstract}
+
+\maketitle
+
+% =====================================================================================================
+\section{Introduction}
+\label{sec:intro}
+
+Sample-based quantum diagonalization (SQD) and quantum-selected configuration interaction reconstruct dynamical spectral functions $A(\omega)$ in sampled determinant subspaces~\cite{SQDspec2608,Patel2026}. A quantum processor returns bitstrings, the distinct configurations span a subspace $\mathcal S$, and the Hamiltonian is diagonalized classically in it~\cite{QSCI2023,SQDchem2025,SKQD2501}. Moments read off $A(\omega)$ cannot test such a spectrum, because they agree with it by construction. This paper determines what low-order sum-rule checks can and cannot detect in these spectra. The tool is an exact identity: moments of the full operators, evaluated on the subspace ground state $|0_\mathcal S\rangle$ from which $A(\omega)$ was built, differ order by order from the reconstruction's moments by the leak of the probe state $J|0_\mathcal S\rangle$ out of the subspace (Proposition~\ref{prop:leak}). It applies to any diagonal zero-temperature Lehmann spectral function: single-particle, current or collective.
+
+Dynamical response functions such as $A(k,\omega)$, the structure factors $S(q,\omega)$ and $S^{zz}(q,\omega)$ and the optical conductivity are measured by photoemission~\cite{Damascelli2003}, inelastic neutron scattering~\cite{Lake2005}, resonant inelastic x-ray scattering~\cite{Ament2011} and infrared spectroscopy~\cite{Basov2011}, and computed by classical many-body methods~\cite{Benthien2004,Qin2022}. They are now also computed on quantum processors: structure factors and spectral functions on trapped ions~\cite{GranetDSF2026,GranetARPES2026}, Green's functions from measured Hamiltonian moments~\cite{GreeneDiniz2024}, an impurity Green's function for dynamical mean-field theory~\cite{Selisko2025}, Green's functions by Liouvillian recursion~\cite{Leblanc2026}, the spin excitation spectrum of the one-dimensional Hubbard model~\cite{VilchezEstevez2025} and structure factors compared with neutron data~\cite{Lee2026}. Subspace methods developed for ground states~\cite{QSCI2023,SQDchem2025,SKQD2501,Yoshioka2025,Motta2020} have been extended to excited states~\cite{Barison2024}, quasiparticle bands~\cite{Ohgoe2025} and spectra~\cite{SQDspec2608,Patel2026}.
+
+A reconstructed spectrum can be wrong in a way that a total-weight check misses: weight sits at the wrong frequencies while the total weight stays within tolerance. Reference~\cite{SQDspec2608} shows this weight misassignment directly: on a subspace that holds the whole probe state, so that no weight is missed, the relative $L_1$ error is still $0.43$ (single-particle addition probe of the half-filled $L=6$ Hubbard ring, broadening $\eta=0.18\,t$, $t$ the hopping). Such errors matter most where no trusted classical cross-check exists~\cite{Preskill2018,Daley2022,Kim2023,Tindall2024}, and a check intended for that regime must first be tested where the ground truth is known~\cite{Eisert2020,Carrasco2021}, as we do here.
+
+\emph{Results.} (1)~\emph{Leak identity and operator form} (Sec.~\ref{sec:method}). The residual between the full-operator moments $\widehat m_k=\langle 0_\mathcal S|J^\dagger(H-e_0)^kJ|0_\mathcal S\rangle$ and the reconstruction's moments $\bar m_k$ is the missed weight at $k=0$. It vanishes through order $2K+1$ when the subspace contains the order-$K$ Krylov space of the probe state, and at order $2K+2$ it is the squared norm of the part of the next Krylov vector outside the subspace. The commutator form adds a state-residual term, so only $J^\dagger(H-e_0)^kJ$ gives a residual that vanishes on a Krylov-adequate subspace. The difference changes verdicts: at one of five truncations of a doped $L=6$ ring the textbook double-commutator first moment passes a reconstruction whose first moment is $11\%$ low ($8.7$--$12.0\%$ over $300$ random tie orders of the cut, with the same two verdicts in all).
+(2)~\emph{What the moments detect} (Secs.~\ref{sec:detectsim} and~\ref{sec:blind}; exact moments, synthetic corruptions). Under determinant truncation the zeroth-order leak responds first. When weight moves in frequency at fixed total weight, $m_0$ is blind and $m_1$, $m_2$ reject the error, in the current response of the doped $L=12$ ring from a moved fraction $f\approx0.057$ and $0.046$. In a sealed blinded simulation of $300$ instances on the doped $L=6$ ring, the sealed primary endpoint was a detection rate of $101/188$ ($53.7\%$) at one false positive in $112$. The battery rejected all $56$ sampled truncations ($15$--$75\%$ of the ground-state support) and $45$ of $61$ spurious features, and none of $71$ under-converged Krylov reconstructions. Two sealed secondary predictions failed, and the false-positive rate missed its sealed target of about $14.3\%$ in both directions: $1/112$ with the noise the threshold assumes and $40/112$ with the $1.96$-fold noise of the sealed text.
+(3)~\emph{Detection limits} (Sec.~\ref{sec:pass}). With $m_0$--$m_2$ the guaranteed power against weight redistributed among fixed poles is zero for every spectrum with four or more distinct poles (Proposition~\ref{thm:detect}). By the classical Gauss-quadrature property of the Lanczos recursion~\cite{Lanczos1950,GolubWelsch1969,GM2010,Haydock1975,ViswanathMuller1994}, an $n$-node Lanczos reconstruction reproduces $m_0,\dots,m_{2n-1}$ exactly, and its first residual is the Gauss remainder $\|\varphi\|^2\prod_{j\le n}\beta_j^2$; Corollary~\ref{cor:krylov} restates this in the notation of Proposition~\ref{prop:leak}. What we add is the relative form of the known Chebyshev bound on that remainder, $r_{2n}\le4[D/(4\bar\omega)]^{2n}$ with $r_{2n}$ the remainder divided by $m_{2n}$ (Corollary~\ref{cor:cheb}), its size on the test ring ($2.4$--$4.2\%$ of $m_2$ at one node, $0.11$--$0.13\%$ of $m_4$ at two) and the shot budget it implies: with a $2\%$ bias budget no number of shots exposes two or more nodes at order $2n$ on that ring. This accounts for the $0/71$ Krylov result: structurally for two or more nodes, and for one node because its $m_2$ deficit lies below $\tau_2$.
+(4)~\emph{Device-sampled supports} (Sec.~\ref{sec:device}). On supports sampled by the IBM Heron processor \texttt{ibm\_fez} for an $L=8$ ring, with every moment computed classically, the zeroth-order residual rewards support spreading, not fidelity.
+
+\emph{Scope.} The realizable estimator is the shared-state one: classical, deterministic and needing only the support. Its residual is the leak, so it measures whether a reconstruction is closed under the full operators, not how far a moment is from the truth; its size correlates only moderately with the reconstruction error (Sec.~\ref{sec:rr}). Detection and false-positive rates therefore come from an oracle estimator, the exact moment plus unbiased shot noise, judged against thresholds that budget an assumed bias. All systems are at exact-diagonalization scale, every rejected error is synthetic, and the device supplies only sampled supports (limits in Sec.~\ref{sec:limitlist}).
+
+\emph{Relation to Ref.~\cite{SQDspec2608}.} Our companion study bounds the error of a Rayleigh--Ritz spectral function from a sampled subspace between the missed weight $1-w$ and a boundary-leakage branch, given the exact ground state. It shows that the captured weight $w$ alone cannot certify a reconstruction, states the classical moment exactness of Krylov-adequate subspaces through order $2K+1$, and derives ${\mu_2-\mu_2^{\mathcal S}=\lVert Q_{\mathcal S}HP_{\mathcal S}\varphi\rVert^2}$ at $w=1$, all for the probe on the exact ground state; its $\mu_j$, $P_\mathcal S$ and $Q_\mathcal S$ are our $m_j$, $\Pi_\mathcal S$ and $\openone-\Pi_\mathcal S$. Statements (i)--(iii) of Proposition~\ref{prop:leak} restate those results on the subspace state $|0_\mathcal S\rangle$, where their proofs carry over unchanged, and statement~(iv) follows from the same induction as the companion's moment-exactness proof, which also measures the failure at order $2K+2$. This paper adds (a)~both moment branches on the state the pipeline holds, so that the residual needs no exact reference, with the closed form (iv) of the first nonzero residual; (b)~the operator-form result; (c)~a thresholded test for any diagonal Lehmann measure, with a blinded evaluation; (d)~the detection limits of Sec.~\ref{sec:pass}, including Corollary~\ref{cor:cheb}; and (e)~a reference-sampler analysis of device supports, an instance of the companion's no-certification result.
+
+\emph{Related work.} Sum-rule checks are long-standing in dynamical mean-field theory and quantum Monte Carlo~\cite{TurkowskiFreericks2006,Freericks2009}. Analytic continuation uses sum rules as prior information~\cite{Jarrell1996,Sandvik1998} or enforces them in pole representations~\cite{HuangLiang2023,ZhangGull2024}, and frequency moments are extracted from imaginary-time data~\cite{Dornheim2023moments}. For quantum-computed spectra, Buchs \emph{et al.}\ validate against experimental and classical anchors with metric families that include low-order moments and sum-rule residuals~\cite{Buchs2026}, and in a quantum linear-response algorithm the zeroth moment restores the normalization~\cite{RoggeroCarlson2019}. That the energy-weighted sum rule evaluated on an approximate ground state depends on the operator form is known from nuclear structure, where the double commutator on the Hartree--Fock state gives the random-phase-approximation value~\cite{Thouless1961,LippariniStringari1989}; here the consequence is a changed pass/fail verdict. The classical moment problem~\cite{ShohatTamarkin1943,Akhiezer1965,KreinNudelman1977,GM2010} underlies the kernel-polynomial, recursion and Lanczos continued-fraction methods~\cite{KPM2006,Haydock1972,GaglianoBalseiro1987,Dagotto1994} and gives two-sided bounds from moments~\cite{Gordon1968,Langhoff1976,ChenTrogdonUbaru2021,AbbottJayOare2025}. The $k=2$ boundary coupling of Proposition~\ref{prop:leak} is the dynamical analog of the coupling of a variational state to external determinants used in selected configuration interaction~\cite{Huron1973} and of the energy variance used to verify prepared states~\cite{Kokail2019}. Verification methods certify a prepared state or validate an expectation value~\cite{Kokail2019,HuangPreskillSoleimanifar2024,OEACV2026}; the test here applies to a reconstructed function.
+
+Section~\ref{sec:method} proves the leak identity and defines the test, Sec.~\ref{sec:detectsim} shows what the moments detect, Sec.~\ref{sec:blind} reports the blinded test, Sec.~\ref{sec:pass} derives the detection limits, Sec.~\ref{sec:device} treats device-sampled supports, and Secs.~\ref{sec:limits} and~\ref{sec:conclusions} discuss and conclude. Derivations, protocol details and extended analyses are in the \SMname\ (Secs.~S1--S13)\footnote{See \SMname\ \ifdefined\JPCM(file supplement.pdf)\else at [URL will be inserted by publisher]\fi\ for the moment identities, the estimator and its Monte-Carlo check, the blinded-test protocol, further probes, the moment-body and Christoffel analyses, the proof of Proposition~2 and the within-sector evaluation, the full Krylov table, the Gauss-law check, the device-run details, the cost of a device-native estimator and a code-scalability check\ifdefined\JPCM\else, which includes Refs.~\cite{CarleoTroyer2017,Hausman1978,Hubbard1963,LiebWu1968,Voit1995,KuhnerWhite1999,Jeckelmann2002,Schollwock2011,Georges1996,Gull2011,desCloizeauxPearson1962,Muller1981,PauwelsLasserre2019,LasserrePauwelsPutinar2022,Totik2000,MNT1991,DetteStudden1997,Nevai1986,CausalBootstrap2026,CertifiedSpectral2026,BatenkovClustered2020,KunisNagel2021,Donoho1992,Moitra2015,AkinshinGoldmanYomdin2021,Gautschi1962,Gautschi1963,Gauss2020,HalimehHauke2020,Martinez2016,Klco2018,Vovrosh2021,Kiss2025,Vallury2023}\fi.}.
+
+% =====================================================================================================
+\section{The leak identity and the test}
+\label{sec:method}
+
+\begin{figure*}[t]
+\centering
+\adjustbox{max width=0.92\textwidth}{\input{figs/fig_hero}}
+\caption{\textbf{One subspace state, two operator evaluations.} The sampled support $\mathcal S$ fixes the subspace ground state $|0_\mathcal S\rangle$. The reconstruction branch diagonalizes $H$ restricted to $\mathcal S$, assembles $A(\omega)$ and reads off $\bar m_k=\int\omega^kA(\omega)\,d\omega$. The estimator branch evaluates $\widehat m_k=\langle 0_\mathcal S|O_k|0_\mathcal S\rangle$ with the full sparse operators, $O_k\equiv J^\dagger(H-e_0)^kJ$ and $e_0=\langle 0_\mathcal S|H|0_\mathcal S\rangle$, which reach configurations outside $\mathcal S$; it never uses $A(\omega)$ (crossed arrow). Their difference $\Delta_k=|\widehat m_k-\bar m_k|$ is the leak of $J|0_\mathcal S\rangle$ out of $\mathcal S$ (Proposition~\ref{prop:leak}), not the distance to the true moment. Both branches are classical post-processing of the support; on hardware the device supplies $\mathcal S$ alone (Sec.~\ref{sec:device}). Drawn by a script written with an AI tool (Sec.~\ref{sec:estimator}).}
+\label{fig:hero}
+\end{figure*}
+
+\subsection{Setting}
+\label{sec:setting}
+In sample-based diagonalization each computational-basis shot of a prepared state returns a bitstring. In the simplest form, used here and in Ref.~\cite{SQDspec2608}, the distinct bitstrings that survive post-selection to the physical particle-number and spin sector form the subspace $\mathcal S$~\cite{QSCI2023}; SQD further repairs them by configuration recovery~\cite{SQDchem2025}. With $\Pi_\mathcal S$ the projector onto $\operatorname{span}\mathcal S$, $H_\mathcal S=\Pi_\mathcal SH\Pi_\mathcal S$ restricted to $\operatorname{span}\mathcal S$, $|0_\mathcal S\rangle$ its ground state (assumed non-degenerate) and $e_0=\langle 0_\mathcal S|H|0_\mathcal S\rangle$, the reconstruction is the Lehmann sum~\cite{Lehmann1954} over the eigenpairs $(E_n^\mathcal S,|n_\mathcal S\rangle)$ of $H_\mathcal S$ in $\operatorname{span}\mathcal S$,
+\begin{equation}
+A_\mathcal S(\omega)=\sum_n|\langle n_\mathcal S|J|0_\mathcal S\rangle|^2\,\delta_\eta\big(\omega-(E_n^\mathcal S-e_0)\big),
+\label{eq:lehmann}
+\end{equation}
+with $\delta_\eta$ a narrow broadening. Evaluated with the exact eigenpairs of $H$ and $\eta\to0$, Eq.~\eqref{eq:lehmann} is the zero-temperature diagonal Lehmann spectral function of $J$, a positive measure on $\omega\ge0$. Its power moments are ground-state expectation values~\cite{HohenbergMartin1965},
+\begin{equation}
+\begin{split}
+m_k&=\int\omega^kA(\omega)\,d\omega=\langle 0|J^\dagger(H-E_0)^kJ|0\rangle\\
+&=\langle 0|J^\dagger\,\mathrm{ad}_H^{k}(J)|0\rangle ,
+\end{split}
+\label{eq:moment-identity}
+\end{equation}
+with $\mathrm{ad}_H(J)\equiv[H,J]$; for a Hermitian probe $m_0=\langle J^2\rangle$ and $m_1=\tfrac12\langle[J,[H,J]]\rangle$ (Sec.~\ref{S-app:moments}). On a state $|\psi\rangle$ that need not be an eigenstate we define the moment operator and its commutator form,
+\begin{equation}
+\begin{split}
+O_k&\equiv J^\dagger(H-e_0)^kJ,\qquad C_k\equiv J^\dagger\,\mathrm{ad}_H^{k}(J),\\
+e_0&=\langle\psi|H|\psi\rangle .
+\end{split}
+\label{eq:Ok}
+\end{equation}
+On an exact eigenstate $\langle O_k\rangle=\langle C_k\rangle=m_k$; off an eigenstate the two differ for $k\ge1$, and neither equals $m_k$. The reconstruction's own moments, taken from its poles and residues at $\eta\to0$, are
+\begin{equation}
+\begin{split}
+\bar m_k&=\sum_n(E_n^\mathcal S-e_0)^k|\langle n_\mathcal S|J|0_\mathcal S\rangle|^2\\
+&=\langle\varphi_\mathcal S|[\Pi_\mathcal S(H-e_0)\Pi_\mathcal S]^k|\varphi_\mathcal S\rangle,
+\end{split}
+\label{eq:recon}
+\end{equation}
+with $\varphi_\mathcal S\equiv J|0_\mathcal S\rangle$ and the convention $[\Pi_\mathcal S(H-e_0)\Pi_\mathcal S]^0\equiv\Pi_\mathcal S$. Compared with themselves they can never reject. We never integrate a broadened $A(\omega)$ on a grid to obtain them: a Lorentzian has no finite first or second moment. Below, $K$ denotes a Krylov order in Proposition~\ref{prop:leak}, the highest order of the test battery in Sec.~\ref{sec:estimator}, and the highest preserved order in Proposition~\ref{thm:detect}.
+
+\subsection{The leak identity}
+\label{sec:leak}
+\begin{proposition}[Leak identity]
+\label{prop:leak}
+With $\widehat m_k\equiv\langle 0_\mathcal S|O_k|0_\mathcal S\rangle$ and the common reference $e_0$,
+\begin{equation}
+\widehat{m}_k-\bar m_k=\langle\varphi_\mathcal{S}|(H-e_0)^k|\varphi_\mathcal{S}\rangle-\langle\varphi_\mathcal{S}|[\Pi_\mathcal{S}(H-e_0)\Pi_\mathcal{S}]^{k}|\varphi_\mathcal{S}\rangle
+\label{eq:app-leak}
+\end{equation}
+for every $k\ge0$. In particular:
+(i)~at $k=0$ it is the missed weight $\widehat m_0(1-w)\ge0$, with $w=\|\Pi_\mathcal S\varphi_\mathcal S\|^2/\|\varphi_\mathcal S\|^2$ the captured weight ($\varphi_\mathcal S\neq0$);
+(ii)~if $\operatorname{span}\mathcal S$ contains the Krylov space $\mathcal K_K=\operatorname{span}\{\varphi_\mathcal S,H\varphi_\mathcal S,\dots,H^K\varphi_\mathcal S\}$, it vanishes for every $k\le2K+1$;
+(iii)~if $w=1$, it vanishes at $k=1$, and at $k=2$ it equals the squared boundary coupling $\|(\openone-\Pi_\mathcal{S})H\varphi_\mathcal{S}\|^2\ge0$;
+(iv)~under the hypothesis of (ii), at $k=2K+2$ it equals $\|(\openone-\Pi_\mathcal S)H^{K+1}\varphi_\mathcal S\|^2\ge0$, which vanishes if and only if $\operatorname{span}\mathcal S\supseteq\mathcal K_{K+1}$.
+\end{proposition}
+
+\noindent\emph{Proof.} Equation~\eqref{eq:app-leak} follows from Eqs.~\eqref{eq:Ok} and~\eqref{eq:recon}, because both branches are built on $\varphi_\mathcal S$ and $e_0$. (i)~At $k=0$ the difference is $\langle\varphi_\mathcal S|(\openone-\Pi_\mathcal S)|\varphi_\mathcal S\rangle$. (ii)~Under the hypothesis, $[\Pi_\mathcal S(H-e_0)\Pi_\mathcal S]^j\varphi_\mathcal S=(H-e_0)^j\varphi_\mathcal S$ for $j\le K$, by induction from the base case $[\cdot]^0\varphi_\mathcal S=\Pi_\mathcal S\varphi_\mathcal S=\varphi_\mathcal S$, since each $(H-e_0)^j\varphi_\mathcal S$ lies in $\operatorname{span}\mathcal S$. Every $k\le2K$ splits as $k=a+b$ with $a,b\le K$, and, $\Pi_\mathcal S(H-e_0)\Pi_\mathcal S$ being Hermitian, both branches equal $\langle(H-e_0)^a\varphi_\mathcal S|(H-e_0)^b\varphi_\mathcal S\rangle$; at $k=2K+1$ both equal $\langle(H-e_0)^K\varphi_\mathcal S|(H-e_0)|(H-e_0)^K\varphi_\mathcal S\rangle$. (iv)~Then $[\Pi_\mathcal S(H-e_0)\Pi_\mathcal S]^{K+1}\varphi_\mathcal S=\Pi_\mathcal S(H-e_0)^{K+1}\varphi_\mathcal S$, so the two branches at $k=2K+2$ are $\|(H-e_0)^{K+1}\varphi_\mathcal S\|^2$ and $\|\Pi_\mathcal S(H-e_0)^{K+1}\varphi_\mathcal S\|^2$. Their difference is $\|(\openone-\Pi_\mathcal S)(H-e_0)^{K+1}\varphi_\mathcal S\|^2$, and $\openone-\Pi_\mathcal S$ annihilates the lower powers, which lie in $\operatorname{span}\mathcal S$. (iii)~is (ii) and (iv) at $K=0$, since $w=1$ means $\varphi_\mathcal S\in\operatorname{span}\mathcal S$. $\square$
+
+A zero leak at every order means only that $A_\mathcal S$ is the exact spectral measure of $\varphi_\mathcal S$ relative to $e_0$; errors of the subspace ground state itself are outside what the identity tests. The proof uses only an orthogonal projector, a vector and a real shift, so the identity holds verbatim for the probe on the exact ground state with $e_0=E_0$, for a Krylov projector in place of $\Pi_\mathcal S$ (Sec.~\ref{sec:krylov}), and for number-changing probes: for $J=c^\dagger_p$, with $\varphi_\mathcal S=J|0_{\mathcal S_0}\rangle$ from an $N$-particle support $\mathcal S_0$, $e_0=\langle0_{\mathcal S_0}|H|0_{\mathcal S_0}\rangle$ and $\Pi_\mathcal S$ on the $(N{+}1)$-particle support. Statement~(ii) is the classical moment exactness of Krylov projections~\cite{Lanczos1950,GM2010}, which Ref.~\cite{SQDspec2608} states for coordinate subspaces; (i) and (iii) are that work's captured-weight and second-moment results, there on the exact ground state. Every order needs only sparse matrix--vector products from $|0_\mathcal S\rangle$: with $\widehat m_{2j}=\|(H-e_0)^j\varphi_\mathcal S\|^2$ and $\widehat m_{2j+1}=\langle(H-e_0)^j\varphi_\mathcal S|(H-e_0)|(H-e_0)^j\varphi_\mathcal S\rangle$, the battery through $k=2$ needs $\varphi_\mathcal S$ on the configurations that $J$ connects to $\mathcal S$ and one further application of $H$.
+
+\subsection{The operator form matters off an eigenstate}
+\label{sec:form}
+With $O_k$ the residual is exactly the leak; with $C_k$ it would also contain $\langle 0_\mathcal{S}|(C_k-O_k)|0_\mathcal{S}\rangle$, which at $k=1$ equals $-\langle 0_\mathcal S|J^\dagger J\,(H-e_0)|0_\mathcal S\rangle$ and does not vanish off an eigenstate (Sec.~\ref{S-app:moments}). The difference changes verdicts. Take the current probe of the doped $L=6$, $U/t=4$ ring and truncate its sector to the $d=100$ determinants of largest $|\psi_0|^2$ ($44\%$ of the $225$-dimensional sector, $54\%$ of the $186$-determinant ground-state support). The subspace ground state gives $\langle O_1\rangle=4.558$ but $\tfrac12\langle[J,[H,J]]\rangle=3.717$ (the real part of $\langle C_1\rangle$ for Hermitian $J$), against the reconstruction moment $\bar m_1=3.743$ and the exact $m_1=4.227$. At the default threshold of the exact ground state, $\tau_1=0.229$ (Sec.~\ref{sec:estimator}), the $O_1$ form rejects the truncated reconstruction and the commutator form does not. The reconstruction is wrong, since $\bar m_1$ is $11\%$ below the exact value, but the $O_1$ form does not measure that error: its residual, $0.81$, is the leak and exceeds the actual first-moment error, $0.48$. The cut falls inside a $24$-fold degenerate shell of $|\psi_0|^2$; over $300$ random choices of the kept members of that shell, $\bar m_1$ is $8.7$--$12.0\%$ low and the two verdicts are the same in every case. At the other four truncations of the scan ($d=30$, $50$, $75$, $150$) both forms reject, and at $d=186$ and $200$, which contain the whole ground-state support, $|0_\mathcal S\rangle=|0\rangle$ and both pass (Sec.~\ref{S-app:moments}). Off an eigenstate neither form estimates $m_1$. The battery as a whole rejects the $d=100$ cut on $m_0$ in either form ($\Delta_0=12\,\tau_0$), because $O_0=C_0$. The form can therefore decide the verdict of a check that tests $m_1$ without $m_0$, such as checks on spectra normalized to the $m_0$ sum rule~\cite{RoggeroCarlson2019} or on $A(k,\omega)$, whose $m_0$ is pinned to $1$.
+
+\subsection{Estimators and thresholds}
+\label{sec:estimator}
+The test statistic is $\Delta_k=|\widehat m_k-\bar m_k|$. The battery applies it for $k=0,1,\dots,K$ (default $K=2$) and rejects the reconstruction when any order rejects; failing rejects, and passing does not show that the reconstruction is correct. We name the estimator behind each result.
+
+\emph{Shared-state estimator (realizable now, classical).} $\widehat m_k=\langle 0_\mathcal S|O_k|0_\mathcal S\rangle$ on the reconstruction's own subspace ground state, with the full sparse operators. It needs only the sampled support, is deterministic, and its residual is exactly the leak of Proposition~\ref{prop:leak}. We report it as the leak score $\Delta_k/\widehat m_k$ against a numerical tolerance of $10^{-6}$ (below $3\times10^{-15}$ on the $112$ faithful controls of the blinded test). Through $k=2$ the scores vanish exactly when $\operatorname{span}\mathcal S$ contains $\varphi_\mathcal S$ and $H\varphi_\mathcal S$, so at this tolerance the test flags almost every sampled support; applying the thresholds $\tau_k$ below to it is a convention.
+
+\emph{Oracle estimator (the model of the blinded test).} The exact moment $m_k$ plus unbiased Gaussian noise of variance $\operatorname{Var}(O_k)/N_s$, with $\operatorname{Var}(O_k)$ the local-estimator variance on the prepared state: the truncated-subspace ground state for the truncation instances of Sec.~\ref{sec:blind}, the exact ground state otherwise (Sec.~\ref{S-app:estimator}). The reconstruction is rejected when $\Delta_k>\tau_k$, with $\tau_k=z\,\delta_k$, $z=1.96$ ($\alpha=0.05$ per moment) and $\delta_k^2=\operatorname{Var}(O_k)/N_s+b_k^2$, the shot variance plus a bias budget $b_k$. The \emph{default rule} uses $N_s=5\times10^4$ and $b_k=0.02\,|\widehat m_k|$; for three moments its nominal family-wise level is $1-0.95^3=14.3\%$ for independent tests. For the current probe of the doped $L=6$, $U/t=4$ ring, with the variance of the exact ground state, it gives $\tau_0=0.029$, $\tau_1=0.229$ and $\tau_2=1.848$. The bias budget is assumed, not measured; attributing a rejection to the reconstruction presupposes that the estimator's bias lies within $b_k$.
+
+A third estimator, measured in qubit-wise-commuting Pauli groups on a separately prepared ground state, is verified in simulation only (Sec.~\ref{S-app:native}). Positivity conditions on the moments test an estimate, not a non-negative reconstruction (Sec.~\ref{S-app:stack}), and an exactly known operator identity, such as a lattice Gauss law, can be added as a check of the prepared state (Sec.~\ref{S-app:gauss}).
+
+\emph{Computational details.} Spectra are computed by exact diagonalization and sector Lanczos with Haydock continued fractions~\cite{Haydock1972,Lanczos1950} in NumPy and SciPy. The device circuits were built, simulated and run with Qiskit and Qiskit Aer~\cite{Qiskit2024}, and the density-matrix renormalization group (DMRG) reference of Sec.~\ref{S-app:L24} used TeNPy~\cite{TeNPy2024}. \emph{Use of AI tools.} The author used Claude (Anthropic), through the Claude Code tool with the Claude models current between August and November 2026 (Claude Opus 5.5 and Claude Fable 5.2, with Claude Code 2.1.319--2.1.322, for this version), to write and debug analysis code and the code that draws the figures, to run analyses and to draft text. The author directed every analysis, checked the reported numbers against the deposited records (with the repository's verification scripts for the numbers they cover), and takes full responsibility for the content.
+
+% =====================================================================================================
+\section{What the moments detect}
+\label{sec:detectsim}
+\label{sec:teeth}
+All results in this section are exact simulations.
+
+\subsection{Truncation: the zeroth-order leak is the operative channel}
+\label{sec:trunc}
+Determinant-subspace truncation is the native failure mode of sample-based diagonalization: the sampled subspace omits configurations that carry spectral weight~\cite{SQDchem2025,QSCI2023}. We truncate the determinant subspace of the doped $L=12$ Hubbard ring ($N_\uparrow=N_\downarrow=4$, $U/t=8$; full support $2.4\times10^5$) to its top $d$ configurations by $|\psi_0|^2$, the noiseless limit of the QSCI selection of the most frequently sampled configurations~\cite{QSCI2023}, and evaluate both branches on the same subspace state (Fig.~\ref{fig:teethshared}). The zeroth-order residual $\Delta_0/\widehat m_0=1-w$, the companion's captured-weight deficit~\cite{SQDspec2608}, exceeds $\Delta_1/\widehat m_1$ at every computed truncation depth from $73\%$ down to $0.9\%$ coverage (for example $1.6\%$ against $0.37\%$ at $39\%$ coverage); it crosses the $5\%$ line between $d=6.9\times10^4$ ($29\%$ coverage) and $d=5.0\times10^4$ ($21\%$). The shared-state first-moment residual crosses that line at $d\approx4.4\times10^{4}$ ($18\%$ coverage), and the idealized curve, with $\widehat m_1$ on the exact ground state, only at $d\approx1.6\times10^{4}$ ($7\%$). Between $18\%$ and $7\%$ coverage the shared-state residual therefore exceeds $5\%$ while the reconstruction's first moment is within $5\%$ of the exact one: it registers the leak, not the error. In the shared-state rescoring of the blinded test (Sec.~\ref{sec:blind}), every one of its $56$ truncations is rejected on $m_0$. For determinant truncation the operative channel is thus $\Delta_0$; $m_1$ and $m_2$ add reach for errors that preserve $m_0$.
+
+\begin{figure}[t]
+\centering\colfig
+\adjustbox{max width=\columnwidth}{\input{figs/fig_teeth_shared}}
+\caption{\textbf{Independent residuals under determinant truncation.} Doped $L=12$ ring ($N_\uparrow=N_\downarrow=4$), $U/t=8$, truncated to its top $d$ configurations by $|\psi_0|^2$ (full support $2.4\times10^5$). Shared-state curves use the same subspace ground state $|0_\mathcal{S}\rangle$; the evaluation is classical. Dark red, filled dots: $\Delta_1/\widehat m_1$. Black, dash-dot, open triangles: $\Delta_0/\widehat m_0=1-w$, the fraction of the weight of $J|0_\mathcal{S}\rangle$ outside $\mathcal{S}$. Dark blue, dashed, open circles: idealized $\Delta_1/\widehat m_1$ with $\widehat m_1$ on the exact ground state. Grey squares: the circular control, zero by definition. Open rings mark the two log-interpolated $5\%$ crossings of $\Delta_1$; the $5\%$ line is a guide, not the default threshold. Drawn from the deposited data by a script written with an AI tool (Sec.~\ref{sec:estimator}).}
+\label{fig:teethshared}
+\end{figure}
+
+\subsection{Weight misplaced at fixed total weight}
+\label{sec:fixedtotal}
+In the doped one-dimensional Hubbard model the regular ($\omega>0$) current spectral function $A_J(\omega)$ is dominated by a band near $\omega\approx U$, transitions into the upper Hubbard band, of total weight $m_0=\langle J^2\rangle$~\cite{Maldague1977,Basov2011}; on the finite ring the charge stiffness is a separate zero-frequency Drude term~\cite{Kohn1964}. A wrong reconstruction moves a fraction $f$ of the weight above $6\,t$ into a spurious low-frequency pole at $2.5\,t$, keeping the total fixed, so a total-weight check passes it (Fig.~\ref{fig:invfalsifier}; every moment exact, no sampling). The first moment differs from the reconstruction's by up to $38.2\%$ of $m_1$ at $f=0.5$ and, under the default threshold rule with the variances of the exact $L=12$ ground state, rejects from $f\approx0.057$.
+
+\begin{figure*}[t]
+\centering
+\adjustbox{max width=\textwidth}{\input{figs/fig_inverse_falsifier}}
+\caption{\textbf{Current response: misplaced weight at fixed total.} Doped Hubbard ring ($L=12$, $U/t=8$, $2/3$ electrons per site; $\mathrm{Re}\,\sigma\propto A_J/\omega$). A fraction $f$ of the weight above $6\,t$ moves to a spurious pole at $2.5\,t$ at fixed $m_0$. \textbf{(a)}~True spectrum (dark blue; $1.4\%$ of $m_0$ below $6\,t$) and wrong reconstruction at $f=0.4$ (dark red: spurious pole plus depleted band); Lorentzian broadening $\eta=0.35\,t$. Teal: kernel $1/\omega$, rescaled, capped below $0.25\,t$. \textbf{(b)}~Exact $\Delta_k/m_k$ versus $f$: $\Delta_0/m_0<10^{-13}$ (grey, blind); $m_1$ (black, open diamonds), $m_2$ (dark blue) and $m_{-1}=\tfrac12\langle-\hat T\rangle-\mathcal D=0.324$ (dark red) move by up to $38.2\%$, $47.3\%$ and $154.3\%$. Dashed: common $5\%$ guide. Default thresholds: $4.3\%$ of $m_1$ and $m_2$ but $61\%$ of $m_{-1}$ (dotted), since the Kohn stiffness $\mathcal D$ (from the flux curvature, not the same samples) cancels $94\%$ of $\tfrac12\langle-\hat T\rangle$; rejection at $f\approx0.046$ ($m_2$), $0.057$ ($m_1$), $0.20$ ($m_{-1}$). Drawn from the deposited data by a script written with an AI tool (Sec.~\ref{sec:estimator}).}
+\label{fig:invfalsifier}
+\end{figure*}
+
+The misplaced weight also moves the optical \textit{f}-sum moment $m_{-1}=\int_0^\infty A_J(\omega)/\omega\,d\omega$, whose kernel $1/\omega$ weights low frequencies. With $J=-i[H,P]$, $P$ the polarization and $\hat T$ the hopping energy, $m_{-1}=\tfrac12\langle-\hat T\rangle$ on open chains and $\tfrac12\langle-\hat T\rangle-\mathcal D$ on the ring, with $\mathcal D$ the finite-size Drude weight (Sec.~\ref{S-app:moments})~\cite{Kohn1964,Maldague1977}. On this doped ring only $1.4\%$ of $m_0$ lies below $6\,t$, and $m_{-1}=0.324$ is the small difference of $\tfrac12\langle-\hat T\rangle=5.025$ and $\mathcal D=4.701$: the stiffness cancels $94\%$ of the kinetic term. On the ring the negative-order moment $m_{-1}$ therefore moves most in relative terms (up to $154.3\%$ against $38.2\%$ for $m_1$), and on the open chain it moves least, with relative slopes $0.233$ for $m_{-1}$ against $0.719$ for $m_1$. A larger relative shift does not mean earlier detection. Because of the cancellation, a $2\%$ bias on $\tfrac12\langle-\hat T\rangle$ sets $\tau_{-1}=0.198$, which is $61\%$ of $m_{-1}$, whereas $\tau_1$ and $\tau_2$ are $4.3\%$ of $m_1$ and $m_2$. So $m_2$ rejects first ($f\approx0.046$), then $m_1$ ($0.057$), and $m_{-1}$ only at $f\approx0.20$. Across spurious-pole positions of $0.25$--$4\,t$, $m_{-1}$ rejects first only for poles at $0.25\,t$ and $0.5\,t$, on both geometries (Sec.~\ref{S-app:moments}); it is a complementary check for weight very close to $\omega=0$. We claim no novelty for the identity, the textbook \textit{f}-sum~\cite{Kohn1964,Maldague1977}.
+
+\subsection{Single-particle and collective channels}
+\label{sec:otherprobes}
+Section~\ref{S-app:illustrations} applies the construction to three more probes, with injected corruptions and no threshold of their own. For $A(k,\omega)$ of the half-filled $L=12$ ring, the anticommutator first moment, the Hartree centroid, exposes a corruption that flattens the band-centroid dispersion while keeping the Mott gap and the per-$k$ total weight. On the charge and spin structure factors of a half-filled $L=6$ ring, a reconstruction that moves band weight into a spurious low-frequency peak at fixed total weight passes the $m_0$ check (residual $\sim\!10^{-15}$), but its first moment is off by $29$--$36\%$ once $40\%$ of the band weight is moved.
+
+% =====================================================================================================
+\section{Blinded test in simulation}
+\label{sec:blind}
+On a catalog of $300$ instances sealed before generation, the sealed primary endpoint was a detection rate of $101/188$ ($53.7\%$) at a false-positive rate of $1/112$ (Table~\ref{tab:blind}).
+
+\emph{Design.} Following blind-analysis and pre-registration practice~\cite{KleinRoodman2005,Nosek2018}, before any instance existed we sealed by SHA-256 hash the battery ($m_0,m_1,m_2$ plus an interval-Hankel condition), the decision rule and its inputs, the error catalog, the primary endpoint, the secondary predictions and the random seed; the seal is self-attested (Sec.~\ref{S-app:blinddetails}). As implemented, the Hankel condition was evaluated on the reconstruction's own moments, where it cannot fail, so every rejection came from the three moment comparisons. The rule is the default rule of Sec.~\ref{sec:estimator}, with $N_s=5\times10^4$ the per-circuit budget of the companion's \texttt{ibm\_fez} run~\cite{SQDspec2608}. By design the oracle combines the exact mean with the variance of the prepared state, which for truncations is the truncated ground state; this produces one artifact (id~$162$, Sec.~\ref{S-app:blinddetails}). The generator produced $112$ faithful controls and three algorithmic error causes: determinant-subspace truncation ($56$), under-converged Krylov reconstruction ($71$) and an analytic-continuation artifact that adds a spurious spectral feature ($61$). Every instance uses the current probe of the doped $L=6$ Hubbard ring ($N_\uparrow=N_\downarrow=2$, sector dimension $225$) at $U/t\in\{3,4,5,6\}$. Truncations keep the top $d=29$--$138$ of the $186$ ground-state configurations by $|\psi_0|^2$ (the sealed range was $15$--$75\%$ of the support) and are mild by weight ($75.1$--$98.7\%$ of $|\psi_0|^2$). Krylov instances are $n_l$-node Lanczos representations, $n_l\in\{1,2,3,4\}$, which the sealed catalog itself describes as exact through $m_{2n_l-1}$. A spurious feature is a point atom of weight $2$--$25\%$ of $m_0$ at a uniformly drawn excitation frequency; with probability $1/2$ the measure is rescaled to restore $m_0$.
+
+\begin{table}[t]
+\caption{\label{tab:blind}\textbf{Blinded test by class} (current probe of the doped $L=6$ ring, oracle estimator, default rule). ``As implemented'' (the sealed record): simulated noise with the standard error that the threshold's shot term assumes; Wilson $95\%$ intervals in brackets. ``$1.96$-fold noise'': the same draws rescaled by $1.96$, the noise scale the sealed text specifies, scored with the same rule, whose $2\%$ bias term is recomputed on the rescaled estimate (post hoc; with the thresholds held at their as-implemented values the counts are $16$, $23$ and $41$ instead of $17$, $22$ and $40$, and the pooled $126/188$ is unchanged). Pooled primary endpoint as implemented: $101/188=53.7\%$ ($[46.5,60.8]\%$) at $1/112$; with $1.96$-fold noise, $126/188=67.0\%$ at $40/112$.}
+\footnotesize
+\begin{ruledtabular}
+\begin{tabular}{lccc}
+class & $N$ & as implemented & $1.96\times$ noise \\
+\colrule
+truncation & $56$ & $56$ $[93.5,100]\%$ & $56$ \\
+spurious, $m_0$-changing & $27$ & $25$ $[76.6,98.0]\%$ & $25$ \\
+spurious, $m_0$-preserving & $34$ & $20$ $[42.2,73.7]\%$ & $22$ \\
+Krylov, $n_l=1$ & $15$ & $0$ $[0,20.4]\%$ & $6$ \\
+Krylov, $n_l\ge2$ & $56$ & $0$ $[0,6.5]\%$ & $17$ \\
+\colrule
+faithful (false pos.) & $112$ & $1$ $[0.1,4.9]\%$ & $40$ $[27.4,45.0]\%$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\emph{Results by class.} All $56$ truncations were caught, $55$ of them on $m_0$. Of the spurious features, $25$ of the $27$ weight-changing ones were caught, which the diagonal $m_0$ channel can reach, and $20$ of the $34$ $m_0$-preserving ones, which only the off-diagonal moments can reach. The truncation result is a property of the sampled cuts, not a guarantee: an exhaustive scan of the $U/t=4$ ring with exact moments and the same thresholds finds $12$ of $185$ truncated reconstructions that pass the full battery, nine of them above the sealed range (Sec.~\ref{S-app:estimator}). The pooled detection rate is low because $71$ of the $188$ corrupted instances are under-converged Krylov reconstructions. For $n_l\ge2$ these reproduce $m_0$--$m_3$ exactly, as the sealed catalog itself states. For $n_l=1$ the miss is quantitative, not structural: a one-node reconstruction reproduces $m_0$ and $m_1$ and misses $m_2$ by $m_0\operatorname{Var}_A$, here $2.4$--$4.2\%$ of $m_2$ and $0.48$--$0.67\,\tau_2$, a comparison that could have been made before sealing (Sec.~\ref{sec:krylov}). Two sealed secondary predictions failed: the one-node Krylov case, expected to be caught, was caught $0/15$; the $m_0$-preserving subclass, sealed as designed-blind with low expected detection, was caught $20/34$, because the rescaling restores only $m_0$ and still shifts $m_1$ and $m_2$. The other secondary predictions held.
+
+\emph{Sensitivity to the noise model.} The false-positive rate as implemented is low by construction: the simulated estimator is unbiased, its noise has the standard error assumed by the threshold's shot term, and the threshold budgets a $2\%$ bias. Redrawing the noise for the $112$ faithful instances gives a modeled rate of $1.3\%$, far below the sealed nominal level of $14.3\%$, so the sealed false-positive target was missed in both directions, and a realized bias of $+2\%$ ($-2\%$) on all three moments gives $8.0\%$ ($11.5\%$). With the $1.96$-fold noise of the sealed text the same draws give $40/112=35.7\%$, typical of that model (expected rate $34.4\%$), and $17$ of the $56$ Krylov reconstructions with $n_l\ge2$ are rejected by noise alone. Inflating the shot variance fourfold in both the noise and the threshold, the frozen rule still rejects all $56$ truncations and $17$ of the $34$ $m_0$-preserving features, at $15/112$ in one rescaled draw (expected rate $7.1\%$). Robustness to a real estimator bias is untested.
+
+\emph{Shared-state rescoring.} Post hoc, with the shared-state estimator, every one of the $56$ sealed truncations lies above the numerical tolerance on each of $m_0$, $m_1$ and $m_2$ (smallest $\Delta_0/\widehat m_0=0.25$), and with the sealed noise draws and $\tau_k$ as a convention the frozen rule rejects all $56$ on $m_0$. The shared-state estimate is itself far from the exact moment on truncations (for one instance $\widehat m_0=1.04$ against $m_0=0.37$): the test registers the leak, not the distance to the truth.
+
+\begin{figure}[t]
+\centering\colfig
+\adjustbox{max width=\columnwidth}{\input{figs/fig_separating}}
+\caption{\textbf{Diagonal and off-diagonal moments have complementary reach} (sealed blinded simulation, current probe of the doped $L=6$ ring). $r_k=|\widehat m_k-\bar m_k|/\tau_k$ with the frozen thresholds; $r_k>1$ rejects. All $300$ instances are plotted at their sealed $r_k$. Truncations: $56/56$ rejected, $r_0>1$ in $55$. Shaded: the $26$ rejected only off-diagonally ($20$ $m_0$-preserving and $4$ $m_0$-changing spurious features, false positive id~$184$ and truncation id~$162$, both ringed; id~$162$ has shared-state $r_0=15.8$). Krylov ($0/71$): rejected by neither channel. Drawn from the deposited data by a script written with an AI tool (Sec.~\ref{sec:estimator}).}
+\label{fig:separating}
+\end{figure}
+
+Figure~\ref{fig:separating} shows how the two channels divide the work. Truncation moves the total-weight sum rule $m_0=\langle J^\dagger J\rangle$, so the diagonal channel catches it, as it catches most weight-changing spurious features. The $m_0$-preserving subclass keeps the total weight and the determinant support fixed by construction, so neither the $m_0$ residual nor a support-coverage check can see it; only the off-diagonal moments reject it, for example id~$222$ with $(r_0,r_1,r_2)=(0.16,3.3,9.1)$. In all, $26$ sealed instances have $r_0<1$ but an off-diagonal residual above threshold.
+
+% =====================================================================================================
+\section{Detection limits}
+\label{sec:pass}
+\label{sec:detect}
+At the order used here a pass constrains a reconstruction very little. Two error classes are invisible for structural reasons, weight redistributed among fixed poles and Krylov reconstructions of two or more nodes, and the most natural sample-based form of misplaced weight passes the default thresholds.
+
+\subsection{Weight redistributed among fixed poles}
+\label{sec:fixedpole}
+The limiting error class is the \emph{within-sector redistribution}: a corruption that keeps the retained determinant support and the reconstructed poles and only reweights those poles. It contributes no leak term to Eq.~\eqref{eq:app-leak}, so no support-based check can signal it; we know of no mechanism by which a sample-based pipeline produces it. We call \emph{guaranteed power} at order $j$ the smallest noise-free shift $\Delta_j$ over redistributions of a given size; when it is zero, some redistribution of that size is rejected only at the false-positive rate.
+
+\begin{proposition}[Detectability of fixed-pole redistributions; elementary]
+\label{thm:detect}\sloppy
+Let $A(\omega)=\sum_{n=1}^{N}w_n\,\delta(\omega-\omega_n)$, with $w_n=\sum_{a:\,E_a-E_0=\omega_n}|\langle a|J|0\rangle|^2>0$, be a diagonal $T=0$ Lehmann measure on $N$ \emph{distinct} poles, and let a within-sector redistribution $\mathbf{w}\to\mathbf{w}+\bm{\delta}$ ($\bm{\delta}\neq0$, keeping $w_n+\delta_n\ge0$) act on the same poles. Write $\mathbf{m}=V\mathbf{w}$ with $V_{kn}=\omega_n^{\,k}$, $\Delta_k=|(V\bm{\delta})_k|$ and $\rho=\|\bm{\delta}\|_1$; then $\|\bm{\delta}\|_2\le\rho\le\sqrt{N}\,\|\bm{\delta}\|_2$, and $\rho/2$ is the weight moved when $m_0$ is preserved.
+\begin{enumerate}
+\item[(a)] \emph{(Completeness in exact arithmetic.)} If the redistribution preserves $m_0,\dots,m_K$ with ${K<N-1}$, then $\Delta_j>0$ for at least one $j$ with ${K<j\le N-1}$; quantitatively
+\begin{equation}
+\max_{K<j\le N-1}\Delta_j\ \ge\ \frac{\sigma_{\min}(V_{0:N-1})}{\sqrt{N-1-K}}\;\|\bm{\delta}\|_2,
+\label{eq:detect-sigmamin}
+\end{equation}
+with $V_{0:N-1}$ the $N\times N$ node-Vandermonde on rows $0,\dots,N-1$ and both sides in one frequency unit. Hence no nonzero within-sector redistribution preserves all of $m_0,\dots,m_{N-1}$. If the poles may also move (two measures of at most $N$ atoms each), completeness holds at order $2N-1$ by Prony counting. The only alteration invisible to every moment is weight traded among degenerate eigenstates at one frequency, which leaves $A(\omega)$ unchanged.
+\item[(b)] \emph{(Finite thresholds.)} With the thresholds $\tau_k=z_{1-\alpha/2}\,[\operatorname{Var}(O_k)/N_s+b_k^2]^{1/2}$, call $\bm{\delta}$ \emph{exposed} at order $j$ when its noise-free shift exceeds the threshold, $\Delta_j>\tau_j$. Some redistribution preserving $m_0,\dots,m_K$ is exposed at order $K{+}1$ iff $\Delta_{K+1}^{\max}>\tau_{K+1}$, with $\Delta_{K+1}^{\max}$ the linear program of Eq.~\eqref{S-eq:wclp}. If rows $0,\dots,K{+}1$ of $V$ have a nontrivial null space ($N-K-2\ge1$), the smallest $\Delta_{K+1}$ over such redistributions is zero for every size $\rho$ up to a limit set by positivity: the guaranteed power at order $K{+}1$ is zero, however well separated the poles.
+\par\emph{(i) Sufficient condition.} If $\bm{\delta}$ preserves $m_0,\dots,m_K$, it is exposed at some order $j\le N-1$ whenever the right-hand side of~\eqref{eq:detect-sigmamin} exceeds $\max_{K<j\le N-1}\tau_j$.
+\par\emph{(ii) Necessary condition at order $s-1$ (cluster bound).} If, for some $s\ge2$, $\bm{\delta}$ preserves $m_0,\dots,m_{s-2}$ and is supported on poles within an interval of diameter $D$ and midpoint $\omega_c$, then $(V\bm{\delta})_{s-1}=\sum_n\delta_n\,q(\omega_n)$ for every monic $q$ of degree $s-1$, and the Chebyshev choice of $q$ gives the sharp bound $\Delta_{s-1}\le2\rho\,(D/4)^{s-1}$, attained by alternating weights on the Chebyshev extrema of the interval; every higher shift obeys $\Delta_j\le\rho\sum\nolimits_{i=s-1}^{j}\tbinom{j}{i}|\omega_c|^{j-i}(D/2)^{i}$. Exposure at order $s-1$ therefore requires
+\begin{equation}
+N_s\,>\,\frac{z_{1-\alpha/2}^{2}\,\operatorname{Var}(O_{s-1})}{4\rho^2(D/4)^{2(s-1)}-z_{1-\alpha/2}^2\,b_{s-1}^2}
+\label{eq:detect-Ns}
+\end{equation}
+when the denominator is positive, and no $N_s$ exposes it at order $s-1$ when $2\rho\,(D/4)^{s-1}\le z_{1-\alpha/2}\,b_{s-1}$. At fixed $\rho$ and $\operatorname{Var}(O_{s-1})$, the shot cost to expose a redistribution at order $s-1$ grows at least as $D^{-2(s-1)}$ as the cluster contracts.
+\end{enumerate}
+\end{proposition}
+
+\noindent Part~(a) is the classical Prony/Vandermonde uniqueness of an atomic measure~\cite{ShohatTamarkin1943,PottsTasche2013}, the zero-power clause is rank--nullity on $V$, and (b)(ii) is the Chebyshev extremal property; the proof is in Sec.~\ref{S-app:withinsector}, and a Gaussian-approximation power statement that follows is Corollary~\ref{S-cor:power}. For the default $L=6$, $U/t=4$ battery the $N=5$ poles are well separated (minimal separation $0.87\,t$; on nodes rescaled to $[-1,1]$, $\sigma_{\min}(V_{0:4})=0.056$ and $\kappa=50$), yet the guaranteed power against fixed-pole redistribution is zero: rows $0,1,2$ of $V$ leave a two-dimensional null space on five poles, and the same holds for any spectrum with four or more distinct poles. Over $m_0,m_1$-preserving redistributions the linear program puts the signed shift of $m_2$ in $[-0.93,7.10]$, up to $3.9\,\tau_2$, but the range contains zero. Table~\ref{tab:counter} lists explicit reconstructions that pass the default battery; CE1 preserves $m_0$, $m_1$ and $m_2$ exactly and moves $72\%$ of the weight. Orders $3$ and $4$ would catch some of them but not all: with the same rule ($\tau_3=15.0$, $\tau_4=122$), over all redistributions that keep $m_0,m_1,m_2$ exactly $\Delta_3\le0.36\,\tau_3$, and $\Delta_4$ reaches $1.19\,\tau_4$ at the one that maximizes $\Delta_3$.
+
+\begin{table}[t]
+\caption{\label{tab:counter}\textbf{Reconstructions of the $L=6$ current spectrum that pass the default thresholds} ($m_0,m_1,m_2$; $\tau_2=1.848$, $\tau_3=15.0$, $\tau_4=122$). CE1--CE3 and the random case reweight the five exact poles ($U/t=4$; Sec.~\ref{S-app:withinsector}); the Rayleigh--Ritz row is the full-support reconstruction of Sec.~\ref{sec:rr}; the last two rows are the exhaustive truncation scan with exact moments and with the shared-state estimator.}
+\small
+\begin{ruledtabular}
+\begin{tabular}{p{0.24\columnwidth}p{0.26\columnwidth}p{0.40\columnwidth}}
+reconstruction & residuals & error it carries \\
+\colrule
+\raggedright CE1 & \raggedright $m_0,m_1,m_2$ exact & \raggedright moves $72\%$ of the weight; dominant residue $0.393\to0.037$; $\Delta_3=0.23\,\tau_3$, $\Delta_4=0.70\,\tau_4$ \tabularnewline
+\raggedright CE2 & \raggedright $m_0,m_1$ exact, $\Delta_2=\tau_2$ & \raggedright moves $86\%$; dominant residue $0.393\to0.073$; $\Delta_3\approx3.3\,\tau_3$ \tabularnewline
+\raggedright CE3 & \raggedright $|\Delta_k|\le\tau_k$, $k\le2$ & \raggedright $\|\bm\delta\|_1=2.03\,m_0$; empties three poles, the dominant one included \tabularnewline
+\raggedright random, $m_0,m_1$ kept & \raggedright $\Delta_2=0.044\,\tau_2$ & \raggedright moves $25\%$ of the weight \tabularnewline
+\raggedright Rayleigh--Ritz, full support & \raggedright $\Delta_{0,1}<10^{-14}$ rel., $\Delta_2=0.34\,\tau_2$ & \raggedright relative $L_1$ error $0.93$; poles $7.83\to7.45\,t$, $2.73\to4.43\,t$ \tabularnewline
+\raggedright truncations, exact moments & \raggedright all below $\tau_k$ & \raggedright $12$ of $185$ depths pass; relative $L_1$ errors $0.73$--$1.26$ \tabularnewline
+\raggedright truncations, shared state & \raggedright all below $\tau_k$ (convention) & \raggedright $16$ of $185$ depths pass ($d=170$--$185$); relative $L_1$ errors $0.94$--$1.04$ \tabularnewline
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\subsection{Under-converged Krylov reconstructions}
+\label{sec:krylov}
+Applied to a Krylov projector, Proposition~\ref{prop:leak} restates a classical fact.
+
+\begin{corollary}[Detection order of a Krylov reconstruction; classical]
+\label{cor:krylov}
+Let $\varphi=J|0\rangle$, assume that its spectral measure has at least $n$ distinct poles, so that its Krylov space $\mathcal K_{n-1}$ is $n$-dimensional, let $P_n$ be the orthogonal projector onto $\mathcal K_{n-1}$, and let the $n$-node Lanczos reconstruction be the spectrum of $P_n(H-E_0)P_n$ seen from $\varphi$, with moments $\bar m_k=\langle\varphi|[P_n(H-E_0)P_n]^k|\varphi\rangle$. Then $m_k-\bar m_k=0$ for $k\le2n-1$, and
+\begin{equation}
+m_{2n}-\bar m_{2n}=\|(\openone-P_n)H^n\varphi\|^2=\|\varphi\|^2\,\beta_1^2\beta_2^2\cdots\beta_n^2\ \ge0 ,
+\label{eq:gaussrem}
+\end{equation}
+where $\beta_1,\dots,\beta_n$ are the Lanczos coefficients of $\varphi$, $\beta_n$ being the norm of the residual after $n$ steps. The right-hand side vanishes if and only if the spectral measure of $\varphi$ has exactly $n$ distinct poles.
+\end{corollary}
+
+\noindent\emph{Proof.} Proposition~\ref{prop:leak}(ii) and (iv) with $\Pi_\mathcal S\to P_n$, $K=n-1$, $\varphi_\mathcal S\to\varphi$ and $e_0=E_0$, where $\widehat m_k=m_k$. In the Lanczos basis $v_0,v_1,\dots$ of $\varphi$, the recurrence $Hv_j=\beta_{j+1}v_{j+1}+\alpha_jv_j+\beta_jv_{j-1}$ gives $H^nv_0=\beta_1\cdots\beta_n\,v_n+(\text{terms in }\mathcal K_{n-1})$, with $v_n\perp\mathcal K_{n-1}$ a unit vector when $\beta_n\neq0$. $\square$
+
+\noindent Equation~\eqref{eq:gaussrem} is the classical remainder of $n$-point Gauss quadrature for $\omega^{2n}$~\cite{GM2010,Szego1975,Gautschi2004}; in the recursion method it is the statement that an $n$-level continued fraction reproduces the first $2n$ moments~\cite{Haydock1975,ViswanathMuller1994}. What we add is its evaluation as a detection threshold, starting with a relative form of the classical Chebyshev bound that needs only two numbers of the spectrum.
+
+\begin{corollary}[Chebyshev--Jensen bound on the first residual; elementary]
+\label{cor:cheb}
+Under the assumptions of Corollary~\ref{cor:krylov}, let the spectral measure of $\varphi$ be supported in an interval of width $D$, and let $\bar\omega=m_1/m_0\neq0$ be its mean. Then
+\begin{equation}
+\begin{split}
+m_{2n}-\bar m_{2n}&\le4\,m_0\Big(\frac D4\Big)^{2n},\\
+r_{2n}\equiv\frac{m_{2n}-\bar m_{2n}}{m_{2n}}&\le4\Big(\frac{D}{4|\bar\omega|}\Big)^{2n}.
+\end{split}
+\label{eq:chebbound}
+\end{equation}
+Consequently, exposure at order $2n$ under the thresholds of Proposition~\ref{thm:detect} requires
+\begin{equation}
+N_s>\frac{z_{1-\alpha/2}^2\operatorname{Var}(O_{2n})}{16\,m_0^2(D/4)^{4n}},
+\label{eq:chebNs}
+\end{equation}
+and is impossible at any $N_s$ if $b_{2n}=b\,m_{2n}$ with $4[D/(4|\bar\omega|)]^{2n}\le z_{1-\alpha/2}\,b$.
+\end{corollary}
+
+\noindent\emph{Proof.} Let $\mu$ be the spectral measure of $\varphi$ and $\pi_n$ its monic orthogonal polynomial of degree $n$, the characteristic polynomial of the Lanczos matrix. The Gauss nodes are the zeros of $\pi_n$ and the rule integrates degree $2n-1$ exactly, so writing $\omega^{2n}=\pi_n(\omega)^2+q(\omega)$ with $\deg q\le2n-1$ gives $m_{2n}-\bar m_{2n}=\int\pi_n^2\,d\mu$. For any monic $p$ of degree $n$, $p=\pi_n+q'$ with $\deg q'<n$ and $\int\pi_nq'\,d\mu=0$, so $\int p^2\,d\mu=\int\pi_n^2\,d\mu+\int q'^2\,d\mu\ge\int\pi_n^2\,d\mu$. Choosing for $p$ the monic Chebyshev polynomial of the interval, whose modulus there is at most $2(D/4)^n$, gives the first bound. Jensen's inequality for the convex $\omega^{2n}$ gives $m_{2n}\ge m_0\bar\omega^{2n}$, hence the second. The shot condition follows from $\Delta_{2n}>\tau_{2n}\ge z_{1-\alpha/2}[\operatorname{Var}(O_{2n})/N_s]^{1/2}$, and the bias condition from $\tau_{2n}\ge z_{1-\alpha/2}\,b\,m_{2n}$. Both steps are classical extremal properties~\cite{Szego1975,Gautschi2004}: the first inequality is the standard estimate $\prod_{j\le n}\beta_j\le2(D/4)^n$ for a measure on an interval of width $D$, and the relative form, obtained through Jensen's inequality, is the one we use as a detection criterion. $\square$
+
+The bound needs only the spectral range and the mean excitation energy, $m_1/m_0$, itself a sum-rule quantity; any interval known to contain the spectrum may replace the exact one, at the cost of a looser bound. Lanczos depth is thus exponentially invisible to moments whenever $D$ is small compared with $4\bar\omega$; on the test ring $D\approx1.04\,\bar\omega$, so $D/(4\bar\omega)=0.26$.
+
+We evaluated both corollaries on the test system of Sec.~\ref{sec:blind}: the $n_l$-node Lanczos representations of the current spectrum of the doped $L=6$ ring at $U/t=3$--$6$, which has five weighted poles at each $U$ (post hoc, after the blinded test). The thresholds extend the default rule to $k\le10$ with the exact-amplitude local-estimator variance, so the shot counts below are lower bounds for an idealized estimator; no device route to $m_k$ with $k>2$ is proposed here. Below order $2n$ the residual is at most $2.5\times10^{-15}$ relative, and at order $2n$ it agrees with Eq.~\eqref{eq:gaussrem} to $1.4\times10^{-9}$ relative. Equation~\eqref{eq:chebbound} holds at all $16$ $(U,n)$ pairs, loose by factors of $6.6$ to $64$; for $n\ge2$ it lies below $z\,b=3.9\%$, so with the $2\%$ bias budget no shot budget exposes two or more nodes at order $2n$, a conclusion that needs only $D$ and $\bar\omega$. Figure~\ref{fig:krylov} and Table~\ref{tab:krylov} give the result (per-$U$ values in Table~\ref{S-tab:krylovfull}). For one node, $m_2$ misses by $2.4$--$4.2\%$ ($0.48$--$0.67\,\tau_2$), but the $m_3$ residual, $5.5$--$10.0\%$, exceeds $\tau_3$ at all four $U$ ($1.11$--$1.55\,\tau_3$). For two nodes the $m_4$ residual is $0.11$--$0.13\%$ of $m_4$ ($0.017$--$0.027\,\tau_4$); exposing it at order $4$ would take $2.7\times10^7$ to $1.1\times10^8$ shots with no bias, and under the default rule no order through $m_9$ exposes it. For three and four nodes the first residuals are $2.3$--$2.8\times10^{-5}$ of $m_6$ and $1.4$--$2.3\times10^{-6}$ of $m_8$, and no order through $m_{10}$ exposes them. Their relative $L_1$ errors at $\eta=0.15\,t$ are $0.17$--$0.20$ and $0.64$--$0.83$: the four-node nodes interlace the five poles, so two of them straddle the dominant pole ($7.22\,t$ and $8.12\,t$ around $7.83\,t$ at $U/t=4$).
+
+\begin{figure}[t]
+\centering\colfig
+\adjustbox{max width=\columnwidth}{\input{figs/fig_krylov_order}}
+\caption{\textbf{Detection order of $n$-node Lanczos reconstructions.} Relative residual $|m_k-\bar m_k|/m_k$ of the $n$-node Lanczos representation of the current spectrum of the doped $L=6$, $U/t=4$ ring (five weighted poles), with exact moments. Below $k=2n$ the residual vanishes to machine precision (not drawn); at $k=2n$ it equals the Gauss remainder of Eq.~\eqref{eq:gaussrem}. Crosses: the bound of Eq.~\eqref{eq:chebbound}. Crimson dashed: default-rule threshold $\tau_k/m_k$ ($N_s=5\times10^4$, $2\%$ bias budget, $z=1.96$); grey dotted: its shot term alone. Only the one-node reconstruction crosses the default threshold below $k=10$, first at $k=3$; the two-node curve crosses it at $k=10$ (the shot-only line at $k=9$). Drawn from the deposited data by a script written with an AI tool (Sec.~\ref{sec:estimator}).}
+\label{fig:krylov}
+\end{figure}
+
+\begin{table*}[t]
+\caption{\label{tab:krylov}\textbf{$n$-node Lanczos reconstructions of the test spectrum} (doped $L=6$ ring, $U/t=3$--$6$; ranges over $U$; exact moments, default rule extended to $k\le10$). $r_{2n}=\Delta_{2n}/m_{2n}$ is the first nonzero residual [Eq.~\eqref{eq:gaussrem}] and ``bound'' its bound, Eq.~\eqref{eq:chebbound}; $N_s^\star$ the shot count at which its noise-free shift would exceed the shot-only threshold at order $2n$; $k^\star$ the lowest order $k\le10$ exposed under the default rule (``none'': no order through $10$).}
+\footnotesize
+\begin{ruledtabular}
+\begin{tabular}{cccccc}
+$n$ & $L_1$ error & $r_{2n}$ & bound & $N_s^\star$ (no bias) & $k^\star$ \\
+\colrule
+$1$ & $0.48$--$1.14$ & $(2.4$--$4.2)\times10^{-2}$ & $0.27$--$0.28$ & $(6.5$--$7.9)\times10^4$ & $3$ \\
+$2$ & $0.80$--$0.97$ & $(1.1$--$1.3)\times10^{-3}$ & $0.018$--$0.019$ & $(0.27$--$1.1)\times10^8$ & $10$/none \\
+$3$ & $0.17$--$0.20$ & $(2.3$--$2.8)\times10^{-5}$ & $(1.2$--$1.3)\times10^{-3}$ & $(0.9$--$2.1)\times10^{11}$ & none \\
+$4$ & $0.64$--$0.83$ & $(1.4$--$2.3)\times10^{-6}$ & $(7.9$--$9.0)\times10^{-5}$ & $(1.0$--$8.0)\times10^{13}$ & none \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+The $56$ misses with two or more nodes are therefore structural, as the sealed catalog anticipated: no moment through $m_3$ can see them, and at this budget none through $m_9$ does. The $15$ one-node misses are quantitative: their $m_2$ deficit lies below $\tau_2$, and they would be exposed at $m_3$ (a noise-free statement, not a power estimate). Since the first visible residual is a product of Lanczos coefficients that the recurrence computes as it runs, the instrument for this error class is convergence in the number of nodes~\cite{Epperly2022,Kirby2024}, not a sum rule. That check must compare successive $n$: the relative $L_1$ error is not monotone in $n$ ($0.19$ at three nodes and $0.83$ at four on the $U/t=4$ ring). This bears on Krylov pipelines such as the sampled-Krylov Green's-function solver of Ref.~\cite{Patel2026}, which reconstructs the Green's function by a Lanczos continued fraction: a low-order sum-rule check sees its truncation leak through Proposition~\ref{prop:leak}, but not its depth error.
+
+\subsection{Full-support Rayleigh--Ritz, and closure versus error size}
+\label{sec:rr}
+The natural sample-based form of misplaced weight passes the default thresholds. Rayleigh--Ritz on the full ground-state support of the test ring ($186$ determinants at $U/t=4$, so that $|0_\mathcal S\rangle=|0\rangle$) captures all of $J|0\rangle$. By Proposition~\ref{prop:leak}(iii), $\Delta_0$ and $\Delta_1$ vanish, and the first residual is the boundary coupling at $k=2$: $\Delta_2=0.62$, $1.9\%$ of ${m_2=33.39}$, which is $0.34\,\tau_2$. The reconstruction passes, although its relative $L_1$ error at $\eta=0.15\,t$ is $0.93$: Rayleigh--Ritz moves the dominant pole from $7.83\,t$ to $7.45\,t$ and the pole at $2.73\,t$ to $4.43\,t$. The pass is set by the assumed bias budget: without it the $k=2$ rule would reject above $N_s\approx2.2\times10^5$ shots. Over $U/t=3$--$8$ the reconstruction passes at every $U$, with $\Delta_2=0.20$--$0.36\,\tau_2$ and relative $L_1$ errors $0.68$--$0.99$. This is the companion's no-certification result at unit captured weight~\cite{SQDspec2608}, now as a reconstruction that passes a thresholded test.
+
+Closure is not error size. Over the $176$ truncations of the $U/t=4$ ring with a non-degenerate subspace ground state and a non-empty reconstruction, the shared-state leak scores correlate only moderately with the relative $L_1$ error (Spearman $0.44$, $0.43$ and $0.31$ for $k=0,1,2$). With $\tau_k$ as a convention, $16$ of the $185$ truncations pass ($d=170$--$185$, relative $L_1$ errors $0.94$--$1.04$), and against the $10^{-6}$ tolerance all $185$ are flagged. A large leak score shows that a reconstruction is not closed under the full operators; a small one does not show that it is accurate.
+
+\subsection{What a pass brackets}
+\label{sec:bracket}
+The moments $m_0,\dots,m_{2n}$ of a positive measure bracket its cumulative weight within the Christoffel function $W_n(x)$, which is also the largest atom a moment-matching measure can place at $x$ (Theorem~\ref{S-thm:christoffel}, classical, re-derived in Sec.~\ref{S-app:proof})~\cite{GM2010,ShohatTamarkin1943,Akhiezer1965,KarlinStudden1966}. At the default order ($n=1$) the bracket is the one-sided Chebyshev (Cantelli) bound, whose maximum $m_0$ lies at the spectral mean, $0.01\,t$ from the dominant atom on the illustrative $U/t=8$ current measure of the doped $L=6$ ring: passing places no constraint on the cumulative weight at the peak. Finite tolerances loosen it further, by factors $3.2$--$7.7$ just above the band ($3.6$--$5.7$ on the $U/t=4$ measure), and even with exact moments through $m_8$, $\max_xW_4=0.882$. Of these limits only the first is general (at this order the bracket places no constraint at the spectral mean of any measure), as is the zero guaranteed power for every spectrum with four or more distinct poles (Proposition~\ref{thm:detect}); the factors and $\max_xW_4$ belong to these two measures.
+
+% =====================================================================================================
+\section{Device-sampled supports: coverage is not fidelity}
+\label{sec:device}
+On supports sampled by \texttt{ibm\_fez}, the zeroth-order residual rewards support spreading, not fidelity; at this sector size the finding is largely a scale effect, because about $10^5$ in-sector shots spread over the $3920$ configurations cover most of them. The device supplies only the sampled support; every moment is computed classically on it, with the probe state $|\varphi\rangle=c^\dagger_{0\uparrow}|0\rangle$ built from the exact ground state, so $\Delta_0=m_0(1-w)$ is the coverage residual of Ref.~\cite{SQDspec2608}. We ran four jobs at $L=8$ ($16$ qubits, periodic chain, $U/t=4$; addition sector of dimension $3920$, $m_0=1/2$) with seven number-conserving circuits of the companion's family~\cite{SQDspec2608}, at $5\times10^{4}$, $3\times10^{4}$, $1.6\times10^{4}$ and $4\times10^{3}$ shots per circuit ($50$k to $4$k), and post-selected the bitstrings to the sector without configuration recovery (setup, job identifiers and details in Sec.~\ref{S-app:device}).
+
+As the budget falls from $50$k to $4$k, the coverage falls from $94\%$ to $35\%$ and the residual grows: $\Delta_0=0.0044$, $0.0323$, $0.1232$ and $0.3726$ (Fig.~\ref{fig:device}). Two thousand noiseless replicas of the same circuits at the device's raw shots give $\Delta_0={0.036\pm0.018}$ at $50$k; the device lies below all of them at $50$k, at the $1.7$th percentile at $30$k, at the $57.9$th at $16$k and above all at $4$k. A uniform in-sector sampler, with no device and no circuit, gives $\mathbb{E}[\Delta_0]=3.4\times10^{-10}$, $1.5\times10^{-6}$, $5.2\times10^{-4}$ and $0.093$, below the device at every budget. Noise thus lowers $\Delta_0$ at the largest budget, and a sampler with no quantum content does best. Related observations exist for ground-state QSCI and SQD: sampling noise can enlarge the explored configuration space, configuration recovery from random configurations can build accurate configuration-interaction spaces~\cite{VaqueroSabater2026}, and critical assessments document the limits of these methods~\cite{Reinholdt2025,GaberleJattana2026}.
+
+\begin{figure}[t]
+\centering\colfig
+\adjustbox{max width=\columnwidth}{\input{figs/fig_device}}
+\caption{\textbf{Coverage residual on device-sampled supports} (\texttt{ibm\_fez}, $L=8$, $16$ qubits, $U/t=4$, sector dimension $3920$, seven number-conserving sampler circuits). Dark red dots: $\Delta_0$, exact on the device-retained support; top axis of (a): coverage $|\mathcal S|/3920$. Dark blue dashed line and grey-blue band: mean and $\pm1$ sd (right-skewed) of $2000$ noiseless multinomial replicas of the same circuits at the device's raw shots. Grey dash-dot line with open diamonds, (b) only: uniform in-sector sampler at the device's retained count. (a) Linear, (b) log scale. Drawn from the deposited data by a script written with an AI tool (Sec.~\ref{sec:estimator}).}
+\label{fig:device}
+\end{figure}
+
+The relative $L_1$ errors of the four reconstructions at $\eta=0.15\,t$ are $0.35$, $0.56$, $0.90$ and $1.12$. At $50$k both residuals, $\Delta_0=0.0044$ and $\Delta_1=0.019$, lie below the bias terms that the default rule would set (counterfactually, since the rule was set for the $L=6$ current probe), yet the relative $L_1$ error is $0.35$; the other three reconstructions would be rejected on $\Delta_0$. This is a device-data instance of the companion's result that captured weight alone cannot certify a reconstruction~\cite{SQDspec2608}, and a caution for any study that cites coverage or captured weight as evidence of sampler quality.
+
+% =====================================================================================================
+\section{Discussion}
+\label{sec:limits}
+
+\emph{Relation to constructive approaches.} Moment information can instead be built into a reconstruction: Nevanlinna continuation imposes the positivity structure of a causal response~\cite{Fei2021}, continuation methods take sum rules as input~\cite{Jarrell1996,Sandvik1998}, and pole expansions can pin low-order moments~\cite{HuangLiang2023,ZhangGull2024}; moments can also be measured to construct the response~\cite{IrmejsSantos2025,GreeneDiniz2024}, and classical shadows could supply device-side estimates of $\langle O_k\rangle$~\cite{HuangKuengPreskill2020}. Such a spectrum is consistent only with the moments it was given. The test here is the diagnostic counterpart for a user who holds the sampled support $\mathcal S$, and hence $|0_\mathcal S\rangle$, even if the reconstruction was produced elsewhere. Semidefinite moment bounds~\cite{WangAcin2024,Mortimer2026} applied to the operators $O_k$ would give a second necessary condition of the same logical type (Sec.~\ref{S-app:stack}).
+
+\emph{Limitations.}
+\label{sec:limitlist}
+The test is a necessary condition: within any nonzero tolerance infinitely many positive measures share a finite set of moments, so passing can never certify a spectrum~\cite{ShohatTamarkin1943,Akhiezer1965}. The realizable shared-state estimator measures closure, not error size, and tests the reconstruction built on the subspace ground state, not the quality of that state. The rejection rates come from an oracle estimator whose $2\%$ bias budget is assumed, and the false-positive rate depends on the simulated noise scale ($1/112$ or $40/112$, against a sealed target of $14.3\%$). Every rejected error is synthetic, the thresholds are set and tested on the current probe of one doped $L=6$ ring, the single-particle and collective cases are illustrations, and no error has yet been caught in a spectrum whose correctness was unknown in advance. All systems are at exact-diagonalization scale, which calibration requires; the only run beyond it is a code-scalability check at $L=24$ (Sec.~\ref{S-app:L24}). No moment has been estimated from device counts, and without mitigation the forecast first-moment bias for a surrogate probe is $38$--$116\%$ of the signal; a sealed on-device momentum-distribution test was not run because no $12$-qubit chain met its sealed coherence floors (Sec.~\ref{S-app:native}). The positivity that underwrites the bounds is that of a diagonal $T=0$ Lehmann measure; off-diagonal and finite-temperature spectra need separate treatment.
+
+\emph{Outlook.} A device-side use of the test needs the mitigation bias measured and bounded rather than assumed~\cite{Govia2025,OEACV2026}. For Krylov pipelines, Corollaries~\ref{cor:krylov} and~\ref{cor:cheb} suggest pairing the low-order leak test, which sees missing configurations, with a convergence check in the number of Lanczos nodes, which sees depth. Extending the leak identity to off-diagonal and finite-temperature spectra is the main theoretical opening.
+
+% =====================================================================================================
+\section{Conclusions}
+\label{sec:conclusions}
+Low-order sum rules test a sample-based spectral function through closure. Checking a reconstruction against moments read off itself is circular; checking it against full-operator moments on the subspace ground state that the pipeline holds is not, and the difference between the two is exactly the leak of the probe state out of the subspace, order by order. The textbook double-commutator form adds a state-residual term to that leak and, on a truncated Hubbard-ring subspace, passes a reconstruction whose first moment is $11\%$ low.
+
+With exact moments plus shot noise and synthetic corruptions, truncation is caught by the zeroth-order leak, and weight moved in frequency at fixed total weight by the first and second moments. A blinded simulation with the same oracle estimator detected $101$ of $188$ corrupted reconstructions, every sampled truncation and most spurious features among them, at one false positive in $112$. What such checks cannot see is structural. Through $m_2$ there is no guaranteed power against weight redistributed among four or more fixed poles; by the classical Gauss-quadrature property, an $n$-node Lanczos reconstruction is invisible below order $2n$, and its first residual is at most $4[D/(4\bar\omega)]^{2n}$ of $m_{2n}$; on the test ring the residual itself is about $10^{-6}$ of $m_8$ at four nodes, $34$--$64$ times below that bound. Full-support Rayleigh--Ritz passes with relative $L_1$ error $0.93$, and on the supports of four \texttt{ibm\_fez} jobs at $L=8$, coverage rewards spreading rather than fidelity. Sum rules should therefore be paired with convergence checks for the errors they provably cannot see.
+
+% =====================================================================================================
+\begin{acknowledgments}
+The author acknowledges the use of IBM Quantum services for this work; the views expressed are those of the author and do not reflect the official policy or position of IBM or the IBM Quantum team. The author received no specific funding for this work. \emph{Competing interests:} the author is also affiliated with Daita AI; the company had no role in this work, and the author declares no competing interests. \emph{AI disclosure:} during the preparation of this manuscript the author used Claude (Anthropic; Claude Code with Claude models; for this version Claude Opus 5.5 and Claude Fable 5.2, with Claude Code 2.1.319--2.1.322) to support code writing, analysis and drafting; the use is described in Sec.~\ref{sec:estimator}.
+\end{acknowledgments}
+
+\section*{Data availability}
+The data and code that support the findings of this article are openly available~\cite{P3zenodo}: the repository \url{https://github.com/nicolasbonilla/reconstruction-independent-moment-tests}, archived on Zenodo. It contains the exact-diagonalization and Lanczos engine, the blinded-test files with their SHA-256 seals, the per-figure data, the raw counts of the four $L=8$ \texttt{ibm\_fez} jobs, the scripts of every analysis, and verification scripts that check the quoted numbers against the deposited records. The Krylov detection-order analysis of Sec.~\ref{sec:krylov} (\texttt{src/\allowbreak krylov\_\allowbreak detection\_\allowbreak order.py}, \texttt{data/\allowbreak 2026-11-08\_\allowbreak krylov\_\allowbreak detection\_\allowbreak order.json}) and the tie-order scan of Sec.~\ref{sec:form} (\texttt{src/\allowbreak operator\_\allowbreak form\_\allowbreak tie\_\allowbreak scan.py}, \texttt{data/\allowbreak 2026-11-08\_\allowbreak operator\_\allowbreak form\_\allowbreak tie\_\allowbreak scan.json}) are added in version 2.0.3 of the deposit. Job identifiers are listed in Sec.~\ref{S-app:device}, and the known reproduction gaps in Sec.~\ref{S-app:scope}.
+
+\bibliography{refs}
+
+\end{document}

@@ -1,0 +1,39 @@
+% fig_krylov_order.tex -- native pgfplots, single column.
+% Relative residual |m_k - mbar_k|/m_k of n-node Lanczos reconstructions (n = 1..4) of the current spectrum of the
+% doped L=6, U/t=4 ring (five weighted poles), against the default-rule threshold tau_k/m_k and its shot-only part.
+% Below k = 2n the residual is zero to machine precision (not drawn); at k = 2n it equals the Gauss remainder
+% ||phi||^2 prod beta_j^2 (Corollary 1). Exact (oracle) moments, no noise; post hoc, not sealed.
+% Data (deposit paths): src/krylov_detection_order.py -> data/2026-11-08_krylov_detection_order.json -> src/export_krylov_order_dat.py.
+\begin{tikzpicture}
+\begin{axis}[
+  paperaxis, width=\columnwidth, height=6.0cm,
+  ymode=log, ymin=5e-7, ymax=1.5,
+  xmin=0.5, xmax=10.5, xtick={1,2,...,10},
+  xlabel={moment order $k$},
+  ylabel={$|m_k-\bar m_k|/m_k$},
+  legend style={font=\tiny, draw=pInk, line width=0.4pt, fill=white, fill opacity=0.9, text opacity=1,
+                at={(0.015,0.02)}, anchor=south west, row sep=-2pt, inner sep=1.5pt},
+  legend cell align=left,
+  clip=false,
+]
+  \addplot[threshold, line width=1.0pt] table[x=k,y=taudef]{figs/krylov_order_tau.dat};
+  \addlegendentry{$\tau_k/m_k$, default rule}
+  \addplot[pMuted, densely dotted, line width=0.9pt] table[x=k,y=taushot]{figs/krylov_order_tau.dat};
+  \addlegendentry{$\tau_k/m_k$, shot term only}
+  \addplot[pOx, very thick, mark=*, mark options={fill=pAmber, draw=pOx, line width=0.6pt}]
+     table[x=k,y=rel]{figs/krylov_order_n1.dat};
+  \addlegendentry{$n=1$}
+  \addplot[pIndigo, very thick, mark=square*, mark options={fill=white, draw=pIndigo, line width=0.6pt}]
+     table[x=k,y=rel]{figs/krylov_order_n2.dat};
+  \addlegendentry{$n=2$}
+  \addplot[pTeal, very thick, mark=triangle*, mark options={fill=white, draw=pTeal, line width=0.6pt}]
+     table[x=k,y=rel]{figs/krylov_order_n3.dat};
+  \addlegendentry{$n=3$}
+  \addplot[pInk, very thick, dashed, mark=diamond*, mark options={solid, fill=white, draw=pInk, line width=0.6pt}]
+     table[x=k,y=rel]{figs/krylov_order_n4.dat};
+  \addlegendentry{$n=4$}
+  \addplot[only marks, pMuted, mark=x, mark size=3pt, line width=0.9pt]
+     table[x=k,y=bound]{figs/krylov_order_bound.dat};
+  \addlegendentry{bound, Cor.~2}
+\end{axis}
+\end{tikzpicture}

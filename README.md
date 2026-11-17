@@ -1,12 +1,12 @@
 <div align="center">
 
-# Reconstruction-independent moment tests
-### *for sample-based spectral functions*
+# What low-order sum rules can and cannot detect
+### *in sample-based spectral functions*
 
 **Nicolás Bonilla Vargas** &nbsp;[![ORCID](https://img.shields.io/badge/ORCID-0009--0006--6155--4391-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0006-6155-4391)<br>
 Universidad Nacional de Colombia · SRH University, Munich · Daita AI, Munich
 
-[![Manuscript](https://img.shields.io/badge/manuscript-SciPost%20Physics%20Core%20submission%20version-lightgrey.svg)](paper/README.md)
+[![Deposit](https://img.shields.io/badge/deposit-2.0.3-lightgrey.svg)](CITATION.cff)
 [![License: MIT](https://img.shields.io/badge/code-MIT-green.svg)](LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/paper%2C%20data%2C%20docs-CC--BY--4.0-lightgrey.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](requirements.txt)
@@ -14,26 +14,32 @@ Universidad Nacional de Colombia · SRH University, Munich · Daita AI, Munich
 
 </div>
 
-> **Status (2026-10-02).** [`paper/`](paper/) holds the manuscript prepared for submission to SciPost
-> Physics Core; it has not yet been submitted. Every number and figure in it traces to a script in `src/`
-> and a data file in `data/` ([`docs/REPRODUCE.md`](docs/REPRODUCE.md)); the few that do not regenerate
-> exactly from source are listed under [Known gaps](#known-gaps).
+> **Status (2026-11-17).** Version 2.0.3 of this deposit accompanies the manuscript *What low-order sum rules
+> can and cannot detect in sample-based spectral functions*. [`paper/`](paper/) holds an earlier version of that
+> manuscript (October 2026, titled *Reconstruction-independent moment tests for sample-based spectral
+> functions*). Every number and figure traces to a script in `src/` and a data file in `data/`
+> ([`docs/REPRODUCE.md`](docs/REPRODUCE.md)); the few that do not regenerate exactly from source are listed under
+> [Known gaps](#known-gaps). New in 2.0.3: `src/krylov_detection_order.py` and `src/operator_form_tie_scan.py`,
+> with their data files; the files of the manuscript's Fig. 5 and Table SII in `paper/figs/` and the two
+> programs that write the data files of Fig. 5 and the rows of Table SII (`src/export_krylov_order_dat.py`,
+> `src/export_krylov_table_tex.py`); and [`paper_2026-11/`](paper_2026-11/), with the sources of the present
+> manuscript and three scripts that check printed numbers of that text against the deposited records.
 
-How can a spectral function `A(ω)` from sample-based quantum diagonalization be tested without trusting it?
-Not with its own moments, which agree with it by construction, but with full-operator moments `⟨J†(H−e₀)ᵏJ⟩`
-of the probe `J` on the subspace ground state, of energy `e₀`. We prove that the two differ exactly by the
-probe state's leak out of the subspace: the missed weight at `k = 0`, and zero through order `2K+1` when the
-subspace holds the probe state's order-`K` Krylov space. Off an eigenstate the operator form matters: a lone
-commutator-form `m₁` check can pass a first moment 11% low. The `m₁` and `m₂` checks detect weight moved in
-frequency at fixed total weight, which captured weight cannot see. Scored against a numerical tolerance, this
-deterministic leak flags almost every sampled support and does not track the error, so detection and
-false-positive rates use exact moments plus shot noise. In a pre-registered blinded simulation, the `m₀`–`m₂`
-test rejected all 56 truncations, 20 of 34 weight-preserving spurious features and none of 71 under-converged
-Krylov spectra. Its false-positive rate was 1/112, or 40/112 under the pre-registered 1.96-fold larger noise.
-No `m₀`–`m₂` check is guaranteed to detect weight moved among four or more fixed poles, and full-support
-Rayleigh–Ritz passes the default thresholds with relative L1 error 0.93. On IBM Heron samples, with all
-moments computed classically, captured weight rewards support spreading, not fidelity. The test is a
-**necessary condition**: failing it rejects a reconstruction, passing it does not certify one.
+Sample-based quantum diagonalization reconstructs dynamical spectral functions in sampled determinant
+subspaces, and moments read off such a reconstruction agree with it by construction. This work determines what
+low-order sum-rule checks can and cannot detect in these spectra. Full-operator moments `⟨J†(H−e₀)ᵏJ⟩` of the
+probe `J`, evaluated on the subspace ground state of energy `e₀`, differ from the reconstruction's moments
+exactly by the leak of the probe state out of the subspace, order by order, so a pipeline can test the closure
+of its own output; the textbook double-commutator form lacks this property and, on a truncated Hubbard-ring
+subspace, passes a reconstruction whose first moment is 11% low. With exact moments plus shot noise, the `m₁`
+and `m₂` checks detect weight moved in frequency at fixed total weight, which captured weight cannot see. In a
+sealed blinded simulation (300 instances) the sealed primary endpoint was a detection rate of 101/188 at one
+false positive in 112 (40/112 at the 1.96-fold noise scale the sealed text specified). Through `m₂` no check
+has guaranteed power against weight moved among four or more fixed poles; by the classical Gauss-quadrature
+property of the Lanczos recursion an `n`-node reconstruction is invisible below order `2n`, and its first
+residual, relative to `m₂ₙ`, is at most `4[D/(4ω̄)]^(2n)`. On IBM Heron samples, with all moments computed
+classically, captured weight rewards support spreading, not fidelity. The test is a **necessary condition**:
+failing it rejects a reconstruction, passing it does not certify one.
 
 **Companion study.** N. Bonilla Vargas, *Captured weight and boundary leakage bound the error of
 sample-based spectral functions*, [arXiv:2608.16436](https://arxiv.org/abs/2608.16436). It bounds the
@@ -48,6 +54,11 @@ a review of generative configuration recovery and the classical-simulability fro
 ---
 
 ## Results
+
+*The section, proposition and figure labels on this page (this list, the scope paragraph and the table of device
+jobs) are those of the earlier manuscript in [`paper/`](paper/). The present manuscript, in
+[`paper_2026-11/`](paper_2026-11/), numbers its sections differently; the two analyses added in 2.0.3 are its
+Sec. V B (Krylov detection order) and Sec. II C (tie-order scan of the operator-form example).*
 
 1. **The leak hierarchy** (paper, Sec. 2.3, Proposition 1). On the subspace ground state,
    `m̂ₖ − m̄ₖ` is the leak of `J|0_S⟩` out of the subspace at order `k`: the missed weight at `k = 0`, the
@@ -158,7 +169,8 @@ Full list with numbers in [`docs/REPRODUCE.md`](docs/REPRODUCE.md#known-gaps). I
 │   ├── heron_gatetp_2026-08-21/        #   raw records of the two 2026-08-21 jobs (byte for byte)
 │   └── _superseded/                    #   superseded model, precursor data, earlier string versions
 ├── notebooks/00_Reproduce_Everything.ipynb   # narrated run of the generators
-├── paper/                              # the manuscript (SciPost Physics Core class), see paper/README.md
+├── paper/                              # an earlier manuscript version (Oct. 2026), see paper/README.md
+├── paper_2026-11/                      # the present manuscript (LaTeX sources) and its number checks, see its README
 ├── docs/
 │   ├── REPRODUCE.md                    #   figure/number → script → command; sealed-record checks; known gaps
 │   ├── FILE_INDEX.md                   #   every file, described
@@ -215,7 +227,9 @@ identifier), as returned by the API.
 
 ## Citation
 
-See [`CITATION.cff`](CITATION.cff).
+See [`CITATION.cff`](CITATION.cff). The entry below, like the `title` field of `CITATION.cff`, keeps the title of the
+earlier manuscript; from version 2.0.3 the manuscript is titled *What low-order sum rules can and cannot detect in
+sample-based spectral functions*.
 
 ```bibtex
 @unpublished{BonillaVargas2026MomentTests,
@@ -229,5 +243,6 @@ See [`CITATION.cff`](CITATION.cff).
 ## License
 
 - **Code** (`*.py`, `notebooks/`, `Makefile`): [MIT](LICENSE).
-- **Paper, data and documentation** (`paper/`, `data/`, `docs/`, READMEs): [CC BY 4.0](LICENSE).
+- **Paper, data and documentation** (`paper/`, the LaTeX sources in `paper_2026-11/`, `data/`, `docs/`, READMEs):
+  [CC BY 4.0](LICENSE).
 - `paper/SciPost.cls` and `paper/SciPost_bibstyle.bst` are SciPost's template files under their own terms.
